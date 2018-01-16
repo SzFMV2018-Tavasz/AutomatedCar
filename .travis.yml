@@ -1,0 +1,32 @@
+# define language and JDK version, we use JAVA 8 and tha code should pass both with Oracle JDK and OpenJDK
+language: java
+jdk:
+  - oraclejdk8
+  - openjdk8
+# Define OS image for TravisCI to use: Ubuntu 14.04 LTS (Trusty Tahr)
+dist: trusty
+# The selected image is headless (without display server), but for GUI related tests it is required, so the X virtual
+# framebuffer (xvfb) is initiated before the repo is cloned and tests are run.
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+# install necessary tools for code coverage reporter
+before_install:
+  - sudo apt-get install jq
+  - wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)
+after_success:
+  - java -cp ~/codacy-coverage-reporter-assembly-latest.jar com.codacy.CodacyCoverageReporter -l Java -r build/reports/jacoco/test/jacocoTestReport.xml
+  # the actual testing
+  - mvn clean test jacoco:report coveralls:report
+# send notifications when tests fail or start to pass after failure
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/353a28f3a8c36aa441ba
+    on_success: change  # always|never|change
+    on_failure: always
+    on_start: never
+  email:
+    on_success: change
+    on_failure: always
