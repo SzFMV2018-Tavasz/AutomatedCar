@@ -1,3 +1,8 @@
+[![Travis CI Build Status](https://travis-ci.org/SzFMV2018-Tavasz/AutomatedCar.svg?branch=master)](https://travis-ci.org/SzFMV2018-Tavasz/AutomatedCar)
+[![](https://img.shields.io/badge/jegyzet-wiki-yellow.svg)](https://github.com/SzFMV2017-Osz/AutomatedCar/wiki)
+
+# AutomatedCar
+
 The program simulates the behavior of a passenger vehicle on the public road, equipped with driver assistance functions.
 
 Equipped driver assistance functions are Parking Assist, Adaptive Cruise Control with Automated Emergency Braking and Lane Keeping Assistance with Traffic Sign Recognition, based on Ultra Sonic, Radar and Video sensors, respectively.
