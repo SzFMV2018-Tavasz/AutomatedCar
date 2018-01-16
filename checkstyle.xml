@@ -113,6 +113,6 @@
     <module name="WhitespaceAround"/>
 
     </module>
-    <module name="NewlineAtEndOfFile"/>
+    <!--<module name="NewlineAtEndOfFile"/>-->
     <module name="FileTabCharacter"/>
 </module>
