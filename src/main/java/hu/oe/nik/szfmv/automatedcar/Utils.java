@@ -2,6 +2,8 @@ package hu.oe.nik.szfmv.automatedcar;
 
 public class Utils {
 
+    private static  final int METER_PIXEL_RATIO = 50;
+
     /**
      * Converts the length defined in pixels to meters according the rule of 350 pixel = 7 meters.
      *
@@ -9,11 +11,12 @@ public class Utils {
      * @return the length in meters
      */
     public static double convertPixelToMeter(int pixel) {
-        return pixel / 50;
+        return pixel / METER_PIXEL_RATIO;
     }
 
 
-    // Copied from https://github.com/SzFMV2017-Tavasz/AutomatedCar/blob/master/src/main/java/hu/oe/nik/szfmv17t/environment/utils/XmlParser.java#L257
+    // Copied from https://github.com/SzFMV2017-Tavasz/AutomatedCar
+    // /src/main/java/hu/oe/nik/szfmv17t/environment/utils/XmlParser.java#L257
     public static double convertMatrixToRadians(double m11, double m12, double m21, double m22) {
         //formula of the angle between the two vectors: a * b = |a| * |b| * cos(beta)
         //where a * b is the scalarProduct
@@ -47,6 +50,6 @@ public class Utils {
     }
 
     public static double radianToDegree(double rad) {
-        return (rad * 180) / Math.PI;
+        return Math.toDegrees(rad);
     }
 }
