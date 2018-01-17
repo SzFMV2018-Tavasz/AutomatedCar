@@ -22,7 +22,7 @@ after_success:
   # generate Javadoc
   - mvn javadoc:javadoc
   # publish Javadoc
-  - ".generate_javadoc.sh"
+  - "$TRAVIS_BUILD_DIR/.generate_javadoc.sh"
 # send notifications when tests fail or start to pass after failure
 notifications:
   webhooks:
