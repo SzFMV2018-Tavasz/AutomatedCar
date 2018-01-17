@@ -35,3 +35,8 @@ notifications:
   email:
     on_success: change
     on_failure: always
+# secure token for javadoc publishing
+# more info: https://benlimmer.com/2013/12/26/automatically-publish-javadoc-to-gh-pages-with-travis-ci/
+env:
+  global:
+    secure: nz76hynet3vgLaWFBshx4P788BNs9n5F5kgjbhpRlbPJMtrm2BYV503V+sQQkVKbzPhwtdNjTicK+Nf5VgDdRcgqXcWmusRjowJpH2W/4MdKMc/2K2mFGS4yn0IEdz1q86JBci6Qdz38BEyQRhhtRqr/b4hNW+dKzvhgBgghRpitiJxPu+KsQmx3nMB2CCjE01YB0KbIG95N72W5UvTmwZ2Xa1dxSvlJukPZdOg7Y4luIddGwn5fcD9r0Alsk8yLXvFZ9Q+bmJdeb6Wlkg/ffT/jnBDU2PUQVC39/zbhFJnoDofMUr0OLJh4DFQh+v4mlAE5OJ1b+3ElpyFjg2Mp/6xTBKOpaYnkU1hllJYtnjkabFdOBlglDKJsI0irJdlKFoqreL+0PwA7RsQUmx02NFrdlTm/Srq1YDY4PvucczsrUZrF5aVogfkFaLi1dmz740vLRKdpX5IMGvuFsENUzSnSmMCR7XNaOlrxz1HEV03pQHLflEEQE28SVh7TVVgarwR+Iquk/pxdVCYI6eq5rKN5zT84WlxNpiA5fBDQQ/VT1HIRWvuLYn1/SOkj8ztjIoyrtlSLf5RhxS3OWEHxEWOt8U+U+2MMDZvdy4xvaGLktQdtrvP0FEsStOEnZPVLB5YgEiFYUJr/J7Kk1qM81nm/xFpVOnBBzH3PZLWFJVU=
