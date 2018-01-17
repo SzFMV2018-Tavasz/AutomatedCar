@@ -49,6 +49,12 @@ public class Utils {
         return convertMatrixToRadians(matrix[0][0], matrix[0][1], matrix[1][0], matrix[1][1]);
     }
 
+    /**
+     * Converts radian to degree. It basically just a wrapper for Math.toDegrees()
+     *
+     * @param rad is the length in pixels
+     * @return the angle in degree
+     */
     public static double radianToDegree(double rad) {
         return Math.toDegrees(rad);
     }
