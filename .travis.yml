@@ -19,6 +19,10 @@ after_success:
   - java -cp ~/codacy-coverage-reporter-assembly-latest.jar com.codacy.CodacyCoverageReporter -l Java -r build/reports/jacoco/test/jacocoTestReport.xml
   # the actual testing
   - mvn clean test jacoco:report coveralls:report
+  # generate Javadoc
+  - `mvn javadoc:javadoc
+  # publish Javadoc
+  - ".generate_javadoc.sh"
 # send notifications when tests fail or start to pass after failure
 notifications:
   webhooks:
