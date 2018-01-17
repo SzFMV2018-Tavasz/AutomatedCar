@@ -20,7 +20,7 @@ after_success:
   # the actual testing
   - mvn clean test jacoco:report coveralls:report
   # generate Javadoc
-  - `mvn javadoc:javadoc
+  - mvn javadoc:javadoc
   # publish Javadoc
   - ".generate_javadoc.sh"
 # send notifications when tests fail or start to pass after failure
