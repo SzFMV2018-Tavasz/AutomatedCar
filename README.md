@@ -1,5 +1,6 @@
 [![Travis CI Build Status](https://travis-ci.org/SzFMV2018-Tavasz/AutomatedCar.svg?branch=master)](https://travis-ci.org/SzFMV2018-Tavasz/AutomatedCar)
 [![CodeFactor](https://www.codefactor.io/repository/github/szfmv2018-tavasz/automatedcar/badge)](https://www.codefactor.io/repository/github/szfmv2018-tavasz/automatedcar)
+[![Coverage Status](https://coveralls.io/repos/github/SzFMV2018-Tavasz/AutomatedCar/badge.svg?branch=master)](https://coveralls.io/github/SzFMV2018-Tavasz/AutomatedCar?branch=master)
 [![Handout](https://img.shields.io/badge/handout-wiki-yellow.svg)](https://github.com/SzFMV2018-Tavasz/AutomatedCar/wiki)
 
 # AutomatedCar
