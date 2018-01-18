@@ -52,7 +52,7 @@ public class Utils {
     /**
      * Converts radian to degree. It basically just a wrapper for Math.toDegrees()
      *
-     * @param rad is the length in pixels
+     * @param rad is the angle in radian
      * @return the angle in degree
      */
     public static double radianToDegree(double rad) {
