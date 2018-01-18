@@ -19,7 +19,7 @@ after_success:
   - mvn javadoc:javadoc
   # publish Javadoc
   - "chmod +x .generate_javadoc.sh"
-  - "$TRAVIS_BUILD_DIR/.generate_javadoc.sh"
+  - "$TRAVIS_BUILD_DIR/.publish_javadoc.sh"
 # send notifications when tests fail or start to pass after failure
 notifications:
   webhooks:
