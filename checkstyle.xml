@@ -113,6 +113,12 @@
     <module name="WhitespaceAround"/>
 
     </module>
+    
+    <!-- require javadoc allowing missing javadoc for getters and setters-->
+    <module name="JavadocMethod"/>
+        <property name="allowMissingPropertyJavadoc" value="true"/>
+    </module>
+    
     <!--<module name="NewlineAtEndOfFile"/>-->
     <module name="FileTabCharacter"/>
 </module>
