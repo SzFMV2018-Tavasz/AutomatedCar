@@ -35,7 +35,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- checkstyle-->
+            <!-- checkstyle -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -44,6 +44,20 @@
                     <configLocation>checkstyle.xml</configLocation>
                     <consoleOutput>true</consoleOutput>
                     <linkXRef>false</linkXRef>
+                </configuration>
+            </plugin>
+            <!-- for creating single runnable jar -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>hu.oe.nik.szfmv.automatedcar.Main</mainClass>
+                        </manifest>
+                    </archive>
+                <descriptorRefs>
+                    <descriptorRef>jar-with-dependencies</descriptorRef>
+                </descriptorRefs>
                 </configuration>
             </plugin>
         </plugins>
@@ -57,7 +71,7 @@
             <version>4.11</version>
         </dependency>
 
-        <!-- log4j logger-->
+        <!-- log4j logger -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
