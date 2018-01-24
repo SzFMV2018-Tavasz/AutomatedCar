@@ -7,7 +7,7 @@ public class SignalTest {
     private Signal signal;
 
     @org.junit.Before
-    public void setUp() throws Exception {
+    public void setUp(){
         /* stuff written here runs before the tests */
         signal = new Signal(SignalEnum.TESTSIGNAL, 42);
     }
