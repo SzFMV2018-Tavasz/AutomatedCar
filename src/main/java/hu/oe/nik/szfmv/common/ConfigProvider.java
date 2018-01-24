@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv.automatedcar.common;
+package hu.oe.nik.szfmv.common;
 
 import com.moandjiezana.toml.Toml;
 

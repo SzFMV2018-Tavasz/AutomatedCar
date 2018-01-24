@@ -52,7 +52,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>hu.oe.nik.szfmv.automatedcar.Main</mainClass>
+                            <mainClass>hu.oe.nik.szfmv.Main</mainClass>
                         </manifest>
                     </archive>
                 <descriptorRefs>

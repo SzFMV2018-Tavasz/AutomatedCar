@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv.automatedcar;
+package hu.oe.nik.szfmv.common;
 
 public class Utils {
 
