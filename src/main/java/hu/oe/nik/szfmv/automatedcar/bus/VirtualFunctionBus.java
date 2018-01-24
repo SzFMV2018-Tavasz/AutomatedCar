@@ -22,31 +22,45 @@ public class VirtualFunctionBus {
     // Implement the singleton pattern
     private static VirtualFunctionBus instance = new VirtualFunctionBus();
 
+    /**
+     * Empty constructor
+     */
     private VirtualFunctionBus() {
     }
 
+    /**
+     *
+     * @return the only VirtualFunctionBus instance
+     */
     public static VirtualFunctionBus getInstance() {
         return instance;
     }
 
+    /**
+     * Registers the provided {@link ISystemComponent}
+     * @param comp a class that implements @{link ISystemComponent}
+     */
     public static void registerComponent(ISystemComponent comp) {
         VirtualFunctionBus.components.add(comp);
         logger.debug("System component " + comp.toString() + " is registered on the virtual function bus");
     }
 
+    /**
+     * Broadcasts the signal to all system components
+     * @param s the signal to be broadcasted
+     */
     public static void sendSignal(Signal s) {
         logger.debug("Broadcast signal " + s.toString());
 
-        // Broadcast the signal to all system components
         for (ISystemComponent comp : components) {
             comp.receiveSignal(s);
         }
     }
 
+    /**
+     * Calls cyclically the registered {@link ISystemComponent}s once the virtual function bus has started.
+     */
     public static void loop() {
-
-        // Once the virtual function bus has started components are called
-        // cyclically
         for (ISystemComponent comp : components) {
             logger.debug("Calling cyclic function of " + comp.toString());
             comp.loop();
