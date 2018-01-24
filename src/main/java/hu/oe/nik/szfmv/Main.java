@@ -6,8 +6,9 @@ public class Main {
     public static void main(String[] args) {
 
 //        SwingUtilities.invokeLater(() -> {
-            Gui ex = new Gui();
+//            Gui ex = new Gui();
 //            ex.setVisible(true);
 //        });
+        Gui gui = new Gui();
     }
 }
