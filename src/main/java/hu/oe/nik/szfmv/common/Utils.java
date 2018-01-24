@@ -1,6 +1,6 @@
 package hu.oe.nik.szfmv.common;
 
-public class Utils {
+public final class Utils {
 
     private static  final int METER_PIXEL_RATIO = 50;
 
@@ -17,6 +17,14 @@ public class Utils {
 
     // Copied from https://github.com/SzFMV2017-Tavasz/AutomatedCar
     // /src/main/java/hu/oe/nik/szfmv17t/environment/utils/XmlParser.java#L257
+    /**
+     * Converts a 2x2 transformation matrix, read from the virtual world xml to radians
+     * @param m11 first element of the 2x2 transformation matrix providing the angle of rotation
+     * @param m12 second element of the 2x2 transformation matrix providing the angle of rotation
+     * @param m21 third element of the 2x2 transformation matrix providing the angle of rotation
+     * @param m22 fourth element of the 2x2 transformation matrix providing the angle of rotation
+     * @return the rotation in radian
+     */
     public static double convertMatrixToRadians(double m11, double m12, double m21, double m22) {
         //formula of the angle between the two vectors: a * b = |a| * |b| * cos(beta)
         //where a * b is the scalarProduct
@@ -45,6 +53,11 @@ public class Utils {
 //        return 6.2831853072d - Math.acos((m11 + m22) / 2);
     }
 
+    /**
+     * Converts a 2x2 transformation matrix, read from the virtual world xml to radians
+     * @param matrix the 2x2 transformation matrix providing the angle of rotation
+     * @return the rotation in radian
+     */
     public static double convertMatrixToRadians(double[][] matrix) {
         return convertMatrixToRadians(matrix[0][0], matrix[0][1], matrix[1][0], matrix[1][1]);
     }
