@@ -16,6 +16,8 @@
 'UTF-8'
 -doctitle
 'AutomatedCar 1.0 API'
+-linkoffline
+'https://docs.oracle.com/javase/8/docs/api' '/home/travis/build/SzFMV2018-Tavasz/AutomatedCar/target/javadoc-bundle-options'
 -use
 -version
 -windowtitle
