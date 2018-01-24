@@ -9,9 +9,14 @@ import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 
 public interface ISystemComponent {
 
-    // Provide implementation for component calculation
+    /**
+     * Provide implementation for component calculation
+     */
     void loop();
 
-    // Use this, to receive message from other components
+    /**
+     * Use this to receive message from other components
+     * @param s the message
+     */
     void receiveSignal(Signal s);
 }
