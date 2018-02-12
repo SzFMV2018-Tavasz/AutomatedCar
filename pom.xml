@@ -50,6 +50,7 @@
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
+                    <finalName>${artifactId}</finalName>
                     <archive>
                         <manifest>
                             <mainClass>hu.oe.nik.szfmv.Main</mainClass>
