@@ -39,6 +39,11 @@ jobs:
 
       # run tests!
       - run: mvn integration-test
+general:
   branches:
     ignore:
-      - gh-pages
+      - gh-pages # list of branches to ignore
+      # - /release\/.*/ # or ignore regexes
+    # only:
+      # - master # list of branches to build
+      # - /feature-.*/ # or regexes
