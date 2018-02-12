@@ -16,6 +16,8 @@ before_install:
   # these needs for Codacy's code coverage tracker
   - sudo apt-get install jq
   - wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)
+  # for nightly releaser script
+  - gem install rest-client
 after_success:
   # this creates the report for Codacy's code coverage tracker
   - java -cp ~/codacy-coverage-reporter-assembly-latest.jar com.codacy.CodacyCoverageReporter -l Java -r build/reports/jacoco/test/jacocoTestReport.xml
@@ -26,6 +28,8 @@ after_success:
   # publish Javadoc
   - "chmod +x .publish_javadoc.sh"
   - "$TRAVIS_BUILD_DIR/.publish_javadoc.sh"
+  # create nightly build
+  - ruby .release_nightly.rb
 # send notifications when tests fail or start to pass after failure
 notifications:
   webhooks:
@@ -42,3 +46,8 @@ notifications:
 env:
   global:
     secure: nz76hynet3vgLaWFBshx4P788BNs9n5F5kgjbhpRlbPJMtrm2BYV503V+sQQkVKbzPhwtdNjTicK+Nf5VgDdRcgqXcWmusRjowJpH2W/4MdKMc/2K2mFGS4yn0IEdz1q86JBci6Qdz38BEyQRhhtRqr/b4hNW+dKzvhgBgghRpitiJxPu+KsQmx3nMB2CCjE01YB0KbIG95N72W5UvTmwZ2Xa1dxSvlJukPZdOg7Y4luIddGwn5fcD9r0Alsk8yLXvFZ9Q+bmJdeb6Wlkg/ffT/jnBDU2PUQVC39/zbhFJnoDofMUr0OLJh4DFQh+v4mlAE5OJ1b+3ElpyFjg2Mp/6xTBKOpaYnkU1hllJYtnjkabFdOBlglDKJsI0irJdlKFoqreL+0PwA7RsQUmx02NFrdlTm/Srq1YDY4PvucczsrUZrF5aVogfkFaLi1dmz740vLRKdpX5IMGvuFsENUzSnSmMCR7XNaOlrxz1HEV03pQHLflEEQE28SVh7TVVgarwR+Iquk/pxdVCYI6eq5rKN5zT84WlxNpiA5fBDQQ/VT1HIRWvuLYn1/SOkj8ztjIoyrtlSLf5RhxS3OWEHxEWOt8U+U+2MMDZvdy4xvaGLktQdtrvP0FEsStOEnZPVLB5YgEiFYUJr/J7Kk1qM81nm/xFpVOnBBzH3PZLWFJVU=
+# for speeding up the CI cache the dependencies
+cache:
+  directories:
+  - $HOME/.gem # ruby
+  - $HOME/.m2 # maven
