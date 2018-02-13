@@ -46,4 +46,4 @@ The system decides between the concurrent drivetrain requests based on comfort a
 
 
 
-Uhir Adam Attila
+Uhrin Adam Attila
