@@ -46,4 +46,3 @@ The system decides between the concurrent drivetrain requests based on comfort a
 
 Nevsor:
 Varga Robert
-Sakornyak Andras
