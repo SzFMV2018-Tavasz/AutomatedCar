@@ -62,3 +62,4 @@ The system decides between the concurrent drivetrain requests based on comfort a
 - Ács Bálint
 - Kulcsár Kristóf
 - Varga Dániel
+- Hegedus Andras
