@@ -50,4 +50,5 @@ The system decides between the concurrent drivetrain requests based on comfort a
 - Varga Robert
 - Skornyak Andras
 - Bencs Zoltan
+- Bakonyi Gergő
 
