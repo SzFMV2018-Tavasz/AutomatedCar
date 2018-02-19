@@ -45,5 +45,9 @@ The driver assistance systems apply actuation requests to the steering, drivetra
 The system decides between the concurrent drivetrain requests based on comfort and safety aspects. The system shall handle and detect collisions between the objects of the world. The simulation is approximating the real world physics, to provide a satisfying driving experience for the player, and an appropriate demonstration of the work of the driver assistance systems. On demand, the field of view of the sensors, and the detected control objects may be marked on the display for debug or demonstration.
 
 
-Name:
-Bencs Zoltan
+# Roster
+
+- Varga Robert
+- Skornyak Andras
+- Bencs Zoltan
+
