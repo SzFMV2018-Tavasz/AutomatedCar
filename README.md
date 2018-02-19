@@ -53,3 +53,5 @@ The system decides between the concurrent drivetrain requests based on comfort a
 - Bakonyi Gergő
 - Módi Zoltán
 - Hunyady László
+- Kurucz Márk
+
