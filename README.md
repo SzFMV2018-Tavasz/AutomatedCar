@@ -1,4 +1,4 @@
-[![Travis CI Build Status](https://travis-ci.org/SzFMV2018-Tavasz/AutomatedCar.svg?branch=master)](https://travis-ci.org/SzFMV2018-Tavasz/AutomatedCar)
+﻿[![Travis CI Build Status](https://travis-ci.org/SzFMV2018-Tavasz/AutomatedCar.svg?branch=master)](https://travis-ci.org/SzFMV2018-Tavasz/AutomatedCar)
 [![CodeFactor](https://www.codefactor.io/repository/github/szfmv2018-tavasz/automatedcar/badge)](https://www.codefactor.io/repository/github/szfmv2018-tavasz/automatedcar)
 [![Coverage Status](https://coveralls.io/repos/github/SzFMV2018-Tavasz/AutomatedCar/badge.svg?branch=master)](https://coveralls.io/github/SzFMV2018-Tavasz/AutomatedCar?branch=master)
 [![API Documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://szfmv2018-tavasz.github.io/AutomatedCar/javadoc/)
@@ -59,3 +59,4 @@ The system decides between the concurrent drivetrain requests based on comfort a
 - Hajdu Albert
 - Kevevari Kristof
 - Székács Márk
+- Ács Bálint
