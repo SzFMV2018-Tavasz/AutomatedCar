@@ -60,3 +60,4 @@ The system decides between the concurrent drivetrain requests based on comfort a
 - Kevevari Kristof
 - Székács Márk
 - Ács Bálint
+- Kulcsár Kristóf
