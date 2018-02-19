@@ -57,3 +57,5 @@ The system decides between the concurrent drivetrain requests based on comfort a
 - Lőrincz Attila
 - Petrovics Gábor
 - Hajdu Albert
+- Kevevari Kristof
+
