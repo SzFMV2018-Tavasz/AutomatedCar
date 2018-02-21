@@ -62,4 +62,10 @@ The system decides between the concurrent drivetrain requests based on comfort a
 - Ács Bálint
 - Kulcsár Kristóf
 - Varga Dániel
+- Sipos Gergo
+- Tóth Ádám
+- Papp Zsolt
+- Uhrin Adam Attila
+- Nyerges Dávid
+- Marics Mark
 - Hegedus Andras
