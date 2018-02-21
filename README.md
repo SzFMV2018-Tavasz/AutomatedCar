@@ -66,3 +66,4 @@ The system decides between the concurrent drivetrain requests based on comfort a
 - Tóth Ádám
 - Papp Zsolt
 - Uhrin Adam Attila
+- Nyerges Dávid
