@@ -65,3 +65,4 @@ The system decides between the concurrent drivetrain requests based on comfort a
 - Sipos Gergo
 - Tóth Ádám
 - Papp Zsolt
+- Uhrin Adam Attila
