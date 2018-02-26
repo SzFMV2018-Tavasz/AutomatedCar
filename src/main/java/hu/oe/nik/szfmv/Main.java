@@ -16,8 +16,6 @@ public class Main {
         // log the current debug mode in config
         LOGGER.info(ConfigProvider.provide().getBoolean("general.debug"));
 
-        Gui gui = new Gui();
-
         // create the world
         World w = new World(800, 600);
         // create an automated car
@@ -25,10 +23,16 @@ public class Main {
         // add car to the world
         w.addObjectToWorld(car);
 
+        // create gui
+        Gui gui = new Gui();
+
+        // draw world to course display
+        gui.getCourseDisplay().drawWorld(w);
+
         while (true) {
             try {
                 car.drive();
-//                vis.refreshFrame();
+                gui.getCourseDisplay().drawWorld(w);
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());

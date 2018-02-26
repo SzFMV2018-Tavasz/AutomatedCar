@@ -1,8 +1,5 @@
 package hu.oe.nik.szfmv.visualization;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -11,12 +8,14 @@ import java.awt.*;
 
 public class Gui extends JFrame {
 
-    private static final Logger LOGGER = LogManager.getLogger();
     private final int windowWidth = 1020;
     private final int windowHeight = 700;
 
     private final SimpleAttributeSet redStyle = new SimpleAttributeSet();
     private final SimpleAttributeSet whiteStyle = new SimpleAttributeSet();
+
+    private CourseDisplay courseDisplay;
+    private Dashboard dashboard;
 
     public Gui() {
         StyleConstants.setForeground(redStyle, new Color(0xFF6262));
@@ -41,11 +40,20 @@ public class Gui extends JFrame {
         // Not using any layout manager, but fixed coordinates
         setLayout(null);
 
-        add(new CourseDisplay());
+        courseDisplay = new CourseDisplay();
+        add(courseDisplay);
 
-        Dashboard dashboard = new Dashboard();
+        dashboard = new Dashboard();
         add(dashboard);
 
         setVisible(true);
+    }
+
+    public CourseDisplay getCourseDisplay() {
+        return courseDisplay;
+    }
+
+    public Dashboard getDashboard() {
+        return dashboard;
     }
 }
