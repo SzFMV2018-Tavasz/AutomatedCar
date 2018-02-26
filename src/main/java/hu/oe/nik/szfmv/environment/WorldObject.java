@@ -13,6 +13,13 @@ public class WorldObject {
     // it should be in the resources folder, so only the filename is required
     protected String imageFileName;
 
+    /**
+     * Creates an object of the virtual world on the given coordinates with the given image.
+     *
+     * @param x             the initial x coordinate of the object
+     * @param y             the initial y coordinate of the object
+     * @param imageFileName the filename of the image representing the object in the virtual world
+     */
     public WorldObject(int x, int y, String imageFileName) {
         this.x = x;
         this.y = y;

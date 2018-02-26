@@ -20,7 +20,12 @@ public class Signal {
     // Signal value
     private Object data;
 
-    // Constructor for Signal
+    /**
+     * Creates a signal with an id and some payload.
+     *
+     * @param id   {@link SignalEnum} the type of the signal
+     * @param data the payload of the signal
+     */
     public Signal(SignalEnum id, Object data) {
         this.id = id;
         this.data = data;

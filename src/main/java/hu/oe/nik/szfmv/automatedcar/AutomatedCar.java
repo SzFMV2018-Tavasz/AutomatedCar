@@ -9,6 +9,13 @@ public class AutomatedCar extends WorldObject {
     private PowertrainSystem powertrainSystem;
     private double wheelAngle = 0;
 
+    /**
+     * Constructor of the AutomatedCar class
+     *
+     * @param x the initial x coordinate of the car
+     * @param y the initial y coordinate of the car
+     * @param imageFileName name of the image file used displaying the car on the course display
+     */
     public AutomatedCar(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
 
@@ -22,6 +29,9 @@ public class AutomatedCar extends WorldObject {
         new Driver();
     }
 
+    /**
+     * Provides a sample method for modifying the position of the car.
+     */
     public void drive() {
         // call components
         VirtualFunctionBus.loop();

@@ -17,6 +17,7 @@ import java.util.List;
 public class VirtualFunctionBus {
 
     private static final Logger logger = LogManager.getLogger(VirtualFunctionBus.class);
+    private static final String VFB_DEBUD_KEY = "virtualFunctionBus.debug";
 
     private static List<ISystemComponent> components = new ArrayList<>();
 
@@ -30,7 +31,6 @@ public class VirtualFunctionBus {
     }
 
     /**
-     *
      * @return the only VirtualFunctionBus instance
      */
     public static VirtualFunctionBus getInstance() {
@@ -39,21 +39,23 @@ public class VirtualFunctionBus {
 
     /**
      * Registers the provided {@link ISystemComponent}
+     *
      * @param comp a class that implements @{link ISystemComponent}
      */
     public static void registerComponent(ISystemComponent comp) {
         VirtualFunctionBus.components.add(comp);
-        if (ConfigProvider.provide().getBoolean("virtualFunctionBus.debug")) {
+        if (ConfigProvider.provide().getBoolean(VFB_DEBUD_KEY)) {
             logger.debug("System component " + comp.toString() + " is registered on the virtual function bus");
         }
     }
 
     /**
      * Broadcasts the signal to all system components
+     *
      * @param s the signal to be broadcasted
      */
     public static void sendSignal(Signal s) {
-        if (ConfigProvider.provide().getBoolean("virtualFunctionBus.debug")) {
+        if (ConfigProvider.provide().getBoolean(VFB_DEBUD_KEY)) {
             logger.debug("Broadcast signal " + s.toString());
         }
 
@@ -67,7 +69,7 @@ public class VirtualFunctionBus {
      */
     public static void loop() {
         for (ISystemComponent comp : components) {
-            if (ConfigProvider.provide().getBoolean("virtualFunctionBus.debug")) {
+            if (ConfigProvider.provide().getBoolean(VFB_DEBUD_KEY)) {
                 logger.debug("Calling cyclic function of " + comp.toString());
             }
             comp.loop();

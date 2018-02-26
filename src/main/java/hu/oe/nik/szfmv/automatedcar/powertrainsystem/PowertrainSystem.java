@@ -20,6 +20,13 @@ public class PowertrainSystem extends SystemComponent {
     private int y = 0;
     private double wheelAngle = 0;
 
+    /**
+     * Creates a powertrain system that is a {@link SystemComponent} containing the x and y coordinates of the car.
+     * These coordinates are to be controlled by thi class.
+     *
+     * @param x x coordinate of the car
+     * @param y y coordinate of the car
+     */
     public PowertrainSystem(int x, int y) {
         super();
         this.x = x;

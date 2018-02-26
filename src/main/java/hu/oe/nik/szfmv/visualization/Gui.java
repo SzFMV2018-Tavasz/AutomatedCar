@@ -1,8 +1,6 @@
 package hu.oe.nik.szfmv.visualization;
 
 import javax.swing.*;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 import java.awt.*;
 
 
@@ -11,20 +9,14 @@ public class Gui extends JFrame {
     private final int windowWidth = 1020;
     private final int windowHeight = 700;
 
-    private final SimpleAttributeSet redStyle = new SimpleAttributeSet();
-    private final SimpleAttributeSet whiteStyle = new SimpleAttributeSet();
 
     private CourseDisplay courseDisplay;
     private Dashboard dashboard;
 
+    /**
+     * Initialize the GUI class
+     */
     public Gui() {
-        StyleConstants.setForeground(redStyle, new Color(0xFF6262));
-        StyleConstants.setForeground(whiteStyle, new Color(0xEDEDED));
-
-        init();
-    }
-
-    private void init() {
         setTitle("AutomatedCar");
         setLocation(0, 0); // default is 0,0 (top left corner)
         addWindowListener(new GuiAdapter());

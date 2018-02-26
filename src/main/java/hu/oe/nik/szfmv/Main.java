@@ -11,6 +11,11 @@ public class Main {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final int CYCLE_PERIOD = 200;
 
+    /**
+     * Main entrypoint of the software
+     *
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
 
         // log the current debug mode in config
