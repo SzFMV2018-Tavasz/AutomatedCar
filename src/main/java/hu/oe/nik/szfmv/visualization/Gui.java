@@ -13,7 +13,7 @@ public class Gui extends JFrame {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private final int windowWidth = 1020;
-    private final int windowHeight = 1020;
+    private final int windowHeight = 700;
 
     private final SimpleAttributeSet redStyle = new SimpleAttributeSet();
     private final SimpleAttributeSet whiteStyle = new SimpleAttributeSet();
