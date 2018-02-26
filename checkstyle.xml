@@ -24,7 +24,9 @@
 
         <module name="EmptyCatchBlock"/>
 
-        <module name="AvoidStarImport"/>
+        <module name="AvoidStarImport">
+            <property name="excludes" value="javax.swing.*,java.awt.*"/>
+        </module>
 
         <module name="RedundantImport"/>
 
