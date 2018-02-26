@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.bus;
 
 import hu.oe.nik.szfmv.automatedcar.ISystemComponent;
+import hu.oe.nik.szfmv.common.ConfigProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,7 +43,9 @@ public class VirtualFunctionBus {
      */
     public static void registerComponent(ISystemComponent comp) {
         VirtualFunctionBus.components.add(comp);
-        logger.debug("System component " + comp.toString() + " is registered on the virtual function bus");
+        if (ConfigProvider.provide().getBoolean("virtualFunctionBus.debug")) {
+            logger.debug("System component " + comp.toString() + " is registered on the virtual function bus");
+        }
     }
 
     /**
@@ -50,7 +53,9 @@ public class VirtualFunctionBus {
      * @param s the signal to be broadcasted
      */
     public static void sendSignal(Signal s) {
-        logger.debug("Broadcast signal " + s.toString());
+        if (ConfigProvider.provide().getBoolean("virtualFunctionBus.debug")) {
+            logger.debug("Broadcast signal " + s.toString());
+        }
 
         for (ISystemComponent comp : components) {
             comp.receiveSignal(s);
@@ -62,7 +67,9 @@ public class VirtualFunctionBus {
      */
     public static void loop() {
         for (ISystemComponent comp : components) {
-            logger.debug("Calling cyclic function of " + comp.toString());
+            if (ConfigProvider.provide().getBoolean("virtualFunctionBus.debug")) {
+                logger.debug("Calling cyclic function of " + comp.toString());
+            }
             comp.loop();
         }
     }
