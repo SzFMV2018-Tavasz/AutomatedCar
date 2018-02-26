@@ -3,32 +3,55 @@ package hu.oe.nik.szfmv.automatedcar.bus;
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class VirtualFunctionBusTest {
 
+    private VirtualFunctionBus virtualFunctionBus;
+    private boolean receiveSignalFunctionCalled;
+
     @org.junit.Before
     public void registerComponent() {
-        SystemComponentMock comp = new SystemComponentMock();
-        VirtualFunctionBus.registerComponent(comp);
+        virtualFunctionBus = new VirtualFunctionBus();
+        receiveSignalFunctionCalled = false;
+
+        SenderComponentMock senderComponent = new SenderComponentMock(virtualFunctionBus);
+        ReceiverComponentMock receiverComponent = new ReceiverComponentMock(virtualFunctionBus);
+
+        virtualFunctionBus.registerComponent(senderComponent);
+        virtualFunctionBus.registerComponent(receiverComponent);
     }
 
     @org.junit.Test
     public void sendSignalTest() {
-        VirtualFunctionBus.sendSignal(new Signal(SignalEnum.TESTSIGNAL, 42));
+        virtualFunctionBus.sendSignal(new Signal(SignalEnum.TESTSIGNAL, 42));
+        assertTrue(receiveSignalFunctionCalled);
     }
 
-    class SystemComponentMock extends SystemComponent {
+    class SenderComponentMock extends SystemComponent {
+
+        protected SenderComponentMock(VirtualFunctionBus virtualFunctionBus) {
+            super(virtualFunctionBus);
+        }
 
         @Override
         public void loop() {
-
         }
 
         @Override
         public void receiveSignal(Signal s) {
-            if (s.getId() == SignalEnum.TESTSIGNAL) {
-                assertEquals(s.getData(), 42);
-            }
+        }
+    }
+
+    class ReceiverComponentMock extends SystemComponent {
+
+        protected ReceiverComponentMock(VirtualFunctionBus virtualFunctionBus) {
+            super(virtualFunctionBus);
+            subscribeOnSignal(SignalEnum.TESTSIGNAL);
+        }
+
+        @Override
+        public void loop() {
         }
     }
 }

@@ -8,6 +8,7 @@ public class AutomatedCar extends WorldObject {
 
     private PowertrainSystem powertrainSystem;
     private double wheelAngle = 0;
+    private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
 
     /**
      * Constructor of the AutomatedCar class
@@ -19,14 +20,9 @@ public class AutomatedCar extends WorldObject {
     public AutomatedCar(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
 
-        // Compose our car from brand new system components
-        // The car has to know its PowertrainSystem, to get its coordinates
-        powertrainSystem = new PowertrainSystem(x, y);
-        // The rest of the components use the VirtualFunctionBus to communicate,
-        // they do not communicate with the car itself
+        powertrainSystem = new PowertrainSystem(x, y, virtualFunctionBus);
 
-        // place a driver into the car for demonstrating the signal sending mechanism
-        new Driver();
+        new Driver(virtualFunctionBus);
     }
 
     /**
@@ -34,7 +30,7 @@ public class AutomatedCar extends WorldObject {
      */
     public void drive() {
         // call components
-        VirtualFunctionBus.loop();
+        virtualFunctionBus.loop();
         // Update the position and orientation of the car
         x = powertrainSystem.getX();
         y = powertrainSystem.getY();

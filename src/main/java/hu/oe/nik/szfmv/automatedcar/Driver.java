@@ -6,10 +6,15 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 
 public class Driver extends SystemComponent {
 
+    protected Driver(VirtualFunctionBus virtualFunctionBus) {
+        super(virtualFunctionBus);
+        subscribeOnSignal(SignalEnum.TESTSIGNAL);
+    }
+
     @Override
     public void loop() {
         // send demo signal
-        VirtualFunctionBus.sendSignal(new Signal(SignalEnum.TESTSIGNAL, 5));
+        sendSignal(SignalEnum.TESTSIGNAL,5);
     }
 
     @Override

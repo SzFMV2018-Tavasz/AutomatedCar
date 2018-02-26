@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.bus;
 
+import lombok.Data;
+
 /**
  * This class represent a single signal on the bus. Signals can be handled by
  * implementing the ISystemComponent interface.
@@ -12,32 +14,13 @@ package hu.oe.nik.szfmv.automatedcar.bus;
  * message, so we do not need to bother extracting signal data from frames.
  */
 
-public class Signal {
-    // Signal identifier, a component can decide based on this value
-    // whether the content of the signal shall be processed or not.
+@Data
+public class Signal<T> {
     private SignalEnum id;
+    private T data;
 
-    // Signal value
-    private Object data;
-
-    /**
-     * Creates a signal with an id and some payload.
-     *
-     * @param id   {@link SignalEnum} the type of the signal
-     * @param data the payload of the signal
-     */
-    public Signal(SignalEnum id, Object data) {
+    public Signal(SignalEnum id, T data) {
         this.id = id;
         this.data = data;
-    }
-
-    // Getter for Signal Id
-    public SignalEnum getId() {
-        return id;
-    }
-
-    // Getter for Signal Value
-    public Object getData() {
-        return data;
     }
 }

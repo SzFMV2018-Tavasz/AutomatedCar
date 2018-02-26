@@ -2,6 +2,8 @@ package hu.oe.nik.szfmv.automatedcar.powertrainsystem;
 
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
+import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,10 +29,12 @@ public class PowertrainSystem extends SystemComponent {
      * @param x x coordinate of the car
      * @param y y coordinate of the car
      */
-    public PowertrainSystem(int x, int y) {
-        super();
+    public PowertrainSystem(int x, int y, VirtualFunctionBus virtualFunctionBus) {
+        super(virtualFunctionBus);
         this.x = x;
         this.y = y;
+
+        subscribeOnSignal(SignalEnum.TESTSIGNAL);
     }
 
     @Override
