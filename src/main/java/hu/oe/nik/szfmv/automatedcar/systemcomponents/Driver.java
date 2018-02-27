@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv.automatedcar;
+package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.Sample.SamplePacket;
@@ -8,7 +8,7 @@ public class Driver extends SystemComponent {
 
     private final SamplePacket samplePacket;
 
-    protected Driver(VirtualFunctionBus virtualFunctionBus) {
+    public Driver(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
         samplePacket = new SamplePacket();
         virtualFunctionBus.samplePacket = samplePacket;
