@@ -1,13 +1,15 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PowertrainSystem;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
 import hu.oe.nik.szfmv.environment.WorldObject;
 
 public class AutomatedCar extends WorldObject {
 
     private PowertrainSystem powertrainSystem;
-    private double wheelAngle = 0;
+    private SteeringSystem steeringSystem;
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
 
     /**
@@ -20,7 +22,8 @@ public class AutomatedCar extends WorldObject {
     public AutomatedCar(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
 
-        powertrainSystem = new PowertrainSystem(x, y, virtualFunctionBus);
+        powertrainSystem = new PowertrainSystem(virtualFunctionBus);
+        steeringSystem = new SteeringSystem(virtualFunctionBus);
 
         new Driver(virtualFunctionBus);
     }
@@ -29,11 +32,19 @@ public class AutomatedCar extends WorldObject {
      * Provides a sample method for modifying the position of the car.
      */
     public void drive() {
-        // call components
         virtualFunctionBus.loop();
-        // Update the position and orientation of the car
-        x = powertrainSystem.getX();
-        y = powertrainSystem.getY();
-        wheelAngle = (float) powertrainSystem.getWheelAngle();
+
+        calculatePositionAndOrientation();
+    }
+
+    private void calculatePositionAndOrientation() {
+        //TODO it is just a fake implementation
+        double speed = powertrainSystem.getSpeed();
+        double angularSpeed = steeringSystem.getAngularSpeed();
+
+        x += speed;
+        y = 0;
+
+        rotation += angularSpeed;
     }
 }
