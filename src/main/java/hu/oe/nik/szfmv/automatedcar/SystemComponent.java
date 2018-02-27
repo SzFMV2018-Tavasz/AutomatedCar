@@ -5,7 +5,10 @@ import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * This class represents common features for system components By extending this
@@ -15,7 +18,7 @@ import java.util.List;
 
 public abstract class SystemComponent {
     final private VirtualFunctionBus virtualFunctionBus;
-    final private List<SignalEnum> subscribedSignals = new ArrayList<>();
+    final private HashMap<SignalEnum, List<Consumer<Signal>>> subscribedSignals = new HashMap<>();
 
     protected SystemComponent(VirtualFunctionBus virtualFunctionBus) {
         this.virtualFunctionBus = virtualFunctionBus;
@@ -27,8 +30,10 @@ public abstract class SystemComponent {
     }
 
 
-    public void subscribeOnSignal(SignalEnum id) {
-        subscribedSignals.add(id);
+    public void subscribeOnSignal(SignalEnum id, Consumer<Signal> callback) {
+        if(subscribedSignals.get(id) == null)
+            subscribedSignals.put(id, new ArrayList<>());
+        subscribedSignals.get(id).add(callback);
     }
 
     public void receiveSignal(Signal<Integer> s) {

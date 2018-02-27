@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Main {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final int CYCLE_PERIOD = 200;
+    private static final int CYCLE_PERIOD = 50;
 
     /**
      * Main entrypoint of the software
@@ -22,22 +22,22 @@ public class Main {
         LOGGER.info(ConfigProvider.provide().getBoolean("general.debug"));
 
         // create the world
-        World w = new World(800, 600);
+        World world = new World(800, 600);
         // create an automated car
         AutomatedCar car = new AutomatedCar(20, 20, "car_2_white.png");
         // add car to the world
-        w.addObjectToWorld(car);
+        world.addObjectToWorld(car);
 
         // create gui
         Gui gui = new Gui();
 
         // draw world to course display
-        gui.getCourseDisplay().drawWorld(w);
+        gui.getCourseDisplay().drawWorld(world);
 
         while (true) {
             try {
                 car.drive();
-                gui.getCourseDisplay().drawWorld(w);
+                gui.getCourseDisplay().drawWorld(world);
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());

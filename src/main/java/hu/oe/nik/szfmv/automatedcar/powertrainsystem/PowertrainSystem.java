@@ -7,6 +7,8 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static hu.oe.nik.szfmv.automatedcar.bus.SignalEnum.TESTSIGNAL;
+
 public class PowertrainSystem extends SystemComponent {
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -34,7 +36,7 @@ public class PowertrainSystem extends SystemComponent {
         this.x = x;
         this.y = y;
 
-        subscribeOnSignal(SignalEnum.TESTSIGNAL);
+        subscribeOnSignal(TESTSIGNAL);
     }
 
     @Override
@@ -43,7 +45,7 @@ public class PowertrainSystem extends SystemComponent {
     }
 
     @Override
-    public void receiveSignal(Signal s) {
+    public void receiveSignal(Signal<Integer> s) {
         switch (s.getId()) {
 
             // Handle demo signal
