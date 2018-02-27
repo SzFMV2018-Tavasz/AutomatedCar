@@ -1,9 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.bus;
 
-import hu.oe.nik.szfmv.automatedcar.SystemComponent;
-import hu.oe.nik.szfmv.common.ConfigProvider;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.Sample.ReadOnlySamplePacket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +13,10 @@ import java.util.List;
  * getters respectively.
  */
 public class VirtualFunctionBus {
-    private final Logger logger = LogManager.getLogger(VirtualFunctionBus.class);
-    private final String VFB_DEBUD_KEY = "virtualFunctionBus.debug";
 
     private List<SystemComponent> components = new ArrayList<>();
+
+    public ReadOnlySamplePacket samplePacket;
 
     /**
      * Registers the provided {@link SystemComponent}
@@ -27,35 +25,13 @@ public class VirtualFunctionBus {
      */
     public void registerComponent(SystemComponent comp) {
         components.add(comp);
-        if (ConfigProvider.provide().getBoolean(VFB_DEBUD_KEY)) {
-            logger.debug("System component " + comp.toString() + " is registered on the virtual function bus");
-        }
-    }
-
-    /**
-     * Broadcasts the signal to all system components
-     *
-     * @param signal the signal to be broadcasted
-     */
-    public void sendSignal(Signal signal) {
-        if (ConfigProvider.provide().getBoolean(VFB_DEBUD_KEY)) {
-            logger.debug("Broadcast signal " + signal.toString());
-        }
-
-        for (SystemComponent comp : components)
-            if(comp.isSubscribedOn(signal))
-                comp.receiveSignal(signal);
     }
 
     /**
      * Calls cyclically the registered {@link SystemComponent}s once the virtual function bus has started.
      */
     public void loop() {
-        for (SystemComponent comp : components) {
-            if (ConfigProvider.provide().getBoolean(VFB_DEBUD_KEY)) {
-                logger.debug("Calling cyclic function of " + comp.toString());
-            }
+        for (SystemComponent comp : components)
             comp.loop();
-        }
     }
 }

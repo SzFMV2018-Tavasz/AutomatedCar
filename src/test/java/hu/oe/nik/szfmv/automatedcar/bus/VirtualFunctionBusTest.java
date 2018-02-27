@@ -1,57 +1,74 @@
 package hu.oe.nik.szfmv.automatedcar.bus;
 
-import hu.oe.nik.szfmv.automatedcar.SystemComponent;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.Sample.SamplePacket;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 public class VirtualFunctionBusTest {
 
     private VirtualFunctionBus virtualFunctionBus;
-    private boolean receiveSignalFunctionCalled;
+    private SenderComponentMock senderComponent;
+    private ReceiverComponentMock receiverComponent;
+    private boolean senderLoopCalled = false;
+    private boolean receiverLoopCalled = false;
 
-    @org.junit.Before
+    @Before
     public void registerComponent() {
         virtualFunctionBus = new VirtualFunctionBus();
-        receiveSignalFunctionCalled = false;
 
-        SenderComponentMock senderComponent = new SenderComponentMock(virtualFunctionBus);
-        ReceiverComponentMock receiverComponent = new ReceiverComponentMock(virtualFunctionBus);
+        senderComponent = new SenderComponentMock(virtualFunctionBus);
+        receiverComponent = new ReceiverComponentMock(virtualFunctionBus);
 
         virtualFunctionBus.registerComponent(senderComponent);
         virtualFunctionBus.registerComponent(receiverComponent);
+
+        senderLoopCalled = false;
+        receiverLoopCalled = false;
     }
 
-    @org.junit.Test
-    public void sendSignalTest() {
-        virtualFunctionBus.sendSignal(new Signal(SignalEnum.TESTSIGNAL, 42));
-        assertTrue(receiveSignalFunctionCalled);
+    @Test
+    public void sendLoopfunctions() {
+        virtualFunctionBus.loop();
+        assertThat(senderLoopCalled, is(true));
+        assertThat(receiverLoopCalled, is(true));
+    }
+
+    @Test
+    public void testSignalWritingReading() {
+        virtualFunctionBus.loop();
+        assertThat(receiverComponent.gaspedalPosition, is(42));
     }
 
     class SenderComponentMock extends SystemComponent {
+        SamplePacket samplePacket = new SamplePacket();
 
         protected SenderComponentMock(VirtualFunctionBus virtualFunctionBus) {
             super(virtualFunctionBus);
+            virtualFunctionBus.samplePacket = samplePacket;
         }
 
         @Override
         public void loop() {
-        }
-
-        @Override
-        public void receiveSignal(Signal s) {
+            senderLoopCalled = true;
+            samplePacket.setGaspedalPosition(42);
         }
     }
 
     class ReceiverComponentMock extends SystemComponent {
+        int gaspedalPosition = 0;
 
         protected ReceiverComponentMock(VirtualFunctionBus virtualFunctionBus) {
             super(virtualFunctionBus);
-            subscribeOnSignal(SignalEnum.TESTSIGNAL);
         }
 
         @Override
         public void loop() {
+            receiverLoopCalled = true;
+            gaspedalPosition = virtualFunctionBus.samplePacket.getGaspedalPosition();
         }
     }
 }

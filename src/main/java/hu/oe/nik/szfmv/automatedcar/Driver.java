@@ -1,25 +1,21 @@
 package hu.oe.nik.szfmv.automatedcar;
 
-import hu.oe.nik.szfmv.automatedcar.bus.Signal;
-import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.Sample.SamplePacket;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
 
 public class Driver extends SystemComponent {
 
+    private final SamplePacket samplePacket;
+
     protected Driver(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
-        subscribeOnSignal(SignalEnum.TESTSIGNAL);
+        samplePacket = new SamplePacket();
+        virtualFunctionBus.samplePacket = samplePacket;
     }
 
     @Override
     public void loop() {
-        // send demo signal
-        sendSignal(SignalEnum.TESTSIGNAL,5);
+        samplePacket.setGaspedalPosition(5);
     }
-
-    @Override
-    public void receiveSignal(Signal s) {
-        // TODO Auto-generated method stub
-    }
-
 }
