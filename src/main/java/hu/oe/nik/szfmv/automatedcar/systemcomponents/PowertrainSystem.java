@@ -3,10 +3,18 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import lombok.Getter;
 
+/**
+ * Powertrain system is responsible for the movement of the car.
+ */
 public class PowertrainSystem extends SystemComponent {
     @Getter
     private double speed;
 
+    /**
+     * Creates a powertrain system that connects the Virtual Function Bus
+     *
+     * @param virtualFunctionBus {@link VirtualFunctionBus} used to connect {@link SystemComponent}s
+     */
     public PowertrainSystem(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
     }

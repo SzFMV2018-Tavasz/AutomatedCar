@@ -37,6 +37,9 @@ public class AutomatedCar extends WorldObject {
         calculatePositionAndOrientation();
     }
 
+    /**
+     * Calculates the new x and y coordinates of the {@link AutomatedCar} using the powertrain and the steering systems.
+     */
     private void calculatePositionAndOrientation() {
         //TODO it is just a fake implementation
         double speed = powertrainSystem.getSpeed();
