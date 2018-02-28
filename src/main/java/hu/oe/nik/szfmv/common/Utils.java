@@ -2,7 +2,7 @@ package hu.oe.nik.szfmv.common;
 
 public final class Utils {
 
-    private static  final int METER_PIXEL_RATIO = 50;
+    private static final int METER_PIXEL_RATIO = 50;
 
     /**
      * Converts the length defined in pixels to meters according the rule of 350 pixel = 7 meters.
@@ -17,8 +17,10 @@ public final class Utils {
 
     // Copied from https://github.com/SzFMV2017-Tavasz/AutomatedCar
     // /src/main/java/hu/oe/nik/szfmv17t/environment/utils/XmlParser.java#L257
+
     /**
      * Converts a 2x2 transformation matrix, read from the virtual world xml to radians
+     *
      * @param m11 first element of the 2x2 transformation matrix providing the angle of rotation
      * @param m12 second element of the 2x2 transformation matrix providing the angle of rotation
      * @param m21 third element of the 2x2 transformation matrix providing the angle of rotation
@@ -55,6 +57,7 @@ public final class Utils {
 
     /**
      * Converts a 2x2 transformation matrix, read from the virtual world xml to radians
+     *
      * @param matrix the 2x2 transformation matrix providing the angle of rotation
      * @return the rotation in radian
      */
