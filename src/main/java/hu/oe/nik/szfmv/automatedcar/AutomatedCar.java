@@ -15,8 +15,8 @@ public class AutomatedCar extends WorldObject {
     /**
      * Constructor of the AutomatedCar class
      *
-     * @param x the initial x coordinate of the car
-     * @param y the initial y coordinate of the car
+     * @param x             the initial x coordinate of the car
+     * @param y             the initial y coordinate of the car
      * @param imageFileName name of the image file used displaying the car on the course display
      */
     public AutomatedCar(int x, int y, String imageFileName) {
