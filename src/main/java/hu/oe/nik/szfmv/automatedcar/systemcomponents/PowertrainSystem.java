@@ -1,13 +1,11 @@
 package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import lombok.Getter;
 
 /**
  * Powertrain system is responsible for the movement of the car.
  */
 public class PowertrainSystem extends SystemComponent {
-    @Getter
     private double speed;
 
     /**
@@ -24,6 +22,10 @@ public class PowertrainSystem extends SystemComponent {
         int gasPedal = virtualFunctionBus.samplePacket.getGaspedalPosition();
         speed = gasPedal * 0.8;
         //TODO write this
+    }
+
+    public double getSpeed() {
+        return this.speed;
     }
 }
 

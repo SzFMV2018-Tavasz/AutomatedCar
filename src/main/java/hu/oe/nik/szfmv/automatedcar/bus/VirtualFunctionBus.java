@@ -1,7 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.bus;
 
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.sample.ReadOnlySamplePacket;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
 
 import java.util.ArrayList;
 import java.util.List;

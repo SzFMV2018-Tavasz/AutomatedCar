@@ -1,13 +1,11 @@
 package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import lombok.Getter;
 
 /**
  * Steering system is responsible for the turning of the car.
  */
 public class SteeringSystem extends SystemComponent {
-    @Getter
     private double angularSpeed = 0;
 
     /**
@@ -22,5 +20,9 @@ public class SteeringSystem extends SystemComponent {
     @Override
     public void loop() {
         // TODO
+    }
+
+    public double getAngularSpeed() {
+        return this.angularSpeed;
     }
 }
