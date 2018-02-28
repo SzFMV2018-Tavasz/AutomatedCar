@@ -1,7 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.bus;
 
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.Sample.ReadOnlySamplePacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.sample.ReadOnlySamplePacket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +14,9 @@ import java.util.List;
  */
 public class VirtualFunctionBus {
 
-    private List<SystemComponent> components = new ArrayList<>();
-
     public ReadOnlySamplePacket samplePacket;
+
+    private List<SystemComponent> components = new ArrayList<>();
 
     /**
      * Registers the provided {@link SystemComponent}
@@ -31,7 +31,8 @@ public class VirtualFunctionBus {
      * Calls cyclically the registered {@link SystemComponent}s once the virtual function bus has started.
      */
     public void loop() {
-        for (SystemComponent comp : components)
+        for (SystemComponent comp : components) {
             comp.loop();
+        }
     }
 }

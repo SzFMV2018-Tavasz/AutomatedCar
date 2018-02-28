@@ -1,6 +1,6 @@
 package hu.oe.nik.szfmv.automatedcar.bus;
 
-import hu.oe.nik.szfmv.automatedcar.bus.packets.Sample.SamplePacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.sample.SamplePacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
 import org.junit.Before;
 import org.junit.Test;

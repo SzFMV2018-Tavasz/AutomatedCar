@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv.automatedcar.bus.packets.Sample;
+package hu.oe.nik.szfmv.automatedcar.bus.packets.sample;
 
 import lombok.Data;
 
