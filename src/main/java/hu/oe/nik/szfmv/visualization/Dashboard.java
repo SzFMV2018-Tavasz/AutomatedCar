@@ -16,11 +16,20 @@ public class Dashboard extends JPanel {
      * Initialize the dashboard
      */
     public Dashboard() {
+        InitializeDashboard();
+    }
+
+    /**
+     * Update the displayed values
+     */
+    public void UpdateDisplayedValues() {
+
+    }
+
+    private void InitializeDashboard() {
         // Not using any layout manager, but fixed coordinates
         setLayout(null);
         setBackground(new Color(backgroundColor));
         setBounds(770, 0, width, height);
-
     }
-
 }
