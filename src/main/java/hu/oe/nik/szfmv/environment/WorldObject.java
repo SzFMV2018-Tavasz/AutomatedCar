@@ -1,6 +1,8 @@
 package hu.oe.nik.szfmv.environment;
 
-public class WorldObject {
+import java.awt.*;
+
+public abstract class WorldObject implements IWorldObject {
     protected int x;
     protected int y;
     protected int width;
@@ -37,8 +39,33 @@ public class WorldObject {
         return this.height;
     }
 
+    /**
+     * Implementation of IWorldObject,
+     *
+     * @return Point where current location of the WorldObject is
+     */
+    @Override
+    public Point getLocation() {
+        return new Point(this.x,this.y);
+    }
+
+    /**
+     * Implementation of IWorldObject,
+     *
+     * @return float rotation of the WorldObject compared to baseline 12:00
+     */
     public float getRotation() {
         return this.rotation;
+    }
+
+    /**
+     * Implementation of IWorldObject,
+     *
+     * @return String location where image of WorldObject is.
+     */
+    @Override
+    public String getType() {
+        return this.imageFileName;
     }
 
     public String getImageFileName() {
