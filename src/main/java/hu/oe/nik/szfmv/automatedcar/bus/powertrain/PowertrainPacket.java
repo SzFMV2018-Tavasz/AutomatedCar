@@ -19,17 +19,7 @@ public class PowertrainPacket implements IPowertrainPacket {
     }
 
     @Override
-    public void setRPM(int rpm) {
-        this.RPM = rpm;
-    }
-
-    @Override
     public double getSpeed() {
         return 0;
-    }
-
-    @Override
-    public void setSpeed(double speed) {
-        this.speed = speed;
     }
 }
