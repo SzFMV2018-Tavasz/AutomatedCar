@@ -19,6 +19,26 @@ public class World {
         this.height = height;
     }
 
+    /**
+     * Creates the virtual world with the given dimension, loads base world elements.
+     *
+     * @param width  the width of the virtual world
+     * @param height the height of the virtual world
+     * @param xmlLocation location of the xml that contains the world
+     */
+    public World(int width, int height,String xmlLocation) {
+        this.width = width;
+        this.height = height;
+        loadDefaultMapElements(xmlLocation);
+    }
+
+    private void loadDefaultMapElements(String xmlLocation){
+        for (WorldObject xmlItem : Visualizing.build(xmlLocation)) {
+            this.worldObjects.add(xmlItem);
+        }
+    }
+
+
     public int getWidth() {
         return width;
     }
