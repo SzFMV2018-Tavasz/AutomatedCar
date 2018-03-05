@@ -13,10 +13,6 @@ public class Visualizing {
         return null;
     }
 
-    private float convertVectorToRotation() {
-        return 0;
-    }
-
     private WorldObject readValueFromXml() {
         return null;
     }
