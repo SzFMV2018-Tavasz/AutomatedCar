@@ -1,39 +1,56 @@
 package hu.oe.nik.szfmv.environment;
 
 public abstract class WorldObject implements IWorldObject{
-    protected Point location;
-    protected double rotation = 0f;
-    protected String type; //this is equals with the image name
-
-    //widt and height for what?
+    protected int x;
+    protected int y;
     protected int width;
     protected int height;
+    protected float rotation = 0f;
+    protected String imageFileName;
 
-    public WorldObject(Point location, String type, double rotation) {
-        this.location=location;
-        this.type = type;
-        this.rotation = rotation;
+    /**
+     -     * Creates an object of the virtual world on the given coordinates with the given image.
+     -     *
+     -     * @param x             the initial x coordinate of the object
+     -     * @param y             the initial y coordinate of the object
+     -     * @param imageFileName the filename of the image representing the object in the virtual world
+     -     */
+    public WorldObject(int x, int y, String imageFileName) {
+        this.x = x;
+        this.y = y;
+        this.imageFileName = imageFileName;
     }
 
-    public Point getLocation() {
-        return this.location;
+    public int getX() {
+        return this.x;
     }
 
-    public double getRotation() {
-        return this.rotation;
+    public int getY() {
+        return this.y;
     }
 
-    public String getType() {
-        return this.type;
-    }
-
-    //--------------------------------------------------------------------------
     public int getWidth() {
         return this.width;
     }
 
     public int getHeight() {
         return this.height;
+    }
+
+    public float getRotation() {
+        return this.rotation;
+    }
+
+    public String getImageFileName() {
+        return this.imageFileName;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public void setWidth(int width) {
@@ -43,4 +60,13 @@ public abstract class WorldObject implements IWorldObject{
     public void setHeight(int height) {
         this.height = height;
     }
+
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
+    }
+
+    public void setImageFileName(String imageFileName) {
+        this.imageFileName = imageFileName;
+    }
 }
+

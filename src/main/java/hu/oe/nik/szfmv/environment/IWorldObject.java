@@ -9,7 +9,8 @@ import java.awt.*;
  */
 public interface IWorldObject {
 
-    Point getLocation();
-    double getRotation();
-    String getType();
+    float getRotation();
+    String getImageFileName();
+    int getX();
+    int getY();
 }

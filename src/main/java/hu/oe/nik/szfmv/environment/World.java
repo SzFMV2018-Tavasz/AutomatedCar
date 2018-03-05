@@ -15,11 +15,11 @@ public class World {
      * @param width  the width of the virtual world
      * @param height the height of the virtual world
      */
-    public World(int width, int height, String xmlLocation) {
+    public World(int width, int height) {
         this.width = width;
         this.height = height;
-        this.xmlLocation = xmlLocation;
-        loadDefaultMapElements(xmlLocation);
+        xmlLocation = ""; //TODO ide kell majd beírni az XML helyét.
+        //loadDefaultMapElements(xmlLocation);
     }
 
     private void loadDefaultMapElements(String xmlLocation){
