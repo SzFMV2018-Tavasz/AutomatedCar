@@ -6,6 +6,7 @@ import java.util.List;
 public class World {
     private int width = 0;
     private int height = 0;
+    String xmlLocation;
     private List<WorldObject> worldObjects = new ArrayList<>();
 
     /**
@@ -14,9 +15,17 @@ public class World {
      * @param width  the width of the virtual world
      * @param height the height of the virtual world
      */
-    public World(int width, int height) {
+    public World(int width, int height, String xmlLocation) {
         this.width = width;
         this.height = height;
+        this.xmlLocation = xmlLocation;
+        loadDefaultMapElements(xmlLocation);
+    }
+
+    private void loadDefaultMapElements(String xmlLocation){
+        for (WorldObject xmlItem : Visualizing.build(xmlLocation)) {
+            this.worldObjects.add(xmlItem);
+        }
     }
 
     public int getWidth() {
