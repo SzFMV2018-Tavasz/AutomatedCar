@@ -10,8 +10,8 @@ import java.awt.geom.Point2D;
 
 public class AutomatedCar extends WorldObject {
 
-    final double wheelBase = 130;
-    final double fps = 24;
+    private final double wheelBase = 130;
+    private final double fps = 24;
 
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
@@ -51,7 +51,11 @@ public class AutomatedCar extends WorldObject {
 
         double speed = powertrainSystem.getSpeed();
         double angularSpeed = steeringSystem.getAngularSpeed();
-        angularSpeed = getSteerAngle(angularSpeed);
+        try {
+            angularSpeed = getSteerAngle(angularSpeed);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         double carHeading = 0;
         double halfWheelBase = wheelBase / 2;
         Point2D carPosition = new Point2D.Double(x, y);
@@ -78,7 +82,11 @@ public class AutomatedCar extends WorldObject {
      * @param       wheelPosition   in percent form.
      * @return      steeringAngle between -60 and 60 degree.
      * */
-    public double getSteerAngle (double wheelPosition) {
+    public double getSteerAngle (double wheelPosition) throws Exception {
+
+        if (wheelPosition > 100d || wheelPosition < -100d) {
+            throw new Exception();
+        }
 
         // From -60 to 60 degree
         double steerAngle;
