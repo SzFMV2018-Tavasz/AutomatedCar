@@ -17,6 +17,8 @@ public abstract class Movable extends Collidable{
      * @param y
      * @param imageFileName
      */
+
+    public Movable(){super(0,0,null);}
     public Movable(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
     }

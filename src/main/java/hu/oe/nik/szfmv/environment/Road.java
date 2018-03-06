@@ -14,6 +14,9 @@ public class Road extends Crossable {
      * @param y
      * @param imageFileName
      */
+    public Road() {
+        super(0, 0, null);
+    }
     public Road(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
     }

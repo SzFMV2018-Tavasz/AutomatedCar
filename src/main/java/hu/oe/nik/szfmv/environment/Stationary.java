@@ -14,6 +14,11 @@ public abstract class Stationary extends Collidable{
      * @param y
      * @param imageFileName
      */
+    public Stationary() {
+        super(0, 0, null);
+    }
+
+
     public Stationary(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
     }

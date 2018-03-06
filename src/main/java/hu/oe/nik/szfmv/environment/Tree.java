@@ -14,6 +14,11 @@ public class Tree extends Stationary {
      * @param y
      * @param imageFileName
      */
+
+    public Tree() {
+        super(0, 0, null);
+    }
+
     public Tree(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
     }
