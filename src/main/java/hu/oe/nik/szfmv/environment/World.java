@@ -17,6 +17,7 @@ public class World implements IWorld {
 
     /**
      * Creates the virtual world with the given dimension.
+     * To populate the world with objects from xml use the build(String xmlLocation) function
      *
      * @param width  the width of the virtual world
      * @param height the height of the virtual world
@@ -24,9 +25,7 @@ public class World implements IWorld {
     public World(int width, int height) {
         this.width = width;
         this.height = height;
-
     }
-
 
     public int getWidth() {
         return width;

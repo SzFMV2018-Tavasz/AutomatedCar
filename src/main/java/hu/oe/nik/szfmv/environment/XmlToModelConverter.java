@@ -58,7 +58,7 @@ public abstract class XmlToModelConverter {
      */
     private static WorldObject readValueFromXml(Element objectElement) throws  XMLSignatureException {
         String type = objectElement.getAttribute("type");
-        WorldObject wo = CreateObjectByType(type);
+        WorldObject wo = CreateObjectFromType(type);
 
         //Set setImageFileName
         wo.setImageFileName(type);
@@ -103,7 +103,7 @@ public abstract class XmlToModelConverter {
      * @return new class, based on type
      * @throws XMLSignatureException in case type not found
      */
-    private static WorldObject CreateObjectByType(String type) throws XMLSignatureException {
+    private static WorldObject CreateObjectFromType(String type) throws XMLSignatureException {
         WorldObject wo;
         // road_something_something -> road
         if (type.indexOf('_') != -1)
