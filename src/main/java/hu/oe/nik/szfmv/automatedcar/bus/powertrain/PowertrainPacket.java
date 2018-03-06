@@ -3,7 +3,8 @@ package hu.oe.nik.szfmv.automatedcar.bus.powertrain;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PowertrainPacket implements IPowertrainPacket {
+public class PowertrainPacket implements ReadOnlyPowertrainPacket {
+
     private static final Logger LOGGER = LogManager.getLogger(PowertrainPacket.class);
 
     private int RPM;
@@ -11,6 +12,14 @@ public class PowertrainPacket implements IPowertrainPacket {
 
     public PowertrainPacket() {
 
+    }
+
+    public void setRPM(int RPM) {
+        this.RPM = RPM;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
     }
 
     @Override

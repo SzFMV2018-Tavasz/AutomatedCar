@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.powertrain.PowertrainPacket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,14 +12,15 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
 
     private static final Logger LOGGER = LogManager.getLogger(PowertrainSystem.class);
 
+    private PowertrainPacket powertrainPacket;
     private static final int IDLE_RMP = 650;
     private static final int MAX_RPM = 7400;
-    private static final int MAX_VELOCITY = 190;    // unit: km/h
+    private static final int MAX_SPEED = 190;    // unit: km/h
 
     private int acceleratorStatus;
     private int brakeStatus;
     private double speed;                           // unit: m/s
-    private ITransmissionModes transmissionMode;
+    private TransmissionModes transmissionMode;
 
     /**
      * Creates a powertrain system that connects the Virtual Function Bus
@@ -28,6 +30,8 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     public PowertrainSystem(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
         LOGGER.debug("PowerTrain SystemComponent has been registered to VirtualFunctionBus.");
+        this.powertrainPacket = new PowertrainPacket();
+        virtualFunctionBus.powertrainPacket = this.powertrainPacket;
     }
 
     @Override
