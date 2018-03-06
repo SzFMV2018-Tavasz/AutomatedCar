@@ -15,6 +15,7 @@ public abstract class Collidable extends WorldObject{
      * @param y
      * @param imageFileName
      */
+    public Collidable(){super(0,0,null);}
     public Collidable(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
     }

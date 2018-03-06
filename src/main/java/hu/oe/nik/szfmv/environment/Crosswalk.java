@@ -16,6 +16,7 @@ public class Crosswalk extends Crossable {
      * @param y
      * @param imageFileName
      */
+    public Crosswalk(){super(0,0,null);}
     public Crosswalk(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
     }

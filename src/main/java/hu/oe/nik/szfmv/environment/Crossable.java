@@ -14,6 +14,7 @@ public abstract class Crossable extends WorldObject {
      * @param y
      * @param imageFileName
      */
+    public Crossable(){super(0,0, null);}
     public Crossable(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
     }
