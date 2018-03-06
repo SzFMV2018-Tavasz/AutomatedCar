@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.environment;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,13 +19,18 @@ public class World {
     public World(int width, int height) {
         this.width = width;
         this.height = height;
-        xmlLocation = ""; //TODO ide kell majd beírni az XML helyét.
-        //loadDefaultMapElements(xmlLocation);
+        xmlLocation = "src/main/resources/test.xml"; //TODO ide kell majd beírni az XML helyét.
+        loadDefaultMapElements(xmlLocation);
     }
 
     private void loadDefaultMapElements(String xmlLocation){
-        for (WorldObject xmlItem : Visualizing.build(xmlLocation)) {
-            this.worldObjects.add(xmlItem);
+        try {
+            for (WorldObject xmlItem : Visualizing.build(xmlLocation)) {
+                this.worldObjects.add(xmlItem);
+            }
+        }
+        catch (Exception e){
+            System.out.println("XML ERROR: "+e.getMessage());
         }
     }
 
