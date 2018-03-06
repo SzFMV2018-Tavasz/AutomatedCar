@@ -15,11 +15,13 @@ public abstract class WorldObject implements IWorldObject{
      -     * @param y             the initial y coordinate of the object
      -     * @param imageFileName the filename of the image representing the object in the virtual world
      -     */
+
     public WorldObject(int x, int y, String imageFileName) {
         this.x = x;
         this.y = y;
         this.imageFileName = imageFileName;
     }
+
 
     public int getX() {
         return this.x;

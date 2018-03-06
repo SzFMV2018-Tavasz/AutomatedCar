@@ -14,6 +14,9 @@ public class ParkingSpot extends Crossable {
      * @param y
      * @param imageFileName
      */
+    public ParkingSpot() {
+        super(0, 0, null);
+    }
     public ParkingSpot(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
     }
