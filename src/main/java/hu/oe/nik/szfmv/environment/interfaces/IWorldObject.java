@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv.environment;
+package hu.oe.nik.szfmv.environment.interfaces;
 
 import java.awt.*;
 
@@ -11,6 +11,5 @@ public interface IWorldObject {
 
     float getRotation();
     String getImageFileName();
-    int getX();
-    int getY();
+    Point getLocation();
 }
