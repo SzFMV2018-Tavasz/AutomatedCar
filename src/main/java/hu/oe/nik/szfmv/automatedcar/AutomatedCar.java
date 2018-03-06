@@ -42,10 +42,14 @@ public class AutomatedCar extends WorldObject {
      */
     private void calculatePositionAndOrientation() {
         //TODO it is just a fake implementation
+
+        /** This signal comes from VirtualFunctionBus. PowertrainSystem does not implemets this the getSpeed method.
+         * vroba
         double speed = powertrainSystem.getSpeed();
+        x += speed;
+        */
         double angularSpeed = steeringSystem.getAngularSpeed();
 
-        x += speed;
         y = 0;
 
         rotation += angularSpeed;

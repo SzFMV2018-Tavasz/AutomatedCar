@@ -10,9 +10,7 @@ public class PowertrainPacket implements ReadOnlyPowertrainPacket {
     private int RPM;
     private double speed;
 
-    public PowertrainPacket() {
-
-    }
+    public PowertrainPacket() { }
 
     public void setRPM(int RPM) {
         this.RPM = RPM;

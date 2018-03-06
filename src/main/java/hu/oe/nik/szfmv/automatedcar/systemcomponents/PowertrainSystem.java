@@ -17,8 +17,8 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     private static final int MAX_RPM = 7400;
     private static final int MAX_SPEED = 190;    // unit: km/h
 
-    private int acceleratorStatus;
-    private int brakeStatus;
+    private int gasPedalStatus;
+    private int brakePedalStatus;
     private double speed;                           // unit: m/s
     private TransmissionModes transmissionMode;
 
@@ -34,20 +34,63 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
         virtualFunctionBus.powertrainPacket = this.powertrainPacket;
     }
 
+    /**
+     * Calculates the acceleration depending on the position of the accelerator pedal
+     */
+    public void calculateAcceleration() {
+        switch (transmissionMode) {
+            case P:
+                break;
+            case R:
+                break;
+            case N:
+                break;
+            case D:
+                break;
+        }
+    }
+
+    /**
+     * Calculates the decceleration depending on the position of the brake pedal
+     */
+    public void calculateDecceleration() {
+        switch (transmissionMode) {
+            case P:
+                break;
+            case R:
+                break;
+            case N:
+                break;
+            case D:
+                break;
+        }
+    }
+
+    @Override
+    public void shiftUp() {
+
+    }
+
+    @Override
+    public void shiftDown() {
+
+    }
+
     @Override
     public void loop() {
-        int gasPedal = virtualFunctionBus.samplePacket.getGaspedalPosition();
-        speed = gasPedal * 0.8;
+        //int gasPedal = virtualFunctionBus.samplePacket.getGaspedalPosition();
+        //speed = gasPedal * 0.8;
         //TODO write this
-    }
 
-    public double getSpeed() {
-        return this.speed;
+        this.getVirtualFunctionBusSignals();
     }
 
     @Override
-    public void getVirtualFunctionBusSignal() {
-
+    public void getVirtualFunctionBusSignals() {
+        // TODO write incoming signals from virtualFunctionBus when implemented
+        this.gasPedalStatus = virtualFunctionBus.samplePacket.getGaspedalPosition();
+        this.brakePedalStatus = virtualFunctionBus.samplePacket.getGaspedalPosition();
+        //this.transmissionMode = virtualFunctionBus.samplePacket.getGaspedalPosition();
     }
 }
 
