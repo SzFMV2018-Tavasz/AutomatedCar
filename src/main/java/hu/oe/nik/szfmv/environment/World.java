@@ -1,17 +1,23 @@
 package hu.oe.nik.szfmv.environment;
 
-import javax.annotation.Resource;
+import hu.oe.nik.szfmv.environment.interfaces.IWorld;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class World {
+public class World implements IWorld {
+    private static final Logger LOGGER = LogManager.getLogger();
+
     private int width = 0;
     private int height = 0;
-    String xmlLocation;
     private List<WorldObject> worldObjects = new ArrayList<>();
 
     /**
      * Creates the virtual world with the given dimension.
+     * To populate the world with objects from xml use the build(String xmlLocation) function
      *
      * @param width  the width of the virtual world
      * @param height the height of the virtual world
@@ -19,19 +25,6 @@ public class World {
     public World(int width, int height) {
         this.width = width;
         this.height = height;
-        xmlLocation = "src/main/resources/test.xml"; //TODO ide kell majd beírni az XML helyét.
-        loadDefaultMapElements(xmlLocation);
-    }
-
-    private void loadDefaultMapElements(String xmlLocation){
-        try {
-            for (WorldObject xmlItem : Visualizing.build(xmlLocation)) {
-                this.worldObjects.add(xmlItem);
-            }
-        }
-        catch (Exception e){
-            System.out.println("XML ERROR: "+e.getMessage());
-        }
     }
 
     public int getWidth() {
@@ -61,5 +54,14 @@ public class World {
      */
     public void addObjectToWorld(WorldObject o) {
         worldObjects.add(o);
+    }
+
+    @Override
+    public void build(String xmlLocation) {
+        try {
+            worldObjects = XmlToModelConverter.build(xmlLocation);
+        }catch (Exception ex){
+            LOGGER.info("Error in World build - " + ex.getMessage());
+        }
     }
 }
