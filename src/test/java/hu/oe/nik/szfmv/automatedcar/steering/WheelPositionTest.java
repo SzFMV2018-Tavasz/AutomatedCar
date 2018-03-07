@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv.automatedcar.steering;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.geom.Point2D;
@@ -11,9 +12,16 @@ public class WheelPositionTest extends AutomatedCar {
         super(0,0,null);
     }
 
-    private final double THRESHOLD = 0.0001d;
-    private final Point2D carPosition = new Point2D.Double(0,0);
-    private final double wheelBase = 100;
+    private double THRESHOLD;
+    private Point2D carPosition;
+    private double wheelBase ;
+
+    @Before
+    public void setUp() throws Exception {
+        THRESHOLD = 0.0001d;
+        carPosition = new Point2D.Double(0,0);
+        wheelBase = 100;
+    }
 
     private double eastRotation = Math.toRadians(0);
 

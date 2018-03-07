@@ -1,4 +1,11 @@
 package hu.oe.nik.szfmv.automatedcar.steering;
 
-public class WheelDisplacementTest {
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+
+public class WheelDisplacementTest extends AutomatedCar {
+    public WheelDisplacementTest() {
+        super(0,0, null);
+    }
+
+
 }

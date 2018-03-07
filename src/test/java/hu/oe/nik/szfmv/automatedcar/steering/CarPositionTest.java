@@ -1,4 +1,11 @@
 package hu.oe.nik.szfmv.automatedcar.steering;
 
-public class CarPositionTest {
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+
+public class CarPositionTest extends AutomatedCar {
+    public CarPositionTest() {
+        super(0,0, null);
+    }
+
+
 }

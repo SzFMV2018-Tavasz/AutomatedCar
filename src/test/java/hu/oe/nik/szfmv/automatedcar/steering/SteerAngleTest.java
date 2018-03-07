@@ -21,7 +21,7 @@ public class SteerAngleTest extends AutomatedCar {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertEquals(angle,  new Double(0));
+        assertEquals(new Double(0), angle);
     }
 
     @Test
@@ -32,14 +32,16 @@ public class SteerAngleTest extends AutomatedCar {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertEquals(angle,  new Double(-60));
+        assertEquals(new Double(-60), angle);
+
 
         try {
             angle = getSteerAngle(100);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertEquals(angle,  new Double(60));
+        assertEquals(new Double(60), angle);
+
     }
 
     @Test
@@ -51,7 +53,7 @@ public class SteerAngleTest extends AutomatedCar {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            assertEquals(angle,  new Double(n*0.6));
+            assertEquals(new Double(n*0.6),angle);
         }
     }
 

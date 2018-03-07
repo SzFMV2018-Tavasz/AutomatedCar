@@ -82,7 +82,7 @@ public class AutomatedCar extends WorldObject {
      * @param backWheel Position of the back wheel
      * @return Position of the car based on its wheels
      */
-    private double getCarHeading(Point2D frontWheel, Point2D backWheel) {
+    protected double getCarHeading(Point2D frontWheel, Point2D backWheel) {
         return Math.atan2(frontWheel.getY() - backWheel.getY(), frontWheel.getX() - backWheel.getX());
     }
 
