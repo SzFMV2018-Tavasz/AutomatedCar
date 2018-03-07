@@ -7,9 +7,10 @@ public class GuiAdapter extends WindowAdapter {
 
     /**
      * This method is invoked when the Gui window is closed.
+     *
      * @param e is a {@WindowEvent}
      */
-    public void windowClosing (WindowEvent e) {
+    public void windowClosing(WindowEvent e) {
         // Other things can be done here before the termination.
         System.exit(0);
     }
