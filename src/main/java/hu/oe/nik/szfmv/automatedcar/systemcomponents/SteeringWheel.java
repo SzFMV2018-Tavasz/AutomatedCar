@@ -28,40 +28,34 @@ public class SteeringWheel extends SystemComponent{
         if (inputHandler.isSteeringLeftPressed() && inputHandler.isSteeringRightPressed())
             return;
 
+        double newPosition = 0.0;
+
         if (inputHandler.isSteeringLeftPressed()){
-            SetSteeringWheelPosition(inputPacket.getSteeringWheelPosition() - step);
-            return;
+            newPosition = calculateNewSteeringWheelPosition(inputPacket.getSteeringWheelPosition() - step);
+        }
+        else if (inputHandler.isSteeringRightPressed()){
+            newPosition = calculateNewSteeringWheelPosition(inputPacket.getSteeringWheelPosition() + step);
+        }
+        else if (inputPacket.getSteeringWheelPosition() != 0){
+            // Ha nincs lenyomva egyik irány sem, és nem középen áll a kormány, a 0 felé közelítjük az állást.
+            int sign = inputPacket.getSteeringWheelPosition() > 0 ? -1 : 1;
+            newPosition = calculateNewSteeringWheelPosition(inputPacket.getSteeringWheelPosition() + (sign * step));
         }
 
-        if (inputHandler.isSteeringRightPressed()){
-            SetSteeringWheelPosition(inputPacket.getSteeringWheelPosition() + step);
-            return;
-        }
-
-        if (inputPacket.getSteeringWheelPosition() == 0)
-            return;
-
-        // Ha nincs lenyomva egyik irány sem, és nem középen áll a kormány, a 0 felé közelítjük az állást.
-        int sign = inputPacket.getSteeringWheelPosition() > 0 ? -1 : 1;
-        SetSteeringWheelPosition(inputPacket.getSteeringWheelPosition() + (sign * step));
+        inputPacket.setSteeringWheelPosition(newPosition);
     }
 
-    private void SetSteeringWheelPosition(double newPos){
+    private double calculateNewSteeringWheelPosition(double newPos){
 
-        if (newPos > maxPosition){
-            inputPacket.setSteeringWheelPosition(maxPosition);
-        }
-        else if (newPos < minPosition){
-            inputPacket.setSteeringWheelPosition(minPosition);
-        }
-        else if (Math.abs(newPos) < step) // Ha már egy lépésnyinél kevesebbel térünk el 0-tól, akkor beállítjuk 0-ra, hogy ne ugráljon magától ide oda a kormányállás.
-        {
-            inputPacket.setSteeringWheelPosition(0);
-        }
-        else {
-            inputPacket.setSteeringWheelPosition(newPos);
-        }
+        if (newPos > maxPosition)
+            return maxPosition;
 
-        System.out.println(inputPacket.getSteeringWheelPosition());
+        if (newPos < minPosition)
+            return minPosition;
+
+        if (Math.abs(newPos) < step) // Ha már egy lépésnyinél kevesebbel térünk el 0-tól, akkor beállítjuk 0-ra, hogy ne ugráljon magától ide oda a kormányállás.
+            return 0;
+
+        return newPos;
     }
 }
