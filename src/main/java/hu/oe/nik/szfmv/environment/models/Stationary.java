@@ -1,7 +1,5 @@
 package hu.oe.nik.szfmv.environment.models;
 
-import hu.oe.nik.szfmv.environment.models.Collidable;
-
 public abstract class Stationary extends Collidable {
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
@@ -15,8 +13,10 @@ public abstract class Stationary extends Collidable {
         super(x, y, imageFileName);
     }
 
+    /**
+     * Creates an object with default parameter values.
+     */
     public Stationary() {
-
         super(0, 0, null);
     }
 }

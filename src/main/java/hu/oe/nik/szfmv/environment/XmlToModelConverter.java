@@ -1,6 +1,10 @@
 package hu.oe.nik.szfmv.environment;
 
-import hu.oe.nik.szfmv.environment.models.*;
+import hu.oe.nik.szfmv.environment.models.ParkingSpot;
+import hu.oe.nik.szfmv.environment.models.Crosswalk;
+import hu.oe.nik.szfmv.environment.models.Road;
+import hu.oe.nik.szfmv.environment.models.RoadSign;
+import hu.oe.nik.szfmv.environment.models.Tree;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
@@ -26,10 +30,15 @@ public abstract class XmlToModelConverter {
      * Creates List of elements that can be Visualized
      *
      * @param xmlLocation location of the xml containing WorldObjects
+     * @return a list of parsed xml objects
+     * @throws IOException if the xml location is bad
+     * @throws ParserConfigurationException when the parse configuration is bad
+     * @throws SAXException .
      */
-    public static List<WorldObject> build(String xmlLocation) throws ParserConfigurationException, IOException, SAXException {
+    public static List<WorldObject> build(String xmlLocation)
+            throws ParserConfigurationException, IOException, SAXException {
 
-        List<WorldObject> ObjectListToReturn = new ArrayList<WorldObject>();
+        List<WorldObject> objectListToReturn = new ArrayList<WorldObject>();
         File inputFile = new File(xmlLocation);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = factory.newDocumentBuilder();
@@ -40,13 +49,13 @@ public abstract class XmlToModelConverter {
         for (int iterator = 0; iterator < xmlNodes.getLength(); iterator++) {
             Node nodeToAdd = xmlNodes.item(iterator);
             try {
-                ObjectListToReturn.add(readValueFromXml((Element) nodeToAdd));
+                objectListToReturn.add(readValueFromXml((Element) nodeToAdd));
             } catch (Exception e) {
 
                 LOGGER.info("XML object parse Error: " + e.getMessage());
             }
         }
-        return ObjectListToReturn;
+        return objectListToReturn;
 
     }
 
@@ -55,9 +64,10 @@ public abstract class XmlToModelConverter {
      * @return WorldObject created from Xml Object
      * @throws XMLSignatureException thrown if tag missing from XmlObject
      */
-    private static WorldObject readValueFromXml(Element objectElement) throws XMLSignatureException {
+    private static WorldObject readValueFromXml(Element objectElement)
+            throws XMLSignatureException {
         String type = objectElement.getAttribute("type");
-        WorldObject wo = CreateObjectFromType(type);
+        WorldObject wo = createObjectFromType(type);
 
         //Set setImageFileName
         wo.setImageFileName(type);
@@ -66,10 +76,11 @@ public abstract class XmlToModelConverter {
         NodeList objectChildNodes = objectElement.getChildNodes();
         //for (int i = 0; i < objectChildNodes.getLength(); i++) {
         Element position;
-        if (objectChildNodes.item(1).getNodeName() != "Position")
+        if (!objectChildNodes.item(1).getNodeName().equals("Position")) {
             throw new XMLSignatureException("Invalid format: Position parameter not in valid place");
-        else
+        } else {
             position = (Element) objectChildNodes.item(1);
+        }
         try {
             wo.setX(Integer.parseInt(position.getAttribute("x")));
             wo.setY(Integer.parseInt(position.getAttribute("y")));
@@ -79,11 +90,15 @@ public abstract class XmlToModelConverter {
 
         //Set rotation
         Element transform;
-        double m11, m12, m21, m22;
-        if (objectChildNodes.item(3).getNodeName() != "Transform")
+        double m11;
+        double m12;
+        double m21;
+        double m22;
+        if (!objectChildNodes.item(3).getNodeName().equals("Transform")) {
             throw new XMLSignatureException("Invalid format: Transform parameter not in valid place");
-        else
+        } else {
             transform = (Element) objectChildNodes.item(3);
+        }
         try {
             m11 = Double.parseDouble(transform.getAttribute("m11"));
             m12 = Double.parseDouble(transform.getAttribute("m12"));
@@ -101,11 +116,13 @@ public abstract class XmlToModelConverter {
      * @return new class, based on type
      * @throws XMLSignatureException in case type not found
      */
-    private static WorldObject CreateObjectFromType(String type) throws XMLSignatureException {
+    private static WorldObject createObjectFromType(String type)
+            throws XMLSignatureException {
         WorldObject wo;
         // road_something_something -> road
-        if (type.indexOf('_') != -1)
+        if (type.indexOf('_') != -1) {
             type = type.substring(0, type.indexOf('_'));
+        }
         switch (type) {
             case "road":
                 wo = new Road();

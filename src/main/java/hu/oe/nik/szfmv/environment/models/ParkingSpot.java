@@ -14,6 +14,9 @@ public class ParkingSpot extends Crossable {
         super(x, y, imageFileName);
     }
 
+    /**
+     * Creates an object with default parameter values.
+     */
     public ParkingSpot() {
         super(0, 0, null);
     }

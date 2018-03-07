@@ -15,6 +15,9 @@ public abstract class Collidable extends WorldObject {
         super(x, y, imageFileName);
     }
 
+    /**
+     * Creates an object with default parameter values.
+     */
     public Collidable() {
         super(0, 0, null);
     }

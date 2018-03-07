@@ -1,8 +1,6 @@
 package hu.oe.nik.szfmv.environment.models;
 
 
-import hu.oe.nik.szfmv.environment.models.Collidable;
-
 //This class will be the parent of the "car" classes.
 public abstract class Movable extends Collidable {
     /**
@@ -16,6 +14,9 @@ public abstract class Movable extends Collidable {
         super(x, y, imageFileName);
     }
 
+    /**
+     * Creates an object with default parameter values.
+     */
     public Movable() {
         super(0, 0, null);
     }

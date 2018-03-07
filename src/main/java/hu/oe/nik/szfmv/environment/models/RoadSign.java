@@ -12,6 +12,9 @@ public class RoadSign extends Stationary {
         super(x, y, imageFileName);
     }
 
+    /**
+     * Creates an object with default parameter values.
+     */
     public RoadSign() {
         super(0, 0, null);
     }
