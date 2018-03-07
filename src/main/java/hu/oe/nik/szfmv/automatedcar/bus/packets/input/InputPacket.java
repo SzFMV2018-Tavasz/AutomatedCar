@@ -6,23 +6,39 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     private double steeringWheelPosition;
 
+    private int gaspedalposition;
+
+    private int brakepedalvalue;
+
     @Override
     public int getGasPedalPosition() {
-        return 0;
+        return gaspedalposition;
     }
 
     @Override
     public int getBreakPedalPosition() {
-        return 0;
+        return brakepedalvalue;
     }
 
     @Override
-    public double getSteeringWheelPosition() {
+    public double getSteeringWheelPosition()
+    {
         return steeringWheelPosition;
     }
 
-    public void setSteeringWheelPosition(double steeringWheelPosition){
+    public void setSteeringWheelPosition(double steeringWheelPosition)
+    {
         this.steeringWheelPosition = steeringWheelPosition;
+    }
+
+    public void setGaspeadalposition(int value)
+    {
+        this.gaspedalposition = value;
+    }
+
+    public void setBrakepedalvalue(int brakepedalvalue)
+    {
+        this.brakepedalvalue = brakepedalvalue;
     }
 
     @Override
