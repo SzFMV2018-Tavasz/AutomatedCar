@@ -4,12 +4,14 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringWheel;
 import hu.oe.nik.szfmv.environment.WorldObject;
 
 public class AutomatedCar extends WorldObject {
 
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
+    private SteeringWheel steeringWheel;
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
 
     /**
@@ -24,6 +26,7 @@ public class AutomatedCar extends WorldObject {
 
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
+        steeringWheel = new SteeringWheel(virtualFunctionBus);
 
         new Driver(virtualFunctionBus);
     }
