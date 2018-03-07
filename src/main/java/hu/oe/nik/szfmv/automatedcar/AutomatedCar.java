@@ -17,8 +17,6 @@ public class AutomatedCar extends WorldObject {
     private SteeringSystem steeringSystem;
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
 
-
-
     /**
      * Constructor of the AutomatedCar class
      *
@@ -78,6 +76,12 @@ public class AutomatedCar extends WorldObject {
         rotation = (float) carHeading;
     }
 
+    /**
+     * Returns the position of the car based on its two wheels by calculating the middle point between two points
+     * @param frontWheel Position of the front wheel
+     * @param backWheel Position of the back wheel
+     * @return Position of the car based on its wheels
+     */
     private double getCarHeading(Point2D frontWheel, Point2D backWheel) {
         return Math.atan2(frontWheel.getY() - backWheel.getY(), frontWheel.getX() - backWheel.getX());
     }
