@@ -70,12 +70,16 @@ public class AutomatedCar extends WorldObject {
         backWheel = getNewBackWheelPosition(backWheel, backWheelDisplacement);
 
         carPosition = getCarPosition(frontWheel, backWheel);
-        carHeading = Math.atan2(frontWheel.getY() - backWheel.getY(), frontWheel.getX() - backWheel.getX());
+        carHeading = getCarHeading(frontWheel, backWheel);
 
 
         x = (int) carPosition.getX();
         y = (int) carPosition.getY();
         rotation = (float) carHeading;
+    }
+
+    private double getCarHeading(Point2D frontWheel, Point2D backWheel) {
+        return Math.atan2(frontWheel.getY() - backWheel.getY(), frontWheel.getX() - backWheel.getX());
     }
 
     /** Get [-100,100] percent and it give back a value which between -60 and 60 degree.

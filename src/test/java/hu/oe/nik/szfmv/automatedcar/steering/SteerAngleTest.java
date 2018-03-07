@@ -8,7 +8,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class SteerAngleTest extends AutomatedCar {
-    //private AutomatedCar car = new AutomatedCar(0,0,null);
 
     public SteerAngleTest() {
         super(0,0, null);
