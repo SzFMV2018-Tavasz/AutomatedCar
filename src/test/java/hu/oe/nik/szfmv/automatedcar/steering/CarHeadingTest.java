@@ -26,7 +26,7 @@ public class CarHeadingTest extends AutomatedCar {
         Point2D frontWheel = new Point2D.Double(50,0);
         Point2D backWheel = new Point2D.Double(-50,0);
         double heading = Math.toDegrees(getCarHeading(frontWheel, backWheel));
-        Assert.assertEquals(0, heading, THRESHOLD);
+        Assert.assertEquals(expectedDegs, heading, THRESHOLD);
     }
 
     @Test
