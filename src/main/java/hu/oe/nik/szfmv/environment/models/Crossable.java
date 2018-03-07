@@ -13,5 +13,8 @@ public abstract class Crossable extends WorldObject {
     public Crossable(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
     }
-    public Crossable(){super(0,0, null);}
+
+    public Crossable() {
+        super(0, 0, null);
+    }
 }

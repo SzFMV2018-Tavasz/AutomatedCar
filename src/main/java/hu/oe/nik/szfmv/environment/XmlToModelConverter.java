@@ -43,7 +43,7 @@ public abstract class XmlToModelConverter {
                 ObjectListToReturn.add(readValueFromXml((Element) nodeToAdd));
             } catch (Exception e) {
 
-                LOGGER.info("XML object parse Error: "+e.getMessage());
+                LOGGER.info("XML object parse Error: " + e.getMessage());
             }
         }
         return ObjectListToReturn;
@@ -51,12 +51,11 @@ public abstract class XmlToModelConverter {
     }
 
     /**
-     *
      * @param objectElement A Xml Object that can be converted to WorldObject
      * @return WorldObject created from Xml Object
      * @throws XMLSignatureException thrown if tag missing from XmlObject
      */
-    private static WorldObject readValueFromXml(Element objectElement) throws  XMLSignatureException {
+    private static WorldObject readValueFromXml(Element objectElement) throws XMLSignatureException {
         String type = objectElement.getAttribute("type");
         WorldObject wo = CreateObjectFromType(type);
 
@@ -67,30 +66,30 @@ public abstract class XmlToModelConverter {
         NodeList objectChildNodes = objectElement.getChildNodes();
         //for (int i = 0; i < objectChildNodes.getLength(); i++) {
         Element position;
-        if (objectChildNodes.item(1).getNodeName()!="Position")
+        if (objectChildNodes.item(1).getNodeName() != "Position")
             throw new XMLSignatureException("Invalid format: Position parameter not in valid place");
         else
-            position=(Element) objectChildNodes.item(1);
-        try{
+            position = (Element) objectChildNodes.item(1);
+        try {
             wo.setX(Integer.parseInt(position.getAttribute("x")));
-        wo.setY(Integer.parseInt(position.getAttribute("y")));}
-        catch (NumberFormatException e){
+            wo.setY(Integer.parseInt(position.getAttribute("y")));
+        } catch (NumberFormatException e) {
             throw new XMLSignatureException("Invalid format: Position attributes is not Integer: " + e.getMessage());
         }
 
         //Set rotation
         Element transform;
-        double m11, m12, m21,m22;
-        if (objectChildNodes.item(3).getNodeName()!="Transform")
+        double m11, m12, m21, m22;
+        if (objectChildNodes.item(3).getNodeName() != "Transform")
             throw new XMLSignatureException("Invalid format: Transform parameter not in valid place");
         else
-            transform=(Element) objectChildNodes.item(3);
-        try{
-        m11 = Double.parseDouble(transform.getAttribute("m11"));
-        m12 = Double.parseDouble(transform.getAttribute("m12"));
-        m21 = Double.parseDouble(transform.getAttribute("m21"));
-        m22 = Double.parseDouble(transform.getAttribute("m22"));}
-        catch (NumberFormatException e){
+            transform = (Element) objectChildNodes.item(3);
+        try {
+            m11 = Double.parseDouble(transform.getAttribute("m11"));
+            m12 = Double.parseDouble(transform.getAttribute("m12"));
+            m21 = Double.parseDouble(transform.getAttribute("m21"));
+            m22 = Double.parseDouble(transform.getAttribute("m22"));
+        } catch (NumberFormatException e) {
             throw new XMLSignatureException("Invalid format: Transform attributes is not Double: " + e.getMessage());
         }
         wo.setRotation((float) convertMatrixToRadians(m11, m12, m21, m22));
@@ -98,7 +97,6 @@ public abstract class XmlToModelConverter {
     }
 
     /**
-     *
      * @param type type read from XmlObject, determines what kind the class to be created
      * @return new class, based on type
      * @throws XMLSignatureException in case type not found

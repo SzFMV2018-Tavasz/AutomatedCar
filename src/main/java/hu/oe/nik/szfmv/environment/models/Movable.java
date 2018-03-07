@@ -15,10 +15,12 @@ public abstract class Movable extends Collidable {
     public Movable(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
     }
-    public Movable(){super(0,0,null);}
 
-    public void move(int newX, int newY, float newRotation)
-    {
+    public Movable() {
+        super(0, 0, null);
+    }
+
+    public void move(int newX, int newY, float newRotation) {
         this.location.x = newX;
         this.location.y = newY;
         this.rotation = newRotation;

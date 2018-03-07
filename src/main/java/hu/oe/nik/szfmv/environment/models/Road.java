@@ -13,6 +13,7 @@ public class Road extends Crossable {
     public Road(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
     }
+
     public Road() {
         super(0, 0, null);
     }

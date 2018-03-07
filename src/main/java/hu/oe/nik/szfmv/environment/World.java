@@ -60,7 +60,7 @@ public class World implements IWorld {
     public void build(String xmlLocation) {
         try {
             worldObjects = XmlToModelConverter.build(xmlLocation);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             LOGGER.info("Error in World build - " + ex.getMessage());
         }
     }

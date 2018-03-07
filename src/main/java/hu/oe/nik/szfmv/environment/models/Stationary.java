@@ -11,9 +11,12 @@ public abstract class Stationary extends Collidable {
      * @param imageFileName the filename of the image representing the object in the virtual world
      */
     public Stationary(int x, int y, String imageFileName) {
+
         super(x, y, imageFileName);
     }
+
     public Stationary() {
+
         super(0, 0, null);
     }
 }
