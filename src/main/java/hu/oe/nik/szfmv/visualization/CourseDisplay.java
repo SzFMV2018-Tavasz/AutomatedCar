@@ -88,19 +88,29 @@ public class CourseDisplay extends JPanel {
         repaint();
     }
 
+    /**
+     * Loads the transformation reference points from the resource xml into the scaledReferencePoints HashMap
+     *
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
     private void loadReferencePoints() throws ParserConfigurationException, IOException, SAXException {
         scaledReferencePoints.clear();
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
         Document document = documentBuilder.parse(referencePointsURI);
+
         NodeList nodes = document.getElementsByTagName("Image");
         for (int i = 0; i < nodes.getLength(); i++) {
             Element image = (Element) nodes.item(i);
             String imageName = image.getAttribute("name");
             Element refPoint = (Element) image.getChildNodes().item(1);
+
             int x = Integer.parseInt(refPoint.getAttribute("x"));
             int y = Integer.parseInt(refPoint.getAttribute("y"));
             Point p = new Point((int) (scale * x), (int) (scale * y));
+            
             scaledReferencePoints.put(imageName, p);
         }
     }
