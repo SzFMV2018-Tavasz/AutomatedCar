@@ -12,15 +12,17 @@ import org.xml.sax.SAXException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.awt.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -59,20 +61,46 @@ public class CourseDisplay extends JPanel {
         }
     }
 
+    public BufferedImage getScaledImage(BufferedImage im) {
+        AffineTransform at = new AffineTransform();
+        at.scale(scale, scale);
+        AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+        return op.filter(im, null);
+    }
 
     public void drawEnvironment(Graphics g) {
+
         for (WorldObject object : objectListFromXml) {
             // draw objects
-            BufferedImage image;
+            BufferedImage image = null;
             // read file from resources
-            image = DrawUtils.getTransformedImage(object, scale, scaledReferencePoints);
-            Point offset = scaledReferencePoints.getOrDefault(object.getImageFileName(), null);
-            if (offset == null) {
-                offset = new Point(0,0);
-            }
-            g.drawImage(image, (int) (object.getX() * scale) - offset.x, (int) (object.getY() * scale) -offset.y, this);
-            // see javadoc for more info on the parameters
+            Graphics2D g2 = (Graphics2D) g;
+            try {
+                image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName() + ".png").getFile()));
+            } catch (IOException e) {
 
+            }
+
+            //image = getScaledImage(image);
+            //g.drawImage(image, (int) (object.getX() * scale) - offset.x, (int) (object.getY() * scale) -offset.y, this);
+            // see javadoc for more info on the parameters
+            AffineTransform at = new AffineTransform();
+
+            Point center = scaledReferencePoints.getOrDefault(object.getImageFileName(), null);
+            if (center == null) {
+                center = new Point(0, 0);
+            }
+
+            //at.rotate(-object.getRotation(), scale*object.getX() + image.getWidth()/2, scale*object.getY() + image.getHeight()/2);
+            //at.translate((int)(scale*(object.getX()-center.x)), (int)(scale*(object.getY()-center.y)));
+
+            at.scale(scale, scale);
+            at.rotate(-object.getRotation(), object.getX(), object.getY());
+            at.translate(object.getX() - center.x, object.getY() - center.y);
+            g2.drawImage(image, at, this);
+
+            g2.setColor(Color.RED);
+            g2.drawRect((int) (scale * (object.getX()) - center.x), (int) (scale * (object.getY()) - center.y), 2, 2);
 
         }
     }
@@ -139,7 +167,7 @@ public class CourseDisplay extends JPanel {
 
             int x = Integer.parseInt(refPoint.getAttribute("x"));
             int y = Integer.parseInt(refPoint.getAttribute("y"));
-            Point p = new Point((int) (scale * x), (int) (scale * y));
+            Point p = new Point(x, y);
 
             scaledReferencePoints.put(imageName, p);
         }
