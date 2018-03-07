@@ -27,55 +27,79 @@ public class WheelPositionTest extends AutomatedCar {
 
     @Test
     public void FacingEastFrontWheelTest() {
+        for(int i = -10; i <= 10; i++) {
+            double multipleOf360 = Math.toRadians(360) * i;
 
-        Point2D frontWheelPos = getFrontWheel(eastRotation,wheelBase/2, carPosition);
-        double[] frontWheelArray = {frontWheelPos.getX(), frontWheelPos.getY()};
-        double[] expected = {wheelBase/2, 0d};
-        Assert.assertArrayEquals(expected, frontWheelArray, THRESHOLD);
+            Point2D frontWheelPos = getFrontWheel(eastRotation + multipleOf360, wheelBase / 2, carPosition);
+            double[] frontWheelArray = {frontWheelPos.getX(), frontWheelPos.getY()};
+            double[] expected = {wheelBase / 2, 0d};
+            Assert.assertArrayEquals(expected, frontWheelArray, THRESHOLD);
+        }
     }
 
     @Test
     public void FacingEastBackWheelTest() {
-        Point2D backWheelPos = getBackWheel(eastRotation,wheelBase/2, carPosition);
-        double[] backWheelArray = {backWheelPos.getX(), backWheelPos.getY()};
-        double[] expected = {-wheelBase/2, 0d};
-        Assert.assertArrayEquals(expected, backWheelArray, THRESHOLD);
+        for (int i = -10; i <= 10; i++) {
+            double multipleOf360 = Math.toRadians(360) * i;
+
+            Point2D backWheelPos = getBackWheel(eastRotation + multipleOf360, wheelBase / 2, carPosition);
+            double[] backWheelArray = {backWheelPos.getX(), backWheelPos.getY()};
+            double[] expected = {-wheelBase / 2, 0d};
+            Assert.assertArrayEquals(expected, backWheelArray, THRESHOLD);
+        }
     }
 
     private double northRotation = Math.toRadians(-90);
 
     @Test
     public void FacingNorthFrontWheelTest() {
-        Point2D frontWheelPos = getFrontWheel(northRotation, wheelBase/2, carPosition);
-        double[] frontWheelArray = {frontWheelPos.getX(), frontWheelPos.getY()};
-        double[] expected = {0, -wheelBase/2 };
-        Assert.assertArrayEquals(expected, frontWheelArray, THRESHOLD);
+        for(int i = -10; i <= 10; i++) {
+            double multipleOf360 = Math.toRadians(360) * i;
+
+            Point2D frontWheelPos = getFrontWheel(northRotation + multipleOf360, wheelBase / 2, carPosition);
+            double[] frontWheelArray = {frontWheelPos.getX(), frontWheelPos.getY()};
+            double[] expected = {0, -wheelBase / 2};
+            Assert.assertArrayEquals(expected, frontWheelArray, THRESHOLD);
+        }
     }
 
     @Test
     public void FacingNorthBackWheelTest() {
-        Point2D backWheelPos = getBackWheel(northRotation, wheelBase/2, carPosition);
-        double[] backWheelArray = {backWheelPos.getX(), backWheelPos.getY()};
-        double[] expected = {0, wheelBase/2 };
-        Assert.assertArrayEquals(expected, backWheelArray, THRESHOLD);
+        for(int i = -10; i <= 10; i++) {
+            double multipleOf360 = Math.toRadians(360) * i;
+
+            Point2D backWheelPos = getBackWheel(northRotation + multipleOf360, wheelBase / 2, carPosition);
+            double[] backWheelArray = {backWheelPos.getX(), backWheelPos.getY()};
+            double[] expected = {0, wheelBase / 2};
+            Assert.assertArrayEquals(expected, backWheelArray, THRESHOLD);
+        }
     }
 
     private double northEastRotation = Math.toRadians(-45);
 
     @Test
     public void FacingNorthEastFrontWheelTest() {
-        Point2D frontWheelPos = getFrontWheel(northEastRotation, wheelBase/2, carPosition);
-        double[] frontWheelArray = {frontWheelPos.getX(), frontWheelPos.getY()};
-        double[] expected = {35.3553, -35.3553 }; //calc'd using http://www.cleavebooks.co.uk/scol/calrtri.htm
-        Assert.assertArrayEquals(expected, frontWheelArray, THRESHOLD);
+        for(int i = -10; i <= 10; i++) {
+            double multipleOf360 = Math.toRadians(360)*i;
+
+            Point2D frontWheelPos = getFrontWheel(northEastRotation + multipleOf360, wheelBase/2, carPosition);
+            double[] frontWheelArray = {frontWheelPos.getX(), frontWheelPos.getY()};
+            double[] expected = {35.3553, -35.3553 }; //calc'd using http://www.cleavebooks.co.uk/scol/calrtri.htm
+            Assert.assertArrayEquals(expected, frontWheelArray, THRESHOLD);
+        }
+
     }
 
     @Test
     public void FacingNorthEastBackWheelTest() {
-        Point2D backWheelPos = getBackWheel(northEastRotation, wheelBase/2, carPosition);
-        double[] backWheelArray = {backWheelPos.getX(), backWheelPos.getY()};
-        double[] expected = {-35.3553, +35.3553 }; //calc'd using http://www.cleavebooks.co.uk/scol/calrtri.htm
-        Assert.assertArrayEquals(expected, backWheelArray, THRESHOLD);
+        for(int i = -10; i <= 10; i++) {
+            double multipleOf360 = Math.toRadians(360)*i;
+
+            Point2D backWheelPos = getBackWheel(northEastRotation + multipleOf360, wheelBase/2, carPosition);
+            double[] backWheelArray = {backWheelPos.getX(), backWheelPos.getY()};
+            double[] expected = {-35.3553, +35.3553 }; //calc'd using http://www.cleavebooks.co.uk/scol/calrtri.htm
+            Assert.assertArrayEquals(expected, backWheelArray, THRESHOLD);
+        }
     }
 
 }
