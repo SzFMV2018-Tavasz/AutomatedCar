@@ -1,6 +1,9 @@
 package hu.oe.nik.szfmv.automatedcar.Input;
 
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
+
+
+import hu.oe.nik.szfmv.automatedcar.SystemComponent;
+import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -8,7 +11,7 @@ import java.sql.Time;
 import java.util.*;
 import java.util.List;
 
-public class InputListener implements KeyListener
+public class InputListener extends SystemComponent implements KeyListener
 {
     private GasBrakePressed gascalc;
     private boolean gaskeypressed;
@@ -32,18 +35,12 @@ public class InputListener implements KeyListener
         {
             gaskeypressed = true;
             brakekeypressed = false;
-            gascalc.setGaskeypressed(gaskeypressed);
-            gascalc.setBrakekeypressed(brakekeypressed);
-            gascalc.Addgas(brakekeypressed, gaskeypressed);
         }
 
         if (e.getKeyCode() == KeyEvent.VK_DOWN)
         {
             brakekeypressed = true;
             gaskeypressed = false;
-            gascalc.setGaskeypressed(gaskeypressed);
-            gascalc.setBrakekeypressed(brakekeypressed);
-            gascalc.Brake(brakekeypressed, gaskeypressed);
         }
     }
 
@@ -53,13 +50,40 @@ public class InputListener implements KeyListener
         if (e.getKeyCode() == KeyEvent.VK_KP_UP && gaskeypressed)
         {
             gaskeypressed = false;
-            gascalc.setGaskeypressed(gaskeypressed);
         }
 
         if (e.getKeyCode() == KeyEvent.VK_DOWN && brakekeypressed)
         {
             brakekeypressed = false;
-            gascalc.setBrakekeypressed(brakekeypressed);
         }
+    }
+
+    private void Addgas()
+    {
+        if (gaskeypressed && !brakekeypressed && gascalc.getGaspedalvalue() < gascalc.MaxGaspedalValue)
+        {
+            gascalc.setGaspedalvalue(2);
+        }
+    }
+
+    private void Brake()
+    {
+        if (brakekeypressed && !gaskeypressed && gascalc.getGaspedalvalue() > gascalc.MinGaspedalValue)
+        {
+            gascalc.setGaspedalvalue(-2);
+        }
+    }
+
+    @Override
+    public void loop()
+    {
+        Addgas();
+        Brake();
+    }
+
+    @Override
+    public void receiveSignal(Signal s)
+    {
+
     }
 }
