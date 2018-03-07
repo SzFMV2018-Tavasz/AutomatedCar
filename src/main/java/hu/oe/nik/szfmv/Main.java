@@ -34,7 +34,7 @@ public class Main {
         // draw world to course display
         gui.getCourseDisplay().drawWorld(w);
 
-        while (true) {
+        /*while (true) {
             try {
                 car.drive();
                 gui.getCourseDisplay().drawWorld(w);
@@ -42,7 +42,7 @@ public class Main {
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());
             }
-        }
+        }*/
 
     }
 }

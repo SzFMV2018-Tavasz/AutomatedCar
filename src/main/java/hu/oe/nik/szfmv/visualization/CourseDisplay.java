@@ -5,17 +5,24 @@ import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.XmlToModelConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.List;
 import java.awt.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.util.HashMap;
+import java.util.Map;
 
-import hu.oe.nik.szfmv.visualization.DrawUtils;
 
 /**
  * CourseDisplay is for providing a viewport to the virtual world where the simulation happens.
@@ -23,12 +30,14 @@ import hu.oe.nik.szfmv.visualization.DrawUtils;
 public class CourseDisplay extends JPanel {
 
     private final String xmlPath = "./src/main/resources/test_world.xml";
-    private final float scale = 0.5F;
+    private final float scale = 0.125F;
 
     private static final Logger LOGGER = LogManager.getLogger();
     private final int width = 770;
     private final int height = 700;
     private final int backgroundColor = 0xEEEEEE;
+    private final String referencePointsURI = "./src/main/resources/reference_points.xml";
+    private static Map<String, Point> scaledReferencePoints = new HashMap<>();
 
     private List<WorldObject> objectListFromXml;
 
@@ -41,7 +50,10 @@ public class CourseDisplay extends JPanel {
         setBounds(0, 0, width, height);
         setBackground(new Color(backgroundColor));
         try {
+            loadReferencePoints();
             objectListFromXml = XmlToModelConverter.build(xmlPath);
+        } catch (ParserConfigurationException | IOException | SAXException e) {
+            LOGGER.error(e.getMessage());
         } catch (Exception e) {
 
         }
@@ -53,9 +65,15 @@ public class CourseDisplay extends JPanel {
             // draw objects
             BufferedImage image;
             // read file from resources
-            image = DrawUtils.getTransformedImage(object, scale);
-            g.drawImage(image, (int)(object.getX() * scale), (int)(object.getY() * scale), this);
+            image = DrawUtils.getTransformedImage(object, scale, scaledReferencePoints);
+            Point offset = scaledReferencePoints.getOrDefault(object.getImageFileName(), null);
+            if (offset == null) {
+                offset = new Point(0,0);
+            }
+            g.drawImage(image, (int) (object.getX() * scale) - offset.x, (int) (object.getY() * scale) -offset.y, this);
             // see javadoc for more info on the parameters
+
+
         }
     }
 
@@ -98,5 +116,32 @@ public class CourseDisplay extends JPanel {
         invalidate();
         validate();
         repaint();
+    }
+
+    /**
+     * Loads the transformation reference points from the resource xml into the scaledReferencePoints HashMap
+     *
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
+    private void loadReferencePoints() throws ParserConfigurationException, IOException, SAXException {
+        scaledReferencePoints.clear();
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        Document document = documentBuilder.parse(referencePointsURI);
+
+        NodeList nodes = document.getElementsByTagName("Image");
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Element image = (Element) nodes.item(i);
+            String imageName = image.getAttribute("name");
+            Element refPoint = (Element) image.getChildNodes().item(1);
+
+            int x = Integer.parseInt(refPoint.getAttribute("x"));
+            int y = Integer.parseInt(refPoint.getAttribute("y"));
+            Point p = new Point((int) (scale * x), (int) (scale * y));
+
+            scaledReferencePoints.put(imageName, p);
+        }
     }
 }
