@@ -24,6 +24,7 @@ public class World implements IWorld {
     public World(int width, int height) {
         this.width = width;
         this.height = height;
+        this.build("src/main/resources/test.xml");
     }
 
     public int getWidth() {

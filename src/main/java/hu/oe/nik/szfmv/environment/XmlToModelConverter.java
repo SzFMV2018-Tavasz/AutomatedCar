@@ -19,7 +19,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static hu.oe.nik.szfmv.common.Utils.convertMatrixToRadians;
 
@@ -31,9 +32,10 @@ public abstract class XmlToModelConverter {
      *
      * @param xmlLocation location of the xml containing WorldObjects
      * @return a list of parsed xml objects
-     * @throws IOException if the xml location is bad
+     * @throws IOException                  if the xml location is bad
      * @throws ParserConfigurationException when the parse configuration is bad
-     * @throws SAXException .
+     * @throws SAXException                 .
+     * @throws IOException                  .
      */
     public static List<WorldObject> build(String xmlLocation)
             throws ParserConfigurationException, IOException, SAXException {
@@ -52,7 +54,7 @@ public abstract class XmlToModelConverter {
                 objectListToReturn.add(readValueFromXml((Element) nodeToAdd));
             } catch (Exception e) {
 
-                LOGGER.info("XML object parse Error: " + e.getMessage());
+                LOGGER.error("XML object parse Error in object #" + iterator + ": " + e.getMessage());
             }
         }
         return objectListToReturn;
@@ -66,21 +68,35 @@ public abstract class XmlToModelConverter {
      */
     private static WorldObject readValueFromXml(Element objectElement)
             throws XMLSignatureException {
+
+        //Find Position, Transform, type parameter in current object.
         String type = objectElement.getAttribute("type");
+        Element position = null;
+        Element transform = null;
+        NodeList objectChildNodes = objectElement.getChildNodes();
+        for (int i = 0; i < objectChildNodes.getLength(); i++) {
+            switch (objectChildNodes.item(i).getNodeName()) {
+                case "Position":
+                    position = (Element) objectChildNodes.item(i);
+                    break;
+                case "Transform":
+                    transform = (Element) objectChildNodes.item(i);
+                    break;
+                default:
+
+            }
+        }
+        if (position == null || transform == null) {
+            throw new XMLSignatureException("Invalid format: Not found Position or Transform in Object");
+        }
+
+
         WorldObject wo = createObjectFromType(type);
 
         //Set setImageFileName
         wo.setImageFileName(type);
 
-        //Set position to object
-        NodeList objectChildNodes = objectElement.getChildNodes();
-        //for (int i = 0; i < objectChildNodes.getLength(); i++) {
-        Element position;
-        if (!objectChildNodes.item(1).getNodeName().equals("Position")) {
-            throw new XMLSignatureException("Invalid format: Position parameter not in valid place");
-        } else {
-            position = (Element) objectChildNodes.item(1);
-        }
+        //Set position
         try {
             wo.setX(Integer.parseInt(position.getAttribute("x")));
             wo.setY(Integer.parseInt(position.getAttribute("y")));
@@ -89,16 +105,10 @@ public abstract class XmlToModelConverter {
         }
 
         //Set rotation
-        Element transform;
         double m11;
         double m12;
         double m21;
         double m22;
-        if (!objectChildNodes.item(3).getNodeName().equals("Transform")) {
-            throw new XMLSignatureException("Invalid format: Transform parameter not in valid place");
-        } else {
-            transform = (Element) objectChildNodes.item(3);
-        }
         try {
             m11 = Double.parseDouble(transform.getAttribute("m11"));
             m12 = Double.parseDouble(transform.getAttribute("m12"));
