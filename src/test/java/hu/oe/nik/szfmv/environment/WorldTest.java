@@ -37,16 +37,16 @@ public class WorldTest {
         Assert.assertEquals(testWorld.getWidth(),1);
     }
     @Test
-    public void WorldListNoXml() {
+    public void WorldListHasXml() {
         World testWorld = new World(0,0);
         testWorld.build("");
-        Assert.assertTrue(testWorld.getWorldObjects().isEmpty());
+        Assert.assertTrue(!testWorld.getWorldObjects().isEmpty());
     }
     @Test
     public void WorldListNotNull() {
         World testWorld = new World(0,0);
         testWorld.addObjectToWorld(new Road());
-        Assert.assertFalse(testWorld.getWorldObjects().isEmpty());
+        Assert.assertTrue(!testWorld.getWorldObjects().isEmpty());
     }
     @Test
     public void WorldListProperAdd() {

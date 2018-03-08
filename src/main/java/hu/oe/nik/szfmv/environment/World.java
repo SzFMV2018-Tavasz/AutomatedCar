@@ -4,7 +4,6 @@ import hu.oe.nik.szfmv.environment.interfaces.IWorld;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +24,7 @@ public class World implements IWorld {
     public World(int width, int height) {
         this.width = width;
         this.height = height;
+        this.build("src/main/resources/test.xml");
     }
 
     public int getWidth() {
@@ -60,7 +60,7 @@ public class World implements IWorld {
     public void build(String xmlLocation) {
         try {
             worldObjects = XmlToModelConverter.build(xmlLocation);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             LOGGER.info("Error in World build - " + ex.getMessage());
         }
     }
