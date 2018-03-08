@@ -19,9 +19,22 @@ public class InputHandler implements KeyListener {
 
     private static final int steeringRightKeyCode = KeyEvent.VK_RIGHT;
 
+    private  static  final int gearShiftUpKeyCode = KeyEvent.VK_W;
+
+    private  static final int gearShiftDownKeyCode= KeyEvent.VK_S;
+
+
+    private  boolean gearShiftUpPressed;
+
+    private  boolean gearShiftDownPressed;
+
     private boolean steeringLeftPressed;
 
     private boolean steeringRightPressed;
+
+    public  boolean isGearShiftUpPressed(){return  gearShiftUpPressed;}
+
+    public  boolean isGearShiftDownPressed() {return  gearShiftDownPressed;}
 
     public boolean isSteeringLeftPressed(){
         return steeringLeftPressed;
@@ -55,6 +68,13 @@ public class InputHandler implements KeyListener {
             case (steeringRightKeyCode):
                 steeringRightPressed = state;
                 break;
+            case (gearShiftDownKeyCode):
+                gearShiftDownPressed = state;
+                break;
+            case (gearShiftUpKeyCode):
+                gearShiftUpPressed = state;
+                break;
+
         }
     }
 }
