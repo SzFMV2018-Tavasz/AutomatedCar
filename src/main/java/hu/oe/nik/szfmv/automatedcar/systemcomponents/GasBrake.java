@@ -18,7 +18,7 @@ public class GasBrake extends SystemComponent
     {
         super(virtual);
         gaspedalvalue = 0;
-        inputPacket = new InputPacket();
+        inputPacket = InputPacket.getInstance();
         inputHandler = InputHandler.getInstance();
     }
 
@@ -43,18 +43,20 @@ public class GasBrake extends SystemComponent
     {
         if (inputHandler.isGasPressed() && inputHandler.isBrakePressed())
         {
+            gaspedalvalue = 0;
+            brakepedalvalue = 0;
             return;
         }
 
         if (inputHandler.isGasPressed())
         {
-            setGaspedalvalue(2);
+            setGaspedalvalue(1);
             brakepedalvalue = 0;
         }
 
         if (inputHandler.isBrakePressed())
         {
-            setBrakepedalvalue(2);
+            setBrakepedalvalue(1);
             gaspedalvalue = 0;
         }
 

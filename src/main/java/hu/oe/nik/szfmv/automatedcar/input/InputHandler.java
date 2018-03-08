@@ -23,18 +23,29 @@ public class InputHandler implements KeyListener {
 
     private boolean brakepressed;
 
-    public static InputHandler getInstance(){
-        if (instance == null){
+    public static InputHandler getInstance() {
+        if (instance == null) {
             instance = new InputHandler();
         }
 
         return instance;
     }
 
+    private  static  final int gearShiftUpKeyCode = KeyEvent.VK_W;
+
+    private  static final int gearShiftDownKeyCode= KeyEvent.VK_S;
 
 
-    public boolean isSteeringLeftPressed()
-    {
+    private  boolean gearShiftUpPressed;
+
+    private  boolean gearShiftDownPressed;
+
+    public  boolean isGearShiftUpPressed(){return  gearShiftUpPressed;}
+
+    public  boolean isGearShiftDownPressed() {return  gearShiftDownPressed;}
+
+    public boolean isSteeringLeftPressed(){
+
         return steeringLeftPressed;
     }
 
@@ -84,6 +95,13 @@ public class InputHandler implements KeyListener {
             case (brakeKeyCode):
                 brakepressed = state;
                 break;
+            case (gearShiftDownKeyCode):
+                gearShiftDownPressed = state;
+                break;
+            case (gearShiftUpKeyCode):
+                gearShiftUpPressed = state;
+                break;
+
         }
     }
 }
