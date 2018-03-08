@@ -79,8 +79,10 @@ public class InputHandler implements KeyListener {
                 break;
             case (steeringRightKeyCode):
                 steeringRightPressed = state;
+                break;
             case (gasKeyCode):
                 gaspressed = state;
+                break;
             case (brakeKeyCode):
                 brakepressed = state;
                 break;
