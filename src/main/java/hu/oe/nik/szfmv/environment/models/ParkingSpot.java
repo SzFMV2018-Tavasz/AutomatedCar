@@ -1,7 +1,5 @@
 package hu.oe.nik.szfmv.environment.models;
 
-import hu.oe.nik.szfmv.environment.models.Crossable;
-
 public class ParkingSpot extends Crossable {
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.

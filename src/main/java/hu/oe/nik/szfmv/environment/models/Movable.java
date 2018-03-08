@@ -1,6 +1,5 @@
 package hu.oe.nik.szfmv.environment.models;
 
-
 //This class will be the parent of the "car" classes.
 public abstract class Movable extends Collidable {
     /**
@@ -21,6 +20,13 @@ public abstract class Movable extends Collidable {
         super(0, 0, null);
     }
 
+    /**
+     * Use this method if you want to move a movable object.
+     *
+     * @param newX        X component of the new location
+     * @param newX        Y component of the new location
+     * @param newRotation The value of the new Rotation(radian)
+     */
     public void move(int newX, int newY, float newRotation) {
         this.location.x = newX;
         this.location.y = newY;

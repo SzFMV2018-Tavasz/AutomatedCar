@@ -66,8 +66,8 @@ public abstract class XmlToModelConverter {
      * @return WorldObject created from Xml Object
      * @throws XMLSignatureException thrown if tag missing from XmlObject
      */
-    private static WorldObject readValueFromXml(Element objectElement)
-            throws XMLSignatureException {
+    private static WorldObject readValueFromXml
+    (Element objectElement) throws XMLSignatureException {
 
         //Find Position, Transform, type parameter in current object.
         String type = objectElement.getAttribute("type");
@@ -94,7 +94,7 @@ public abstract class XmlToModelConverter {
         WorldObject wo = createObjectFromType(type);
 
         //Set setImageFileName
-        wo.setImageFileName(type);
+        wo.setImageFileName(type + ".png");
 
         //Set position
         try {
@@ -126,8 +126,8 @@ public abstract class XmlToModelConverter {
      * @return new class, based on type
      * @throws XMLSignatureException in case type not found
      */
-    private static WorldObject createObjectFromType(String type)
-            throws XMLSignatureException {
+    private static WorldObject createObjectFromType
+    (String type) throws XMLSignatureException {
         WorldObject wo;
         // road_something_something -> road
         if (type.indexOf('_') != -1) {
