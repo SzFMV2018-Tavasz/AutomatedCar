@@ -16,7 +16,7 @@ public class SteeringWheel extends SystemComponent{
 
     public SteeringWheel(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
-        inputPacket = new InputPacket();
+        inputPacket = InputPacket.getInstance();
         virtualFunctionBus.inputPacket = inputPacket;
 
         inputHandler = InputHandler.getInstance();
