@@ -16,7 +16,7 @@
 		<Refpoint x="175" y="525"/>
 	</Image>
 	<Image name="road_2lane_90right">
-		<Refpoint x="350" y="525"/>
+		<Refpoint x="349" y="525"/>
 	</Image>
 	<Image name="road_2lane_45left">
 		<Refpoint x="51" y="371"/>
