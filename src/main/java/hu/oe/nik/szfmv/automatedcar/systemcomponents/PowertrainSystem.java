@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.PowertrainPacket;
+//import hu.oe.nik.szfmv.automatedcar.input.enums;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,15 +13,19 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
 
     private static final Logger LOGGER = LogManager.getLogger(PowertrainSystem.class);
 
-    private static final int IDLE_RMP = 650;
     private static final int MAX_RPM = 7400;
+    private static final int IDLE_RPM = 740;
     private static final int MAX_SPEED = 190;    // unit: km/h
-    private PowertrainPacket powertrainPacket;
 
+    private PowertrainPacket powertrainPacket;
+    private int maxRpm = MAX_RPM;
+    private int maxSpeed = MAX_SPEED;
+    private int idleRpm = IDLE_RPM;
+    private int rpm;
     private int gasPedalStatus;
     private int brakePedalStatus;
     private double speed;                           // unit: m/s
-    private TransmissionModes transmissionMode;
+    //private GearEnum gearState;
 
     /**
      * Creates a powertrain system that connects the Virtual Function Bus
@@ -31,14 +36,17 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
         super(virtualFunctionBus);
         LOGGER.debug("PowerTrain SystemComponent has been registered to VirtualFunctionBus.");
         this.powertrainPacket = new PowertrainPacket();
+        this.speed = 0;
+        this.rpm = IDLE_RPM;
         virtualFunctionBus.powertrainPacket = this.powertrainPacket;
     }
 
     /**
-     * Calculates the acceleration depending on the position of the accelerator pedal
+     * Calculates actual speed depending on the position of the accelerator pedal
      */
-    public void calculateAcceleration() {
-        switch (transmissionMode) {
+    public void calculateSpeed() {
+        /*
+        switch (gearState) {
             case P:
                 break;
             case R:
@@ -49,6 +57,16 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
                 break;
             default:
                 break;
+        }
+         */
+    }
+
+    public int getActualRPM(int rpm) {
+        if (rpm == 0) {
+            return 740;
+        } else {
+            double multiplier = (double) MAX_RPM / 100;
+            return (int) (rpm * multiplier);
         }
     }
 
@@ -56,7 +74,8 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
      * Calculates the decceleration depending on the position of the brake pedal
      */
     public void calculateDecceleration() {
-        switch (transmissionMode) {
+        /*
+        switch (gearState) {
             case P:
                 break;
             case R:
@@ -68,6 +87,7 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
             default:
                 break;
         }
+        */
     }
 
     @Override
@@ -90,9 +110,31 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
 
     @Override
     public void getVirtualFunctionBusSignals() {
-        this.gasPedalStatus = virtualFunctionBus.samplePacket.getGaspedalPosition();
-        this.brakePedalStatus = virtualFunctionBus.samplePacket.getGaspedalPosition();
-        //this.transmissionMode = virtualFunctionBus.samplePacket.getGaspedalPosition();
+        /*
+        this.gasPedalStatus = virtualFunctionBus.inputPacket.getGasPedalPosition();
+        this.brakePedalStatus = virtualFunctionBus.inputPacket.getGaspedalPosition();
+        this.gearState = virtualFunctionBus.inputPacket.getGearState();
+        */
+    }
+
+    public int getMaxRpm() {
+        return maxRpm;
+    }
+
+    public int getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public int getRpm() {
+        return rpm;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public int getIdleRpm() {
+        return idleRpm;
     }
 }
 

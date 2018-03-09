@@ -6,7 +6,7 @@ public interface IPowertrainSystem {
      */
     void getVirtualFunctionBusSignals();
 
-    void calculateAcceleration();
+    void calculateSpeed();
     void calculateDecceleration();
     void shiftUp();
     void shiftDown();
