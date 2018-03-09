@@ -1,13 +1,13 @@
 package hu.oe.nik.szfmv.visualization;
 
-import hu.oe.nik.szfmv.environment.WorldObject;
-
-import javax.imageio.ImageIO;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
@@ -17,40 +17,32 @@ import java.util.Map;
 public abstract class DrawUtils {
 
     /**
-     * Read image from resources and perform require transforms (scaling, rotating)
+     * Loads the transformation reference points from the resource xml into the scaledReferencePoints HashMap
      *
-     * @param object     The word object to draw
-     * @param scaleRatio The ratio of the scaling
-     * @return Scaled and rotated image to draw to the right place
+     * @param scaledReferencePoints HashMap that contains reference points for images
+     * @param referencePointsURI    path to xml file
+     * @throws ParserConfigurationException throws if parser has an error
+     * @throws IOException                  throws if can't read xml
+     * @throws SAXException
      */
-    public static BufferedImage getTransformedImage(WorldObject object, float scaleRatio, Map<String, Point> scaledReferencePoints) {
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName() + ".png").getFile()));
-        } catch (IOException e) {
+    public static void loadReferencePoints(Map<String, Point> scaledReferencePoints, String referencePointsURI)
+            throws ParserConfigurationException, IOException, SAXException {
+        scaledReferencePoints.clear();
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        Document document = documentBuilder.parse(referencePointsURI);
 
+        NodeList nodes = document.getElementsByTagName("Image");
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Element image = (Element) nodes.item(i);
+            String imageName = image.getAttribute("name");
+            Element refPoint = (Element) image.getChildNodes().item(1);
+
+            int x = Integer.parseInt(refPoint.getAttribute("x"));
+            int y = Integer.parseInt(refPoint.getAttribute("y"));
+            Point p = new Point(x, y);
+
+            scaledReferencePoints.put(imageName, p);
         }
-
-        AffineTransform at = new AffineTransform();
-
-
-        /*double offsetX = (image.getWidth()-image.getHeight())/2;
-        double offsetY = (image.getWidth()-image.getHeight())/2;
-        at.translate(offsetX,offsetY);*/
-        at.scale(scaleRatio, scaleRatio);
-        Point center = scaledReferencePoints.getOrDefault(object.getImageFileName(), null);
-        if (center == null) {
-            center = new Point((image.getWidth()) / 2, ( image.getHeight()) / 2);
-        } else {
-        }
-        at.rotate(-object.getRotation(), center.x, center.y);
-
-
-
-
-
-
-        AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-        return op.filter(image, null);
     }
 }
