@@ -6,20 +6,26 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class DashboardTest {
 
-    Dashboard dashboard = new Dashboard();
-    boolean gasPedalGetterCalled = false;
-    boolean breakPedalGetterCalled = false;
+    private Dashboard dashboard = new Dashboard();
+    private boolean gasPedalGetterCalled = false;
+    private boolean breakPedalGetterCalled = false;
 
+    /**
+     * Sets all the boolean values that indicate method calls to false before the tests are run.
+     */
     @Before
-    public void setup() {
+    public void setUp() {
         gasPedalGetterCalled = false;
         breakPedalGetterCalled = false;
     }
 
+    /**
+     * Tests whether all the correct getter methods have been called.
+     */
     @Test
     public void allRequiredValuesReceivedOnUpdate() {
         InputPacketStub inputPacket = new InputPacketStub();
