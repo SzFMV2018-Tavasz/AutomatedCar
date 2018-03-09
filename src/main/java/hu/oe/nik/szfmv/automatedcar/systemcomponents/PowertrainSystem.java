@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 public class PowertrainSystem extends SystemComponent implements IPowertrainSystem {
 
     private static final Logger LOGGER = LogManager.getLogger(PowertrainSystem.class);
-    private static final double WIND_RESISTANCE = 1.5;
+    private static final double WIND_RESISTANCE = 3.0;
     private static final double REFRESH_RATE = 40;  // 1 sec / 0.025 sec
 
     private PowertrainPacket powertrainPacket;
@@ -20,8 +20,8 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
 
     private int expectedRPM;
     private int actualRPM;
-    private int gasPedalStatus;
-    private int brakePedalStatus;
+    private int gasPedalPosition;
+    private int brakePedalPosition;
     private double speed;                        // Unit: m/s
     //private GearEnum gearState;
     private int shiftLevel;
@@ -48,7 +48,7 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     }
 
     /**
-     * Calculates the speed difference considering the gas pedal position, actual shift level, actual RPM,
+     * Calculates the speed difference considering the gas- and brake pedal position, actual shift level, actual RPM,
      * and gear ratios
      * Based on: http://www.asawicki.info/Mirror/Car%20Physics%20for%20Games/Car%20Physics%20for%20Games.html
      *
@@ -56,22 +56,23 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
      */
     private double calculateSpeedDifference() {
         boolean isAccelerate = this.actualRPM > this.expectedRPM;
+        boolean isBraking = ((this.brakePedalPosition > 0) && (this.gasPedalPosition == 0));
         double speedDelta;
-
         if (isAccelerate) {
             speedDelta = this.orientationVector * (this.actualRPM
                     * carSpecifications.getGearRatios().get(this.shiftLevel)
                     / (carSpecifications.getWeight() * WIND_RESISTANCE));
         } else {
-            speedDelta = -1 * this.orientationVector * (double) carSpecifications.getEngineBreakTorque()
+            speedDelta = -1 * this.orientationVector * (double) carSpecifications.getEngineBrakeTorque()
                     * WIND_RESISTANCE / 150;
         }
-
-        LOGGER.debug("IsAccelerate: " + isAccelerate);
-        LOGGER.debug("Speed difference (per sec): " + speedDelta);
-        LOGGER.debug("Shift level: " + this.shiftLevel);
-        LOGGER.debug("Actual RPM: " + this.actualRPM);
-
+        if (isBraking) {
+            speedDelta = -1 * this.orientationVector * ((carSpecifications.getMaxBrakeSpeed() / 100)
+                    * this.brakePedalPosition);
+        }
+        LOGGER.debug(" { IsAccelerate: " + isAccelerate + ", IsBraking: " + isBraking
+                + ", Speed difference (per sec): " + speedDelta + ", Shift level: " + this.shiftLevel
+                + ", Actual RPM: " + this.actualRPM + " }");
         return speedDelta / REFRESH_RATE;
     }
 
@@ -96,14 +97,14 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     @Override
     public void loop() {
         this.getVirtualFunctionBusSignals();
-        this.calculateExpectedRPM(this.gasPedalStatus);
+        this.calculateExpectedRPM(this.gasPedalPosition);
     }
 
     @Override
     public void getVirtualFunctionBusSignals() {
         /*
-        this.gasPedalStatus = virtualFunctionBus.inputPacket.getGasPedalPosition();
-        this.brakePedalStatus = virtualFunctionBus.inputPacket.getGaspedalPosition();
+        this.gasPedalPosition = virtualFunctionBus.inputPacket.getGasPedalPosition();
+        this.brakePedalPosition = virtualFunctionBus.inputPacket.getGaspedalPosition();
         this.gearState = virtualFunctionBus.inputPacket.getGearState();
         */
     }

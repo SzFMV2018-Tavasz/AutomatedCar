@@ -9,8 +9,9 @@ public final class CarSpecifications {
     private int idleRPM = 740;
     private int maxSpeed = 190;    // unit: km/h
     private int engineTorque = 180;
-    private int engineBreakTorque = 35;
+    private int engineBrakeTorque = 35;
     private int weight = 1360;
+    private double maxBrakeSpeed = 6.12;
 
     /**
      * Gears: R, 1, 2, 3, 4, 5, 6
@@ -42,7 +43,11 @@ public final class CarSpecifications {
         return weight;
     }
 
-    public int getEngineBreakTorque() {
-        return engineBreakTorque;
+    public int getEngineBrakeTorque() {
+        return engineBrakeTorque;
+    }
+
+    public double getMaxBrakeSpeed() {
+        return maxBrakeSpeed;
     }
 }
