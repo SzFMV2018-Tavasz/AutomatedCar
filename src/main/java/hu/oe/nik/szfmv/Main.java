@@ -38,7 +38,6 @@ public class Main {
             try {
                 car.drive();
                 gui.getCourseDisplay().drawWorld(w);
-                // TODO call gui.getDashboard().updateDisplayedValues() when the required packets exist
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());
