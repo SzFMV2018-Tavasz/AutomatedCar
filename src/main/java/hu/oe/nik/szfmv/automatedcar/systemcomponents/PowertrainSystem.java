@@ -12,10 +12,10 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
 
     private static final Logger LOGGER = LogManager.getLogger(PowertrainSystem.class);
 
-    private PowertrainPacket powertrainPacket;
     private static final int IDLE_RMP = 650;
     private static final int MAX_RPM = 7400;
     private static final int MAX_SPEED = 190;    // unit: km/h
+    private PowertrainPacket powertrainPacket;
 
     private int gasPedalStatus;
     private int brakePedalStatus;
@@ -47,6 +47,8 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
                 break;
             case D:
                 break;
+            default:
+                break;
         }
     }
 
@@ -62,6 +64,8 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
             case N:
                 break;
             case D:
+                break;
+            default:
                 break;
         }
     }
@@ -80,14 +84,12 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     public void loop() {
         //int gasPedal = virtualFunctionBus.samplePacket.getGaspedalPosition();
         //speed = gasPedal * 0.8;
-        //TODO write this
 
         this.getVirtualFunctionBusSignals();
     }
 
     @Override
     public void getVirtualFunctionBusSignals() {
-        // TODO write incoming signals from virtualFunctionBus when implemented
         this.gasPedalStatus = virtualFunctionBus.samplePacket.getGaspedalPosition();
         this.brakePedalStatus = virtualFunctionBus.samplePacket.getGaspedalPosition();
         //this.transmissionMode = virtualFunctionBus.samplePacket.getGaspedalPosition();
