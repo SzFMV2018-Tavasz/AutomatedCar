@@ -16,8 +16,8 @@ public class Dashboard extends JPanel {
     private final int dashboardBoundsY = 0;
     private final int backgroundColor = 0x888888;
 
-    private final int progressBarsPanelX = 0;
-    private final int progressBarsPanelY = 200;
+    private final int progressBarsPanelX = 25;
+    private final int progressBarsPanelY = 400;
     private final int progressBarsPanelWidth = 200;
     private final int progressBarsPanelHeight = 100;
 
