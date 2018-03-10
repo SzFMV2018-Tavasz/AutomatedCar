@@ -124,9 +124,9 @@ public class Dashboard extends JPanel {
         final int maxRpmValue = 10000;
         final int minRpmMeter = -75;
         final int maxRpmMeter = 255;
-        rpm = maxRpmValue - rpm;
+        int newrpm = maxRpmValue - rpm;
 
-        return (rpm - minRpmValue) * (maxRpmMeter - minRpmMeter) / (maxRpmValue - minRpmValue) + minRpmMeter;
+        return (newrpm - minRpmValue) * (maxRpmMeter - minRpmMeter) / (maxRpmValue - minRpmValue) + minRpmMeter;
     }
 
     /**
@@ -141,9 +141,9 @@ public class Dashboard extends JPanel {
         final int maxSpeedValue = 500;
         final int minSpeedMeter = -75;
         final int maxSpeedMeter = 255;
-        speed = maxSpeedValue - speed;
+        int newspeed = maxSpeedValue - speed;
 
-        return (speed - minSpeedValue) * (maxSpeedMeter - minSpeedMeter)
+        return (newspeed - minSpeedValue) * (maxSpeedMeter - minSpeedMeter)
                 / (maxSpeedValue - minSpeedValue) + minSpeedMeter;
     }
 }
