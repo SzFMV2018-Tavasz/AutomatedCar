@@ -17,17 +17,17 @@ import java.util.Map;
 public abstract class DrawUtils {
 
     /**
-     * Loads the transformation reference points from the resource xml into the scaledReferencePoints HashMap
+     * Loads the transformation reference points from the resource xml into the referencePoints HashMap
      *
-     * @param scaledReferencePoints HashMap that contains reference points for images
+     * @param referencePoints HashMap that contains reference points for images
      * @param referencePointsURI    path to xml file
      * @throws ParserConfigurationException throws if parser has an error
      * @throws IOException                  throws if can't read xml
      * @throws SAXException
      */
-    public static void loadReferencePoints(Map<String, Point> scaledReferencePoints, String referencePointsURI)
+    public static void loadReferencePoints(Map<String, Point> referencePoints, String referencePointsURI)
             throws ParserConfigurationException, IOException, SAXException {
-        scaledReferencePoints.clear();
+        referencePoints.clear();
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
         Document document = documentBuilder.parse(referencePointsURI);
@@ -42,7 +42,7 @@ public abstract class DrawUtils {
             int y = Integer.parseInt(refPoint.getAttribute("y"));
             Point p = new Point(x, y);
 
-            scaledReferencePoints.put(imageName, p);
+            referencePoints.put(imageName, p);
         }
     }
 }

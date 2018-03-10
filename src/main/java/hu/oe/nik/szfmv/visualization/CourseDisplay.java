@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public class CourseDisplay extends JPanel {
 
-    private static Map<String, Point> scaledReferencePoints = new HashMap<>();
+    private static Map<String, Point> referencePoints = new HashMap<>();
     private static final String wordXmlPath = "./src/main/resources/test_world.xml";
     private static final String referencePointsURI = "./src/main/resources/reference_points.xml";
     private static final Logger LOGGER = LogManager.getLogger();
@@ -46,7 +46,7 @@ public class CourseDisplay extends JPanel {
         setBackground(new Color(backgroundColor));
         // Load course from and reference points from xml
         try {
-            DrawUtils.loadReferencePoints(scaledReferencePoints, referencePointsURI);
+            DrawUtils.loadReferencePoints(referencePoints, referencePointsURI);
             objectListFromXml = XmlToModelConverter.build(wordXmlPath);
         } catch (ParserConfigurationException | IOException | SAXException e) {
             LOGGER.error(e.getMessage());
@@ -70,7 +70,7 @@ public class CourseDisplay extends JPanel {
             LOGGER.error(e.getMessage());
         }
 
-        Point center = scaledReferencePoints.getOrDefault(object.getImageFileName(), null);
+        Point center = referencePoints.getOrDefault(object.getImageFileName(), null);
         if (center == null) {
             center = new Point(0, 0);
         }
