@@ -70,9 +70,9 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
                     * this.brakePedalPosition);
         }
 
-        LOGGER.debug(" { IsAccelerate: " + isAccelerate + ", IsBraking: " + isBraking
-                + ", Speed difference (per sec): " + speedDelta + ", Shift level: " + this.shiftLevel
-                + ", Actual RPM: " + this.actualRPM + " }");
+        LOGGER.debug(":: calculateSpeedDifference() method called: { IsAccelerate: " + isAccelerate
+                + ", IsBraking: " + isBraking  + ", Speed difference (per sec): " + speedDelta
+                + ", Shift level: " + this.shiftLevel + ", Actual RPM: " + this.actualRPM + " }");
 
         return speedDelta / REFRESH_RATE;
     }
@@ -93,6 +93,40 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
             this.powertrainPacket.setRpm(actualRpm);
             return actualRpm;
         }
+    }
+
+    /**
+     * Manage the automated gearbox levels
+     * @param speedDelta Speed difference input decide to the car is accelerate or slowing down
+     */
+    private void gearShiftWatcher(double speedDelta) {
+        int shiftLevelChange = 0;
+
+        if (speedDelta > 0) {
+            while (this.carSpecifications.getGearShiftLevelSpeed().get(this.shiftLevel + shiftLevelChange + 1)
+                    <= Math.abs(this.speed)) {
+                shiftLevelChange++;
+            }
+            if ((shiftLevelChange > 0) && (this.shiftLevel < this.carSpecifications.getGearboxMaxLevel())) {
+                this.shiftLevel += shiftLevelChange;
+                LOGGER.debug(":: gearShiftWatcher() method called: Need to shifting up. New shiftlevel: "
+                        + this.shiftLevel);
+            }
+
+        }
+
+        if (speedDelta < 0) {
+            while (this.carSpecifications.getGearShiftLevelSpeed().get(this.shiftLevel + shiftLevelChange)
+                    > Math.abs(this.speed)) {
+                shiftLevelChange--;
+            }
+            if ((shiftLevelChange < 0)  && (this.shiftLevel > this.carSpecifications.getGearboxMinLevel())) {
+                this.shiftLevel += shiftLevelChange;
+                LOGGER.debug(":: gearShiftWatcher() method called: Need to shifting down. New shiftlevel: "
+                        + this.shiftLevel);
+            }
+        }
+        LOGGER.debug(":: gearShiftWatcher() method called: Don't need shift.");
     }
 
     @Override
