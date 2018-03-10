@@ -68,6 +68,9 @@ Dir.chdir(ENV["HOME"] + "/" + $branch){
         RestClient.delete "https://api.github.com/repos/#{$owner}/#{$repo}/releases/#{get["id"]}?access_token=#{$GH_TOKEN}"
         
         # delete tag: deleting the GitHub release will not delete the tag on which the release is based
+        # delete from remote
+        %x(git push --delete origin #{$tag})
+        # delete from local
         %x(git tag -d #{$tag})
         %x(git push -q origin :refs/tags/#{$tag} > /dev/null)
         
