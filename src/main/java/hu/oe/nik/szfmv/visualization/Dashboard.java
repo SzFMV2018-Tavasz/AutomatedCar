@@ -76,13 +76,13 @@ public class Dashboard extends JPanel {
         setBounds(dashboardBoundsX, dashboardBoundsY, width, height);
 
         initializeProgressBars();
-        InitializeAccStatePanel();
+        initializeAccStatePanel();
     }
 
     /**
      +     * Initializes the ACC-state-panel and the labels to write the values on the dashboard
      */
-    private void InitializeAccStatePanel() {
+    private void initializeAccStatePanel() {
         accStatePanel.setBackground(new Color(backgroundColor));
         accStatePanel.setBounds(
                 accStatePanelX,
