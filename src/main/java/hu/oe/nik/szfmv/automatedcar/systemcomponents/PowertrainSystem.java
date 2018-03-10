@@ -22,11 +22,10 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     private int actualRPM;
     private int gasPedalPosition;
     private int brakePedalPosition;
-    private double speed;                        // Unit: m/s
+    private double speed;                // Unit: m/s
     //private GearEnum gearState;
     private int shiftLevel;
-    // is a unit vector which reflects the car's orientation,
-    private double orientationVector;
+    private double orientationVector;    // it is a unit vector which reflects the car's orientation
 
     /**
      * Creates a powertrain system that connects the Virtual Function Bus
@@ -56,7 +55,7 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
         boolean isAccelerate = this.actualRPM > this.expectedRPM;
         boolean isBraking = ((this.brakePedalPosition > 0) && (this.gasPedalPosition == 0));
         double speedDelta;
-        
+
         if (isAccelerate) {
             speedDelta = this.orientationVector * (this.actualRPM
                     * carSpecifications.getGearRatios().get(this.shiftLevel)
