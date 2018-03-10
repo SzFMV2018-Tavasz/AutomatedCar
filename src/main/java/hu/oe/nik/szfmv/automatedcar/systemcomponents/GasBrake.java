@@ -43,21 +43,25 @@ public class GasBrake extends SystemComponent
     {
         if (inputHandler.isGasPressed() && inputHandler.isBrakePressed())
         {
-            gaspedalvalue = 0;
-            brakepedalvalue = 0;
             return;
+        }
+
+        if  (!(inputHandler.isGasPressed() && inputHandler.isBrakePressed()))
+        {
+            setGaspedalvalue(-1);
+            setBrakepedalvalue(-2);
         }
 
         if (inputHandler.isGasPressed())
         {
             setGaspedalvalue(1);
-            brakepedalvalue = 0;
+            setBrakepedalvalue(-1);
         }
 
         if (inputHandler.isBrakePressed())
         {
-            setBrakepedalvalue(1);
-            gaspedalvalue = 0;
+            setBrakepedalvalue(2);
+            setGaspedalvalue(-2);
         }
 
         inputPacket.setGaspeadalposition(gaspedalvalue);
