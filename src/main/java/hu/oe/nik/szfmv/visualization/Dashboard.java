@@ -29,6 +29,17 @@ public class Dashboard extends JPanel {
     private final JLabel breakLabel = new JLabel();
     private final JProgressBar breakProgressBar = new JProgressBar();
 
+    private final int speedMeterX = 10;
+    private final int speedMeterY = 50;
+    private final int tachoMeterX = 130;
+    private final int tachoMeterY = 50;
+    private final int meterHeight = 100;
+    private final int meterWidth = 100;
+
+    private int speedAngle;
+    private int rpmAngle;
+
+
     /**
      * Initialize the dashboard
      */
@@ -39,10 +50,15 @@ public class Dashboard extends JPanel {
     /**
      * Update the displayed values
      * @param inputPacket Contains all the required values coming from input.
+     * @param speed Temporary parameter until the ReadOnlyPowertrainPacket is not ready. Sets the Speedometer's value.
+     * @param rpm Temporary parameter until the ReadOnlyPowertrainPacket is not ready. Sets the Tachometer's value.
      */
-    public void updateDisplayedValues(ReadOnlyInputPacket inputPacket) {
+    public void updateDisplayedValues(ReadOnlyInputPacket inputPacket, int speed, int rpm) {
         gasProgressBar.setValue(inputPacket.getGasPedalPosition());
         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+        speedAngle = calculateSpeedometer(speed);
+        rpmAngle = calculateTachometer(rpm);
+        paintComponent(getGraphics());
     }
 
     /**
@@ -78,5 +94,56 @@ public class Dashboard extends JPanel {
         progressBarsPanel.add(gasProgressBar);
         progressBarsPanel.add(breakLabel);
         progressBarsPanel.add(breakProgressBar);
+    }
+
+    /**
+     * Drawing the Speedometer and the Tachometer.
+     *
+     * @param g {@link Graphics} object that can draw to the canvas
+     */
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(Color.BLACK);
+        g.drawOval(speedMeterX, speedMeterY, meterWidth, meterHeight);
+        g.drawOval(tachoMeterX, tachoMeterY, meterWidth, meterHeight);
+        g.setColor(Color.RED);
+
+        g.fillArc(speedMeterX, speedMeterY, meterWidth, meterHeight, speedAngle, 2);
+        g.fillArc(tachoMeterX, tachoMeterY, meterWidth, meterHeight, rpmAngle, 2);
+    }
+
+    /**
+     * Map the RPM to a displayable value for the gauge.
+     *
+     * @param rpm   The unmapped input value of the Tachometer's visual display.
+     *
+     * @return      The mapped value between [-75, 255] interval.
+     */
+    private int calculateTachometer(int rpm) {
+        final int minRpmValue = 0;
+        final int maxRpmValue = 10000;
+        final int minRpmMeter = -75;
+        final int maxRpmMeter = 255;
+        rpm = maxRpmValue - rpm;
+
+        return (rpm - minRpmValue) * (maxRpmMeter - minRpmMeter) / (maxRpmValue - minRpmValue) + minRpmMeter;
+    }
+
+    /**
+     * Map the Speed to a displayable value for the gauge.
+     *
+     * @param speed     The unmapped input value of the Speedometer's visual display.
+     *
+     * @return          The mapped value between [-75, 255] interval.
+     */
+    private int calculateSpeedometer(int speed) {
+        final int minSpeedValue = 0;
+        final int maxSpeedValue = 500;
+        final int minSpeedMeter = -75;
+        final int maxSpeedMeter = 255;
+        speed = maxSpeedValue - speed;
+
+        return (speed - minSpeedValue) * (maxSpeedMeter - minSpeedMeter)
+                / (maxSpeedValue - minSpeedValue) + minSpeedMeter;
     }
 }
