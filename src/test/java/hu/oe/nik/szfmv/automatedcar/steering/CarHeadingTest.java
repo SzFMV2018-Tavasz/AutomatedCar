@@ -21,62 +21,63 @@ public class CarHeadingTest extends AutomatedCar {
 
     @Test
     public void FacingEastTest() {
-        double expectedDegs = 0;
 
-        Point2D frontWheel = new Point2D.Double(50,0);
-        Point2D backWheel = new Point2D.Double(-50,0);
-        double heading = Math.toDegrees(getCarHeading(frontWheel, backWheel));
+        double expectedDegs = 0;
+        double heading = CalculateHeadingFromWheelsState(new Point2D.Double(50,0),new Point2D.Double(-50,0));
+
         Assert.assertEquals(expectedDegs, heading, THRESHOLD);
     }
 
     @Test
     public void FacingSouthTest() {
+
         double expectedDegs = 90;
+        double heading = CalculateHeadingFromWheelsState(new Point2D.Double(0,50),new Point2D.Double(-0,-50));
 
-        Point2D frontWheel = new Point2D.Double(0,50);
-        Point2D backWheel = new Point2D.Double(-0,-50);
-        double heading = Math.toDegrees(getCarHeading(frontWheel, backWheel));
         Assert.assertEquals(expectedDegs, heading, THRESHOLD);
-
     }
 
     @Test
     public void FacingNorthTest() {
-        double expectedDegs = 90;
 
-        Point2D frontWheel = new Point2D.Double(40.001,50);
-        Point2D backWheel = new Point2D.Double(40.001,33.1);
-        double heading = Math.toDegrees(getCarHeading(frontWheel, backWheel));
+        double expectedDegs = 90;
+        double heading = CalculateHeadingFromWheelsState(new Point2D.Double(40.001,50),new Point2D.Double(40.001,33.1));
+
         Assert.assertEquals(expectedDegs, heading, THRESHOLD);
     }
 
     @Test
     public void FacingWestTest() {
-        double expectedDegs = 180;
 
-        Point2D frontWheel = new Point2D.Double(40.001,33.1);
-        Point2D backWheel = new Point2D.Double(50,33.1);
-        double heading = Math.toDegrees(getCarHeading(frontWheel, backWheel));
+        double expectedDegs = 180;
+        double heading = CalculateHeadingFromWheelsState(new Point2D.Double(40.001,33.1),new Point2D.Double(50,33.1));
+
         Assert.assertEquals(expectedDegs, heading, THRESHOLD);
     }
 
     @Test
     public void FacingSouthWestTest() {
         double expectedDegs = 135;
+       //calc'd using http://www.cleavebooks.co.uk/scol/calrtri.htm
+        double heading = CalculateHeadingFromWheelsState(new Point2D.Double(-35.3553,35.3553),new Point2D.Double(35.3553,-35.3553));
 
-        Point2D frontWheel = new Point2D.Double(-35.3553, 35.3553); //calc'd using http://www.cleavebooks.co.uk/scol/calrtri.htm
-        Point2D backWheel = new Point2D.Double(35.3553,-35.3553);
-        double heading = Math.toDegrees(getCarHeading(frontWheel, backWheel));
         Assert.assertEquals(expectedDegs, heading, THRESHOLD);
     }
 
     @Test
     public void FacingSouthEastTest() {
-        double expectedDegs = -45;
 
-        Point2D frontWheel = new Point2D.Double(35.3553,-35.3553);
-        Point2D backWheel = new Point2D.Double(-35.3553,35.3553);
-        double heading = Math.toDegrees(getCarHeading(frontWheel, backWheel));
+        double expectedDegs = -45;
+        double heading = CalculateHeadingFromWheelsState(new Point2D.Double(35.3553,-35.3553),new Point2D.Double(-35.3553,35.3553));
+
         Assert.assertEquals(expectedDegs, heading, THRESHOLD);
+
+    }
+
+    public double CalculateHeadingFromWheelsState(Point2D.Double frontWheel, Point2D.Double backWheel){
+
+        return Math.toDegrees(getCarHeading(frontWheel, backWheel));
+
+
     }
 }
