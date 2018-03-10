@@ -43,8 +43,6 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
         this.speed = 0;
         this.expectedRPM = carSpecifications.getIdleRPM();
         this.actualRPM = carSpecifications.getIdleRPM();
-
-        this.calculateSpeedDifference();
     }
 
     /**
@@ -58,6 +56,7 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
         boolean isAccelerate = this.actualRPM > this.expectedRPM;
         boolean isBraking = ((this.brakePedalPosition > 0) && (this.gasPedalPosition == 0));
         double speedDelta;
+        
         if (isAccelerate) {
             speedDelta = this.orientationVector * (this.actualRPM
                     * carSpecifications.getGearRatios().get(this.shiftLevel)
@@ -66,13 +65,16 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
             speedDelta = -1 * this.orientationVector * (double) carSpecifications.getEngineBrakeTorque()
                     * WIND_RESISTANCE / 150;
         }
+
         if (isBraking) {
             speedDelta = -1 * this.orientationVector * ((carSpecifications.getMaxBrakeSpeed() / 100)
                     * this.brakePedalPosition);
         }
+
         LOGGER.debug(" { IsAccelerate: " + isAccelerate + ", IsBraking: " + isBraking
                 + ", Speed difference (per sec): " + speedDelta + ", Shift level: " + this.shiftLevel
                 + ", Actual RPM: " + this.actualRPM + " }");
+
         return speedDelta / REFRESH_RATE;
     }
 
