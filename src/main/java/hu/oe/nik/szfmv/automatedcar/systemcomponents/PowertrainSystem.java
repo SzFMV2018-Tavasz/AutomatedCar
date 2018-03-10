@@ -23,6 +23,11 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     private int gasPedalPosition;
     private int brakePedalPosition;
     private double speed;                // Unit: m/s
+
+    /**
+     * TODO Only for complie, need to change to "private GearEnum gearState; when merging
+     */
+    private TestEnum gearState;
     //private GearEnum gearState;
     private int shiftLevel;
     private double orientationVector;    // it is a unit vector which reflects the car's orientation
@@ -56,11 +61,10 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
         boolean isBraking = ((this.brakePedalPosition > 0) && (this.gasPedalPosition == 0));
         double speedDelta;
 
-        if (isAccelerate) {
-            speedDelta = this.orientationVector * (this.actualRPM
-                    * carSpecifications.getGearRatios().get(this.shiftLevel)
-                    / (carSpecifications.getWeight() * WIND_RESISTANCE));
-        } else {
+        if (isAccelerate) speedDelta = this.orientationVector * (this.actualRPM
+                * carSpecifications.getGearRatios().get(this.shiftLevel)
+                / (carSpecifications.getWeight() * WIND_RESISTANCE));
+        else {
             speedDelta = -1 * this.orientationVector * (double) carSpecifications.getEngineBrakeTorque()
                     * WIND_RESISTANCE / 150;
         }
@@ -71,14 +75,14 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
         }
 
         LOGGER.debug(":: calculateSpeedDifference() method called: { IsAccelerate: " + isAccelerate
-                + ", IsBraking: " + isBraking  + ", Speed difference (per sec): " + speedDelta
+                + ", IsBraking: " + isBraking + ", Speed difference (per sec): " + speedDelta
                 + ", Shift level: " + this.shiftLevel + ", Actual RPM: " + this.actualRPM + " }");
 
         return speedDelta / REFRESH_RATE;
     }
 
     /**
-     * Calculates the RPM considering the gas pedal position
+     * Calculates the RPM considering the gas pedal position, and send this value to VirtualFunctionBus
      *
      * @param gaspedalPosition pas pedal position value
      * @return actual RPM
@@ -97,6 +101,7 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
 
     /**
      * Manage the automated gearbox levels
+     *
      * @param speedDelta Speed difference input decide to the car is accelerate or slowing down
      */
     private void gearShiftWatcher(double speedDelta) {
@@ -120,7 +125,7 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
                     > Math.abs(this.speed)) {
                 shiftLevelChange--;
             }
-            if ((shiftLevelChange < 0)  && (this.shiftLevel > this.carSpecifications.getGearboxMinLevel())) {
+            if ((shiftLevelChange < 0) && (this.shiftLevel > this.carSpecifications.getGearboxMinLevel())) {
                 this.shiftLevel += shiftLevelChange;
                 LOGGER.debug(":: gearShiftWatcher() method called: Need to shifting down. New shiftlevel: "
                         + this.shiftLevel);
@@ -132,14 +137,74 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     @Override
     public void loop() {
         this.getVirtualFunctionBusSignals();
-        this.calculateExpectedRPM(this.gasPedalPosition);
+        this.actualRPM = this.calculateExpectedRPM(this.gasPedalPosition);
+        this.doPowertrain();
+    }
+
+    /**
+     * Modifies the actual speed and send to VirtualFunctionBus
+     */
+    private void doPowertrain() {
+        double speedDelta = this.calculateSpeedDifference();
+
+        switch (this.gearState) {
+            case P:
+                // Nothing to do
+                break;
+            case R:
+                this.orientationVector = -1;
+                this.shiftLevel = 0;
+
+                if (this.brakePedalPosition == 0) {
+                    LOGGER.debug(" :: doPowertrain() method called: Slowing down to minimum speed");
+                    if ((this.speed > this.carSpecifications.getGearShiftLevelSpeed().get(0) * -1)) {
+                        this.speed += speedDelta;
+                        this.powertrainPacket.setSpeed(this.speed);
+                    }
+                } else {
+                    LOGGER.debug(" :: doPowertrain() method called: Braking, allow to stop to zero");
+                    if (this.speed < 0) {
+                        this.speed += speedDelta;
+                        this.powertrainPacket.setSpeed(this.speed);
+                    }
+                }
+
+                break;
+            case N:
+                // Nothing to do
+                break;
+            case D:
+                this.orientationVector = 1;
+                this.shiftLevel = 1;
+                this.gearShiftWatcher(speedDelta);
+
+                if (this.brakePedalPosition == 0) {
+                    LOGGER.debug(" :: doPowertrain() method called: Slowing down to minimum speed");
+                    if ((this.speed < this.carSpecifications.getMaxForwardSpeedInMPS()) &&
+                            (this.speed > this.carSpecifications.getMinSpeedInMPS())) {
+                        this.speed += speedDelta;
+                        this.powertrainPacket.setSpeed(this.speed);
+                    }
+                } else {
+                    LOGGER.debug(" :: doPowertrain() method called: Braking, allow to stop to zero");
+                    if (this.speed > 0) {
+                        this.speed += speedDelta;
+                        this.powertrainPacket.setSpeed(this.speed);
+                    }
+                }
+
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
     public void getVirtualFunctionBusSignals() {
-        /*
+        /**
+         * TODO remove this comment when merge to master
         this.gasPedalPosition = virtualFunctionBus.inputPacket.getGasPedalPosition();
-        this.brakePedalPosition = virtualFunctionBus.inputPacket.getGaspedalPosition();
+        this.brakePedalPosition = virtualFunctionBus.inputPacket.getBreakPedalPosition();
         this.gearState = virtualFunctionBus.inputPacket.getGearState();
         */
     }

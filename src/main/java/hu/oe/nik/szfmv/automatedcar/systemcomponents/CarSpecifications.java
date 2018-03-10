@@ -5,13 +5,14 @@ import java.util.Arrays;
 
 public final class CarSpecifications {
 
-    private int maxPRM = 7400;
-    private int idleRPM = 740;
-    private int maxSpeed = 190;    // unit: km/h
-    private int engineTorque = 180;
-    private int engineBrakeTorque = 35;
-    private int weight = 1360;
-    private double maxBrakeSpeed = 6.12;
+    private int maxPRM = 7400;                      // unit: rpm
+    private int idleRPM = 740;                      // unit: rpm
+    private double maxForwardSpeedInMPS = 52.7777;  // unit: m/s
+    private double minSpeedInMPS = 1.3888;          // unit: m/s
+    private int engineTorque = 180;                 // unit: Nm
+    private int engineBrakeTorque = 35;             // unit: Nm
+    private int weight = 1360;                      // unit: kg
+    private double maxBrakeSpeed = 6.12;            // unit: m/s
     private int gearboxMaxLevel = 6;
     private int gearboxMinLevel = 1;
 
@@ -32,8 +33,8 @@ public final class CarSpecifications {
         return idleRPM;
     }
 
-    public int getMaxSpeed() {
-        return maxSpeed;
+    public double getMaxForwardSpeedInMPS() {
+        return maxForwardSpeedInMPS;
     }
 
     public int getEngineTorque() {
@@ -66,5 +67,9 @@ public final class CarSpecifications {
 
     public int getGearboxMinLevel() {
         return gearboxMinLevel;
+    }
+
+    public double getMinSpeedInMPS() {
+        return minSpeedInMPS;
     }
 }
