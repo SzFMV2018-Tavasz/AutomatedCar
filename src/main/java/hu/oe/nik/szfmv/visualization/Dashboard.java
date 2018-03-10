@@ -50,14 +50,12 @@ public class Dashboard extends JPanel {
     /**
      * Update the displayed values
      * @param inputPacket Contains all the required values coming from input.
-     * @param speed Temporary parameter until the ReadOnlyPowertrainPacket is not ready. Sets the Speedometer's value.
-     * @param rpm Temporary parameter until the ReadOnlyPowertrainPacket is not ready. Sets the Tachometer's value.
      */
-    public void updateDisplayedValues(ReadOnlyInputPacket inputPacket, int speed, int rpm) {
+    public void updateDisplayedValues(ReadOnlyInputPacket inputPacket) {
         gasProgressBar.setValue(inputPacket.getGasPedalPosition());
         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
-        speedAngle = calculateSpeedometer(speed);
-        rpmAngle = calculateTachometer(rpm);
+        speedAngle = calculateSpeedometer(0);
+        rpmAngle = calculateTachometer(0);
         paintComponent(getGraphics());
     }
 
