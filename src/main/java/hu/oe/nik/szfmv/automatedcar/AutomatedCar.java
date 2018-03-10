@@ -45,9 +45,9 @@ public class AutomatedCar extends WorldObject {
 
         /** This signal comes from VirtualFunctionBus. PowertrainSystem does not implemets this the getSpeed method.
          * vroba
-        double speed = powertrainSystem.getSpeed();
-        x += speed;
-        */
+         double speed = powertrainSystem.getSpeed();
+         x += speed;
+         */
         double angularSpeed = steeringSystem.getAngularSpeed();
 
         y = 0;

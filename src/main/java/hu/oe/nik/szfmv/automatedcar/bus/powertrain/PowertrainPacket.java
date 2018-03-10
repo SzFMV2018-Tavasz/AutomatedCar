@@ -7,13 +7,16 @@ public class PowertrainPacket implements ReadOnlyPowertrainPacket {
 
     private static final Logger LOGGER = LogManager.getLogger(PowertrainPacket.class);
 
-    private int RPM;
+    private int rpm;
     private double speed;
 
+    /**
+     * Constructor for PowertrainPacket
+     */
     public PowertrainPacket() { }
 
-    public void setRPM(int RPM) {
-        this.RPM = RPM;
+    public void setRpm(int rpm) {
+        this.rpm = rpm;
     }
 
     public void setSpeed(double speed) {
@@ -21,7 +24,7 @@ public class PowertrainPacket implements ReadOnlyPowertrainPacket {
     }
 
     @Override
-    public int getRPM() {
+    public int getRpm() {
         return 0;
     }
 
