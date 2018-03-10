@@ -39,7 +39,7 @@ public class Main {
                 car.drive();
                 gui.getCourseDisplay().drawWorld(w);
 
-                //(TODO)|(gui.getDashboard().updateDisplayedValues(car.getInputValues()));
+                //gui.getDashboard().updateDisplayedValues(car.getInputValues());
 
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
