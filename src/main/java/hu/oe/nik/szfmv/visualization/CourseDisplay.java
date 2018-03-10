@@ -1,10 +1,13 @@
 package hu.oe.nik.szfmv.visualization;
+
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
-import hu.oe.nik.szfmv.environment.XmlToModelConverter;
+import hu.oe.nik.szfmv.environment.models.Movable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
@@ -14,7 +17,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,7 +25,6 @@ import java.util.Map;
 public class CourseDisplay extends JPanel {
 
     private static Map<String, Point> referencePoints = new HashMap<>();
-    private static final String wordXmlPath = "./src/main/resources/test_world.xml";
     private static final String referencePointsURI = "./src/main/resources/reference_points.xml";
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -34,7 +35,6 @@ public class CourseDisplay extends JPanel {
 
     private World world;
     private BufferedImage env = null;
-    private  List<WorldObject> objectListFromXml;
 
     /**
      * Initialize the course display
@@ -44,10 +44,9 @@ public class CourseDisplay extends JPanel {
         setLayout(null);
         setBounds(0, 0, width, height);
         setBackground(new Color(backgroundColor));
-        // Load course from and reference points from xml
+        // Loa reference points from xml
         try {
             DrawUtils.loadReferencePoints(referencePoints, referencePointsURI);
-            objectListFromXml = XmlToModelConverter.build(wordXmlPath);
         } catch (ParserConfigurationException | IOException | SAXException e) {
             LOGGER.error(e.getMessage());
         }
@@ -55,17 +54,15 @@ public class CourseDisplay extends JPanel {
 
     /**
      * Draws a WorldObject to the correct place, with the correct scaling and rotating
+     *
      * @param object the object to draw
-     * @param g graphics object
+     * @param g      graphics object
      */
     private void drawWorldObject(WorldObject object, Graphics g) {
         BufferedImage image = null;
         // read file from resources
-        String fileName = object.getImageFileName().endsWith(".png") ?
-                object.getImageFileName() :
-                object.getImageFileName() + ".png";
         try {
-            image = ImageIO.read(new File(ClassLoader.getSystemResource(fileName).getFile()));
+            image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
@@ -80,7 +77,7 @@ public class CourseDisplay extends JPanel {
         at.rotate(-object.getRotation(), object.getX(), object.getY());
         at.translate(object.getX() - center.x, object.getY() - center.y);
 
-        ((Graphics2D)g).drawImage(image, at, this);
+        ((Graphics2D) g).drawImage(image, at, this);
     }
 
 
@@ -93,9 +90,12 @@ public class CourseDisplay extends JPanel {
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();
 
-        for (WorldObject object : objectListFromXml) {
+        for (WorldObject object : world.getWorldObjects()) {
             // draw objects
-            drawWorldObject(object, g2);
+            if (!Movable.class.isAssignableFrom(object.getClass()) &&
+                    !AutomatedCar.class.isAssignableFrom(object.getClass())) {
+                drawWorldObject(object, g2);
+            }
         }
         return img;
     }
@@ -126,7 +126,10 @@ public class CourseDisplay extends JPanel {
         g.drawImage(env, 0, 0, this);
 
         for (WorldObject object : this.world.getWorldObjects()) {
-            drawWorldObject(object, g);
+            if (Movable.class.isAssignableFrom(object.getClass()) ||
+                    AutomatedCar.class.isAssignableFrom(object.getClass())) {
+                drawWorldObject(object, g);
+            }
         }
     }
 }
