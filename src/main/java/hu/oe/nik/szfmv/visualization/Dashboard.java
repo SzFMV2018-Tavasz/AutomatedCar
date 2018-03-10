@@ -55,12 +55,6 @@ public class Dashboard extends JPanel {
         gasProgressBar.setValue(inputPacket.getGasPedalPosition());
         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
 
-        //test value for display until updateDisplayValues method is implemented
-        accDistanceLabel.setText("20");
-
-        //test value for display until updateDisplayValues method is implemented
-        accSpeedLabel.setText("20");
-
         accDistanceLabel.setText(String.valueOf(inputPacket.getACCTargetDistance()));
         accSpeedLabel.setText(String.valueOf(inputPacket.getACCTargetSpeed()));
     }
@@ -76,6 +70,12 @@ public class Dashboard extends JPanel {
         setBounds(dashboardBoundsX, dashboardBoundsY, width, height);
 
         initializeProgressBars();
+
+        //test value for display until updateDisplayValues method is implemented
+        accDistanceLabel.setText("20");
+
+        //test value for display until updateDisplayValues method is implemented
+        accSpeedLabel.setText("20");
         initializeAccStatePanel();
     }
 
