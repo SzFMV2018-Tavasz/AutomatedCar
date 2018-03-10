@@ -1,7 +1,5 @@
 package hu.oe.nik.szfmv.environment.models;
 
-import hu.oe.nik.szfmv.environment.models.Crossable;
-
 public class Crosswalk extends Crossable {
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
@@ -13,5 +11,11 @@ public class Crosswalk extends Crossable {
     public Crosswalk(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
     }
-    public Crosswalk(){super(0,0,null);}
+
+    /**
+     * Creates an object with default parameter values.
+     */
+    public Crosswalk() {
+        super(0, 0, null);
+    }
 }

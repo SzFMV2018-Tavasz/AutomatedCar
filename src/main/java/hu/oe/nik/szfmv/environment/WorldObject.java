@@ -14,14 +14,14 @@ public abstract class WorldObject implements IWorldObject {
     protected Point offsetVector;
 
     /**
-     -     * Creates an object of the virtual world on the given coordinates with the given image.
-     -     *
-     -     * @param x             the initial x coordinate of the object
-     -     * @param y             the initial y coordinate of the object
-     -     * @param imageFileName the filename of the image representing the object in the virtual world
-     -     */
+     * Creates an object of the virtual world on the given coordinates with the given image.
+     *
+     * @param x             the initial x coordinate of the object
+     * @param y             the initial y coordinate of the object
+     * @param imageFileName the filename of the image representing the object in the virtual world
+     */
     public WorldObject(int x, int y, String imageFileName) {
-        this.location = new Point(x,y);
+        this.location = new Point(x, y);
         this.imageFileName = imageFileName;
     }
 
