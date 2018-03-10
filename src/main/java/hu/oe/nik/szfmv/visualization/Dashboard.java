@@ -40,7 +40,6 @@ public class Dashboard extends JPanel {
     private final JLabel breakLabel = new JLabel();
     private final JProgressBar breakProgressBar = new JProgressBar();
 
-
     /**
      * Initialize the dashboard
      */
@@ -55,6 +54,9 @@ public class Dashboard extends JPanel {
     public void updateDisplayedValues(ReadOnlyInputPacket inputPacket) {
         gasProgressBar.setValue(inputPacket.getGasPedalPosition());
         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+
+        accDistanceLabel.setText(String.valueOf(inputPacket.getACCTargetDistance()));
+        accSpeedLabel.setText(String.valueOf(inputPacket.getACCTargetSpeed()));
     }
 
     /**
@@ -84,8 +86,12 @@ public class Dashboard extends JPanel {
         );
 
         accTargetDistanceLabel.setText("Target distance:");
+
+        //test value for display until updateDisplayValues method is implemented
         accDistanceLabel.setText("20");
         accTargetSpeedLabel.setText("Target speed:");
+
+        //test value for display until updateDisplayValues method is implemented
         accSpeedLabel.setText("20");
 
         add(accStatePanel);
