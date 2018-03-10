@@ -44,6 +44,11 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
 
         this.carSpecifications = new CarSpecifications();
 
+        /**
+         * TODO remove this and change to GearEnum
+         */
+        this.gearState = TestEnum.P;
+        // this.gearState = GearEnum.P;
         this.speed = 0;
         this.expectedRPM = carSpecifications.getIdleRPM();
         this.actualRPM = carSpecifications.getIdleRPM();
