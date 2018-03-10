@@ -2,7 +2,7 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.PowertrainPacket;
-//import hu.oe.nik.szfmv.automatedcar.input.enums;
+import hu.oe.nik.szfmv.automatedcar.input.enums;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,11 +24,7 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     private int brakePedalPosition;
     private double speed;                // Unit: m/s
 
-    /**
-     * TODO Only for complie, need to change to "private GearEnum gearState; when merging
-     */
-    private TestEnum gearState;
-    //private GearEnum gearState;
+    private GearEnum gearState;
     private int shiftLevel;
     private double orientationVector;    // it is a unit vector which reflects the car's orientation
 
@@ -44,11 +40,7 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
 
         this.carSpecifications = new CarSpecifications();
 
-        /**
-         * TODO remove this and change to GearEnum
-         */
-        this.gearState = TestEnum.P;
-        // this.gearState = GearEnum.P;
+        this.gearState = GearEnum.P;
         this.speed = 0;
         this.expectedRPM = carSpecifications.getIdleRPM();
         this.actualRPM = carSpecifications.getIdleRPM();
@@ -207,12 +199,9 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
 
     @Override
     public void getVirtualFunctionBusSignals() {
-        /**
-         * TODO remove this comment when merge to master
-         this.gasPedalPosition = virtualFunctionBus.inputPacket.getGasPedalPosition();
-         this.brakePedalPosition = virtualFunctionBus.inputPacket.getBreakPedalPosition();
-         this.gearState = virtualFunctionBus.inputPacket.getGearState();
-         */
+        this.gasPedalPosition = virtualFunctionBus.inputPacket.getGasPedalPosition();
+        this.brakePedalPosition = virtualFunctionBus.inputPacket.getBreakPedalPosition();
+        this.gearState = virtualFunctionBus.inputPacket.getGearState();
     }
 
     public CarSpecifications getCarSpecifications() {
