@@ -14,6 +14,9 @@ public class DashboardTest {
     private boolean gasPedalGetterCalled = false;
     private boolean breakPedalGetterCalled = false;
 
+    private boolean distanceLabelGetterCalled = false;
+    private boolean speedLabelGetterCalled = false;
+
     /**
      * Sets all the boolean values that indicate method calls to false before the tests are run.
      */
@@ -21,6 +24,9 @@ public class DashboardTest {
     public void setUp() {
         gasPedalGetterCalled = false;
         breakPedalGetterCalled = false;
+
+        distanceLabelGetterCalled = false;
+        speedLabelGetterCalled = false;
     }
 
     /**
@@ -33,6 +39,9 @@ public class DashboardTest {
 
         assertThat(gasPedalGetterCalled, is(true));
         assertThat(breakPedalGetterCalled, is(true));
+
+        assertThat(distanceLabelGetterCalled, is(true));
+        assertThat(speedLabelGetterCalled, is(true));
     }
 
     class InputPacketStub implements ReadOnlyInputPacket {
@@ -55,11 +64,13 @@ public class DashboardTest {
 
         @Override
         public int getACCTargetSpeed() {
+            distanceLabelGetterCalled=true;
             return 0;
         }
 
         @Override
         public double getACCTargetDistance() {
+            speedLabelGetterCalled=true;
             return 0;
         }
 
