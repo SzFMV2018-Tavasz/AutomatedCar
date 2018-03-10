@@ -62,4 +62,14 @@ public interface ReadOnlyInputPacket {
      * @return the right turn signal's status
      */
     boolean getRightTurnSignalStatus();
+
+    /**Get the car
+     *@return the X coordinate of the car's current position
+     */
+    int getCarXCoordinate();
+
+    /**
+     *@return the Y coordinate of the car's current position
+     */
+    int getCarYCoordinate();
 }

@@ -87,5 +87,11 @@ public class DashboardTest {
         public boolean getRightTurnSignalStatus() {
             return false;
         }
+
+        @Override
+        public int getCarXCoordinate() {return 0;}
+
+        @Override
+        public int getCarYCoordinate() {return 0;}
     }
 }

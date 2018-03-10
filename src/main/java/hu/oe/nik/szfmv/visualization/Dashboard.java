@@ -30,6 +30,18 @@ public class Dashboard extends JPanel {
     private final JProgressBar breakProgressBar = new JProgressBar();
 
     /**
+     * Car Position Panel
+     */
+    private final int carPositionPanelX = 25;
+    private final int carPositionPanelY = 500;
+
+    private final JLabel carPositionXLabel = new JLabel();
+    private final JLabel carPositionYLabel = new JLabel();
+
+    private final JPanel carPositionPanel = new JPanel();
+
+
+    /**
      * Initialize the dashboard
      */
     public Dashboard() {
@@ -43,6 +55,7 @@ public class Dashboard extends JPanel {
     public void updateDisplayedValues(ReadOnlyInputPacket inputPacket) {
         gasProgressBar.setValue(inputPacket.getGasPedalPosition());
         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+        updateCarPositionLabel(inputPacket);
     }
 
     /**
@@ -55,6 +68,7 @@ public class Dashboard extends JPanel {
         setBounds(dashboardBoundsX, dashboardBoundsY, width, height);
 
         initializeProgressBars();
+        initCarPositionLabel();
     }
 
     /**
@@ -78,5 +92,26 @@ public class Dashboard extends JPanel {
         progressBarsPanel.add(gasProgressBar);
         progressBarsPanel.add(breakLabel);
         progressBarsPanel.add(breakProgressBar);
+    }
+
+    /**
+    *  Initializes the car position label on the dashboard
+    */
+    private void initCarPositionLabel(){
+        carPositionPanel.setBounds(carPositionPanelX,carPositionPanelY, 200, 20);
+        carPositionPanel.setBackground(new Color(backgroundColor));
+
+        carPositionXLabel.setText("X:");
+        carPositionYLabel.setText("Y:");
+        carPositionPanel.setLayout(new GridLayout(1,2));
+
+        carPositionPanel.add(carPositionXLabel);
+        carPositionPanel.add(carPositionYLabel);
+        add(carPositionPanel);
+    }
+
+    private void updateCarPositionLabel(ReadOnlyInputPacket inputPacket){
+       carPositionXLabel.setText("X:" + inputPacket.getCarXCoordinate());
+       carPositionYLabel.setText("Y:" + inputPacket.getCarYCoordinate());
     }
 }
