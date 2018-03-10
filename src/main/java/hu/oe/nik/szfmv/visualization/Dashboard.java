@@ -34,6 +34,8 @@ public class Dashboard extends JPanel {
      */
     private final int carPositionPanelX = 25;
     private final int carPositionPanelY = 500;
+    private final  int getCarPositionPanelWidth = 200;
+    private final  int getCarPositionPanelHeight = 200;
 
     private final JLabel carPositionXLabel = new JLabel();
     private final JLabel carPositionYLabel = new JLabel();
@@ -97,21 +99,25 @@ public class Dashboard extends JPanel {
     /**
     *  Initializes the car position label on the dashboard
     */
-    private void initCarPositionLabel(){
-        carPositionPanel.setBounds(carPositionPanelX,carPositionPanelY, 200, 20);
+    private void initCarPositionLabel() {
+        carPositionPanel.setBounds(carPositionPanelX, carPositionPanelY, getCarPositionPanelWidth, getCarPositionPanelHeight);
         carPositionPanel.setBackground(new Color(backgroundColor));
 
         carPositionXLabel.setText("X:");
         carPositionYLabel.setText("Y:");
-        carPositionPanel.setLayout(new GridLayout(1,2));
+        carPositionPanel.setLayout(new GridLayout(1, 2));
 
         carPositionPanel.add(carPositionXLabel);
         carPositionPanel.add(carPositionYLabel);
         add(carPositionPanel);
     }
 
-    private void updateCarPositionLabel(ReadOnlyInputPacket inputPacket){
-       carPositionXLabel.setText("X:" + inputPacket.getCarXCoordinate());
-       carPositionYLabel.setText("Y:" + inputPacket.getCarYCoordinate());
+    /**
+     * Update the coordinate labels in the position panel
+     * @param inputPacket
+     */
+    private void updateCarPositionLabel(ReadOnlyInputPacket inputPacket) {
+        carPositionXLabel.setText("X:" + inputPacket.getCarXCoordinate());
+        carPositionYLabel.setText("Y:" + inputPacket.getCarYCoordinate());
     }
 }

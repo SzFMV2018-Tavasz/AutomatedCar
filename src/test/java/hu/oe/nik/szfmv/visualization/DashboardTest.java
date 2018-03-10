@@ -89,9 +89,11 @@ public class DashboardTest {
         }
 
         @Override
-        public int getCarXCoordinate() {return 0;}
+        public int getCarXCoordinate() {
+            return 0; }
 
         @Override
-        public int getCarYCoordinate() {return 0;}
+        public int getCarYCoordinate() {
+            return 0; }
     }
 }
