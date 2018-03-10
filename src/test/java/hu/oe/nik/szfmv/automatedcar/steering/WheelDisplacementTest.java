@@ -56,4 +56,26 @@ public class WheelDisplacementTest extends AutomatedCar {
             Assert.assertArrayEquals(expectedArray, position, THRESHOLD);
         }
     }
+
+    @Test
+    public void GoingBackwardTest() {
+        double carHeading = 0;
+        double wheelHeading = 0;
+
+        for(int n = -100; n <= 100; n++) {
+            double speed = n;
+
+            double[] position = {0,0};
+
+            for(int i = 0 ; i < FPS; i++) {
+                Point2D displacement = getFrontWheelDisplacement(carHeading, wheelHeading, -speed, FPS);
+                double[] displacementArray = {displacement.getX(), displacement.getY()};
+                position[0] -= displacementArray[0];
+                position[1] -= displacementArray[1];
+            }
+
+            double[] expectedArray = {speed,0};
+            Assert.assertArrayEquals(expectedArray, position, THRESHOLD);
+        }
+    }
 }
