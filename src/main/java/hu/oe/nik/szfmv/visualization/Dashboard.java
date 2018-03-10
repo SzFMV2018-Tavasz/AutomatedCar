@@ -17,10 +17,10 @@ public class Dashboard extends JPanel {
     private final int backgroundColor = 0x888888;
 
     private final JPanel accStatePanel=new JPanel();
-    private final int accStatePanelX=50;
-    private final int accStatePanelY=200;
-    private final int accStatePanelWidth=150;
-    private final int accStatePanelHeight=50;
+    private final int accStatePanelX = 50;
+    private final int accStatePanelY = 200;
+    private final int accStatePanelWidth = 150;
+    private final int accStatePanelHeight = 50;
 
     private final JLabel accTargetDistanceLabel = new JLabel();
     private final JLabel accTargetSpeedLabel = new JLabel();
@@ -93,7 +93,7 @@ public class Dashboard extends JPanel {
 
         accTargetDistanceLabel.setText("Target distance:");
         accTargetSpeedLabel.setText("Target speed:");
-        
+
         add(accStatePanel);
         accStatePanel.add(accTargetDistanceLabel);
         accStatePanel.add(accDistanceLabel);
