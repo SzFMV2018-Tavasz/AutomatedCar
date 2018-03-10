@@ -1,8 +1,8 @@
 package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.environment.models.RoadSign;
-
 import javax.imageio.ImageIO;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -29,6 +29,17 @@ public class Dashboard extends JPanel {
     private final JLabel roadSignIcon = new JLabel();
     private final JLabel roadSignLabel = new JLabel();
 
+    private final int progressBarsPanelX = 25;
+    private final int progressBarsPanelY = 400;
+    private final int progressBarsPanelWidth = 200;
+    private final int progressBarsPanelHeight = 100;
+    private final JPanel progressBarsPanel = new JPanel();
+    private final JLabel gasLabel = new JLabel();
+    private final JProgressBar gasProgressBar = new JProgressBar();
+    private final JLabel breakLabel = new JLabel();
+    private final JProgressBar breakProgressBar = new JProgressBar();
+
+
     /**
      * Initialize the dashboard
      */
@@ -38,9 +49,11 @@ public class Dashboard extends JPanel {
 
     /**
      * Update the displayed values
+     * @param inputPacket Contains all the required values coming from input.
      */
-    public void updateDisplayedValues() {
-        // TODO Update the road sign as well once the road sign detection is added.
+    public void updateDisplayedValues(ReadOnlyInputPacket inputPacket) {
+        gasProgressBar.setValue(inputPacket.getGasPedalPosition());
+        breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
     }
 
     /**
@@ -53,6 +66,7 @@ public class Dashboard extends JPanel {
         setBounds(dashboardBoundsX, dashboardBoundsY, width, height);
 
         initializeRoadSignPanel();
+        initializeProgressBars();
     }
 
     /**
@@ -79,6 +93,29 @@ public class Dashboard extends JPanel {
             roadSignIcon.setIcon(new ImageIcon(roadSignPicture));
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }        
+    }
+
+    /**
+     * Initializes the progress bars on the dashboard
+     */
+    private void initializeProgressBars() {
+        progressBarsPanel.setBackground(new Color(backgroundColor));
+        progressBarsPanel.setBounds(
+                progressBarsPanelX,
+                progressBarsPanelY,
+                progressBarsPanelWidth,
+                progressBarsPanelHeight);
+
+        gasLabel.setText("gas pedal");
+        breakLabel.setText("break pedal");
+        gasProgressBar.setStringPainted(true);
+        breakProgressBar.setStringPainted(true);
+
+        add(progressBarsPanel);
+        progressBarsPanel.add(gasLabel);
+        progressBarsPanel.add(gasProgressBar);
+        progressBarsPanel.add(breakLabel);
+        progressBarsPanel.add(breakProgressBar);
     }
 }
