@@ -16,7 +16,7 @@ public class Dashboard extends JPanel {
     private final int dashboardBoundsY = 0;
     private final int backgroundColor = 0x888888;
 
-    private final JPanel accStatePanel=new JPanel();
+    private final JPanel accStatePanel = new JPanel();
     private final int accStatePanelX = 50;
     private final int accStatePanelY = 200;
     private final int accStatePanelWidth = 150;
