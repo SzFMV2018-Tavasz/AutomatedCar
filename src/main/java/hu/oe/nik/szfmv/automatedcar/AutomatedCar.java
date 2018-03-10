@@ -33,25 +33,5 @@ public class AutomatedCar extends WorldObject {
      */
     public void drive() {
         virtualFunctionBus.loop();
-
-        calculatePositionAndOrientation();
-    }
-
-    /**
-     * Calculates the new x and y coordinates of the {@link AutomatedCar} using the powertrain and the steering systems.
-     */
-    private void calculatePositionAndOrientation() {
-        //TODO it is just a fake implementation
-
-        /** This signal comes from VirtualFunctionBus. PowertrainSystem does not implemets this the getSpeed method.
-         * vroba
-         double speed = powertrainSystem.getSpeed();
-         x += speed;
-         */
-        double angularSpeed = steeringSystem.getAngularSpeed();
-
-        y = 0;
-
-        rotation += angularSpeed;
     }
 }
