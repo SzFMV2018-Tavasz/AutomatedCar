@@ -46,8 +46,8 @@ public class AutomatedCar extends WorldObject {
         double speed = powertrainSystem.getSpeed();
         double angularSpeed = steeringSystem.getAngularSpeed();
 
-        x += speed;
-        y = 0;
+        location.x += speed;
+        location.y = 0;
 
         rotation += angularSpeed;
     }

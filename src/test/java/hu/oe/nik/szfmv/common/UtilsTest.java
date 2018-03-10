@@ -15,12 +15,16 @@ public class UtilsTest {
 
     @Test
     public void testMatrixToRadiansConverter() {
-        assertEquals(4.71238898038469, Utils.convertMatrixToRadians(0, 1, -1, 0), THRESHOLD);
-        double actual = Utils.convertMatrixToRadians(0.7071068286895752, -0.7071068286895752, 0.7071068286895752, 0.7071068286895752);
-        assertEquals(0.7853981633974484, actual, THRESHOLD);
+        assertEquals(0.5 * Math.PI, Utils.convertMatrixToRadians(0, -1, 1, 0), THRESHOLD);
+        assertEquals(1.5 * Math.PI, Utils.convertMatrixToRadians(0, 1, -1, 0), THRESHOLD);
+        assertEquals(0.25 * Math.PI, Utils.convertMatrixToRadians(0.7071068286895752, -0.7071068286895752, 0.7071068286895752, 0.7071068286895752), THRESHOLD);
+    }
 
-        double[][] matrix = {{0, 1}, {-1, 0}};
-        assertEquals(4.71238898038468985769, Utils.convertMatrixToRadians(matrix), THRESHOLD);
+    @Test
+    public void testmatrixArrayToRadianConverter() {
+        assertEquals(0.5 * Math.PI, Utils.convertMatrixToRadians(new double[][]{{0, -1}, {1, 0}}), THRESHOLD);
+        assertEquals(1.5 * Math.PI, Utils.convertMatrixToRadians(new double[][]{{0, 1}, {-1, 0}}), THRESHOLD);
+        assertEquals(0.25 * Math.PI, Utils.convertMatrixToRadians(new double[][]{{0.7071068286895752, -0.7071068286895752}, {0.7071068286895752, 0.7071068286895752}}), THRESHOLD);
     }
 
     @Test
