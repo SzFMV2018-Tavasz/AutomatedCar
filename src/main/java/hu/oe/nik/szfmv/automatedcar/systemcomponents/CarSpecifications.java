@@ -23,7 +23,7 @@ public final class CarSpecifications {
             new ArrayList<>(Arrays.asList(2.90, 2.66, 1.78, 1.30, 1.00, 0.74, 0.50));
 
     private ArrayList<Integer> gearShiftLevelSpeed =
-            new ArrayList<>(Arrays.asList(15, 30, 50, 70, 100, 125 ));
+            new ArrayList<>(Arrays.asList(15, 30, 50, 70, 100, 125));
 
     public int getMaxPRM() {
         return maxPRM;

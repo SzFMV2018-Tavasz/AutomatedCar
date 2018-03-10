@@ -61,10 +61,11 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
         boolean isBraking = ((this.brakePedalPosition > 0) && (this.gasPedalPosition == 0));
         double speedDelta;
 
-        if (isAccelerate) speedDelta = this.orientationVector * (this.actualRPM
-                * carSpecifications.getGearRatios().get(this.shiftLevel)
-                / (carSpecifications.getWeight() * WIND_RESISTANCE));
-        else {
+        if (isAccelerate) {
+            speedDelta = this.orientationVector * (this.actualRPM
+                    * carSpecifications.getGearRatios().get(this.shiftLevel)
+                    / (carSpecifications.getWeight() * WIND_RESISTANCE));
+        } else {
             speedDelta = -1 * this.orientationVector * (double) carSpecifications.getEngineBrakeTorque()
                     * WIND_RESISTANCE / 150;
         }
@@ -203,10 +204,10 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     public void getVirtualFunctionBusSignals() {
         /**
          * TODO remove this comment when merge to master
-        this.gasPedalPosition = virtualFunctionBus.inputPacket.getGasPedalPosition();
-        this.brakePedalPosition = virtualFunctionBus.inputPacket.getBreakPedalPosition();
-        this.gearState = virtualFunctionBus.inputPacket.getGearState();
-        */
+         this.gasPedalPosition = virtualFunctionBus.inputPacket.getGasPedalPosition();
+         this.brakePedalPosition = virtualFunctionBus.inputPacket.getBreakPedalPosition();
+         this.gearState = virtualFunctionBus.inputPacket.getGearState();
+         */
     }
 
     public CarSpecifications getCarSpecifications() {
