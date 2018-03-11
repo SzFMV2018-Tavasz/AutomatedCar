@@ -223,14 +223,14 @@ public class Dashboard extends JPanel {
     private void drawIndexArrows(Graphics g) {
 
         if (leftIndexState) {
-            indexDrawTry(g, indexlefton, leftIndexX, indexY, imageW, imageH);
+            indexDrawTry(g, indexlefton, leftIndexX);
         } else {
-            indexDrawTry(g, indexleftoff, leftIndexX, indexY, imageW, imageH);
+            indexDrawTry(g, indexleftoff, leftIndexX);
         }
         if (rightIndexState) {
-            indexDrawTry(g, indexrighton, rightIndexX, indexY, imageW, imageH);
+            indexDrawTry(g, indexrighton, rightIndexX);
         } else {
-            indexDrawTry(g, indexrightoff, rightIndexX, indexY, imageW, imageH);
+            indexDrawTry(g, indexrightoff, rightIndexX);
         }
     }
 
@@ -240,17 +240,14 @@ public class Dashboard extends JPanel {
      * @param g {@link Graphics} object that can draw to the canvas
      * @param signal {@link String} index image selector
      * @param indexX {@link int} image X position
-     * @param indexY {@link int} image Y position
-     * @param imageWidth {@link int} image width size
-     * @param imageHeight {@link int} image height size
      */
-    private void indexDrawTry(Graphics g, String signal, int indexX, int indexY, int imageWidth, int imageHeight)
+    private void indexDrawTry(Graphics g, String signal, int indexX)
     {
         BufferedImage image;
 
         try {
             image = ImageIO.read(new File(ClassLoader.getSystemResource(signal).getFile()));
-            g.drawImage(image, indexX, indexY, imageWidth, imageHeight,this);
+            g.drawImage(image, indexX, indexY, imageW, imageH, this);
         } catch (IOException e) {
             LOGGER.info("Error in turn signal draw - " + e.getMessage());
         }
