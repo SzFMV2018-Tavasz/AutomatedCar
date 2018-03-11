@@ -1,6 +1,6 @@
 package hu.oe.nik.szfmv.automatedcar.bus.packets.input;
 
-import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
+import hu.oe.nik.szfmv.automatedcar.Input.enums.GearEnum;
 
 public interface ReadOnlyInputPacket {
     /**

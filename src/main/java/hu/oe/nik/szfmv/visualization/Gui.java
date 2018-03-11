@@ -1,6 +1,6 @@
 package hu.oe.nik.szfmv.visualization;
 
-import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
+import hu.oe.nik.szfmv.automatedcar.Input.InputHandler;
 
 import javax.swing.*;
 import java.awt.*;
