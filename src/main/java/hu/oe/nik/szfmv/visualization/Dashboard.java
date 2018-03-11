@@ -100,7 +100,8 @@ public class Dashboard extends JPanel {
     *  Initializes the car position label on the dashboard
     */
     private void initCarPositionLabel() {
-        carPositionPanel.setBounds(carPositionPanelX, carPositionPanelY, getCarPositionPanelWidth, getCarPositionPanelHeight);
+        carPositionPanel.setBounds(carPositionPanelX, carPositionPanelY,
+                getCarPositionPanelWidth, getCarPositionPanelHeight);
         carPositionPanel.setBackground(new Color(backgroundColor));
 
         carPositionXLabel.setText("X:");
@@ -114,7 +115,6 @@ public class Dashboard extends JPanel {
 
     /**
      * Update the coordinate labels in the position panel
-     * @param inputPacket
      */
     private void updateCarPositionLabel(ReadOnlyInputPacket inputPacket) {
         carPositionXLabel.setText("X:" + inputPacket.getCarXCoordinate());
