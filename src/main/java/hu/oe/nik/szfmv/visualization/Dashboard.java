@@ -133,20 +133,6 @@ public class Dashboard extends JPanel {
         gearLabel.setText("" + inputPacket.getGearState());
         wheelLabel.setText("" + inputPacket.getSteeringWheelPosition());
 
-        if(inputPacket.getLaneKeepingStatus()){
-            //lkaSignPanel.setBackground(Color.GREEN);
-        }
-        else {
-            //lkaSignPanel.setBackground(new Color(backgroundColor));
-        }
-
-        if(inputPacket.getParkingPilotStatus()){
-            //ppSignPanel.setBackground(Color.GREEN);
-        }
-        else{
-            //ppSignPanel.setBackground(new Color(backgroundColor));
-        }
-
         speedAngle = calculateSpeedometer(0);
         rpmAngle = calculateTachometer(0);
 
@@ -413,9 +399,5 @@ public class Dashboard extends JPanel {
 
         return (newspeed - minSpeedValue) * (maxSpeedMeter - minSpeedMeter)
                 / (maxSpeedValue - minSpeedValue) + minSpeedMeter;
-    }
-
-    private void LkaOn(){
-        lkaButton.setBackground(Color.GREEN);
     }
 }
