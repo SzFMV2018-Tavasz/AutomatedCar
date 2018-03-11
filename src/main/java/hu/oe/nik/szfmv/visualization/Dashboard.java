@@ -104,9 +104,9 @@ public class Dashboard extends JPanel {
      * Car Position Panel
      */
     private final int carPositionPanelX = 25;
-    private final int carPositionPanelY = 500;
+    private final int carPositionPanelY = 600;
     private final  int getCarPositionPanelWidth = 200;
-    private final  int getCarPositionPanelHeight = 200;
+    private final  int getCarPositionPanelHeight = 20;
 
     private final JLabel carPositionXLabel = new JLabel();
     private final JLabel carPositionYLabel = new JLabel();
