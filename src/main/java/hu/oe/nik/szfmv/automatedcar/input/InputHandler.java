@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv.automatedcar.Input;
+package hu.oe.nik.szfmv.automatedcar.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

@@ -2,7 +2,7 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.InputPacket;
-import hu.oe.nik.szfmv.automatedcar.Input.InputHandler;
+import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
 
 public class SteeringWheel extends SystemComponent{
 
