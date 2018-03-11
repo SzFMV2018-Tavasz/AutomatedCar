@@ -4,6 +4,9 @@ import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 import hu.oe.nik.szfmv.environment.models.RoadSign;
 import javax.imageio.ImageIO;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -16,16 +19,17 @@ import java.util.Objects;
  */
 public class Dashboard extends JPanel {
 
+    private static final Logger LOGGER = LogManager.getLogger();
+
     private final int width = 250;
     private final int height = 700;
     private final int dashboardBoundsX = 770;
     private final int dashboardBoundsY = 0;
     private final int backgroundColor = 0x888888;
 
-
     private final JPanel accStatePanel = new JPanel();
-    private final int accStatePanelX = 50;
-    private final int accStatePanelY = 200;
+    private final int accStatePanelX = -15;
+    private final int accStatePanelY = 300;
     private final int accStatePanelWidth = 150;
     private final int accStatePanelHeight = 50;
 
@@ -53,7 +57,6 @@ public class Dashboard extends JPanel {
     private final int gearLabelHeight = 20;
     private final JLabel gearLabel = new JLabel();
 
-
     private final int wheelSignLabelX = 10;
     private final int wheelSignLabelY = 500;
     private final int wheelSignLabelWidth = 100;
@@ -64,7 +67,6 @@ public class Dashboard extends JPanel {
     private final int wheelLabelWidth = 50;
     private final int wheelLabelHeight = 20;
     private final JLabel wheelLabel = new JLabel();
-
 
     private final int progressBarsPanelX = 25;
     private final int progressBarsPanelY = 400;
@@ -86,6 +88,18 @@ public class Dashboard extends JPanel {
     private int speedAngle;
     private int rpmAngle;
 
+    private String indexleftoff = "index_left_off.png";
+    private String indexrightoff = "index_right_off.png";
+    private String indexlefton = "index_left_on.png";
+    private String indexrighton = "index_right_on.png";
+    boolean leftIndexState = false;
+    boolean rightIndexState = false;
+    private final int leftIndexX = 10;
+    private final int rightIndexX = 185;
+    private final int indexY = 160;
+    private  final int imageH = 50;
+    private  final int imageW = 50;
+
     /**
      * Initialize the dashboard
      */
@@ -105,6 +119,9 @@ public class Dashboard extends JPanel {
 
         speedAngle = calculateSpeedometer(0);
         rpmAngle = calculateTachometer(0);
+
+        leftIndexState = inputPacket.getLeftTurnSignalStatus();
+        rightIndexState = inputPacket.getRightTurnSignalStatus();
         repaint();
 
         accDistanceLabel.setText(String.valueOf(inputPacket.getACCTargetDistance()));
@@ -245,6 +262,46 @@ public class Dashboard extends JPanel {
 
         g.fillArc(speedMeterX, speedMeterY, meterWidth, meterHeight, speedAngle, 2);
         g.fillArc(tachoMeterX, tachoMeterY, meterWidth, meterHeight, rpmAngle, 2);
+
+        drawIndexArrows(g);
+    }
+
+    /**
+     * Drawing the index arrows
+     *
+     * @param g {@link Graphics} object that can draw to the canvas
+     */
+    private void drawIndexArrows(Graphics g) {
+
+        if (leftIndexState) {
+            indexDrawTry(g, indexlefton, leftIndexX);
+        } else {
+            indexDrawTry(g, indexleftoff, leftIndexX);
+        }
+        if (rightIndexState) {
+            indexDrawTry(g, indexrighton, rightIndexX);
+        } else {
+            indexDrawTry(g, indexrightoff, rightIndexX);
+        }
+    }
+
+    /**
+     * Drawing the index arrows
+     *
+     * @param g {@link Graphics} object that can draw to the canvas
+     * @param signal {@link String} index image selector
+     * @param indexX {@link int} image X position
+     */
+    private void indexDrawTry(Graphics g, String signal, int indexX)
+    {
+        BufferedImage image;
+
+        try {
+            image = ImageIO.read(new File(ClassLoader.getSystemResource(signal).getFile()));
+            g.drawImage(image, indexX, indexY, imageW, imageH, this);
+        } catch (IOException e) {
+            LOGGER.info("Error in turn signal draw - " + e.getMessage());
+        }
     }
 
     /**

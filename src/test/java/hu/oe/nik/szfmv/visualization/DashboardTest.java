@@ -17,6 +17,8 @@ public class DashboardTest {
     private boolean distanceLabelGetterCalled = false;
     private boolean speedLabelGetterCalled = false;
 
+    private boolean leftTurnSignalGetterCalled = false;
+    private boolean rightTurnSignalGetterCalled = false;
     private boolean steeringWheelGetterCalled = false;
 
     /**
@@ -47,6 +49,8 @@ public class DashboardTest {
         assertThat(distanceLabelGetterCalled, is(true));
         assertThat(speedLabelGetterCalled, is(true));
 
+        assertThat(leftTurnSignalGetterCalled, is(true));
+        assertThat(rightTurnSignalGetterCalled, is(true));
         assertThat(steeringWheelGetterCalled, is(true));
     }
 
@@ -71,13 +75,13 @@ public class DashboardTest {
 
         @Override
         public int getACCTargetSpeed() {
-            distanceLabelGetterCalled=true;
+            distanceLabelGetterCalled = true;
             return 0;
         }
 
         @Override
         public double getACCTargetDistance() {
-            speedLabelGetterCalled=true;
+            speedLabelGetterCalled = true;
             return 0;
         }
 
@@ -98,11 +102,13 @@ public class DashboardTest {
 
         @Override
         public boolean getLeftTurnSignalStatus() {
+            leftTurnSignalGetterCalled = true;
             return false;
         }
 
         @Override
         public boolean getRightTurnSignalStatus() {
+            rightTurnSignalGetterCalled = true;
             return false;
         }
     }
