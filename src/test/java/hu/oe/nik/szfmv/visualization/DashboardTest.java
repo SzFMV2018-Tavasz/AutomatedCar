@@ -29,7 +29,9 @@ public class DashboardTest {
     @Test
     public void allRequiredValuesReceivedOnUpdate() {
         InputPacketStub inputPacket = new InputPacketStub();
-        dashboard.updateDisplayedValues(inputPacket);
+        int carX = 0;
+        int carY = 0;
+        dashboard.updateDisplayedValues(inputPacket, carX, carY);
 
         assertThat(gasPedalGetterCalled, is(true));
         assertThat(breakPedalGetterCalled, is(true));
@@ -87,13 +89,5 @@ public class DashboardTest {
         public boolean getRightTurnSignalStatus() {
             return false;
         }
-
-        @Override
-        public int getCarXCoordinate() {
-            return 0; }
-
-        @Override
-        public int getCarYCoordinate() {
-            return 0; }
     }
 }

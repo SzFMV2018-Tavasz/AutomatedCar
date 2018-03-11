@@ -54,10 +54,10 @@ public class Dashboard extends JPanel {
      * Update the displayed values
      * @param inputPacket Contains all the required values coming from input.
      */
-    public void updateDisplayedValues(ReadOnlyInputPacket inputPacket) {
+    public void updateDisplayedValues(ReadOnlyInputPacket inputPacket, int carX, int carY) {
         gasProgressBar.setValue(inputPacket.getGasPedalPosition());
         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
-        updateCarPositionLabel(inputPacket);
+        updateCarPositionLabel(carX, carY);
     }
 
     /**
@@ -116,8 +116,8 @@ public class Dashboard extends JPanel {
     /**
      * Update the coordinate labels in the position panel
      */
-    private void updateCarPositionLabel(ReadOnlyInputPacket inputPacket) {
-        carPositionXLabel.setText("X:" + inputPacket.getCarXCoordinate());
-        carPositionYLabel.setText("Y:" + inputPacket.getCarYCoordinate());
+    private void updateCarPositionLabel(int x, int y) {
+        carPositionXLabel.setText("X:" + x);
+        carPositionYLabel.setText("Y:" + y);
     }
 }
