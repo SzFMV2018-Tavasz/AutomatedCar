@@ -13,7 +13,6 @@ public class GasBrake extends SystemComponent
     private final InputPacket inputPacket;
 
     private InputHandler inputHandler;
-
     public GasBrake(VirtualFunctionBus virtual)
     {
         super(virtual);
