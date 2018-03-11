@@ -53,6 +53,8 @@ public class Dashboard extends JPanel {
     /**
      * Update the displayed values
      * @param inputPacket Contains all the required values coming from input.
+     * @param carX is the X coordinate of the car object
+     * @param carY is the Y coordinate of the car object
      */
     public void updateDisplayedValues(ReadOnlyInputPacket inputPacket, int carX, int carY) {
         gasProgressBar.setValue(inputPacket.getGasPedalPosition());
@@ -115,6 +117,8 @@ public class Dashboard extends JPanel {
 
     /**
      * Update the coordinate labels in the position panel
+     * @param x is the X coordinate of the car
+     * @param y is the Y coordinate of the car object
      */
     private void updateCarPositionLabel(int x, int y) {
         carPositionXLabel.setText("X:" + x);
