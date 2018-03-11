@@ -9,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -68,19 +70,19 @@ public class Dashboard extends JPanel {
     private final int wheelLabelHeight = 20;
     private final JLabel wheelLabel = new JLabel();
 
-    private final int lkaSignPanelX = 10;
-    private final int lkaSignPanelY = 350;
-    private final int lkaSignPanelWidth = 45;
-    private final int lkaSignPanelHeight = 30;
-    private final JPanel lkaSignPanel = new JPanel();
-    private final JLabel lkaSignLabel = new JLabel();
+    private final int lkaButtonX = 5;
+    private final int lkaButtonY = 350;
+    private final int lkaButtonWidth = 60;
+    private final int lkaButtonHeight = 30;
+    JButton lkaButton = new JButton();
+    boolean lkaOn = false;
 
-    private final int ppSignPanelX = 60;
-    private final int ppSignPanelY = 350;
-    private final int ppSignPanelWidth = 45;
-    private final int ppSignPanelHeight = 30;
-    private final JPanel ppSignPanel = new JPanel();
-    private final JLabel ppSignLabel = new JLabel();
+    private final int ppButtonX = 65;
+    private final int ppButtonY = 350;
+    private final int ppButtonWidth = 50;
+    private final int ppButtonHeight = 30;
+    JButton ppButton = new JButton();
+    boolean ppOn = false;
 
     private final int progressBarsPanelX = 25;
     private final int progressBarsPanelY = 400;
@@ -125,24 +127,24 @@ public class Dashboard extends JPanel {
      * Update the displayed values
      * @param inputPacket Contains all the required values coming from input.
      */
-    public void updateDisplayedValues(ReadOnlyInputPacket inputPacket) {
+        public void updateDisplayedValues(ReadOnlyInputPacket inputPacket) {
         gasProgressBar.setValue(inputPacket.getGasPedalPosition());
         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
         gearLabel.setText("" + inputPacket.getGearState());
         wheelLabel.setText("" + inputPacket.getSteeringWheelPosition());
 
         if(inputPacket.getLaneKeepingStatus()){
-            lkaSignPanel.setBackground(Color.GREEN);
+            //lkaSignPanel.setBackground(Color.GREEN);
         }
         else {
-            lkaSignPanel.setBackground(new Color(backgroundColor));
+            //lkaSignPanel.setBackground(new Color(backgroundColor));
         }
 
         if(inputPacket.getParkingPilotStatus()){
-            ppSignPanel.setBackground(Color.GREEN);
+            //ppSignPanel.setBackground(Color.GREEN);
         }
         else{
-            ppSignPanel.setBackground(new Color(backgroundColor));
+            //ppSignPanel.setBackground(new Color(backgroundColor));
         }
 
         speedAngle = calculateSpeedometer(0);
@@ -244,22 +246,44 @@ public class Dashboard extends JPanel {
      * Initializes the lka sign on the dashboard
      */
     private void initializeLka() {
-        lkaSignPanel.setBounds(lkaSignPanelX, lkaSignPanelY, lkaSignPanelWidth, lkaSignPanelHeight);
-        lkaSignPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-        lkaSignPanel.add(lkaSignLabel);
-        lkaSignLabel.setText("LKA");
-        add(lkaSignPanel);
+        lkaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!lkaOn) {
+                    lkaButton.setBackground(Color.GREEN);
+                }
+                else{
+                    lkaButton.setBackground(new JButton().getBackground());
+                }
+
+                lkaOn = !lkaOn;
+            }
+        });
+        lkaButton.setBounds(lkaButtonX, lkaButtonY, lkaButtonWidth, lkaButtonHeight);
+        lkaButton.setText("LKA");
+        add(lkaButton);
     }
 
     /**
      * Initializes the pp sign on the dashboard
      */
     private void initializePp() {
-        ppSignPanel.setBounds(ppSignPanelX, ppSignPanelY, ppSignPanelWidth, ppSignPanelHeight);
-        ppSignPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-        ppSignPanel.add(ppSignLabel);
-        ppSignLabel.setText("PP");
-        add(ppSignPanel);
+        ppButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!ppOn) {
+                    ppButton.setBackground(Color.GREEN);
+                } else {
+                    ppButton.setBackground(new JButton().getBackground());
+                }
+
+                ppOn = !ppOn;
+            }
+        });
+        ppButton.setBounds(ppButtonX, ppButtonY, ppButtonWidth, ppButtonHeight);
+        ppButton.setText("PP");
+        add(ppButton);
+        //ppSignLabel.setText("PP");
     }
 
     /**
@@ -389,5 +413,9 @@ public class Dashboard extends JPanel {
 
         return (newspeed - minSpeedValue) * (maxSpeedMeter - minSpeedMeter)
                 / (maxSpeedValue - minSpeedValue) + minSpeedMeter;
+    }
+
+    private void LkaOn(){
+        lkaButton.setBackground(Color.GREEN);
     }
 }
