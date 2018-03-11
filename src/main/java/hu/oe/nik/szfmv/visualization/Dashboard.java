@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.visualization;
 
+import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 import hu.oe.nik.szfmv.environment.models.RoadSign;
 import javax.imageio.ImageIO;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
@@ -44,6 +45,28 @@ public class Dashboard extends JPanel {
     private final JPanel roadSignPanel = new JPanel();
     private final JLabel roadSignIcon = new JLabel();
     private final JLabel roadSignLabel = new JLabel();
+
+    private final int gearSignLabelX = 100;
+    private final int gearSignLabelY = 160;
+    private final int gearSignLabelWidth = 40;
+    private final int gearSignLabelHeight = 20;
+    private final JLabel gearSignLabel = new JLabel();
+    private final int gearLabelX = 135;
+    private final int gearLabelY = 160;
+    private final int gearLabelWidth = 50;
+    private final int gearLabelHeight = 20;
+    private final JLabel gearLabel = new JLabel();
+
+    private final int wheelSignLabelX = 10;
+    private final int wheelSignLabelY = 500;
+    private final int wheelSignLabelWidth = 100;
+    private final int wheelSignLabelHeight = 20;
+    private final JLabel wheelSignLabel = new JLabel();
+    private final int wheelLabelX = 110;
+    private final int wheelLabelY = 500;
+    private final int wheelLabelWidth = 50;
+    private final int wheelLabelHeight = 20;
+    private final JLabel wheelLabel = new JLabel();
 
     private final int progressBarsPanelX = 25;
     private final int progressBarsPanelY = 400;
@@ -91,6 +114,8 @@ public class Dashboard extends JPanel {
     public void updateDisplayedValues(ReadOnlyInputPacket inputPacket) {
         gasProgressBar.setValue(inputPacket.getGasPedalPosition());
         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+        gearLabel.setText("" + inputPacket.getGearState());
+        wheelLabel.setText("" + inputPacket.getSteeringWheelPosition());
 
         speedAngle = calculateSpeedometer(0);
         rpmAngle = calculateTachometer(0);
@@ -117,6 +142,8 @@ public class Dashboard extends JPanel {
         initializeRoadSignPanel();
         initializeProgressBars();
 
+        initializeGear();
+        initializeSteeringWheel();
         //test value for display until updateDisplayValues method is implemented
         accDistanceLabel.setText("20");
 
@@ -157,6 +184,30 @@ public class Dashboard extends JPanel {
         roadSignPanel.add(roadSignIcon);
         roadSignLabel.setText("last road sign");
         add(roadSignPanel);
+    }
+
+    /**
+     * Initializes the Gear sign panel on the dashboard
+     */
+    private void initializeGear() {
+        gearSignLabel.setBounds(gearSignLabelX, gearSignLabelY, gearSignLabelWidth, gearSignLabelHeight);
+        gearLabel.setBounds(gearLabelX, gearLabelY, gearLabelWidth, gearLabelHeight);
+        gearSignLabel.setText("Gear:");
+        gearLabel.setText("" + GearEnum.P);
+        add(gearSignLabel);
+        add(gearLabel);
+    }
+
+    /**
+     * Initializes the Steering wheel sign on the dashboard
+     */
+    private void initializeSteeringWheel() {
+        wheelSignLabel.setBounds(wheelSignLabelX, wheelSignLabelY, wheelSignLabelWidth, wheelSignLabelHeight);
+        wheelLabel.setBounds(wheelLabelX, wheelLabelY, wheelLabelWidth, wheelLabelHeight);
+        wheelSignLabel.setText("steereng wheel:");
+        wheelLabel.setText("0");
+        add(wheelSignLabel);
+        add(wheelLabel);
     }
 
     /**
