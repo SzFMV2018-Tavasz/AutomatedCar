@@ -3,6 +3,9 @@ package hu.oe.nik.szfmv.visualization;
 import hu.oe.nik.szfmv.environment.models.RoadSign;
 import javax.imageio.ImageIO;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,16 +18,17 @@ import java.util.Objects;
  */
 public class Dashboard extends JPanel {
 
+    private static final Logger LOGGER = LogManager.getLogger();
+
     private final int width = 250;
     private final int height = 700;
     private final int dashboardBoundsX = 770;
     private final int dashboardBoundsY = 0;
     private final int backgroundColor = 0x888888;
 
-
     private final JPanel accStatePanel = new JPanel();
-    private final int accStatePanelX = 50;
-    private final int accStatePanelY = 200;
+    private final int accStatePanelX = -15;
+    private final int accStatePanelY = 300;
     private final int accStatePanelWidth = 150;
     private final int accStatePanelHeight = 50;
 
@@ -40,7 +44,6 @@ public class Dashboard extends JPanel {
     private final JPanel roadSignPanel = new JPanel();
     private final JLabel roadSignIcon = new JLabel();
     private final JLabel roadSignLabel = new JLabel();
-
 
     private final int progressBarsPanelX = 25;
     private final int progressBarsPanelY = 400;
@@ -62,6 +65,13 @@ public class Dashboard extends JPanel {
     private int speedAngle;
     private int rpmAngle;
 
+    String indexleftoff = "index_left_off.png";
+    String indexrightoff = "index_right_off.png";
+    String indexlefton = "index_left_on.png";
+    String indexrighton = "index_right_on.png";
+    boolean leftIndexState=false;
+    boolean rightIndexState=false;
+
     /**
      * Initialize the dashboard
      */
@@ -79,6 +89,9 @@ public class Dashboard extends JPanel {
 
         speedAngle = calculateSpeedometer(0);
         rpmAngle = calculateTachometer(0);
+
+        leftIndexState=inputPacket.getLeftTurnSignalStatus();
+        rightIndexState=inputPacket.getRightTurnSignalStatus();
         repaint();
 
         accDistanceLabel.setText(String.valueOf(inputPacket.getACCTargetDistance()));
@@ -193,6 +206,51 @@ public class Dashboard extends JPanel {
 
         g.fillArc(speedMeterX, speedMeterY, meterWidth, meterHeight, speedAngle, 2);
         g.fillArc(tachoMeterX, tachoMeterY, meterWidth, meterHeight, rpmAngle, 2);
+
+        drawIndexArrows(g);
+    }
+
+    /**
+     * Drawing the index arrows
+     *
+     * @param g {@link Graphics} object that can draw to the canvas
+     */
+    private void drawIndexArrows(Graphics g) {
+
+        BufferedImage image;
+
+        if(leftIndexState) {
+            try {
+                image = ImageIO.read(new File(ClassLoader.getSystemResource(indexlefton).getFile()));
+                g.drawImage(image, 10, 160, 50, 50, this);
+            } catch (IOException e) {
+                LOGGER.info("Error in turn signal draw - " + e.getMessage());
+            }
+        }
+        else{
+            try {
+                image = ImageIO.read(new File(ClassLoader.getSystemResource(indexleftoff).getFile()));
+                g.drawImage(image, 10, 160, 50, 50, this);
+            } catch (IOException e) {
+                LOGGER.info("Error in turn signal draw - " + e.getMessage());
+            }
+        }
+        if(rightIndexState) {
+            try {
+                image = ImageIO.read(new File(ClassLoader.getSystemResource(indexrighton).getFile()));
+                g.drawImage(image, 185, 160, 50, 50, this);
+            } catch (IOException e) {
+                LOGGER.info("Error in turn signal draw - " + e.getMessage());
+            }
+        }
+        else{
+            try {
+                image = ImageIO.read(new File(ClassLoader.getSystemResource(indexrightoff).getFile()));
+                g.drawImage(image, 185, 160, 50, 50, this);
+            } catch (IOException e) {
+                LOGGER.info("Error in World build - " + e.getMessage());
+            }
+        }
     }
 
     /**
