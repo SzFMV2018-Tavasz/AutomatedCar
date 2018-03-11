@@ -14,6 +14,13 @@ public class DashboardTest {
     private boolean gasPedalGetterCalled = false;
     private boolean breakPedalGetterCalled = false;
 
+    private boolean distanceLabelGetterCalled = false;
+    private boolean speedLabelGetterCalled = false;
+
+    private boolean leftTurnSignalGetterCalled = false;
+    private boolean rightTurnSignalGetterCalled = false;
+    private boolean steeringWheelGetterCalled = false;
+
     /**
      * Sets all the boolean values that indicate method calls to false before the tests are run.
      */
@@ -21,6 +28,11 @@ public class DashboardTest {
     public void setUp() {
         gasPedalGetterCalled = false;
         breakPedalGetterCalled = false;
+
+        distanceLabelGetterCalled = false;
+        speedLabelGetterCalled = false;
+
+        steeringWheelGetterCalled = false;
     }
 
     /**
@@ -35,6 +47,13 @@ public class DashboardTest {
 
         assertThat(gasPedalGetterCalled, is(true));
         assertThat(breakPedalGetterCalled, is(true));
+
+        assertThat(distanceLabelGetterCalled, is(true));
+        assertThat(speedLabelGetterCalled, is(true));
+
+        assertThat(leftTurnSignalGetterCalled, is(true));
+        assertThat(rightTurnSignalGetterCalled, is(true));
+        assertThat(steeringWheelGetterCalled, is(true));
     }
 
     class InputPacketStub implements ReadOnlyInputPacket {
@@ -52,16 +71,19 @@ public class DashboardTest {
 
         @Override
         public double getSteeringWheelPosition() {
+            steeringWheelGetterCalled = true;
             return 0;
         }
 
         @Override
         public int getACCTargetSpeed() {
+            distanceLabelGetterCalled = true;
             return 0;
         }
 
         @Override
         public double getACCTargetDistance() {
+            speedLabelGetterCalled = true;
             return 0;
         }
 
@@ -82,11 +104,13 @@ public class DashboardTest {
 
         @Override
         public boolean getLeftTurnSignalStatus() {
+            leftTurnSignalGetterCalled = true;
             return false;
         }
 
         @Override
         public boolean getRightTurnSignalStatus() {
+            rightTurnSignalGetterCalled = true;
             return false;
         }
     }
