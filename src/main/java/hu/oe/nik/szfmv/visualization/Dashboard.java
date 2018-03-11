@@ -290,6 +290,7 @@ public class Dashboard extends JPanel {
     private void updateCarPositionLabel(int x, int y) {
         carPositionXLabel.setText("X:" + x);
         carPositionYLabel.setText("Y:" + y);
+    }
 
     /**
      * Drawing the Speedometer and the Tachometer.
