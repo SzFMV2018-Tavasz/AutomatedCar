@@ -92,8 +92,8 @@ public class Dashboard extends JPanel {
     private String indexrightoff = "index_right_off.png";
     private String indexlefton = "index_left_on.png";
     private String indexrighton = "index_right_on.png";
-    boolean leftIndexState = false;
-    boolean rightIndexState = false;
+    private boolean leftIndexState = false;
+    private boolean rightIndexState = false;
     private final int leftIndexX = 10;
     private final int rightIndexX = 185;
     private final int indexY = 160;
@@ -336,8 +336,7 @@ public class Dashboard extends JPanel {
      * @param signal {@link String} index image selector
      * @param indexX {@link int} image X position
      */
-    private void indexDrawTry(Graphics g, String signal, int indexX)
-    {
+    private void indexDrawTry(Graphics g, String signal, int indexX) {
         BufferedImage image;
 
         try {
