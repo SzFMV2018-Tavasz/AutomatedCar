@@ -47,12 +47,12 @@ public class Dashboard extends JPanel {
     private final JLabel roadSignLabel = new JLabel();
 
     private final int gearSignLabelX = 100;
-    private final int gearSignLabelY = 160;
+    private final int gearSignLabelY = 175;
     private final int gearSignLabelWidth = 40;
     private final int gearSignLabelHeight = 20;
     private final JLabel gearSignLabel = new JLabel();
     private final int gearLabelX = 135;
-    private final int gearLabelY = 160;
+    private final int gearLabelY = 175;
     private final int gearLabelWidth = 50;
     private final int gearLabelHeight = 20;
     private final JLabel gearLabel = new JLabel();
@@ -67,6 +67,20 @@ public class Dashboard extends JPanel {
     private final int wheelLabelWidth = 50;
     private final int wheelLabelHeight = 20;
     private final JLabel wheelLabel = new JLabel();
+
+    private final int lkaSignPanelX = 10;
+    private final int lkaSignPanelY = 350;
+    private final int lkaSignPanelWidth = 45;
+    private final int lkaSignPanelHeight = 30;
+    private final JPanel lkaSignPanel = new JPanel();
+    private final JLabel lkaSignLabel = new JLabel();
+
+    private final int ppSignPanelX = 60;
+    private final int ppSignPanelY = 350;
+    private final int ppSignPanelWidth = 45;
+    private final int ppSignPanelHeight = 30;
+    private final JPanel ppSignPanel = new JPanel();
+    private final JLabel ppSignLabel = new JLabel();
 
     private final int progressBarsPanelX = 25;
     private final int progressBarsPanelY = 400;
@@ -117,6 +131,20 @@ public class Dashboard extends JPanel {
         gearLabel.setText("" + inputPacket.getGearState());
         wheelLabel.setText("" + inputPacket.getSteeringWheelPosition());
 
+        if(inputPacket.getLaneKeepingStatus()){
+            lkaSignPanel.setBackground(Color.GREEN);
+        }
+        else {
+            lkaSignPanel.setBackground(new Color(backgroundColor));
+        }
+
+        if(inputPacket.getParkingPilotStatus()){
+            ppSignPanel.setBackground(Color.GREEN);
+        }
+        else{
+            ppSignPanel.setBackground(new Color(backgroundColor));
+        }
+
         speedAngle = calculateSpeedometer(0);
         rpmAngle = calculateTachometer(0);
 
@@ -144,6 +172,8 @@ public class Dashboard extends JPanel {
 
         initializeGear();
         initializeSteeringWheel();
+        initializeLka();
+        initializePp();
         //test value for display until updateDisplayValues method is implemented
         accDistanceLabel.setText("20");
 
@@ -204,10 +234,32 @@ public class Dashboard extends JPanel {
     private void initializeSteeringWheel() {
         wheelSignLabel.setBounds(wheelSignLabelX, wheelSignLabelY, wheelSignLabelWidth, wheelSignLabelHeight);
         wheelLabel.setBounds(wheelLabelX, wheelLabelY, wheelLabelWidth, wheelLabelHeight);
-        wheelSignLabel.setText("steereng wheel:");
+        wheelSignLabel.setText("steering wheel:");
         wheelLabel.setText("0");
         add(wheelSignLabel);
         add(wheelLabel);
+    }
+
+    /**
+     * Initializes the lka sign on the dashboard
+     */
+    private void initializeLka() {
+        lkaSignPanel.setBounds(lkaSignPanelX, lkaSignPanelY, lkaSignPanelWidth, lkaSignPanelHeight);
+        lkaSignPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        lkaSignPanel.add(lkaSignLabel);
+        lkaSignLabel.setText("LKA");
+        add(lkaSignPanel);
+    }
+
+    /**
+     * Initializes the pp sign on the dashboard
+     */
+    private void initializePp() {
+        ppSignPanel.setBounds(ppSignPanelX, ppSignPanelY, ppSignPanelWidth, ppSignPanelHeight);
+        ppSignPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        ppSignPanel.add(ppSignLabel);
+        ppSignLabel.setText("PP");
+        add(ppSignPanel);
     }
 
     /**
