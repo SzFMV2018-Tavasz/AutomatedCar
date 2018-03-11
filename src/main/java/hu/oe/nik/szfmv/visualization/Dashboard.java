@@ -74,8 +74,8 @@ public class Dashboard extends JPanel {
     private final int leftIndexX = 10;
     private final int rightIndexX = 185;
     private final int indexY = 160;
-    private  final int imageH=50;
-    private  final int imageW=50;
+    private  final int imageH = 50;
+    private  final int imageW = 50;
 
     /**
      * Initialize the dashboard
@@ -95,8 +95,8 @@ public class Dashboard extends JPanel {
         speedAngle = calculateSpeedometer(0);
         rpmAngle = calculateTachometer(0);
 
-        leftIndexState=inputPacket.getLeftTurnSignalStatus();
-        rightIndexState=inputPacket.getRightTurnSignalStatus();
+        leftIndexState = inputPacket.getLeftTurnSignalStatus();
+        rightIndexState = inputPacket.getRightTurnSignalStatus();
         repaint();
 
         accDistanceLabel.setText(String.valueOf(inputPacket.getACCTargetDistance()));
@@ -222,37 +222,37 @@ public class Dashboard extends JPanel {
      */
     private void drawIndexArrows(Graphics g) {
 
+        if (leftIndexState) {
+            indexDrawTry(g, indexlefton, leftIndexX, indexY, imageW, imageH);
+        } else {
+            indexDrawTry(g, indexleftoff, leftIndexX, indexY, imageW, imageH);
+        }
+        if (rightIndexState) {
+            indexDrawTry(g, indexrighton, rightIndexX, indexY, imageW, imageH);
+        } else {
+            indexDrawTry(g, indexrightoff, rightIndexX, indexY, imageW, imageH);
+        }
+    }
+
+    /**
+     * Drawing the index arrows
+     *
+     * @param g {@link Graphics} object that can draw to the canvas
+     * @param signal {@link String} index image selector
+     * @param indexX {@link int} image X position
+     * @param indexY {@link int} image Y position
+     * @param imageWidth {@link int} image width size
+     * @param imageHeight {@link int} image height size
+     */
+    private void indexDrawTry(Graphics g, String signal, int indexX, int indexY, int imageWidth, int imageHeight)
+    {
         BufferedImage image;
 
-        if(leftIndexState) {
-            try {
-                image = ImageIO.read(new File(ClassLoader.getSystemResource(indexlefton).getFile()));
-                g.drawImage(image,leftIndexX,indexY,imageW,imageH,this);
-            } catch (IOException e) {
-                LOGGER.info("Error in turn signal draw - " + e.getMessage());
-            }
-        } else {
-            try {
-                image = ImageIO.read(new File(ClassLoader.getSystemResource(indexleftoff).getFile()));
-                g.drawImage(image,leftIndexX,indexY,imageW,imageH,this);
-            } catch (IOException e) {
-                LOGGER.info("Error in turn signal draw - " + e.getMessage());
-            }
-        }
-        if(rightIndexState) {
-            try {
-                image = ImageIO.read(new File(ClassLoader.getSystemResource(indexrighton).getFile()));
-                g.drawImage(image,rightIndexX,indexY,imageW,imageH,this);
-            } catch (IOException e) {
-                LOGGER.info("Error in turn signal draw - " + e.getMessage());
-            }
-        } else {
-            try {
-                image = ImageIO.read(new File(ClassLoader.getSystemResource(indexrightoff).getFile()));
-                g.drawImage(image,rightIndexX,indexY,imageW,imageH,this);
-            } catch (IOException e) {
-                LOGGER.info("Error in World build - " + e.getMessage());
-            }
+        try {
+            image = ImageIO.read(new File(ClassLoader.getSystemResource(signal).getFile()));
+            g.drawImage(image, indexX, indexY, imageWidth, imageHeight,this);
+        } catch (IOException e) {
+            LOGGER.info("Error in turn signal draw - " + e.getMessage());
         }
     }
 
