@@ -65,12 +65,17 @@ public class Dashboard extends JPanel {
     private int speedAngle;
     private int rpmAngle;
 
-    String indexleftoff = "index_left_off.png";
-    String indexrightoff = "index_right_off.png";
-    String indexlefton = "index_left_on.png";
-    String indexrighton = "index_right_on.png";
-    boolean leftIndexState=false;
-    boolean rightIndexState=false;
+    private String indexleftoff = "index_left_off.png";
+    private String indexrightoff = "index_right_off.png";
+    private String indexlefton = "index_left_on.png";
+    private String indexrighton = "index_right_on.png";
+    boolean leftIndexState = false;
+    boolean rightIndexState = false;
+    private final int leftIndexX = 10;
+    private final int rightIndexX = 185;
+    private final int indexY = 160;
+    private  final int imageH=50;
+    private  final int imageW=50;
 
     /**
      * Initialize the dashboard
@@ -222,15 +227,14 @@ public class Dashboard extends JPanel {
         if(leftIndexState) {
             try {
                 image = ImageIO.read(new File(ClassLoader.getSystemResource(indexlefton).getFile()));
-                g.drawImage(image, 10, 160, 50, 50, this);
+                g.drawImage(image,leftIndexX,indexY,imageW,imageH,this);
             } catch (IOException e) {
                 LOGGER.info("Error in turn signal draw - " + e.getMessage());
             }
-        }
-        else{
+        } else {
             try {
                 image = ImageIO.read(new File(ClassLoader.getSystemResource(indexleftoff).getFile()));
-                g.drawImage(image, 10, 160, 50, 50, this);
+                g.drawImage(image,leftIndexX,indexY,imageW,imageH,this);
             } catch (IOException e) {
                 LOGGER.info("Error in turn signal draw - " + e.getMessage());
             }
@@ -238,15 +242,14 @@ public class Dashboard extends JPanel {
         if(rightIndexState) {
             try {
                 image = ImageIO.read(new File(ClassLoader.getSystemResource(indexrighton).getFile()));
-                g.drawImage(image, 185, 160, 50, 50, this);
+                g.drawImage(image,rightIndexX,indexY,imageW,imageH,this);
             } catch (IOException e) {
                 LOGGER.info("Error in turn signal draw - " + e.getMessage());
             }
-        }
-        else{
+        } else {
             try {
                 image = ImageIO.read(new File(ClassLoader.getSystemResource(indexrightoff).getFile()));
-                g.drawImage(image, 185, 160, 50, 50, this);
+                g.drawImage(image,rightIndexX,indexY,imageW,imageH,this);
             } catch (IOException e) {
                 LOGGER.info("Error in World build - " + e.getMessage());
             }
