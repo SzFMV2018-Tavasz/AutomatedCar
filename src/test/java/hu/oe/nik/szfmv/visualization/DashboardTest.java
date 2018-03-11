@@ -17,6 +17,8 @@ public class DashboardTest {
     private boolean distanceLabelGetterCalled = false;
     private boolean speedLabelGetterCalled = false;
 
+    private boolean steeringWheelGetterCalled = false;
+
     /**
      * Sets all the boolean values that indicate method calls to false before the tests are run.
      */
@@ -27,6 +29,8 @@ public class DashboardTest {
 
         distanceLabelGetterCalled = false;
         speedLabelGetterCalled = false;
+
+        steeringWheelGetterCalled = false;
     }
 
     /**
@@ -42,6 +46,8 @@ public class DashboardTest {
 
         assertThat(distanceLabelGetterCalled, is(true));
         assertThat(speedLabelGetterCalled, is(true));
+
+        assertThat(steeringWheelGetterCalled, is(true));
     }
 
     class InputPacketStub implements ReadOnlyInputPacket {
@@ -59,6 +65,7 @@ public class DashboardTest {
 
         @Override
         public double getSteeringWheelPosition() {
+            steeringWheelGetterCalled = true;
             return 0;
         }
 
