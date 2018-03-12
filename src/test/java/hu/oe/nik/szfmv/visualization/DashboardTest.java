@@ -13,13 +13,14 @@ public class DashboardTest {
     private Dashboard dashboard = new Dashboard();
     private boolean gasPedalGetterCalled = false;
     private boolean breakPedalGetterCalled = false;
-
     private boolean distanceLabelGetterCalled = false;
     private boolean speedLabelGetterCalled = false;
-
+    private boolean laneKeepingGetterCalled = false;
+    private boolean parkingPilotGetterCalled = false;
     private boolean leftTurnSignalGetterCalled = false;
     private boolean rightTurnSignalGetterCalled = false;
     private boolean steeringWheelGetterCalled = false;
+    private boolean gearStateGetterCalled = false;
 
     /**
      * Sets all the boolean values that indicate method calls to false before the tests are run.
@@ -28,10 +29,11 @@ public class DashboardTest {
     public void setUp() {
         gasPedalGetterCalled = false;
         breakPedalGetterCalled = false;
-
+        laneKeepingGetterCalled = false;
+        parkingPilotGetterCalled = false;
         distanceLabelGetterCalled = false;
         speedLabelGetterCalled = false;
-
+        gearStateGetterCalled = false;
         steeringWheelGetterCalled = false;
     }
 
@@ -47,10 +49,11 @@ public class DashboardTest {
 
         assertThat(gasPedalGetterCalled, is(true));
         assertThat(breakPedalGetterCalled, is(true));
-
+        assertThat(parkingPilotGetterCalled, is(true));
+        assertThat(laneKeepingGetterCalled, is(true));
         assertThat(distanceLabelGetterCalled, is(true));
         assertThat(speedLabelGetterCalled, is(true));
-
+        assertThat(gearStateGetterCalled, is(true));
         assertThat(leftTurnSignalGetterCalled, is(true));
         assertThat(rightTurnSignalGetterCalled, is(true));
         assertThat(steeringWheelGetterCalled, is(true));
@@ -89,16 +92,19 @@ public class DashboardTest {
 
         @Override
         public boolean getLaneKeepingStatus() {
+            laneKeepingGetterCalled = true;
             return false;
         }
 
         @Override
         public boolean getParkingPilotStatus() {
+            parkingPilotGetterCalled = true;
             return false;
         }
 
         @Override
         public GearEnum getGearState() {
+            gearStateGetterCalled = true;
             return null;
         }
 

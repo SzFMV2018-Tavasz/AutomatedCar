@@ -74,15 +74,15 @@ public class Dashboard extends JPanel {
     private final int lkaButtonY = 350;
     private final int lkaButtonWidth = 60;
     private final int lkaButtonHeight = 30;
-    JButton lkaButton = new JButton();
-    boolean lkaOn = false;
+    private JButton lkaButton = new JButton();
+    private boolean lkaOn = false;
 
     private final int ppButtonX = 65;
     private final int ppButtonY = 350;
     private final int ppButtonWidth = 50;
     private final int ppButtonHeight = 30;
-    JButton ppButton = new JButton();
-    boolean ppOn = false;
+    private JButton ppButton = new JButton();
+    private boolean ppOn = false;
 
     private final int progressBarsPanelX = 25;
     private final int progressBarsPanelY = 400;
@@ -144,21 +144,28 @@ public class Dashboard extends JPanel {
      * @param carY is the Y coordinate of the car object
      */
     public void updateDisplayedValues(ReadOnlyInputPacket inputPacket, int carX, int carY) {
-        gasProgressBar.setValue(inputPacket.getGasPedalPosition());
-        breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+        if (inputPacket != null) {
+            gasProgressBar.setValue(inputPacket.getGasPedalPosition());
+            breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+            gearLabel.setText("" + inputPacket.getGearState());
+            wheelLabel.setText("" + inputPacket.getSteeringWheelPosition());
+
+            speedAngle = calculateSpeedometer(0);
+            rpmAngle = calculateTachometer(0);
+
+            leftIndexState = inputPacket.getLeftTurnSignalStatus();
+            rightIndexState = inputPacket.getRightTurnSignalStatus();
+            repaint();
+
+            accDistanceLabel.setText(String.valueOf(inputPacket.getACCTargetDistance()));
+            accSpeedLabel.setText(String.valueOf(inputPacket.getACCTargetSpeed()));
+
+            lkaOn = inputPacket.getLaneKeepingStatus();
+            updateButtonBackground(lkaOn, lkaButton);
+            ppOn = inputPacket.getParkingPilotStatus();
+            updateButtonBackground(ppOn, ppButton);
+        }
         updateCarPositionLabel(carX, carY);
-        gearLabel.setText("" + inputPacket.getGearState());
-        wheelLabel.setText("" + inputPacket.getSteeringWheelPosition());
-
-        speedAngle = calculateSpeedometer(0);
-        rpmAngle = calculateTachometer(0);
-
-        leftIndexState = inputPacket.getLeftTurnSignalStatus();
-        rightIndexState = inputPacket.getRightTurnSignalStatus();
-        repaint();
-
-        accDistanceLabel.setText(String.valueOf(inputPacket.getACCTargetDistance()));
-        accSpeedLabel.setText(String.valueOf(inputPacket.getACCTargetSpeed()));
     }
 
     /**
@@ -246,20 +253,27 @@ public class Dashboard extends JPanel {
     }
 
     /**
+     * Updates the given button's background color based on the given boolean value
+     * @param buttonValue the boolean value represented by the button
+     * @param button the button we are updating
+     */
+    private void updateButtonBackground(Boolean buttonValue, JButton button) {
+        if (buttonValue) {
+            button.setBackground(Color.GREEN);
+        } else {
+            button.setBackground(new JButton().getBackground());
+        }
+    }
+
+    /**
      * Initializes the lka sign on the dashboard
      */
     private void initializeLka() {
         lkaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!lkaOn) {
-                    lkaButton.setBackground(Color.GREEN);
-                }
-                else{
-                    lkaButton.setBackground(new JButton().getBackground());
-                }
-
                 lkaOn = !lkaOn;
+                updateButtonBackground(lkaOn, lkaButton);
             }
         });
         lkaButton.setBounds(lkaButtonX, lkaButtonY, lkaButtonWidth, lkaButtonHeight);
@@ -274,13 +288,8 @@ public class Dashboard extends JPanel {
         ppButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!ppOn) {
-                    ppButton.setBackground(Color.GREEN);
-                } else {
-                    ppButton.setBackground(new JButton().getBackground());
-                }
-
                 ppOn = !ppOn;
+                updateButtonBackground(ppOn, ppButton);
             }
         });
         ppButton.setBounds(ppButtonX, ppButtonY, ppButtonWidth, ppButtonHeight);
