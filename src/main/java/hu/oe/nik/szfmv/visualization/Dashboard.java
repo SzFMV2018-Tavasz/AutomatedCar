@@ -23,23 +23,38 @@ public class Dashboard extends JPanel {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    /**
+     * Dashboard
+     */
     private final int width = 250;
     private final int height = 700;
     private final int dashboardBoundsX = 770;
     private final int dashboardBoundsY = 0;
     private final int backgroundColor = 0x888888;
 
-    private final JPanel accStatePanel = new JPanel();
-    private final int accStatePanelX = -15;
-    private final int accStatePanelY = 300;
-    private final int accStatePanelWidth = 150;
-    private final int accStatePanelHeight = 50;
+    /**
+     * ACC
+     */
+    private final JPanel accStatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    private final int accStatePanelX = 0;
+    private final int accStatePanelY = 280;
+    private final int accStatePanelWidth = 115;
+    private final int accStatePanelHeight = 100;
 
-    private final JLabel accTargetDistanceLabel = new JLabel();
-    private final JLabel accTargetSpeedLabel = new JLabel();
+    private final JButton accDistanceButtonMinus = new JButton();
+    private final JButton accDistanceButtonPlus = new JButton();
+    private final JButton accSpeedButtonMinus = new JButton();
+    private final JButton accSpeedButtonPlus = new JButton();
+
+    private final int accLabelSize = 20;
+    private final JPanel accDistancePanel = new JPanel();
+    private final JPanel accSpeedPanel = new JPanel();
     private final JLabel accDistanceLabel = new JLabel();
     private final JLabel accSpeedLabel = new JLabel();
 
+    /**
+     * Road sign
+     */
     private final int roadSignPanelX = 120;
     private final int roadSignPanelY = 280;
     private final int roadSignPanelWidth = 115;
@@ -48,28 +63,38 @@ public class Dashboard extends JPanel {
     private final JLabel roadSignIcon = new JLabel();
     private final JLabel roadSignLabel = new JLabel();
 
-    private final int gearSignLabelX = 100;
-    private final int gearSignLabelY = 175;
-    private final int gearSignLabelWidth = 40;
-    private final int gearSignLabelHeight = 20;
-    private final JLabel gearSignLabel = new JLabel();
-    private final int gearLabelX = 135;
+    /**
+     * Gear
+     */
+    private final int gearLabelX = 100;
     private final int gearLabelY = 175;
-    private final int gearLabelWidth = 50;
+    private final int gearLabelWidth = 40;
     private final int gearLabelHeight = 20;
     private final JLabel gearLabel = new JLabel();
 
-    private final int wheelSignLabelX = 10;
-    private final int wheelSignLabelY = 500;
-    private final int wheelSignLabelWidth = 100;
-    private final int wheelSignLabelHeight = 20;
-    private final JLabel wheelSignLabel = new JLabel();
-    private final int wheelLabelX = 110;
-    private final int wheelLabelY = 500;
-    private final int wheelLabelWidth = 50;
-    private final int wheelLabelHeight = 20;
-    private final JLabel wheelLabel = new JLabel();
+    private final int gearValueLabelX = 135;
+    private final int gearValueLabelY = 175;
+    private final int gearValueLabelWidth = 50;
+    private final int gearValueLabelHeight = 20;
+    private final JLabel gearValueLabel = new JLabel();
 
+    /**
+     * Steering wheel
+     */
+    private final int wheelTextLabelX = 10;
+    private final int wheelTextLabelY = 500;
+    private final int wheelTextLabelWidth = 100;
+    private final int wheelTextLabelHeight = 20;
+    private final JLabel wheelTextLabel = new JLabel();
+    private final int wheelValueLabelX = 110;
+    private final int wheelValueLabelY = 500;
+    private final int wheelValueLabelWidth = 50;
+    private final int wheelValueLabelHeight = 20;
+    private final JLabel wheelValueLabel = new JLabel();
+
+    /**
+     * Lane keeping
+     */
     private final int lkaButtonX = 5;
     private final int lkaButtonY = 350;
     private final int lkaButtonWidth = 60;
@@ -77,6 +102,9 @@ public class Dashboard extends JPanel {
     private JButton lkaButton = new JButton();
     private boolean lkaOn = false;
 
+    /**
+     * Parking pilot
+     */
     private final int ppButtonX = 65;
     private final int ppButtonY = 350;
     private final int ppButtonWidth = 50;
@@ -84,6 +112,9 @@ public class Dashboard extends JPanel {
     private JButton ppButton = new JButton();
     private boolean ppOn = false;
 
+    /**
+     * Break & gas
+     */
     private final int progressBarsPanelX = 25;
     private final int progressBarsPanelY = 400;
     private final int progressBarsPanelWidth = 200;
@@ -94,42 +125,57 @@ public class Dashboard extends JPanel {
     private final JLabel breakLabel = new JLabel();
     private final JProgressBar breakProgressBar = new JProgressBar();
 
+    /**
+     * Speed & RPM
+     */
     private final int speedMeterX = 10;
     private final int speedMeterY = 50;
     private final int tachoMeterX = 130;
     private final int tachoMeterY = 50;
     private final int meterHeight = 100;
     private final int meterWidth = 100;
-
     private int speedAngle;
     private int rpmAngle;
 
-    private String indexleftoff = "index_left_off.png";
-    private String indexrightoff = "index_right_off.png";
-    private String indexlefton = "index_left_on.png";
-    private String indexrighton = "index_right_on.png";
+    private final int speedLabelWidth = 60;
+    private final int speedLabelHeight = 24;
+    private final int speedLabelX = 30;
+    private final int speedLabelY = 110;
+
+    private final int rpmLabelWidth = 60;
+    private final int rpmLabelHeight = 24;
+    private final int rpmLabelX = 150;
+    private final int rpmLabelY = 110;
+
+    private final JLabel speedLabel = new JLabel();
+    private final JLabel rpmLabel = new JLabel();
+
+    /**
+     * Turn signal
+     */
+    private String indexLeftOff = "index_left_off.png";
+    private String indexRightOff = "index_right_off.png";
+    private String indexLeftOn = "index_left_on.png";
+    private String indexRightOn = "index_right_on.png";
     private boolean leftIndexState = false;
     private boolean rightIndexState = false;
     private final int leftIndexX = 10;
     private final int rightIndexX = 185;
     private final int indexY = 160;
-    private  final int imageH = 50;
-    private  final int imageW = 50;
+    private final int imageH = 50;
+    private final int imageW = 50;
 
     /**
-     * Car Position Panel
+     * Position
      */
     private final int carPositionPanelX = 25;
     private final int carPositionPanelY = 600;
-    private final  int getCarPositionPanelWidth = 200;
-    private final  int getCarPositionPanelHeight = 20;
-
+    private final int getCarPositionPanelWidth = 200;
+    private final int getCarPositionPanelHeight = 20;
     private final JLabel carPositionXLabel = new JLabel();
     private final JLabel carPositionYLabel = new JLabel();
-
     private final JPanel carPositionPanel = new JPanel();
-
-
+    
     /**
      * Initialize the dashboard
      */
@@ -145,27 +191,95 @@ public class Dashboard extends JPanel {
      */
     public void updateDisplayedValues(ReadOnlyInputPacket inputPacket, int carX, int carY) {
         if (inputPacket != null) {
-            gasProgressBar.setValue(inputPacket.getGasPedalPosition());
-            breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
-            gearLabel.setText("" + inputPacket.getGearState());
-            wheelLabel.setText("" + inputPacket.getSteeringWheelPosition());
-
-            speedAngle = calculateSpeedometer(0);
-            rpmAngle = calculateTachometer(0);
-
-            leftIndexState = inputPacket.getLeftTurnSignalStatus();
-            rightIndexState = inputPacket.getRightTurnSignalStatus();
-            repaint();
-
-            accDistanceLabel.setText(String.valueOf(inputPacket.getACCTargetDistance()));
-            accSpeedLabel.setText(String.valueOf(inputPacket.getACCTargetSpeed()));
-
-            lkaOn = inputPacket.getLaneKeepingStatus();
-            updateButtonBackground(lkaOn, lkaButton);
-            ppOn = inputPacket.getParkingPilotStatus();
-            updateButtonBackground(ppOn, ppButton);
+            updateProgressBars(inputPacket.getGasPedalPosition(), inputPacket.getBreakPedalPosition());
+            updateGear(inputPacket.getGearState());
+            updateSteeringWheel(inputPacket.getSteeringWheelPosition());
+            updateTurnSignals(inputPacket.getLeftTurnSignalStatus(), inputPacket.getRightTurnSignalStatus());
+            updateACC(inputPacket.getACCTargetDistance(), inputPacket.getACCTargetSpeed());
+            updateParkingPilotIndicator(inputPacket.getParkingPilotStatus());
+            updateLaneKeepingIndicator(inputPacket.getLaneKeepingStatus());
         }
+        updateAnalogMeters(0, 0);
+        repaint();
         updateCarPositionLabel(carX, carY);
+    }
+
+    /**
+     * Updates the progress bars related to gas and break pedals based on their current values.
+     * @param gasValue the gas pedal's current state
+     * @param breakValue the break pedal's current state
+     */
+    private void updateProgressBars(int gasValue, int breakValue) {
+        gasProgressBar.setValue(gasValue);
+        breakProgressBar.setValue(breakValue);
+    }
+
+    /**
+     * Updates the gear label based on its current state
+     * @param state the gear's current state
+     */
+    private void updateGear(GearEnum state) {
+        gearValueLabel.setText("" + state);
+    }
+
+    /**
+     * Updates the steering wheel value label with the given amount
+     * @param position the steering wheel's position
+     */
+    private void updateSteeringWheel(double position) {
+        String labelText = String.valueOf((int)position);
+        wheelValueLabel.setText(labelText);
+    }
+
+    /**
+     * Updates the turn signals with the given values.
+     * @param left the left turn signal's state
+     * @param right the right turn signal's state
+     */
+    private void updateTurnSignals(boolean left, boolean right) {
+        leftIndexState = left;
+        rightIndexState = right;
+    }
+
+    /**
+     * Updates the analog meters
+     * @param speed the speed the car is moving at
+     * @param rpm the revolutions per minute
+     */
+    private void updateAnalogMeters(int speed, int rpm) {
+        speedLabel.setText(speed + " km/h");
+        speedAngle = calculateSpeedometer(speed);
+
+        rpmLabel.setText(rpm + " RPM");
+        rpmAngle = calculateTachometer(rpm);
+    }
+
+    /**
+     * Updates the values related to ACC
+     * @param distance the distance set for ACC
+     * @param speed the speed set for ACC
+     */
+    private void updateACC(double distance, int speed) {
+        accDistanceLabel.setText(String.valueOf(distance));
+        accSpeedLabel.setText(String.valueOf(speed));
+    }
+
+    /**
+     * Updates the background color of the PP indicator.
+     * @param value whether PP is on or off
+     */
+    private void updateParkingPilotIndicator(boolean value) {
+        ppOn = value;
+        updateButtonBackground(ppOn, ppButton);
+    }
+
+    /**
+     * Updates the background color of the LK indicator.
+     * @param value whether LK is on or off
+     */
+    private void updateLaneKeepingIndicator(boolean value) {
+        lkaOn = value;
+        updateButtonBackground(lkaOn, lkaButton);
     }
 
     /**
@@ -175,45 +289,69 @@ public class Dashboard extends JPanel {
         // Not using any layout manager, but fixed coordinates
         setLayout(null);
         setBackground(new Color(backgroundColor));
-
         setBounds(dashboardBoundsX, dashboardBoundsY, width, height);
-
+        initializeSpeedRPMLabels();
         initializeRoadSignPanel();
         initializeProgressBars();
-        initCarPositionLabel();
-
+        initializeCarPositionLabel();
         initializeGear();
         initializeSteeringWheel();
         initializeLka();
         initializePp();
-        //test value for display until updateDisplayValues method is implemented
-        accDistanceLabel.setText("20");
-
-        //test value for display until updateDisplayValues method is implemented
-        accSpeedLabel.setText("20");
         initializeAccStatePanel();
     }
 
+    private void initializeSpeedRPMLabels() {
+        rpmLabel.setBounds(rpmLabelX, rpmLabelY, rpmLabelWidth, rpmLabelHeight);
+        add(rpmLabel);
+
+        speedLabel.setBounds(speedLabelX, speedLabelY, speedLabelWidth, speedLabelHeight);
+        add(speedLabel);
+    }
+
     /**
-     +     * Initializes the ACC-state-panel and the labels to write the values on the dashboard
+     * Initializes the ACC-state-panel and the labels to write the values on the dashboard
      */
     private void initializeAccStatePanel() {
         accStatePanel.setBackground(new Color(backgroundColor));
-        accStatePanel.setBounds(
-                accStatePanelX,
-                accStatePanelY,
-                accStatePanelWidth,
-                accStatePanelHeight
-        );
+        accSpeedPanel.setBackground(new Color(backgroundColor));
+        accDistancePanel.setBackground(new Color(backgroundColor));
+        accStatePanel.setBounds(accStatePanelX, accStatePanelY, accStatePanelWidth, accStatePanelHeight);
+        accSpeedPanel.setPreferredSize(new Dimension(accLabelSize, accLabelSize));
+        accDistancePanel.setPreferredSize(new Dimension(accLabelSize, accLabelSize));
+        initializeACCButtons();
 
-        accTargetDistanceLabel.setText("Target distance:");
-        accTargetSpeedLabel.setText("Target speed:");
+        addACCElementsToDashboard();
+    }
 
+    /**
+     * Sets the text and events for the ACC buttons.
+     */
+    private void initializeACCButtons() {
+        accDistanceButtonMinus.setText("-");
+        accSpeedButtonMinus.setText("-");
+        accDistanceButtonPlus.setText("+");
+        accSpeedButtonPlus.setText("+");
+
+        accDistanceButtonMinus.addActionListener(e -> LOGGER.info("ACC dist. minus button pressed."));
+        accDistanceButtonPlus.addActionListener(e -> LOGGER.info("ACC dist. plus button pressed."));
+        accSpeedButtonMinus.addActionListener(e -> LOGGER.info("ACC speed minus button pressed."));
+        accSpeedButtonPlus.addActionListener(e -> LOGGER.info("ACC speed plus button pressed."));
+    }
+
+    /**
+     * Puts the ACC elements on the dashboard.
+     */
+    private void addACCElementsToDashboard() {
         add(accStatePanel);
-        accStatePanel.add(accTargetDistanceLabel);
-        accStatePanel.add(accDistanceLabel);
-        accStatePanel.add(accTargetSpeedLabel);
-        accStatePanel.add(accSpeedLabel);
+        accStatePanel.add(accDistanceButtonMinus);
+        accStatePanel.add(accDistancePanel);
+        accStatePanel.add(accDistanceButtonPlus);
+        accStatePanel.add(accSpeedButtonMinus);
+        accStatePanel.add(accSpeedPanel);
+        accStatePanel.add(accSpeedButtonPlus);
+        accDistancePanel.add(accDistanceLabel);
+        accSpeedPanel.add(accSpeedLabel);
     }
 
     /**
@@ -232,24 +370,32 @@ public class Dashboard extends JPanel {
      * Initializes the Gear sign panel on the dashboard
      */
     private void initializeGear() {
-        gearSignLabel.setBounds(gearSignLabelX, gearSignLabelY, gearSignLabelWidth, gearSignLabelHeight);
         gearLabel.setBounds(gearLabelX, gearLabelY, gearLabelWidth, gearLabelHeight);
-        gearSignLabel.setText("Gear:");
-        gearLabel.setText("" + GearEnum.P);
-        add(gearSignLabel);
+        gearValueLabel.setBounds(gearValueLabelX, gearValueLabelY, gearValueLabelWidth, gearValueLabelHeight);
+        gearLabel.setText("Gear:");
+        gearValueLabel.setText("" + GearEnum.P);
         add(gearLabel);
+        add(gearValueLabel);
     }
 
     /**
      * Initializes the Steering wheel sign on the dashboard
      */
     private void initializeSteeringWheel() {
-        wheelSignLabel.setBounds(wheelSignLabelX, wheelSignLabelY, wheelSignLabelWidth, wheelSignLabelHeight);
-        wheelLabel.setBounds(wheelLabelX, wheelLabelY, wheelLabelWidth, wheelLabelHeight);
-        wheelSignLabel.setText("steering wheel:");
-        wheelLabel.setText("0");
-        add(wheelSignLabel);
-        add(wheelLabel);
+        wheelTextLabel.setBounds(
+                wheelTextLabelX,
+                wheelTextLabelY,
+                wheelTextLabelWidth,
+                wheelTextLabelHeight);
+        wheelValueLabel.setBounds(
+                wheelValueLabelX,
+                wheelValueLabelY,
+                wheelValueLabelWidth,
+                wheelValueLabelHeight);
+        wheelTextLabel.setText("steering wheel:");
+        wheelValueLabel.setText("0");
+        add(wheelTextLabel);
+        add(wheelValueLabel);
     }
 
     /**
@@ -339,7 +485,7 @@ public class Dashboard extends JPanel {
     /**
     *  Initializes the car position label on the dashboard
     */
-    private void initCarPositionLabel() {
+    private void initializeCarPositionLabel() {
         carPositionPanel.setBounds(carPositionPanelX, carPositionPanelY,
                 getCarPositionPanelWidth, getCarPositionPanelHeight);
         carPositionPanel.setBackground(new Color(backgroundColor));
@@ -389,14 +535,14 @@ public class Dashboard extends JPanel {
     private void drawIndexArrows(Graphics g) {
 
         if (leftIndexState) {
-            indexDrawTry(g, indexlefton, leftIndexX);
+            indexDrawTry(g, indexLeftOn, leftIndexX);
         } else {
-            indexDrawTry(g, indexleftoff, leftIndexX);
+            indexDrawTry(g, indexLeftOff, leftIndexX);
         }
         if (rightIndexState) {
-            indexDrawTry(g, indexrighton, rightIndexX);
+            indexDrawTry(g, indexRightOn, rightIndexX);
         } else {
-            indexDrawTry(g, indexrightoff, rightIndexX);
+            indexDrawTry(g, indexRightOff, rightIndexX);
         }
     }
 
@@ -420,10 +566,8 @@ public class Dashboard extends JPanel {
 
     /**
      * Map the RPM to a displayable value for the gauge.
-     *
-     * @param rpm   The unmapped input value of the Tachometer's visual display.
-     *
-     * @return      The mapped value between [-75, 255] interval.
+     * @param rpm The unmapped input value of the Tachometer's visual display.
+     * @return The mapped value between [-75, 255] interval.
      */
     private int calculateTachometer(int rpm) {
         final int minRpmValue = 0;
@@ -437,10 +581,8 @@ public class Dashboard extends JPanel {
 
     /**
      * Map the Speed to a displayable value for the gauge.
-     *
-     * @param speed     The unmapped input value of the Speedometer's visual display.
-     *
-     * @return          The mapped value between [-75, 255] interval.
+     * @param speed The unmapped input value of the Speedometer's visual display.
+     * @return The mapped value between [-75, 255] interval.
      */
     private int calculateSpeedometer(int speed) {
         final int minSpeedValue = 0;
