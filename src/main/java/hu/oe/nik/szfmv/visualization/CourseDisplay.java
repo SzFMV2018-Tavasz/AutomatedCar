@@ -34,6 +34,8 @@ public class CourseDisplay extends JPanel {
     private final int backgroundColor = 0xEEEEEE;
     private final int carWidth = 102;
     private final int carHeight = 208;
+    private final int courseWidth = 5120;
+    private final int courseHeight = 3000;
 
     private int offsetX = 0;
     private int offsetY = 0;
@@ -93,7 +95,7 @@ public class CourseDisplay extends JPanel {
      * @return the course on a BufferedImage
      */
     public BufferedImage drawEnvironment() {
-        BufferedImage img = new BufferedImage(5120, 3000, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage img = new BufferedImage((int) (courseWidth * scale), (int) (courseHeight * scale), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();
 
         for (WorldObject object : world.getWorldObjects()) {
@@ -119,41 +121,58 @@ public class CourseDisplay extends JPanel {
     }
 
     /**
-     * Inherited method that can paint on the JPanel.
-     *
-     * @param g {@link Graphics} object that can draw to the canvas
+     * Gets the offset value to move the camera
+     * @param scaledWidth width of the viewport  multiplied by scaling
+     * @param scaledHeight height of the viewport  multiplied by scaling
+     * @param car the car to get location
+     * @return offset value to move camera with
      */
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        // draw static elements only once
+    private Point getOffset(int scaledWidth, int scaledHeight, AutomatedCar car) {
+        int diffX = (scaledWidth / 2) - car.getX() - carWidth / 2;
+        if (diffX < 0) {
+            offsetX = diffX;
+        }
+        int diffY = scaledHeight / 2 - car.getY() - carHeight / 2;
+        if (diffY < 0) {
+            offsetY = diffY;
+        }
+        return new Point(offsetX, offsetY);
+    }
 
-        // get car because we need the position of the car, later it may well be available on the bus
+    /**
+     * Returns the car (condition: we have only 1 car) from the WorldObject list,
+     * @return
+     */
+    private AutomatedCar getCarFromWorldObjectList() {
         AutomatedCar car = null;
         for (WorldObject object : world.getWorldObjects()) {
             if (AutomatedCar.class.isAssignableFrom(object.getClass())) {
                 car = (AutomatedCar) object;
             }
         }
+        return car;
+    }
 
+    /**
+     * Inherited method that can paint on the JPanel.
+     *
+     * @param g {@link Graphics} object that can draw to the canvas
+     */
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        // get car because we need the position of the car, later it may well be available on the bus
+        AutomatedCar car;
+        car = getCarFromWorldObjectList();
         // when the car reach the half width of the viewport the course move, and the car stay on center
         int scaledWidth = (int) (width / scale);
-        int scaledHeight = (int) (width / scale);
-
-        int diffX = (scaledWidth / 2) - car.getX() - carWidth / 2;
-        if (diffX < 0) {
-            offsetX = diffX;
-        }
-
-        int diffY = scaledHeight / 2 - car.getY() - carHeight / 2;
-        if (diffY < 0) {
-            offsetY = diffY;
-        }
-
+        int scaledHeight = (int) (height / scale);
+        Point offset = getOffset(scaledWidth, scaledHeight, car);
+        offsetX = offset.x;
+        offsetY = offset.y;
         if (env == null) {
             env = drawEnvironment();
         }
         g.drawImage(env, offsetX, offsetY, this);
-
         for (WorldObject object : this.world.getWorldObjects()) {
             if (Movable.class.isAssignableFrom(object.getClass()) ||
                     AutomatedCar.class.isAssignableFrom(object.getClass())) {
