@@ -23,6 +23,7 @@ public class AutomatedCar extends WorldObject {
     public AutomatedCar(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
 
+
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
 
@@ -35,39 +36,10 @@ public class AutomatedCar extends WorldObject {
     public void drive() {
         virtualFunctionBus.loop();
     }
-<<<<<<< .mine
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=======
-
-    /**
-     * Calculates the new x and y coordinates of the {@link AutomatedCar} using the powertrain and the steering systems.
-     */
-    private void calculatePositionAndOrientation() {
-        //TODO it is just a fake implementation
-        double speed = powertrainSystem.getSpeed();
-        double angularSpeed = steeringSystem.getAngularSpeed();
-
-        location.x += speed;
-        location.y = 0;
-
-        rotation += angularSpeed;
-    }
 
     /**
      * Gets the input values as required by the dashboard.
+     *
      * @return input packet containing the values that are displayed on the dashboard
      */
     public ReadOnlyInputPacket getInputValues() {
