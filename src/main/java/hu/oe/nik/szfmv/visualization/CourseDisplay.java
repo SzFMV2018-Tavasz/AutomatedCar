@@ -95,7 +95,8 @@ public class CourseDisplay extends JPanel {
      * @return the course on a BufferedImage
      */
     public BufferedImage drawEnvironment() {
-        BufferedImage img = new BufferedImage((int) (courseWidth * scale), (int) (courseHeight * scale), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage img = new BufferedImage((int) (courseWidth * scale),
+                (int) (courseHeight * scale), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();
 
         for (WorldObject object : world.getWorldObjects()) {
@@ -122,9 +123,10 @@ public class CourseDisplay extends JPanel {
 
     /**
      * Gets the offset value to move the camera
-     * @param scaledWidth width of the viewport  multiplied by scaling
+     *
+     * @param scaledWidth  width of the viewport  multiplied by scaling
      * @param scaledHeight height of the viewport  multiplied by scaling
-     * @param car the car to get location
+     * @param car          the car to get location
      * @return offset value to move camera with
      */
     private Point getOffset(int scaledWidth, int scaledHeight, AutomatedCar car) {
@@ -141,6 +143,7 @@ public class CourseDisplay extends JPanel {
 
     /**
      * Returns the car (condition: we have only 1 car) from the WorldObject list,
+     *
      * @return
      */
     private AutomatedCar getCarFromWorldObjectList() {
