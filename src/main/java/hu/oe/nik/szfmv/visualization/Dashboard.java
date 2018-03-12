@@ -195,12 +195,12 @@ public class Dashboard extends JPanel {
             updateGear(inputPacket.getGearState());
             updateSteeringWheel(inputPacket.getSteeringWheelPosition());
             updateTurnSignals(inputPacket.getLeftTurnSignalStatus(), inputPacket.getRightTurnSignalStatus());
-            updateAnalogMeters(0, 0);
             updateACC(inputPacket.getACCTargetDistance(), inputPacket.getACCTargetSpeed());
             updateParkingPilotIndicator(inputPacket.getParkingPilotStatus());
             updateLaneKeepingIndicator(inputPacket.getLaneKeepingStatus());
-            repaint();
         }
+        updateAnalogMeters(0, 0);
+        repaint();
         updateCarPositionLabel(carX, carY);
     }
 
@@ -303,11 +303,9 @@ public class Dashboard extends JPanel {
 
     private void initializeSpeedRPMLabels() {
         rpmLabel.setBounds(rpmLabelX, rpmLabelY, rpmLabelWidth, rpmLabelHeight);
-        rpmLabel.setText("3600 RPM");
         add(rpmLabel);
 
         speedLabel.setBounds(speedLabelX, speedLabelY, speedLabelWidth, speedLabelHeight);
-        speedLabel.setText("3600 km/h");
         add(speedLabel);
     }
 
@@ -321,12 +319,24 @@ public class Dashboard extends JPanel {
         accStatePanel.setBounds(accStatePanelX, accStatePanelY, accStatePanelWidth, accStatePanelHeight);
         accSpeedPanel.setPreferredSize(new Dimension(accLabelSize, accLabelSize));
         accDistancePanel.setPreferredSize(new Dimension(accLabelSize, accLabelSize));
+        initializeACCButtons();
+
+        addACCElementsToDashboard();
+    }
+
+    /**
+     * Sets the text and events for the ACC buttons.
+     */
+    private void initializeACCButtons() {
         accDistanceButtonMinus.setText("-");
         accSpeedButtonMinus.setText("-");
         accDistanceButtonPlus.setText("+");
         accSpeedButtonPlus.setText("+");
 
-        addACCElementsToDashboard();
+        accDistanceButtonMinus.addActionListener(e -> LOGGER.info("ACC dist. minus button pressed."));
+        accDistanceButtonPlus.addActionListener(e -> LOGGER.info("ACC dist. plus button pressed."));
+        accSpeedButtonMinus.addActionListener(e -> LOGGER.info("ACC speed minus button pressed."));
+        accSpeedButtonPlus.addActionListener(e -> LOGGER.info("ACC speed plus button pressed."));
     }
 
     /**
