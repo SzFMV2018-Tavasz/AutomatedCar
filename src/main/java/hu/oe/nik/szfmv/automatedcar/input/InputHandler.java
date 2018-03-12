@@ -5,6 +5,14 @@ import java.awt.event.KeyListener;
 
 public class InputHandler implements KeyListener {
 
+    public static InputHandler getInstance() {
+        if (instance == null) {
+            instance = new InputHandler();
+        }
+
+        return instance;
+    }
+
     private static InputHandler instance = null;
 
     private static final int steeringLeftKeyCode = KeyEvent.VK_LEFT;
@@ -15,21 +23,25 @@ public class InputHandler implements KeyListener {
 
     private boolean steeringRightPressed;
 
-    private static final int gasKeyCode = KeyEvent.VK_UP;
+    private  boolean rightIndexPressed;
 
-    private static final int brakeKeyCode = KeyEvent.VK_DOWN;
+    private  boolean leftIndexPressed;
 
     private boolean gaspressed;
 
     private boolean brakepressed;
 
-    public static InputHandler getInstance() {
-        if (instance == null) {
-            instance = new InputHandler();
-        }
+    private  boolean gearShiftUpPressed;
 
-        return instance;
-    }
+    private  boolean gearShiftDownPressed;
+
+    private  static  final int rightIndexKeyCode = KeyEvent.VK_1;
+
+    private  static final int leftIndexKeyCode = KeyEvent.VK_0;
+
+    private static final int gasKeyCode = KeyEvent.VK_UP;
+
+    private static final int brakeKeyCode = KeyEvent.VK_DOWN;
 
     private  static  final int gearShiftUpKeyCode = KeyEvent.VK_W;
 
@@ -38,6 +50,10 @@ public class InputHandler implements KeyListener {
     private  boolean gearShiftUpPressed;
 
     private  boolean gearShiftDownPressed;
+  
+    public  boolean isRightIndexPressed() {return  rightIndexPressed;}
+
+    public boolean isLeftIndexPressed() {return leftIndexPressed;}
 
     private boolean laneKeepingPressed;
     private static final int laneKeepingKeyCode = KeyEvent.VK_L;
@@ -111,7 +127,12 @@ public class InputHandler implements KeyListener {
             case (laneKeepingKeyCode):
                 laneKeepingPressed = state;
                 break;
-
+            case(rightIndexKeyCode):
+                rightIndexPressed = state;
+                break;
+            case(leftIndexKeyCode):
+                leftIndexPressed = state;
+                break;
         }
     }
 }
