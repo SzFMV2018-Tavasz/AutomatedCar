@@ -108,13 +108,27 @@ public class Dashboard extends JPanel {
     private String indexrightoff = "index_right_off.png";
     private String indexlefton = "index_left_on.png";
     private String indexrighton = "index_right_on.png";
-    boolean leftIndexState = false;
-    boolean rightIndexState = false;
+    private boolean leftIndexState = false;
+    private boolean rightIndexState = false;
     private final int leftIndexX = 10;
     private final int rightIndexX = 185;
     private final int indexY = 160;
     private  final int imageH = 50;
     private  final int imageW = 50;
+
+    /**
+     * Car Position Panel
+     */
+    private final int carPositionPanelX = 25;
+    private final int carPositionPanelY = 600;
+    private final  int getCarPositionPanelWidth = 200;
+    private final  int getCarPositionPanelHeight = 20;
+
+    private final JLabel carPositionXLabel = new JLabel();
+    private final JLabel carPositionYLabel = new JLabel();
+
+    private final JPanel carPositionPanel = new JPanel();
+
 
     /**
      * Initialize the dashboard
@@ -126,10 +140,13 @@ public class Dashboard extends JPanel {
     /**
      * Update the displayed values
      * @param inputPacket Contains all the required values coming from input.
+     * @param carX is the X coordinate of the car object
+     * @param carY is the Y coordinate of the car object
      */
-        public void updateDisplayedValues(ReadOnlyInputPacket inputPacket) {
+    public void updateDisplayedValues(ReadOnlyInputPacket inputPacket, int carX, int carY) {
         gasProgressBar.setValue(inputPacket.getGasPedalPosition());
         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+        updateCarPositionLabel(carX, carY);
         gearLabel.setText("" + inputPacket.getGearState());
         wheelLabel.setText("" + inputPacket.getSteeringWheelPosition());
 
@@ -142,7 +159,6 @@ public class Dashboard extends JPanel {
 
         accDistanceLabel.setText(String.valueOf(inputPacket.getACCTargetDistance()));
         accSpeedLabel.setText(String.valueOf(inputPacket.getACCTargetSpeed()));
-
     }
 
     /**
@@ -157,6 +173,7 @@ public class Dashboard extends JPanel {
 
         initializeRoadSignPanel();
         initializeProgressBars();
+        initCarPositionLabel();
 
         initializeGear();
         initializeSteeringWheel();
@@ -311,6 +328,33 @@ public class Dashboard extends JPanel {
     }
 
     /**
+    *  Initializes the car position label on the dashboard
+    */
+    private void initCarPositionLabel() {
+        carPositionPanel.setBounds(carPositionPanelX, carPositionPanelY,
+                getCarPositionPanelWidth, getCarPositionPanelHeight);
+        carPositionPanel.setBackground(new Color(backgroundColor));
+
+        carPositionXLabel.setText("X:");
+        carPositionYLabel.setText("Y:");
+        carPositionPanel.setLayout(new GridLayout(1, 2));
+
+        carPositionPanel.add(carPositionXLabel);
+        carPositionPanel.add(carPositionYLabel);
+        add(carPositionPanel);
+    }
+
+    /**
+     * Update the coordinate labels in the position panel
+     * @param x is the X coordinate of the car
+     * @param y is the Y coordinate of the car object
+     */
+    private void updateCarPositionLabel(int x, int y) {
+        carPositionXLabel.setText("X:" + x);
+        carPositionYLabel.setText("Y:" + y);
+    }
+
+    /**
      * Drawing the Speedometer and the Tachometer.
      *
      * @param g {@link Graphics} object that can draw to the canvas
@@ -354,8 +398,7 @@ public class Dashboard extends JPanel {
      * @param signal {@link String} index image selector
      * @param indexX {@link int} image X position
      */
-    private void indexDrawTry(Graphics g, String signal, int indexX)
-    {
+    private void indexDrawTry(Graphics g, String signal, int indexX) {
         BufferedImage image;
 
         try {
