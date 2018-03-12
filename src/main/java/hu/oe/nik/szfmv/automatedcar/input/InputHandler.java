@@ -35,6 +35,8 @@ public class InputHandler implements KeyListener {
 
     private  boolean gearShiftDownPressed;
 
+    private boolean laneKeepingPressed;
+
     private  static  final int rightIndexKeyCode = KeyEvent.VK_1;
 
     private  static final int leftIndexKeyCode = KeyEvent.VK_0;
@@ -47,9 +49,13 @@ public class InputHandler implements KeyListener {
 
     private  static final int gearShiftDownKeyCode= KeyEvent.VK_S;
 
+    private static final int laneKeepingKeyCode = KeyEvent.VK_L;
+  
     public  boolean isRightIndexPressed() {return  rightIndexPressed;}
 
     public boolean isLeftIndexPressed() {return leftIndexPressed;}
+
+    public boolean isLaneKeepingPressed(){return laneKeepingPressed;}
 
     public  boolean isGearShiftUpPressed(){return  gearShiftUpPressed;}
 
@@ -77,6 +83,7 @@ public class InputHandler implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+
 
     }
 
@@ -114,13 +121,15 @@ public class InputHandler implements KeyListener {
             case (gearShiftUpKeyCode):
                 gearShiftUpPressed = state;
                 break;
+            case (laneKeepingKeyCode):
+                laneKeepingPressed = state;
+                break;
             case(rightIndexKeyCode):
                 rightIndexPressed = state;
                 break;
             case(leftIndexKeyCode):
                 leftIndexPressed = state;
                 break;
-
         }
     }
 }

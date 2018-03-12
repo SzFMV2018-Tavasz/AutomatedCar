@@ -28,6 +28,9 @@ public class InputPacket implements ReadOnlyInputPacket {
     private  boolean rightIndexOn;
 
 
+    private boolean LaneKeepingOn;
+
+
     @Override
     public int getGasPedalPosition() {
         return gaspedalposition;
@@ -71,8 +74,10 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     @Override
     public boolean getLaneKeepingStatus() {
-        return false;
+        return LaneKeepingOn;
     }
+
+    public void setLaneKeepingStatus(boolean value){this.LaneKeepingOn = value;}
 
     @Override
     public boolean getParkingPilotStatus() {
