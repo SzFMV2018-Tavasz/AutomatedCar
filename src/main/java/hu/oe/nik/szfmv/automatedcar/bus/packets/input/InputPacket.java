@@ -23,6 +23,10 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     private GearEnum gearEnum;
 
+    private  boolean leftIndexOn;
+
+    private  boolean rightIndexOn;
+
 
     @Override
     public int getGasPedalPosition() {
@@ -88,11 +92,19 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     @Override
     public boolean getLeftTurnSignalStatus() {
-        return false;
+        return leftIndexOn;
     }
 
     @Override
     public boolean getRightTurnSignalStatus() {
-        return false;
+        return rightIndexOn;
+    }
+
+    public void setLeftTurnSignalStatus(boolean leftIndexOn) {
+        this.leftIndexOn = leftIndexOn;
+    }
+
+    public void setRightTurnSignalStatus(boolean rightIndexOn) {
+        this.rightIndexOn = rightIndexOn;
     }
 }
