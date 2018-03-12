@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
@@ -64,5 +65,12 @@ public class AutomatedCar extends WorldObject {
 
         rotation += angularSpeed;
     }
->>>>>>> .theirs
+
+    /**
+     * Gets the input values as required by the dashboard.
+     * @return input packet containing the values that are displayed on the dashboard
+     */
+    public ReadOnlyInputPacket getInputValues() {
+        return virtualFunctionBus.inputPacket;
+    }
 }
