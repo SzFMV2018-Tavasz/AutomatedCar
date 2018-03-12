@@ -9,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -47,12 +49,12 @@ public class Dashboard extends JPanel {
     private final JLabel roadSignLabel = new JLabel();
 
     private final int gearSignLabelX = 100;
-    private final int gearSignLabelY = 160;
+    private final int gearSignLabelY = 175;
     private final int gearSignLabelWidth = 40;
     private final int gearSignLabelHeight = 20;
     private final JLabel gearSignLabel = new JLabel();
     private final int gearLabelX = 135;
-    private final int gearLabelY = 160;
+    private final int gearLabelY = 175;
     private final int gearLabelWidth = 50;
     private final int gearLabelHeight = 20;
     private final JLabel gearLabel = new JLabel();
@@ -67,6 +69,20 @@ public class Dashboard extends JPanel {
     private final int wheelLabelWidth = 50;
     private final int wheelLabelHeight = 20;
     private final JLabel wheelLabel = new JLabel();
+
+    private final int lkaButtonX = 5;
+    private final int lkaButtonY = 350;
+    private final int lkaButtonWidth = 60;
+    private final int lkaButtonHeight = 30;
+    private JButton lkaButton = new JButton();
+    private boolean lkaOn = false;
+
+    private final int ppButtonX = 65;
+    private final int ppButtonY = 350;
+    private final int ppButtonWidth = 50;
+    private final int ppButtonHeight = 30;
+    private JButton ppButton = new JButton();
+    private boolean ppOn = false;
 
     private final int progressBarsPanelX = 25;
     private final int progressBarsPanelY = 400;
@@ -128,21 +144,28 @@ public class Dashboard extends JPanel {
      * @param carY is the Y coordinate of the car object
      */
     public void updateDisplayedValues(ReadOnlyInputPacket inputPacket, int carX, int carY) {
-        gasProgressBar.setValue(inputPacket.getGasPedalPosition());
-        breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+        if (inputPacket != null) {
+            gasProgressBar.setValue(inputPacket.getGasPedalPosition());
+            breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+            gearLabel.setText("" + inputPacket.getGearState());
+            wheelLabel.setText("" + inputPacket.getSteeringWheelPosition());
+
+            speedAngle = calculateSpeedometer(0);
+            rpmAngle = calculateTachometer(0);
+
+            leftIndexState = inputPacket.getLeftTurnSignalStatus();
+            rightIndexState = inputPacket.getRightTurnSignalStatus();
+            repaint();
+
+            accDistanceLabel.setText(String.valueOf(inputPacket.getACCTargetDistance()));
+            accSpeedLabel.setText(String.valueOf(inputPacket.getACCTargetSpeed()));
+
+            lkaOn = inputPacket.getLaneKeepingStatus();
+            updateButtonBackground(lkaOn, lkaButton);
+            ppOn = inputPacket.getParkingPilotStatus();
+            updateButtonBackground(ppOn, ppButton);
+        }
         updateCarPositionLabel(carX, carY);
-        gearLabel.setText("" + inputPacket.getGearState());
-        wheelLabel.setText("" + inputPacket.getSteeringWheelPosition());
-
-        speedAngle = calculateSpeedometer(0);
-        rpmAngle = calculateTachometer(0);
-
-        leftIndexState = inputPacket.getLeftTurnSignalStatus();
-        rightIndexState = inputPacket.getRightTurnSignalStatus();
-        repaint();
-
-        accDistanceLabel.setText(String.valueOf(inputPacket.getACCTargetDistance()));
-        accSpeedLabel.setText(String.valueOf(inputPacket.getACCTargetSpeed()));
     }
 
     /**
@@ -161,6 +184,8 @@ public class Dashboard extends JPanel {
 
         initializeGear();
         initializeSteeringWheel();
+        initializeLka();
+        initializePp();
         //test value for display until updateDisplayValues method is implemented
         accDistanceLabel.setText("20");
 
@@ -221,10 +246,56 @@ public class Dashboard extends JPanel {
     private void initializeSteeringWheel() {
         wheelSignLabel.setBounds(wheelSignLabelX, wheelSignLabelY, wheelSignLabelWidth, wheelSignLabelHeight);
         wheelLabel.setBounds(wheelLabelX, wheelLabelY, wheelLabelWidth, wheelLabelHeight);
-        wheelSignLabel.setText("steereng wheel:");
+        wheelSignLabel.setText("steering wheel:");
         wheelLabel.setText("0");
         add(wheelSignLabel);
         add(wheelLabel);
+    }
+
+    /**
+     * Updates the given button's background color based on the given boolean value
+     * @param buttonValue the boolean value represented by the button
+     * @param button the button we are updating
+     */
+    private void updateButtonBackground(Boolean buttonValue, JButton button) {
+        if (buttonValue) {
+            button.setBackground(Color.GREEN);
+        } else {
+            button.setBackground(new JButton().getBackground());
+        }
+    }
+
+    /**
+     * Initializes the lka sign on the dashboard
+     */
+    private void initializeLka() {
+        lkaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lkaOn = !lkaOn;
+                updateButtonBackground(lkaOn, lkaButton);
+            }
+        });
+        lkaButton.setBounds(lkaButtonX, lkaButtonY, lkaButtonWidth, lkaButtonHeight);
+        lkaButton.setText("LKA");
+        add(lkaButton);
+    }
+
+    /**
+     * Initializes the pp sign on the dashboard
+     */
+    private void initializePp() {
+        ppButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ppOn = !ppOn;
+                updateButtonBackground(ppOn, ppButton);
+            }
+        });
+        ppButton.setBounds(ppButtonX, ppButtonY, ppButtonWidth, ppButtonHeight);
+        ppButton.setText("PP");
+        add(ppButton);
+        //ppSignLabel.setText("PP");
     }
 
     /**
