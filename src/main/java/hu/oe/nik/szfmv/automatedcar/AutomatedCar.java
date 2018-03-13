@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
@@ -46,7 +47,7 @@ public class AutomatedCar extends WorldObject {
      * Calculates the new x and y coordinates of the {@link AutomatedCar} using the powertrain and the steering systems.
      */
     private void calculatePositionAndOrientation() {
-
+        //TODO it is just a fake implementation
         double speed = powertrainSystem.getSpeed();
         double angularSpeed = steeringSystem.getAngularSpeed();
         try {
@@ -177,5 +178,13 @@ public class AutomatedCar extends WorldObject {
     public Point2D getCarPosition(Point2D frontWheel, Point2D backWheel) {
         return new Point2D.Double((frontWheel.getX() + backWheel.getX()) / 2,
                 (frontWheel.getY() + backWheel.getY()) / 2);
+    }
+
+    /**
+     * Gets the input values as required by the dashboard.
+     * @return input packet containing the values that are displayed on the dashboard
+     */
+    public ReadOnlyInputPacket getInputValues() {
+        return virtualFunctionBus.inputPacket;
     }
 }
