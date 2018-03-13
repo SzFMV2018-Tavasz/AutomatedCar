@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.input;
 
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.ParkingPilote;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -23,62 +25,78 @@ public class InputHandler implements KeyListener {
 
     private boolean steeringRightPressed;
 
-    private  boolean rightIndexPressed;
+    private boolean rightIndexPressed;
 
-    private  boolean leftIndexPressed;
+    private boolean leftIndexPressed;
 
     private boolean gaspressed;
 
     private boolean brakepressed;
 
-    private  boolean gearShiftUpPressed;
+    private boolean gearShiftUpPressed;
 
-    private  boolean gearShiftDownPressed;
+    private boolean gearShiftDownPressed;
 
     private boolean laneKeepingPressed;
 
-    private  static  final int rightIndexKeyCode = KeyEvent.VK_1;
+    private static final int rightIndexKeyCode = KeyEvent.VK_1;
 
-    private  static final int leftIndexKeyCode = KeyEvent.VK_0;
+    private static final int leftIndexKeyCode = KeyEvent.VK_0;
 
     private static final int gasKeyCode = KeyEvent.VK_UP;
 
     private static final int brakeKeyCode = KeyEvent.VK_DOWN;
 
-    private  static  final int gearShiftUpKeyCode = KeyEvent.VK_W;
+    private static final int gearShiftUpKeyCode = KeyEvent.VK_W;
 
-    private  static final int gearShiftDownKeyCode= KeyEvent.VK_S;
+    private static final int gearShiftDownKeyCode = KeyEvent.VK_S;
 
     private static final int laneKeepingKeyCode = KeyEvent.VK_L;
-  
-    public  boolean isRightIndexPressed() {return  rightIndexPressed;}
 
-    public boolean isLeftIndexPressed() {return leftIndexPressed;}
+    private boolean ParkingPiloteOn;
 
-    public boolean isLaneKeepingPressed(){return laneKeepingPressed;}
+    private static final int parkingpiloteKeyCode = KeyEvent.VK_P;
 
-    public  boolean isGearShiftUpPressed(){return  gearShiftUpPressed;}
+    public boolean isRightIndexPressed() {
+        return rightIndexPressed;
+    }
 
-    public  boolean isGearShiftDownPressed() {return  gearShiftDownPressed;}
+    public boolean isLeftIndexPressed() {
+        return leftIndexPressed;
+    }
 
-    public boolean isSteeringLeftPressed(){
+    public boolean isLaneKeepingPressed() {
+        return laneKeepingPressed;
+    }
+
+    public boolean isGearShiftUpPressed() {
+        return gearShiftUpPressed;
+    }
+
+    public boolean isGearShiftDownPressed() {
+        return gearShiftDownPressed;
+    }
+
+    public boolean isSteeringLeftPressed() {
 
         return steeringLeftPressed;
     }
 
-    public boolean isSteeringRightPressed()
-    {
+    public boolean isSteeringRightPressed() {
         return steeringRightPressed;
     }
 
-    public boolean isGasPressed()
-    {
+    public boolean isGasPressed() {
         return gaspressed;
     }
 
-    public  boolean isBrakePressed()
-    {
+    public boolean isBrakePressed() {
         return brakepressed;
+    }
+
+    public boolean isParkinPilotePressed()
+    {
+        return ParkingPiloteOn;
     }
 
     @Override
@@ -129,6 +147,8 @@ public class InputHandler implements KeyListener {
                 break;
             case(leftIndexKeyCode):
                 leftIndexPressed = state;
+            case(parkingpiloteKeyCode):
+                ParkingPiloteOn = state;
                 break;
         }
     }

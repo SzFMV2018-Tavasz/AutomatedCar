@@ -30,6 +30,8 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     private boolean LaneKeepingOn;
 
+    private boolean ParkingPilote;
+
 
     @Override
     public int getGasPedalPosition() {
@@ -62,6 +64,11 @@ public class InputPacket implements ReadOnlyInputPacket {
         this.brakepedalvalue = brakepedalvalue;
     }
 
+    public void setParkingPiloteStatus(boolean value)
+    {
+        ParkingPilote = value;
+    }
+
     @Override
     public int getACCTargetSpeed() {
         return 0;
@@ -81,7 +88,7 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     @Override
     public boolean getParkingPilotStatus() {
-        return false;
+        return ParkingPilote;
     }
 
     @Override
