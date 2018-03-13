@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
@@ -22,6 +23,7 @@ public class AutomatedCar extends WorldObject {
     public AutomatedCar(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
 
+
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
 
@@ -33,25 +35,14 @@ public class AutomatedCar extends WorldObject {
      */
     public void drive() {
         virtualFunctionBus.loop();
-
-        calculatePositionAndOrientation();
     }
 
     /**
-     * Calculates the new x and y coordinates of the {@link AutomatedCar} using the powertrain and the steering systems.
+     * Gets the input values as required by the dashboard.
+     *
+     * @return input packet containing the values that are displayed on the dashboard
      */
-    private void calculatePositionAndOrientation() {
-        //TODO it is just a fake implementation
-
-        /** This signal comes from VirtualFunctionBus. PowertrainSystem does not implemets this the getSpeed method.
-         * vroba
-         double speed = powertrainSystem.getSpeed();
-         x += speed;
-         */
-        double angularSpeed = steeringSystem.getAngularSpeed();
-
-        y = 0;
-
-        rotation += angularSpeed;
+    public ReadOnlyInputPacket getInputValues() {
+        return virtualFunctionBus.inputPacket;
     }
 }
