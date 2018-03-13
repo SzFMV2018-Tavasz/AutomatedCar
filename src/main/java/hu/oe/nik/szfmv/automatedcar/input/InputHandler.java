@@ -37,6 +37,12 @@ public class InputHandler implements KeyListener {
 
     private boolean laneKeepingPressed;
 
+    private boolean accDistancePressed;
+
+    private boolean accSpeedIncrementPressed;
+
+    private boolean accSpeedDecrementPressed;
+
     private  static  final int rightIndexKeyCode = KeyEvent.VK_1;
 
     private  static final int leftIndexKeyCode = KeyEvent.VK_0;
@@ -50,7 +56,13 @@ public class InputHandler implements KeyListener {
     private  static final int gearShiftDownKeyCode= KeyEvent.VK_S;
 
     private static final int laneKeepingKeyCode = KeyEvent.VK_L;
-  
+
+    private static final int accDistanceKeyCode = KeyEvent.VK_T;
+
+    private static final int accSpeedIncrementKeyCode = KeyEvent.VK_PLUS;
+
+    private static final int accSpeedDecrementKeyCode = KeyEvent.VK_MINUS;
+
     public  boolean isRightIndexPressed() {return  rightIndexPressed;}
 
     public boolean isLeftIndexPressed() {return leftIndexPressed;}
@@ -80,6 +92,12 @@ public class InputHandler implements KeyListener {
     {
         return brakepressed;
     }
+
+    public boolean isAccDistancePressed() {return accDistancePressed;}
+
+    public boolean isAccSpeedIncrementPressedPressed() {return accSpeedIncrementPressed;}
+
+    public boolean isAccSpeedDecrementPressedPressed() {return accSpeedDecrementPressed;}
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -130,6 +148,16 @@ public class InputHandler implements KeyListener {
             case(leftIndexKeyCode):
                 leftIndexPressed = state;
                 break;
+            case(accDistanceKeyCode):
+                accDistancePressed = state;
+                break;
+            case(accSpeedIncrementKeyCode):
+                accSpeedIncrementPressed = state;
+                break;
+            case(accSpeedDecrementKeyCode):
+                accSpeedDecrementPressed = state;
+                break;
+
         }
     }
 }

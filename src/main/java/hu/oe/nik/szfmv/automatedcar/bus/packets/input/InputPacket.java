@@ -16,6 +16,9 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     private double steeringWheelPosition;
 
+    private double accDistanceValue;
+
+    private int accSpeedValue;
 
     private int gaspedalposition;
 
@@ -52,6 +55,11 @@ public class InputPacket implements ReadOnlyInputPacket {
         this.steeringWheelPosition = steeringWheelPosition;
     }
 
+    public void setAccDistanceValue(double value){accDistanceValue = value;}
+
+    public void setAccSpeedValue(int value){accSpeedValue = value;}
+
+
     public void setGaspeadalposition(int value)
     {
         this.gaspedalposition = value;
@@ -64,12 +72,12 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     @Override
     public int getACCTargetSpeed() {
-        return 0;
+        return accSpeedValue;
     }
 
     @Override
     public double getACCTargetDistance() {
-        return 0;
+        return accDistanceValue;
     }
 
     @Override
