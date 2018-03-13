@@ -22,14 +22,16 @@ public class ParkingPilote extends SystemComponent
     @Override
     public void loop()
     {
-        if (inputhandler.isParkinPilotePressed() && !on)
+        if (inputhandler.isParkinPilotePressed())
         {
-            on = true;
-        }
-
-        if (!inputhandler.isParkinPilotePressed() && on)
-        {
-            on = false;
+            if (!on)
+            {
+                on = true;
+            }
+            else
+            {
+                on = false;
+            }
         }
 
         packet.setParkingPiloteStatus(on);
