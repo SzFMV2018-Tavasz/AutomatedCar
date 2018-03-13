@@ -7,6 +7,7 @@ import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
 import hu.oe.nik.szfmv.environment.WorldObject;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class AutomatedCar extends WorldObject {
@@ -30,7 +31,8 @@ public class AutomatedCar extends WorldObject {
 
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
-
+        setLocation(new Point(300,300));
+        setRotation(Math.toRadians(360-90));
         new Driver(virtualFunctionBus);
     }
 
@@ -48,16 +50,17 @@ public class AutomatedCar extends WorldObject {
      */
     private void calculatePositionAndOrientation() {
         //TODO it is just a fake implementation
-        double speed = powertrainSystem.getSpeed();
-        double angularSpeed = steeringSystem.getAngularSpeed();
+        double speed = 100;
+        double angularSpeed = 0;
         try {
             angularSpeed = getSteerAngle(angularSpeed);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        double carHeading = 0;
+        double carHeading = Math.toRadians(270) - rotation;
         double halfWheelBase = wheelBase / 2;
-        Point2D carPosition = new Point2D.Double(x, y);
+
+        Point2D carPosition = new Point2D.Double(this.getX(), this.getY());
 
         Point2D frontWheel = getFrontWheel(carHeading, halfWheelBase, carPosition);
         Point2D backWheel = getBackWheel(carHeading, halfWheelBase, carPosition);
@@ -71,10 +74,9 @@ public class AutomatedCar extends WorldObject {
         carPosition = getCarPosition(frontWheel, backWheel);
         carHeading = getCarHeading(frontWheel, backWheel);
 
-
-        x = (int) carPosition.getX();
-        y = (int) carPosition.getY();
-        rotation = (float) carHeading;
+        this.setX((int) carPosition.getX());
+        this.setY((int) carPosition.getY());
+        rotation = Math.toRadians(270)- carHeading;
     }
 
     /**
@@ -99,7 +101,7 @@ public class AutomatedCar extends WorldObject {
 
         // From -60 to 60 degree
         double steerAngle;
-        final double MULTIPLIER = 0.6;
+        final double MULTIPLIER = -0.6;
 
         steerAngle = wheelPosition * MULTIPLIER;
         return steerAngle;
