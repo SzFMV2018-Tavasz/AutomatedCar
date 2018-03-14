@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv.automatedcar.bus;
 
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.sample.ReadOnlySamplePacket;
+import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 public class VirtualFunctionBus {
 
+    public ReadOnlyPowertrainPacket powertrainPacket;
     public ReadOnlySamplePacket samplePacket;
     public ReadOnlyInputPacket inputPacket;
 
