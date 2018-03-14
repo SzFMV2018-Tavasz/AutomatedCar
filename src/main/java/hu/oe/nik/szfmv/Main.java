@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.common.ConfigProvider;
 import hu.oe.nik.szfmv.environment.World;
+import hu.oe.nik.szfmv.environment.models.Pedestrian;
 import hu.oe.nik.szfmv.visualization.Gui;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,6 +29,9 @@ public class Main {
         // add car to the world
         w.addObjectToWorld(car);
 
+        Pedestrian pedestrian = new Pedestrian(1350, 500, "man.png", 1495, 486);
+        w.addObjectToWorld(pedestrian);
+
         // create gui
         Gui gui = new Gui();
 
@@ -37,6 +41,8 @@ public class Main {
         while (true) {
             try {
                 car.drive();
+                pedestrian.moveOnCrosswalk();
+
                 gui.getCourseDisplay().drawWorld(w);
                 gui.getDashboard().updateDisplayedValues(car.getInputValues(), car.getX(), car.getY());
                 Thread.sleep(CYCLE_PERIOD);
