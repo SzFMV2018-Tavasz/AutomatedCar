@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.car.ReadOnlyCarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
@@ -12,8 +13,9 @@ import java.awt.geom.Point2D;
 
 public class AutomatedCar extends WorldObject {
 
-    private final double wheelBase = 130;
-    private final double fps = 24;
+    private final double wheelBase = height;
+    private double halfWidth = width;
+    private final double fps = 1;
 
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
@@ -49,7 +51,7 @@ public class AutomatedCar extends WorldObject {
      * Calculates the new x and y coordinates of the {@link AutomatedCar} using the powertrain and the steering systems.
      */
     private void calculatePositionAndOrientation() {
-        //TODO it is just a fake implementation
+
         double speed = 100;
         double angularSpeed = 0;
         try {
@@ -60,7 +62,8 @@ public class AutomatedCar extends WorldObject {
         double carHeading = Math.toRadians(270) - rotation;
         double halfWheelBase = wheelBase / 2;
 
-        Point2D carPosition = new Point2D.Double(this.getX(), this.getY());
+        //Point2D carPosition = new Point2D.Double(this.getX()+halfWheelBase, this.getY()+halfWidth);
+        Point2D carPosition = new Point2D.Double(getCarValues().getX(), getCarValues().getY());
 
         Point2D frontWheel = getFrontWheel(carHeading, halfWheelBase, carPosition);
         Point2D backWheel = getBackWheel(carHeading, halfWheelBase, carPosition);
@@ -74,8 +77,14 @@ public class AutomatedCar extends WorldObject {
         carPosition = getCarPosition(frontWheel, backWheel);
         carHeading = getCarHeading(frontWheel, backWheel);
 
-        this.setX((int) carPosition.getX());
-        this.setY((int) carPosition.getY());
+        this.setX((int) (carPosition.getX()- halfWheelBase));
+        this.setY((int) (carPosition.getY()- halfWidth));
+        this.getCarValues().setX((int)carPosition.getX());
+        this.getCarValues().setX((int)carPosition.getY());
+        this.getCarValues().setRotation(Math.toRadians(270) - carHeading);
+        this.getCarValues().setRotationPoint(new Point((int)(carPosition.getX() - halfWheelBase),
+                (int)(carPosition.getY() - halfWidth)));
+
         rotation = Math.toRadians(270)- carHeading;
     }
 
@@ -93,9 +102,12 @@ public class AutomatedCar extends WorldObject {
      * @param       wheelPosition   in percent form.
      * @return      steeringAngle between -60 and 60 degree.
      * */
-    public double getSteerAngle (double wheelPosition) throws Exception {
+    protected double getSteerAngle (double wheelPosition) throws Exception {
 
-        if (wheelPosition > 100d || wheelPosition < -100d) {
+        final double maxLeft = 100d;
+        final double maxRight = -100d;
+
+        if (wheelPosition > maxLeft || wheelPosition < maxRight) {
             throw new Exception();
         }
 
@@ -103,7 +115,9 @@ public class AutomatedCar extends WorldObject {
         double steerAngle;
         final double MULTIPLIER = -0.6;
 
+
         steerAngle = wheelPosition * MULTIPLIER;
+        steerAngle = Math.toRadians(steerAngle);
         return steerAngle;
     }
 
@@ -113,7 +127,7 @@ public class AutomatedCar extends WorldObject {
      * @param   carPosition     Car position, x and y point
      * @return  front wheel position
     **/
-    public Point2D getFrontWheel(double carHeading, double halfWheelBase, Point2D carPosition) {
+    protected Point2D getFrontWheel(double carHeading, double halfWheelBase, Point2D carPosition) {
         return new Point2D.Double((Math.cos(carHeading) * halfWheelBase) + carPosition.getX(),
                 (Math.sin(carHeading) * halfWheelBase) + carPosition.getY());
     }
@@ -124,7 +138,7 @@ public class AutomatedCar extends WorldObject {
      * @param   carPosition     Car position, x and y point
      * @return  back wheel position
      **/
-    public Point2D getBackWheel(double carHeading, double halfWheelBase, Point2D carPosition) {
+    protected Point2D getBackWheel(double carHeading, double halfWheelBase, Point2D carPosition) {
         return new Point2D.Double(carPosition.getX() - (Math.cos(carHeading) * halfWheelBase),
                 carPosition.getY() - (Math.sin(carHeading) * halfWheelBase));
     }
@@ -135,7 +149,7 @@ public class AutomatedCar extends WorldObject {
      * @param   fps         Display fps
      * @return  Back wheel displacement after moving
      **/
-    public Point2D getBackWheelDisplacement(double carHeading, double speed, double fps) {
+    private Point2D getBackWheelDisplacement(double carHeading, double speed, double fps) {
         return new Point2D.Double(Math.cos(carHeading) * speed * (1 / fps),
                 (Math.sin(carHeading) * speed * (1 / fps)));
     }
@@ -147,7 +161,7 @@ public class AutomatedCar extends WorldObject {
      * @param   fps             Display fps
      * @return  Front wheel displacement after moving
      **/
-    public Point2D getFrontWheelDisplacement(double carHeading, double angularSpeed, double speed, double fps) {
+    protected Point2D getFrontWheelDisplacement(double carHeading, double angularSpeed, double speed, double fps) {
         return new Point2D.Double(Math.cos(carHeading + angularSpeed) * speed * (1 / fps),
                 (Math.sin(carHeading + angularSpeed) * speed * (1 / fps)));
     }
@@ -157,7 +171,7 @@ public class AutomatedCar extends WorldObject {
      * @param   frontWheelDisplacement  Front wheel displacement
      * @return  New front position
      */
-    public Point2D getNewFrontWheelPosition(Point2D frontWheel, Point2D frontWheelDisplacement) {
+    private Point2D getNewFrontWheelPosition(Point2D frontWheel, Point2D frontWheelDisplacement) {
         return new Point2D.Double(frontWheel.getX() + frontWheelDisplacement.getX(),
                 frontWheel.getY() + frontWheelDisplacement.getY());
     }
@@ -167,7 +181,7 @@ public class AutomatedCar extends WorldObject {
      * @param   backWheelDisplacement  Back wheel displacement
      * @return  New back position
      */
-    public Point2D getNewBackWheelPosition(Point2D backWheel, Point2D backWheelDisplacement) {
+    private Point2D getNewBackWheelPosition(Point2D backWheel, Point2D backWheelDisplacement) {
         return new Point2D.Double(backWheel.getX() + backWheelDisplacement.getX(),
                 backWheel.getY() + backWheelDisplacement.getY());
     }
@@ -177,7 +191,7 @@ public class AutomatedCar extends WorldObject {
      * @param   backWheel   Back wheel position
      * @return  Car position
      **/
-    public Point2D getCarPosition(Point2D frontWheel, Point2D backWheel) {
+    protected Point2D getCarPosition(Point2D frontWheel, Point2D backWheel) {
         return new Point2D.Double((frontWheel.getX() + backWheel.getX()) / 2,
                 (frontWheel.getY() + backWheel.getY()) / 2);
     }
@@ -188,5 +202,13 @@ public class AutomatedCar extends WorldObject {
      */
     public ReadOnlyInputPacket getInputValues() {
         return virtualFunctionBus.inputPacket;
+    }
+
+    /**
+     * Gets the car values which needs to change the car position
+     * @return car packet
+     */
+    private ReadOnlyCarPacket getCarValues() {
+        return virtualFunctionBus.carPacket;
     }
 }
