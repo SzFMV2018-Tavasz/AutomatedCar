@@ -13,7 +13,8 @@ public class PowertrainPacket implements ReadOnlyPowertrainPacket {
     /**
      * Constructor for PowertrainPacket
      */
-    public PowertrainPacket() { }
+    public PowertrainPacket() {
+    }
 
     public void setRpm(int rpm) {
         this.rpm = rpm;
@@ -25,11 +26,11 @@ public class PowertrainPacket implements ReadOnlyPowertrainPacket {
 
     @Override
     public int getRpm() {
-        return 0;
+        return this.rpm;
     }
 
     @Override
     public double getSpeed() {
-        return 0;
+        return this.speed;
     }
 }
