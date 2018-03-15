@@ -1,7 +1,5 @@
 package hu.oe.nik.szfmv.automatedcar.bus.packets.input;
 
-import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
-
 public interface ReadOnlyInputPacket {
     /**
      * Gets the gas pedal's current position

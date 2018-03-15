@@ -3,7 +3,6 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.InputPacket;
 import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
-import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 
 public class Index extends SystemComponent {
 
