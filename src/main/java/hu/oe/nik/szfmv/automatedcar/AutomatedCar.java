@@ -32,7 +32,7 @@ public class AutomatedCar extends WorldObject {
     }
 
     /**
-     * Provides a sample method for modifying the position of the car.
+     * Provides a enums method for modifying the position of the car.
      */
     public void drive() {
         virtualFunctionBus.loop();
