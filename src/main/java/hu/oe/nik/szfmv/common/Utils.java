@@ -28,31 +28,8 @@ public final class Utils {
      * @return the rotation in radian
      */
     public static double convertMatrixToRadians(double m11, double m12, double m21, double m22) {
-        //formula of the angle between the two vectors: a * b = |a| * |b| * cos(beta)
-        //where a * b is the scalarProduct
-        //Our zero degree will be the horizontal right:
-        double defaultX = 1;
-        double defaultY = 0;
-
-        double transformedX = m11 * defaultX + m12 * defaultY;
-        double transformedY = m21 * defaultX + m22 * defaultY;
-
-        double scalarProduct = defaultX * transformedX + defaultY * transformedY;
-
-        double defaultVectorLength = Math.sqrt(defaultX * defaultX + defaultY * defaultY);
-        double transformedVectorLength = Math.sqrt(transformedX * transformedX + transformedY * transformedY);
-
-        double angleInRad = Math.acos(scalarProduct / (defaultVectorLength * transformedVectorLength));
-        if (transformedY < 0) {
-            angleInRad = 2 * Math.PI - angleInRad;
-        }
-        //If angle is NaN as a result of transformedVectorLength=0, Math.round() returns 0. It is correct in our cases.
-        //angleInRad = Math.round(angleInRad * 100.0) / 100.0;
-        return angleInRad;
-//        double m13 = 0;
-//        double m23 = 0;
-//        double m33 = 1;
-//        return 6.2831853072d - Math.acos((m11 + m22) / 2);
+        double radian = Math.atan2(m21, m11);
+        return radian > 0 ? radian : 2 * Math.PI + radian;
     }
 
     /**

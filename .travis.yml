@@ -14,13 +14,13 @@ before_script:
 # install necessary tools for code coverage reporters
 before_install:
   # these needs for Codacy's code coverage tracker
-  - sudo apt-get install jq
-  - wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)
+  #- sudo apt-get install jq
+  #- wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)
   # for nightly releaser script
   - gem install rest-client
 after_success:
   # this creates the report for Codacy's code coverage tracker
-  - java -cp ~/codacy-coverage-reporter-assembly-latest.jar com.codacy.CodacyCoverageReporter -l Java -r build/reports/jacoco/test/jacocoTestReport.xml
+  #- java -cp ~/codacy-coverage-reporter-assembly-latest.jar com.codacy.CodacyCoverageReporter -l Java -r build/reports/jacoco/test/jacocoTestReport.xml
   # the actual testing and reporting
   - mvn clean test jacoco:report coveralls:report
   # generate Javadoc
