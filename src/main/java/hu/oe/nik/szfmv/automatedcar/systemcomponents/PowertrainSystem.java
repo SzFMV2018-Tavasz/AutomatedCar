@@ -46,6 +46,11 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
         this.actualRPM = carSpecifications.getIdleRPM();
     }
 
+    /**
+     * Test constructor
+     * @param virtualFunctionBus VirtualFunctionBus
+     * @param speed speed
+     */
     public PowertrainSystem(VirtualFunctionBus virtualFunctionBus, double speed) {
         super(virtualFunctionBus);
         this.powertrainPacket = new PowertrainPacket();
@@ -140,7 +145,9 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
         if (speedDelta < 0) {
             while (this.carSpecifications.getGearShiftLevelSpeed().get(this.shiftLevel + shiftLevelChange)
                     > Math.abs(this.speed)) {
-                if (this.shiftLevel > this.carSpecifications.getGearboxMinLevel()) shiftLevelChange--;
+                if (this.shiftLevel > this.carSpecifications.getGearboxMinLevel()) {
+                    shiftLevelChange--;
+                }
             }
             if ((shiftLevelChange < 0) && (this.shiftLevel > this.carSpecifications.getGearboxMinLevel())) {
                 this.shiftLevel += shiftLevelChange;
@@ -160,6 +167,9 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
         this.doPowertrain();
     }
 
+    /**
+     * This method for UnitTest
+     */
     public void loopTest() {
         this.gearState = this.virtualFunctionBus.samplePacket.getGearState();
         this.gasPedalPosition = this.virtualFunctionBus.samplePacket.getGaspedalPosition();
