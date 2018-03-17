@@ -24,7 +24,7 @@ public class CarPacket implements ReadOnlyCarPacket {
     }
 
     public Point getRotationPoint() {
-        return new Point(x, y);
+        return rotationPoint;
     }
 
     public double getRotation() {
