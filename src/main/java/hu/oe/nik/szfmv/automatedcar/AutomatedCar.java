@@ -14,7 +14,7 @@ import java.awt.geom.Point2D;
 public class AutomatedCar extends WorldObject {
 
     private final double wheelBase = height;
-    private double halfWidth = width;
+    private double halfWidth = width / 2;
     private final double fps = 1;
 
     private PowertrainSystem powertrainSystem;
@@ -33,8 +33,8 @@ public class AutomatedCar extends WorldObject {
 
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
-        setLocation(new Point(300,300));
-        setRotation(Math.toRadians(360-90));
+        setLocation(new Point(300, 300));
+        setRotation(Math.toRadians(360 - 90));
         new Driver(virtualFunctionBus);
     }
 
@@ -62,8 +62,7 @@ public class AutomatedCar extends WorldObject {
         double carHeading = Math.toRadians(270) - rotation;
         double halfWheelBase = wheelBase / 2;
 
-        //Point2D carPosition = new Point2D.Double(this.getX()+halfWheelBase, this.getY()+halfWidth);
-        Point2D carPosition = new Point2D.Double(getCarValues().getX(), getCarValues().getY());
+        Point2D carPosition = new Point2D.Double(getCarValues().getRotationPoint().x, getCarValues().getRotationPoint().y);
 
         Point2D frontWheel = getFrontWheel(carHeading, halfWheelBase, carPosition);
         Point2D backWheel = getBackWheel(carHeading, halfWheelBase, carPosition);
@@ -77,15 +76,15 @@ public class AutomatedCar extends WorldObject {
         carPosition = getCarPosition(frontWheel, backWheel);
         carHeading = getCarHeading(frontWheel, backWheel);
 
-        this.setX((int) (carPosition.getX()- halfWheelBase));
-        this.setY((int) (carPosition.getY()- halfWidth));
-        this.getCarValues().setX((int)carPosition.getX());
-        this.getCarValues().setX((int)carPosition.getY());
-        this.getCarValues().setRotation(Math.toRadians(270) - carHeading);
-        this.getCarValues().setRotationPoint(new Point((int)(carPosition.getX() - halfWheelBase),
-                (int)(carPosition.getY() - halfWidth)));
+        this.setX((int) (carPosition.getX() - halfWidth));
+        this.setY((int) (carPosition.getY() - halfWheelBase));
+        rotation = Math.toRadians(270) - carHeading;
 
-        rotation = Math.toRadians(270)- carHeading;
+        this.getCarValues().setX((int)(carPosition.getX() - halfWidth));
+        this.getCarValues().setY((int)(carPosition.getY() - halfWheelBase));
+        this.getCarValues().setRotation(Math.toRadians(270) - carHeading);
+        this.getCarValues().setRotationPoint(new Point((int)(carPosition.getX()),
+                (int)(carPosition.getY())));
     }
 
     /**
@@ -101,6 +100,7 @@ public class AutomatedCar extends WorldObject {
     /** Get [-100,100] percent and it give back a value which between -60 and 60 degree.
      * @param       wheelPosition   in percent form.
      * @return      steeringAngle between -60 and 60 degree.
+     * @throws      Exception wrong parameter Exception
      * */
     protected double getSteerAngle (double wheelPosition) throws Exception {
 

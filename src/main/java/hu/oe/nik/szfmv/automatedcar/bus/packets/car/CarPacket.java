@@ -7,16 +7,12 @@ public class CarPacket implements ReadOnlyCarPacket {
     private int y;
     private Point rotationPoint;
     private double rotation;
-    private int displayX;
-    private int displayY;
 
     public CarPacket() {
         x = 0;
         y = 0;
         rotationPoint = new Point();
         rotation = 0;
-        displayX = 0;
-        displayY = 0;
     }
 
     public int getX() {
@@ -35,14 +31,6 @@ public class CarPacket implements ReadOnlyCarPacket {
         return rotation;
     }
 
-    public int getDisplayX() {
-        return displayX;
-    }
-
-    public int getDisplayY() {
-        return displayY;
-    }
-
     public void setX(int x) {
         this.x = x;
     }
@@ -57,13 +45,5 @@ public class CarPacket implements ReadOnlyCarPacket {
 
     public void setRotation(double rotation) {
         this.rotation = rotation;
-    }
-
-    public void setDisplayX(int displayX) {
-        this.displayX = displayX;
-    }
-
-    public void setDisplayY(int displayY) {
-        this.displayY = displayY;
     }
 }
