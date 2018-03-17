@@ -63,6 +63,7 @@ public class PowertrainSystemTest {
             //Thread.sleep(25);
             this.powertrainSystem.loopTest();
         }
+        assertEquals(118.06446078430348, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.01);
     }
 
     @Test
@@ -70,22 +71,63 @@ public class PowertrainSystemTest {
         this.powertrainSystem = new PowertrainSystem(virtualFunctionBus, 0);
         setValues(100, 0, GearEnum.R);
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 80; i++) {
+            //Thread.sleep(25);
             this.powertrainSystem.loopTest();
         }
-        assertEquals(-4.207843137254901, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.3333);
+        assertEquals(-9.336151960784315, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.01);
     }
 
     @Test
-    public void deccelerateFullBrakeTest() throws InterruptedException {
-        this.powertrainSystem = new PowertrainSystem(virtualFunctionBus, 35);
-        setValues(0, 100, GearEnum.D);
+    public void EngineBrakeTestForward() throws InterruptedException {
+        this.powertrainSystem = new PowertrainSystem(virtualFunctionBus, 50);
+        setValues(0, 0, GearEnum.D);
+
+        for (int i = 0; i < 3000; i++) {
+            //Thread.sleep(25);
+            this.powertrainSystem.loopTest();
+        }
+        assertEquals(1.3888, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.01);
+    }
+
+    @Test
+    public void EngineBrakeTestBackward() throws InterruptedException {
+        this.powertrainSystem = new PowertrainSystem(virtualFunctionBus, -9);
+        setValues(0, 0, GearEnum.R);
+
+        for (int i = 0; i < 3000; i++) {
+            //Thread.sleep(25);
+            this.powertrainSystem.loopTest();
+        }
+        assertEquals(-1.3888, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.01);
+    }
+
+    @Test
+    public void deccelerateFullBrakeTestForward() throws InterruptedException {
+        this.powertrainSystem = new PowertrainSystem(virtualFunctionBus, 118);
+        setValues(0, 80, GearEnum.D);
 
         powertrainSystem.loopTest();
 
-        while (powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed() != 0) {
-            Thread.sleep(1);
+        for (int i = 0; i < 1000; i++) {
+            //Thread.sleep(25);
+            this.powertrainSystem.loopTest();
         }
+        assertEquals(0, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.01);
+    }
+
+    @Test
+    public void deccelerateFullBrakeTestBackward() throws InterruptedException {
+        this.powertrainSystem = new PowertrainSystem(virtualFunctionBus, -30);
+        setValues(0, 80, GearEnum.R);
+
+        powertrainSystem.loopTest();
+
+        for (int i = 0; i < 500; i++) {
+            //Thread.sleep(25);
+            this.powertrainSystem.loopTest();
+        }
+        assertEquals(0, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.01);
     }
 
     @Test

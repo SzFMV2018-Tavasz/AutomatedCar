@@ -73,7 +73,7 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
      */
     private double calculateSpeedDifference() {
         boolean isAccelerate = actualRPM > expectedRPM;
-        boolean isBraking = ((brakePedalPosition > 0) && (gasPedalPosition == 0));
+        boolean isBraking = brakePedalPosition > 0;
         double speedDelta;
 
         if (isAccelerate) {
@@ -85,8 +85,8 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
         }
 
         if (isBraking) {
-            speedDelta = -1 * orientationVector * ((CarSpecifications.MAX_BRAKE_SPEED / PERCENTAGE) *
-                    brakePedalPosition);
+            speedDelta = -1 * orientationVector * ((CarSpecifications.MAX_BRAKE_SPEED / PERCENTAGE)
+                    * brakePedalPosition);
         }
 
         LOGGER.debug(":: calculateSpeedDifference() method called:\n{ IsAccelerate: " + isAccelerate
@@ -183,14 +183,19 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
 
                 if (brakePedalPosition == 0) {
                     LOGGER.debug(":: doPowertrain() method called: Slowing down to minimum speed");
+                    // Acceleration
                     if ((speed > CarSpecifications.GEAR_SHIFT_LEVEL_SPEED.get(0) * -1)) {
-                        speed += speedDelta;
-                        powertrainPacket.setSpeed(speed);
+                        adjustSpeed(speedDelta);
                     }
+                    // Enginebrake
+
                 } else {
                     LOGGER.debug(":: doPowertrain() method called: Braking, allow to stop to zero");
                     if (speed < 0) {
-                        speed += speedDelta;
+                        adjustSpeed(speedDelta);
+                    }
+                    if (speed > 0) {
+                        speed = 0;
                         powertrainPacket.setSpeed(speed);
                     }
                 }
@@ -204,14 +209,21 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
 
                 if (brakePedalPosition == 0) {
                     LOGGER.debug(":: doPowertrain() method called: Accelerate to maximum speed");
-                    if ((speed < CarSpecifications.MAX_FORWARD_SPEED)) {
-                        speed += speedDelta;
-                        powertrainPacket.setSpeed(speed);
+                    // Acceleration
+                    if (speedDelta > 0 && speed < CarSpecifications.MAX_FORWARD_SPEED) {
+                        adjustSpeed(speedDelta);
+                    }
+                    // Enginebrake
+                    if (speedDelta < 0 && speed > CarSpecifications.MIN_SPEED) {
+                        adjustSpeed(speedDelta);
                     }
                 } else {
                     LOGGER.debug(":: doPowertrain() method called: Braking, allow to stop to zero");
                     if (speed > 0) {
-                        speed += speedDelta;
+                        adjustSpeed(speedDelta);
+                    }
+                    if (speed < 0) {
+                        speed = 0;
                         powertrainPacket.setSpeed(speed);
                     }
                 }
@@ -222,11 +234,26 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
         }
     }
 
+    /**
+     * Adjust new speed
+     *
+     * @param speedDelta speed delta
+     */
+    private void adjustSpeed(double speedDelta) {
+        speed += speedDelta;
+        powertrainPacket.setSpeed(speed);
+    }
+
     @Override
     public void getVirtualFunctionBusSignals() {
-        gasPedalPosition = virtualFunctionBus.inputPacket.getGasPedalPosition();
-        brakePedalPosition = virtualFunctionBus.inputPacket.getBreakPedalPosition();
-        gearState = virtualFunctionBus.inputPacket.getGearState();
+        try {
+            gasPedalPosition = virtualFunctionBus.inputPacket.getGasPedalPosition();
+            brakePedalPosition = virtualFunctionBus.inputPacket.getBreakPedalPosition();
+            gearState = virtualFunctionBus.inputPacket.getGearState();
+        } catch (NullPointerException ex) {
+            LOGGER.error(ex);
+            throw new NullPointerException("Inputpacket was not initiated when reading signals:\n" + ex.toString());
+        }
     }
 }
 
