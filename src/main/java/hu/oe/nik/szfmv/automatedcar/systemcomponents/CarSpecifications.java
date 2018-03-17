@@ -8,7 +8,9 @@ public final class CarSpecifications {
     public static final int MAX_RPM = 7400;       // unit: rpm
     public static final int IDLE_RPM = 740;        // unit: rpm
     public static final double MAX_FORWARD_SPEED = 118.0605;    // unit: m/s - 190 km/h
-    public static final double MIN_SPEED = 1.3888;     // unit: m/s - 5 km/h
+    public static final double MAX_REVERSE_SPEED = -5.278;    // unit: m/s - 19 km/h
+    public static final double MIN_FORWARD_SPEED = 1.3888;     // unit: m/s - 5 km/h
+    public static final double MIN_REVERSE_SPEED = -1.3888;     // unit: m/s - -5 km/h
     public static final int ENGINE_BRAKE_TORQUE = 35;         // unit: Nm
     public static final int WEIGHT = 1360;       // unit: kg
     public static final double MAX_BRAKE_SPEED = 6.12;       // unit: m/s - 22 km/h

@@ -184,10 +184,14 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
                 if (brakePedalPosition == 0) {
                     LOGGER.debug(":: doPowertrain() method called: Slowing down to minimum speed");
                     // Acceleration
-                    if ((speed > CarSpecifications.GEAR_SHIFT_LEVEL_SPEED.get(0) * -1)) {
+                    if (speedDelta < 0 && (speed > CarSpecifications.MAX_REVERSE_SPEED)) {
                         adjustSpeed(speedDelta);
                     }
-                    // Enginebrake
+                    // Enginebreak
+                    if (speedDelta > 0 && speed < CarSpecifications.MIN_REVERSE_SPEED) {
+                        adjustSpeed(speedDelta);
+                    }
+
 
                 } else {
                     LOGGER.debug(":: doPowertrain() method called: Braking, allow to stop to zero");
@@ -214,7 +218,7 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
                         adjustSpeed(speedDelta);
                     }
                     // Enginebrake
-                    if (speedDelta < 0 && speed > CarSpecifications.MIN_SPEED) {
+                    if (speedDelta < 0 && speed > CarSpecifications.MIN_FORWARD_SPEED) {
                         adjustSpeed(speedDelta);
                     }
                 } else {

@@ -3,8 +3,6 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.sample.SamplePacket;
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -63,7 +61,7 @@ public class PowertrainSystemTest {
             //Thread.sleep(25);
             this.powertrainSystem.loopTest();
         }
-        assertEquals(118.06446078430348, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.01);
+        assertEquals(CarSpecifications.MAX_FORWARD_SPEED, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.01);
     }
 
     @Test
@@ -75,7 +73,7 @@ public class PowertrainSystemTest {
             //Thread.sleep(25);
             this.powertrainSystem.loopTest();
         }
-        assertEquals(-9.336151960784315, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.01);
+        assertEquals(CarSpecifications.MAX_REVERSE_SPEED, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.15);
     }
 
     @Test
@@ -87,7 +85,7 @@ public class PowertrainSystemTest {
             //Thread.sleep(25);
             this.powertrainSystem.loopTest();
         }
-        assertEquals(1.3888, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.01);
+        assertEquals(CarSpecifications.MIN_FORWARD_SPEED, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.01);
     }
 
     @Test
@@ -95,11 +93,11 @@ public class PowertrainSystemTest {
         this.powertrainSystem = new PowertrainSystem(virtualFunctionBus, -9);
         setValues(0, 0, GearEnum.R);
 
-        for (int i = 0; i < 3000; i++) {
+        for (int i = 0; i < 1000; i++) {
             //Thread.sleep(25);
             this.powertrainSystem.loopTest();
         }
-        assertEquals(-1.3888, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.01);
+        assertEquals(CarSpecifications.MIN_REVERSE_SPEED, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.01);
     }
 
     @Test
