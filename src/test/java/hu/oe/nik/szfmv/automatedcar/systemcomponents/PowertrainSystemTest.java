@@ -11,48 +11,47 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class PowertrainSystemTest {
-    private static final Logger LOGGER = LogManager.getLogger(PowertrainSystem.class);
     private VirtualFunctionBus virtualFunctionBus;
     private PowertrainSystem powertrainSystem;
     private SamplePacket samplePacket;
 
     @Before
     public void registerComponent() {
-        this.samplePacket = new SamplePacket();
-        this.virtualFunctionBus = new VirtualFunctionBus();
-        this.virtualFunctionBus.samplePacket = this.samplePacket;
+        samplePacket = new SamplePacket();
+        virtualFunctionBus = new VirtualFunctionBus();
+        virtualFunctionBus.samplePacket = samplePacket;
 
-        this.powertrainSystem = new PowertrainSystem(virtualFunctionBus, -10);
+        powertrainSystem = new PowertrainSystem(virtualFunctionBus, -10);
     }
 
     private void setValues(int gaspedalPosition, int brakepedalPosition, GearEnum gearState) {
-        this.samplePacket.setGaspedalPosition(gaspedalPosition);
-        this.samplePacket.setBrakepedalPosition(brakepedalPosition);
-        this.samplePacket.setGearState(gearState);
+        samplePacket.setGaspedalPosition(gaspedalPosition);
+        samplePacket.setBrakepedalPosition(brakepedalPosition);
+        samplePacket.setGearState(gearState);
     }
 
     @Test
     public void getRPMWithMaxGaspedalState() {
         setValues(100, 0, GearEnum.D);
-        assertEquals(powertrainSystem.getCarSpecifications().getMaxPRM(), this.powertrainSystem.calculateExpectedRPM(this.powertrainSystem.virtualFunctionBus.samplePacket.getGaspedalPosition()));
+        assertEquals(CarSpecifications.MAX_RPM, powertrainSystem.calculateExpectedRPM(powertrainSystem.virtualFunctionBus.samplePacket.getGaspedalPosition()));
     }
 
     @Test
     public void getRPMWithMinGaspedalState() {
         setValues(0, 0, GearEnum.D);
-        assertEquals(powertrainSystem.getCarSpecifications().getIdleRPM(), this.powertrainSystem.calculateExpectedRPM(this.powertrainSystem.virtualFunctionBus.samplePacket.getGaspedalPosition()));
+        assertEquals(CarSpecifications.IDLE_RPM, powertrainSystem.calculateExpectedRPM(powertrainSystem.virtualFunctionBus.samplePacket.getGaspedalPosition()));
     }
 
     @Test
     public void getRPMWithGaspedalState1() {
         setValues(34, 0, GearEnum.D);
-        assertEquals(2516, this.powertrainSystem.calculateExpectedRPM(this.powertrainSystem.virtualFunctionBus.samplePacket.getGaspedalPosition()));
+        assertEquals(2516, powertrainSystem.calculateExpectedRPM(powertrainSystem.virtualFunctionBus.samplePacket.getGaspedalPosition()));
     }
 
     @Test
     public void getRPMWithGaspedalState2() {
         setValues(71, 0, GearEnum.D);
-        assertEquals(5254, this.powertrainSystem.calculateExpectedRPM(this.powertrainSystem.virtualFunctionBus.samplePacket.getGaspedalPosition()));
+        assertEquals(5254, powertrainSystem.calculateExpectedRPM(powertrainSystem.virtualFunctionBus.samplePacket.getGaspedalPosition()));
     }
 
     @Test
@@ -60,7 +59,8 @@ public class PowertrainSystemTest {
         this.powertrainSystem = new PowertrainSystem(virtualFunctionBus, 0);
         setValues(100, 0, GearEnum.D);
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 3500; i++) {
+            //Thread.sleep(25);
             this.powertrainSystem.loopTest();
         }
     }
@@ -73,8 +73,7 @@ public class PowertrainSystemTest {
         for (int i = 0; i < 100; i++) {
             this.powertrainSystem.loopTest();
         }
-        LOGGER.debug(this.powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed());
-        assertEquals(-4.207843137254901, this.powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.3333);
+        assertEquals(-4.207843137254901, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.3333);
     }
 
     @Test
@@ -82,9 +81,9 @@ public class PowertrainSystemTest {
         this.powertrainSystem = new PowertrainSystem(virtualFunctionBus, 35);
         setValues(0, 100, GearEnum.D);
 
-        this.powertrainSystem.loopTest();
+        powertrainSystem.loopTest();
 
-        while (this.powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed() != 0) {
+        while (powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed() != 0) {
             Thread.sleep(1);
         }
     }
@@ -95,9 +94,9 @@ public class PowertrainSystemTest {
         setValues(50, 0, GearEnum.N);
 
         for (int i = 0; i < 50; i++) {
-            this.powertrainSystem.loopTest();
+            powertrainSystem.loopTest();
         }
-        assertEquals(0, (int) this.powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed());
+        assertEquals(0, (int) powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed());
     }
 
     @Test
@@ -108,6 +107,6 @@ public class PowertrainSystemTest {
         for (int i = 0; i < 50; i++) {
             this.powertrainSystem.loopTest();
         }
-        assertEquals(0, (int) this.powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed());
+        assertEquals(0, (int) powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed());
     }
 }

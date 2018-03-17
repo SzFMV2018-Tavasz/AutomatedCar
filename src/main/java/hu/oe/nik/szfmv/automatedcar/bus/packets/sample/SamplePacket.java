@@ -7,6 +7,9 @@ public class SamplePacket implements ReadOnlySamplePacket {
     private int brakepedalPosition;
     private GearEnum gearState;
 
+    /**
+     * SamplePacket constructor
+     */
     public SamplePacket() {
         gaspedalPosition = 0;
         brakepedalPosition = 0;
@@ -38,6 +41,4 @@ public class SamplePacket implements ReadOnlySamplePacket {
     public void setGearState(GearEnum gearState) {
         this.gearState = gearState;
     }
-
-    // TODO implement all of the HMI signals
 }

@@ -11,7 +11,7 @@ public class PowertrainPacket implements ReadOnlyPowertrainPacket {
     private double speed;
 
     /**
-     * Constructor for PowertrainPacket
+     * PowertrainPacket consturctor
      */
     public PowertrainPacket() {
     }

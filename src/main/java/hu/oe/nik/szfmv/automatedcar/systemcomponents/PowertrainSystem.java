@@ -14,9 +14,9 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     private static final Logger LOGGER = LogManager.getLogger(PowertrainSystem.class);
     private static final double WIND_RESISTANCE = 3.0;
     private static final double REFRESH_RATE = 40;  // 1 sec / 0.025 sec
+    private static final int PERCENTAGE = 100;
 
     private PowertrainPacket powertrainPacket;
-    private CarSpecifications carSpecifications;
 
     private int expectedRPM;
     private int actualRPM;
@@ -35,36 +35,33 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
      */
     public PowertrainSystem(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
-        this.powertrainPacket = new PowertrainPacket();
-        virtualFunctionBus.powertrainPacket = this.powertrainPacket;
+        powertrainPacket = new PowertrainPacket();
+        virtualFunctionBus.powertrainPacket = powertrainPacket;
 
-        this.carSpecifications = new CarSpecifications();
-
-        this.gearState = GearEnum.P;
-        this.speed = 0;
-        this.expectedRPM = carSpecifications.getIdleRPM();
-        this.actualRPM = carSpecifications.getIdleRPM();
+        gearState = GearEnum.P;
+        speed = 0;
+        expectedRPM = CarSpecifications.IDLE_RPM;
+        actualRPM = CarSpecifications.IDLE_RPM;
     }
 
     /**
      * Test constructor
+     *
      * @param virtualFunctionBus VirtualFunctionBus
-     * @param speed speed
+     * @param speed              speed
      */
     public PowertrainSystem(VirtualFunctionBus virtualFunctionBus, double speed) {
         super(virtualFunctionBus);
-        this.powertrainPacket = new PowertrainPacket();
-        virtualFunctionBus.powertrainPacket = this.powertrainPacket;
+        powertrainPacket = new PowertrainPacket();
+        virtualFunctionBus.powertrainPacket = powertrainPacket;
 
-        this.carSpecifications = new CarSpecifications();
-
-        this.gearState = this.virtualFunctionBus.samplePacket.getGearState();
+        gearState = virtualFunctionBus.samplePacket.getGearState();
         this.speed = speed;
-        this.gasPedalPosition = this.virtualFunctionBus.samplePacket.getGaspedalPosition();
-        this.brakePedalPosition = this.virtualFunctionBus.samplePacket.getBrakepedalPosition();
+        gasPedalPosition = virtualFunctionBus.samplePacket.getGaspedalPosition();
+        brakePedalPosition = virtualFunctionBus.samplePacket.getBrakepedalPosition();
 
-        this.expectedRPM = carSpecifications.getIdleRPM();
-        this.actualRPM = carSpecifications.getIdleRPM();
+        expectedRPM = CarSpecifications.IDLE_RPM;
+        actualRPM = CarSpecifications.IDLE_RPM;
     }
 
     /**
@@ -75,28 +72,26 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
      * @return speed difference in m/s
      */
     private double calculateSpeedDifference() {
-        boolean isAccelerate = this.actualRPM > this.expectedRPM;
-        boolean isBraking = ((this.brakePedalPosition > 0) && (this.gasPedalPosition == 0));
+        boolean isAccelerate = actualRPM > expectedRPM;
+        boolean isBraking = ((brakePedalPosition > 0) && (gasPedalPosition == 0));
         double speedDelta;
 
         if (isAccelerate) {
-            speedDelta = this.orientationVector * (this.actualRPM
-                    * carSpecifications.getGearRatios().get(this.shiftLevel)
-                    / (carSpecifications.getWeight() * WIND_RESISTANCE));
+            speedDelta = orientationVector * (actualRPM * CarSpecifications.GEAR_RATIOS.get(shiftLevel)
+                    / (CarSpecifications.WEIGHT * WIND_RESISTANCE));
         } else {
-            speedDelta = -1 * this.orientationVector * (double) carSpecifications.getEngineBrakeTorque()
-                    * WIND_RESISTANCE / 150;
+            speedDelta = -1 * orientationVector * (double) CarSpecifications.ENGINE_BRAKE_TORQUE *
+                    WIND_RESISTANCE / PERCENTAGE;
         }
 
         if (isBraking) {
-            speedDelta = -1 * this.orientationVector * ((carSpecifications.getMaxBrakeSpeed() / 100)
-                    * this.brakePedalPosition);
+            speedDelta = -1 * orientationVector * ((CarSpecifications.MAX_BRAKE_SPEED / PERCENTAGE) *
+                    brakePedalPosition);
         }
 
         LOGGER.debug(":: calculateSpeedDifference() method called:\n{ IsAccelerate: " + isAccelerate
                 + ", IsBraking: " + isBraking + ", Speed difference (per sec): " + speedDelta
-                + ", Shift level: " + this.shiftLevel + ", Actual RPM: " + this.actualRPM + ". Actual speed: "
-                + this.speed + " }");
+                + ", Shift level: " + shiftLevel + ", Actual RPM: " + actualRPM + ". Actual speed: " + speed + " }");
 
         return speedDelta / REFRESH_RATE;
     }
@@ -109,12 +104,12 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
      */
     public int calculateExpectedRPM(int gaspedalPosition) {
         if (gaspedalPosition == 0) {
-            this.powertrainPacket.setRpm(carSpecifications.getIdleRPM());
-            return carSpecifications.getIdleRPM();
+            powertrainPacket.setRpm(CarSpecifications.IDLE_RPM);
+            return CarSpecifications.IDLE_RPM;
         } else {
-            double multiplier = (double) carSpecifications.getMaxPRM() / 100;
+            double multiplier = (double) CarSpecifications.MAX_RPM / PERCENTAGE;
             int actualRpm = (int) (gaspedalPosition * multiplier);
-            this.powertrainPacket.setRpm(actualRpm);
+            powertrainPacket.setRpm(actualRpm);
             return actualRpm;
         }
     }
@@ -127,55 +122,51 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     private void gearShiftWatcher(double speedDelta) {
         int shiftLevelChange = 0;
 
-        if (speedDelta > 0 && this.shiftLevel < this.carSpecifications.getGearboxMaxLevel()) {
-            while (this.carSpecifications.getGearShiftLevelSpeed().get(this.shiftLevel + shiftLevelChange)
-                    < Math.abs(this.speed)) {
+        if (speedDelta > 0 && shiftLevel < CarSpecifications.GEARBOX_MAX_LEVEL) {
+            while (CarSpecifications.GEAR_SHIFT_LEVEL_SPEED.get(shiftLevel + shiftLevelChange) < Math.abs(speed)) {
                 shiftLevelChange++;
             }
-            if ((shiftLevelChange > 0) && (this.shiftLevel < this.carSpecifications.getGearboxMaxLevel())) {
-                this.shiftLevel += shiftLevelChange;
+            if ((shiftLevelChange > 0)) {
+                shiftLevel += shiftLevelChange;
                 LOGGER.debug(":: gearShiftWatcher() method called: Need to shifting up. New shiftlevel: "
-                        + this.shiftLevel);
+                        + shiftLevel);
             } else {
-                LOGGER.debug(":: gearShiftWatcher() method called: Don't need shift.");
+                LOGGER.debug(":: gearShiftWatcher() method called: Don't need to shift.");
             }
-
         }
 
-        if (speedDelta < 0) {
-            while (this.carSpecifications.getGearShiftLevelSpeed().get(this.shiftLevel + shiftLevelChange)
-                    > Math.abs(this.speed)) {
-                if (this.shiftLevel > this.carSpecifications.getGearboxMinLevel()) {
+        if (speedDelta < 0 && shiftLevel > CarSpecifications.GEARBOX_MIN_LEVEL) {
+            while (CarSpecifications.GEAR_SHIFT_LEVEL_SPEED.get(shiftLevel + shiftLevelChange) > Math.abs(speed)) {
+                if (shiftLevel > CarSpecifications.GEARBOX_MIN_LEVEL) {
                     shiftLevelChange--;
                 }
             }
-            if ((shiftLevelChange < 0) && (this.shiftLevel > this.carSpecifications.getGearboxMinLevel())) {
-                this.shiftLevel += shiftLevelChange;
+            if ((shiftLevelChange < 0)) {
+                shiftLevel += shiftLevelChange;
                 LOGGER.debug(":: gearShiftWatcher() method called: Need to shifting down. New shiftlevel: "
-                        + this.shiftLevel);
+                        + shiftLevel);
             } else {
-                LOGGER.debug(":: gearShiftWatcher() method called: Don't need shift.");
+                LOGGER.debug(":: gearShiftWatcher() method called: Don't need to shift.");
             }
         }
-
     }
 
     @Override
     public void loop() {
-        this.getVirtualFunctionBusSignals();
-        this.actualRPM = this.calculateExpectedRPM(this.gasPedalPosition);
-        this.doPowertrain();
+        getVirtualFunctionBusSignals();
+        actualRPM = calculateExpectedRPM(gasPedalPosition);
+        doPowertrain();
     }
 
     /**
      * This method for UnitTest
      */
     public void loopTest() {
-        this.gearState = this.virtualFunctionBus.samplePacket.getGearState();
-        this.gasPedalPosition = this.virtualFunctionBus.samplePacket.getGaspedalPosition();
-        this.brakePedalPosition = this.virtualFunctionBus.samplePacket.getBrakepedalPosition();
+        this.gearState = virtualFunctionBus.samplePacket.getGearState();
+        this.gasPedalPosition = virtualFunctionBus.samplePacket.getGaspedalPosition();
+        this.brakePedalPosition = virtualFunctionBus.samplePacket.getBrakepedalPosition();
 
-        this.actualRPM = this.calculateExpectedRPM(this.gasPedalPosition);
+        this.actualRPM = calculateExpectedRPM(gasPedalPosition);
         doPowertrain();
     }
 
@@ -183,55 +174,49 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
      * Modifies the actual speed and send to VirtualFunctionBus
      */
     private void doPowertrain() {
-        double speedDelta = this.calculateSpeedDifference();
+        double speedDelta = calculateSpeedDifference();
 
-        switch (this.gearState) {
-            case P:
-                // Nothing to do
-                break;
+        switch (gearState) {
             case R:
-                this.orientationVector = -1;
-                this.shiftLevel = 0;
+                orientationVector = -1;
+                shiftLevel = 0;
 
-                if (this.brakePedalPosition == 0) {
+                if (brakePedalPosition == 0) {
                     LOGGER.debug(":: doPowertrain() method called: Slowing down to minimum speed");
-                    if ((this.speed > this.carSpecifications.getGearShiftLevelSpeed().get(0) * -1)) {
-                        this.speed += speedDelta;
-                        this.powertrainPacket.setSpeed(this.speed);
+                    if ((speed > CarSpecifications.GEAR_SHIFT_LEVEL_SPEED.get(0) * -1)) {
+                        speed += speedDelta;
+                        powertrainPacket.setSpeed(speed);
                     }
                 } else {
                     LOGGER.debug(":: doPowertrain() method called: Braking, allow to stop to zero");
-                    if (this.speed < 0) {
-                        this.speed += speedDelta;
-                        this.powertrainPacket.setSpeed(this.speed);
+                    if (speed < 0) {
+                        speed += speedDelta;
+                        powertrainPacket.setSpeed(speed);
                     }
                 }
 
                 break;
-            case N:
-                // Nothing to do
-                break;
+
             case D:
-                this.orientationVector = 1;
-                this.shiftLevel = 1;
-                this.gearShiftWatcher(speedDelta);
+                orientationVector = 1;
+                shiftLevel = 1;
+                gearShiftWatcher(speedDelta);
 
-                if (this.brakePedalPosition == 0) {
-                    LOGGER.debug(":: doPowertrain() method called: Slowing down to minimum speed");
-                    if ((this.speed < this.carSpecifications.getMaxForwardSpeedInMPS())) {
-                        // && (this.speed > this.carSpecifications.getMinSpeedInMPS())) {
-                        this.speed += speedDelta;
-                        this.powertrainPacket.setSpeed(this.speed);
+                if (brakePedalPosition == 0) {
+                    LOGGER.debug(":: doPowertrain() method called: Accelerate to maximum speed");
+                    if ((speed < CarSpecifications.MAX_FORWARD_SPEED)) {
+                        speed += speedDelta;
+                        powertrainPacket.setSpeed(speed);
                     }
                 } else {
                     LOGGER.debug(":: doPowertrain() method called: Braking, allow to stop to zero");
-                    if (this.speed > 0) {
-                        this.speed += speedDelta;
-                        this.powertrainPacket.setSpeed(this.speed);
+                    if (speed > 0) {
+                        speed += speedDelta;
+                        powertrainPacket.setSpeed(speed);
                     }
                 }
-
                 break;
+
             default:
                 break;
         }
@@ -239,13 +224,9 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
 
     @Override
     public void getVirtualFunctionBusSignals() {
-        this.gasPedalPosition = virtualFunctionBus.inputPacket.getGasPedalPosition();
-        this.brakePedalPosition = virtualFunctionBus.inputPacket.getBreakPedalPosition();
-        this.gearState = virtualFunctionBus.inputPacket.getGearState();
-    }
-
-    public CarSpecifications getCarSpecifications() {
-        return carSpecifications;
+        gasPedalPosition = virtualFunctionBus.inputPacket.getGasPedalPosition();
+        brakePedalPosition = virtualFunctionBus.inputPacket.getBreakPedalPosition();
+        gearState = virtualFunctionBus.inputPacket.getGearState();
     }
 }
 
