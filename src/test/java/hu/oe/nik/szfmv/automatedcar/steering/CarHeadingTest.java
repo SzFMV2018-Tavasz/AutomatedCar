@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.steering;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.SteeringMethods;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +16,7 @@ public class CarHeadingTest extends AutomatedCar {
     private double THRESHOLD;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         THRESHOLD = 0.0001d;
     }
 
@@ -74,9 +75,9 @@ public class CarHeadingTest extends AutomatedCar {
 
     }
 
-    public double CalculateHeadingFromWheelsState(Point2D.Double frontWheel, Point2D.Double backWheel){
+    private double CalculateHeadingFromWheelsState(Point2D.Double frontWheel, Point2D.Double backWheel){
 
-        return Math.toDegrees(getCarHeading(frontWheel, backWheel));
+        return Math.toDegrees(SteeringMethods.getCarHeading(frontWheel, backWheel));
 
 
     }
