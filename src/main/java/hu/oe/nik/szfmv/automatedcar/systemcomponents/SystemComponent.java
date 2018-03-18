@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 
 /**
  * This class represents common features for system components By extending this
@@ -15,5 +16,5 @@ public abstract class SystemComponent {
         virtualFunctionBus.registerComponent(this);
     }
 
-    public abstract void loop();
+    public abstract void loop() throws MissingPacketException;
 }

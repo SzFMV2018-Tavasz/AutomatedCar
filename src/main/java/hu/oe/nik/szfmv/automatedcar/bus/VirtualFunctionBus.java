@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.automatedcar.bus;
 
+import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.sample.ReadOnlySamplePacket;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
@@ -34,7 +35,7 @@ public class VirtualFunctionBus {
     /**
      * Calls cyclically the registered {@link SystemComponent}s once the virtual function bus has started.
      */
-    public void loop() {
+    public void loop() throws MissingPacketException {
         for (SystemComponent comp : components) {
             comp.loop();
         }

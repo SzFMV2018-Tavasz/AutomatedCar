@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.PowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
+import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -152,7 +153,7 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     }
 
     @Override
-    public void loop() {
+    public void loop() throws MissingPacketException {
         getVirtualFunctionBusSignals();
         actualRPM = calculateExpectedRPM(gasPedalPosition);
         doPowertrain();
@@ -249,14 +250,14 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     }
 
     @Override
-    public void getVirtualFunctionBusSignals() {
-        try {
+    public void getVirtualFunctionBusSignals() throws MissingPacketException {
+        if (virtualFunctionBus.inputPacket == null) {
+            throw new MissingPacketException("Powertrain try to read InputPacket signals from VirtualFunctionBus, " +
+                    "but InputPacket was not initiated");
+        } else {
             gasPedalPosition = virtualFunctionBus.inputPacket.getGasPedalPosition();
             brakePedalPosition = virtualFunctionBus.inputPacket.getBreakPedalPosition();
             gearState = virtualFunctionBus.inputPacket.getGearState();
-        } catch (NullPointerException ex) {
-            LOGGER.error(ex);
-            throw new NullPointerException("Inputpacket was not initiated when reading signals:\n" + ex.toString());
         }
     }
 }
