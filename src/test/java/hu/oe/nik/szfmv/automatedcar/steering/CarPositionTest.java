@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.steering;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.SteeringMethods;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +16,7 @@ public class CarPositionTest extends AutomatedCar {
     private double THRESHOLD;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         THRESHOLD = 0.0001d;
     }
 
@@ -24,7 +25,7 @@ public class CarPositionTest extends AutomatedCar {
         for(int i = -100; i <= 100; i++) {
             Point2D frontWheel = new Point2D.Double(100*i,0);
             Point2D backWheel = new Point2D.Double(-100*i, 0);
-            Point2D carPosition = getCarPosition(frontWheel, backWheel);
+            Point2D carPosition = SteeringMethods.getCarPosition(frontWheel, backWheel);
             double[] carPositionArray = {carPosition.getX(), carPosition.getY()};
             double[] expectedPosition = {0,0};
             Assert.assertArrayEquals(expectedPosition, carPositionArray, THRESHOLD);
@@ -36,7 +37,7 @@ public class CarPositionTest extends AutomatedCar {
         for(int i = -100; i <= 100; i++) {
             Point2D frontWheel = new Point2D.Double(0,100*i);
             Point2D backWheel = new Point2D.Double(0, -100*i);
-            Point2D carPosition = getCarPosition(frontWheel, backWheel);
+            Point2D carPosition = SteeringMethods.getCarPosition(frontWheel, backWheel);
             double[] carPositionArray = {carPosition.getX(), carPosition.getY()};
             double[] expectedPosition = {0,0};
             Assert.assertArrayEquals(expectedPosition, carPositionArray, THRESHOLD);
@@ -48,7 +49,7 @@ public class CarPositionTest extends AutomatedCar {
         for(int i = -100; i <= 100; i++) {
             Point2D frontWheel = new Point2D.Double(12.2,100*i);
             Point2D backWheel = new Point2D.Double(-12.2, -100*i);
-            Point2D carPosition = getCarPosition(frontWheel, backWheel);
+            Point2D carPosition = SteeringMethods.getCarPosition(frontWheel, backWheel);
             double[] carPositionArray = {carPosition.getX(), carPosition.getY()};
             double[] expectedPosition = {0,0};
             Assert.assertArrayEquals(expectedPosition, carPositionArray, THRESHOLD);
@@ -60,7 +61,7 @@ public class CarPositionTest extends AutomatedCar {
         for(int i = -100; i <= 100; i++) {
             Point2D frontWheel = new Point2D.Double(12.2,-100*i);
             Point2D backWheel = new Point2D.Double(-12.2, 100*i);
-            Point2D carPosition = getCarPosition(frontWheel, backWheel);
+            Point2D carPosition = SteeringMethods.getCarPosition(frontWheel, backWheel);
             double[] carPositionArray = {carPosition.getX(), carPosition.getY()};
             double[] expectedPosition = {0,0};
             Assert.assertArrayEquals(expectedPosition, carPositionArray, THRESHOLD);
