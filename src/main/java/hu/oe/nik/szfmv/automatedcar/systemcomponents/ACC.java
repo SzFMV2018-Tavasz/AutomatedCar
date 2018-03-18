@@ -5,9 +5,9 @@ import hu.oe.nik.szfmv.automatedcar.bus.packets.input.InputPacket;
 import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
 
 public class ACC extends SystemComponent {
-    private final int accSpeedMinValue = 30;
-    private final int accSpeedMaxValue = 160;
-    private final int accSpeedStepValue = 5;
+    private static final int ACCSPEEDMINVALUE = 30;
+    private static final int ACCSPEEDMAXVALUE = 160;
+    private static final int ACCSPEEDSTEPVALUE = 5;
 
     private double accDistanceValue;
     private int accSpeedValue;
@@ -15,6 +15,11 @@ public class ACC extends SystemComponent {
 
     private InputHandler inputHandler;
 
+    /**
+     * ACC constructor
+     *
+     * @param bus
+     */
     public ACC(VirtualFunctionBus bus) {
         super(bus);
 
@@ -31,10 +36,10 @@ public class ACC extends SystemComponent {
             rotateDistanceValue();
         }
         if (inputHandler.isAccSpeedIncrementPressedPressed() && !inputHandler.isAccSpeedDecrementPressedPressed()) {
-            setAccSpeedValue(+accSpeedStepValue);
+            setAccSpeedValue(+ACCSPEEDSTEPVALUE);
         }
         if (!inputHandler.isAccSpeedIncrementPressedPressed() && inputHandler.isAccSpeedDecrementPressedPressed()) {
-            setAccSpeedValue(-accSpeedStepValue);
+            setAccSpeedValue(-ACCSPEEDSTEPVALUE);
         }
 
         inputPacket.setAccDistanceValue(accDistanceValue);
@@ -58,10 +63,10 @@ public class ACC extends SystemComponent {
 
     private void setAccSpeedValue(int diff) {
         accSpeedValue += diff;
-        if (accSpeedValue < accSpeedMinValue) {
-            accSpeedValue = accSpeedMinValue;
-        } else if (accSpeedValue > accSpeedMaxValue) {
-            accSpeedValue = accSpeedMaxValue;
+        if (accSpeedValue < ACCSPEEDMINVALUE) {
+            accSpeedValue = ACCSPEEDMINVALUE;
+        } else if (accSpeedValue > ACCSPEEDMAXVALUE) {
+            accSpeedValue = ACCSPEEDMAXVALUE;
         }
     }
 }

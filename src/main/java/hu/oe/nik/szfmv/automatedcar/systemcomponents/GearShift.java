@@ -14,6 +14,11 @@ public class GearShift extends SystemComponent {
 
     private GearEnum gearShiftsate;
 
+    /**
+     * GearShift Constructor
+     *
+     * @param virtualFunctionBus
+     */
     public GearShift(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
 
@@ -60,7 +65,6 @@ public class GearShift extends SystemComponent {
             default:
                 return gearShiftsate;
         }
-
     }
 
     private GearEnum gearShiftUp() {
@@ -79,7 +83,5 @@ public class GearShift extends SystemComponent {
             default:
                 return gearShiftsate;
         }
-
-
     }
 }

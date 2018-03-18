@@ -12,6 +12,11 @@ public class ParkingPilote extends SystemComponent {
 
     private boolean on;
 
+    /**
+     * Pilote constructor
+     *
+     * @param bus
+     */
     public ParkingPilote(VirtualFunctionBus bus) {
         super(bus);
         on = false;

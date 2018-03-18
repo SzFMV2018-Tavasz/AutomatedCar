@@ -59,6 +59,11 @@ public class InputHandler implements KeyListener {
 
     private boolean accSpeedDecrementPressed;
 
+    /**
+     * Inputhandler
+     *
+     * @return
+     */
     public static InputHandler getInstance() {
         if (instance == null) {
             instance = new InputHandler();
@@ -88,7 +93,6 @@ public class InputHandler implements KeyListener {
     }
 
     public boolean isSteeringLeftPressed() {
-
         return steeringLeftPressed;
     }
 
@@ -122,7 +126,6 @@ public class InputHandler implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
@@ -176,7 +179,8 @@ public class InputHandler implements KeyListener {
             case (ACCSPEEDDECREMENTKEYCODE):
                 accSpeedDecrementPressed = state;
                 break;
-                default:
+            default:
+                break;
         }
     }
 }

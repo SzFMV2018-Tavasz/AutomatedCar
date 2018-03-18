@@ -10,6 +10,10 @@ public class GasBrake extends SystemComponent {
 
     private static final int MINGASPEDALVALUE = 0;
 
+    private static final int GASSTEPVALUE = 1;
+
+    private static final int BRAKESTEPVALUE = 2;
+
     private int gaspedalvalue;
 
     private int brakepedalvalue;
@@ -18,6 +22,11 @@ public class GasBrake extends SystemComponent {
 
     private InputHandler inputHandler;
 
+    /**
+     * class constructor
+     *
+     * @param virtual
+     */
     public GasBrake(VirtualFunctionBus virtual) {
         super(virtual);
         gaspedalvalue = 0;
@@ -44,18 +53,18 @@ public class GasBrake extends SystemComponent {
         }
 
         if (!(inputHandler.isGasPressed() && inputHandler.isBrakePressed())) {
-            setGaspedalvalue(-1);
-            setBrakepedalvalue(-2);
+            setGaspedalvalue(-GASSTEPVALUE);
+            setBrakepedalvalue(-BRAKESTEPVALUE);
         }
 
         if (inputHandler.isGasPressed()) {
-            setGaspedalvalue(1);
-            setBrakepedalvalue(-1);
+            setGaspedalvalue(GASSTEPVALUE);
+            setBrakepedalvalue(-BRAKESTEPVALUE);
         }
 
         if (inputHandler.isBrakePressed()) {
-            setBrakepedalvalue(2);
-            setGaspedalvalue(-2);
+            setBrakepedalvalue(BRAKESTEPVALUE);
+            setGaspedalvalue(-GASSTEPVALUE);
         }
 
         inputPacket.setGaspeadalposition(gaspedalvalue);
