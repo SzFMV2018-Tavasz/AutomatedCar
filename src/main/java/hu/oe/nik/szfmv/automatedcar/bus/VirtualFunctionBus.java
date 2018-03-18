@@ -34,6 +34,8 @@ public class VirtualFunctionBus {
 
     /**
      * Calls cyclically the registered {@link SystemComponent}s once the virtual function bus has started.
+     *
+     * @throws MissingPacketException when VirtualFunctionBus packet not initiated
      */
     public void loop() throws MissingPacketException {
         for (SystemComponent comp : components) {

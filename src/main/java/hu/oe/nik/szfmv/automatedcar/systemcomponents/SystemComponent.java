@@ -11,10 +11,18 @@ import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 public abstract class SystemComponent {
     final protected VirtualFunctionBus virtualFunctionBus;
 
+    /**
+     *
+     * @param virtualFunctionBus VirtualFunctuonBus parameter
+     */
     protected SystemComponent(VirtualFunctionBus virtualFunctionBus) {
         this.virtualFunctionBus = virtualFunctionBus;
         virtualFunctionBus.registerComponent(this);
     }
 
+    /**
+     *
+     * @throws MissingPacketException when VirtualFunctionBus packet not initiated
+     */
     public abstract void loop() throws MissingPacketException;
 }
