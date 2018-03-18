@@ -6,9 +6,9 @@ import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
 
 public class GasBrake extends SystemComponent {
 
-    private static final int MaxGaspedalValue = 100;
+    private static final int MAXGASPEDALVALUE = 100;
 
-    private static final int MinGaspedalValue = 0;
+    private static final int MINGASPEDALVALUE = 0;
 
     private int gaspedalvalue;
 
@@ -26,13 +26,13 @@ public class GasBrake extends SystemComponent {
     }
 
     private void setGaspedalvalue(int value) {
-        if (gaspedalvalue + value <= MaxGaspedalValue && gaspedalvalue + value >= MinGaspedalValue) {
+        if (gaspedalvalue + value <= MAXGASPEDALVALUE && gaspedalvalue + value >= MINGASPEDALVALUE) {
             gaspedalvalue += value;
         }
     }
 
     private void setBrakepedalvalue(int value) {
-        if (gaspedalvalue + value <= MaxGaspedalValue && gaspedalvalue + value >= MinGaspedalValue) {
+        if (gaspedalvalue + value <= MAXGASPEDALVALUE && gaspedalvalue + value >= MINGASPEDALVALUE) {
             brakepedalvalue += value;
         }
     }

@@ -1,7 +1,5 @@
 package hu.oe.nik.szfmv.automatedcar.input;
 
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.ParkingPilote;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -9,9 +7,31 @@ public class InputHandler implements KeyListener {
 
     private static InputHandler instance = null;
 
-    private static final int steeringLeftKeyCode = KeyEvent.VK_LEFT;
+    private static final int STEERINGLEFTKEYCODE = KeyEvent.VK_LEFT;
 
-    private static final int steeringRightKeyCode = KeyEvent.VK_RIGHT;
+    private static final int STEERINGRIGHTKEYCODE = KeyEvent.VK_RIGHT;
+
+    private static final int RIGHTINDEXKEYCODE = KeyEvent.VK_1;
+
+    private static final int LEFTINDEXKEYCODE = KeyEvent.VK_0;
+
+    private static final int GASKEYCODE = KeyEvent.VK_UP;
+
+    private static final int BRAKEKEYCODE = KeyEvent.VK_DOWN;
+
+    private static final int GEARSHIFTUPKEYCODE = KeyEvent.VK_W;
+
+    private static final int GEARSHIFTDOWNKEYCODE = KeyEvent.VK_S;
+
+    private static final int LANEKEEPINGKEYCODE = KeyEvent.VK_L;
+
+    private static final int ACCDISTANCEKEYCODE = KeyEvent.VK_T;
+
+    private static final int ACCSPEEDINCREMENTKEYCODE = KeyEvent.VK_PLUS;
+
+    private static final int ACCSPEEDDECREMENTKEYCODE = KeyEvent.VK_MINUS;
+
+    private static final int PARKINGPILOTEKEYCODE = KeyEvent.VK_P;
 
     private boolean steeringLeftPressed;
 
@@ -31,35 +51,13 @@ public class InputHandler implements KeyListener {
 
     private boolean laneKeepingPressed;
 
-    private boolean ParkingPiloteOn;
+    private boolean parkingPiloteOn;
 
     private boolean accDistancePressed;
 
     private boolean accSpeedIncrementPressed;
 
     private boolean accSpeedDecrementPressed;
-
-    private static final int rightIndexKeyCode = KeyEvent.VK_1;
-
-    private static final int leftIndexKeyCode = KeyEvent.VK_0;
-
-    private static final int gasKeyCode = KeyEvent.VK_UP;
-
-    private static final int brakeKeyCode = KeyEvent.VK_DOWN;
-
-    private static final int gearShiftUpKeyCode = KeyEvent.VK_W;
-
-    private static final int gearShiftDownKeyCode = KeyEvent.VK_S;
-
-    private static final int laneKeepingKeyCode = KeyEvent.VK_L;
-
-    private static final int accDistanceKeyCode = KeyEvent.VK_T;
-
-    private static final int accSpeedIncrementKeyCode = KeyEvent.VK_PLUS;
-
-    private static final int accSpeedDecrementKeyCode = KeyEvent.VK_MINUS;
-
-    private static final int parkingpiloteKeyCode = KeyEvent.VK_P;
 
     public static InputHandler getInstance() {
         if (instance == null) {
@@ -107,18 +105,23 @@ public class InputHandler implements KeyListener {
     }
 
     public boolean isParkinPilotePressed() {
-        return ParkingPiloteOn;
+        return parkingPiloteOn;
     }
 
-    public boolean isAccDistancePressed() {return accDistancePressed;}
+    public boolean isAccDistancePressed() {
+        return accDistancePressed;
+    }
 
-    public boolean isAccSpeedIncrementPressedPressed() {return accSpeedIncrementPressed;}
+    public boolean isAccSpeedIncrementPressedPressed() {
+        return accSpeedIncrementPressed;
+    }
 
-    public boolean isAccSpeedDecrementPressedPressed() {return accSpeedDecrementPressed;}
+    public boolean isAccSpeedDecrementPressedPressed() {
+        return accSpeedDecrementPressed;
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
-
 
     }
 
@@ -135,44 +138,45 @@ public class InputHandler implements KeyListener {
     private void setKeyState(int keyCode, boolean state) {
 
         switch (keyCode) {
-            case (steeringLeftKeyCode):
+            case (STEERINGLEFTKEYCODE):
                 steeringLeftPressed = state;
                 break;
-            case (steeringRightKeyCode):
+            case (STEERINGRIGHTKEYCODE):
                 steeringRightPressed = state;
                 break;
-            case (gasKeyCode):
+            case (GASKEYCODE):
                 gaspressed = state;
                 break;
-            case (brakeKeyCode):
+            case (BRAKEKEYCODE):
                 brakepressed = state;
                 break;
-            case (gearShiftDownKeyCode):
+            case (GEARSHIFTDOWNKEYCODE):
                 gearShiftDownPressed = state;
                 break;
-            case (gearShiftUpKeyCode):
+            case (GEARSHIFTUPKEYCODE):
                 gearShiftUpPressed = state;
                 break;
-            case (laneKeepingKeyCode):
+            case (LANEKEEPINGKEYCODE):
                 laneKeepingPressed = state;
                 break;
-            case (rightIndexKeyCode):
+            case (RIGHTINDEXKEYCODE):
                 rightIndexPressed = state;
                 break;
-            case (leftIndexKeyCode):
+            case (LEFTINDEXKEYCODE):
                 leftIndexPressed = state;
-            case (parkingpiloteKeyCode):
-                ParkingPiloteOn = state;
+            case (PARKINGPILOTEKEYCODE):
+                parkingPiloteOn = state;
                 break;
-            case(accDistanceKeyCode):
+            case (ACCDISTANCEKEYCODE):
                 accDistancePressed = state;
                 break;
-            case(accSpeedIncrementKeyCode):
+            case (ACCSPEEDINCREMENTKEYCODE):
                 accSpeedIncrementPressed = state;
                 break;
-            case(accSpeedDecrementKeyCode):
+            case (ACCSPEEDDECREMENTKEYCODE):
                 accSpeedDecrementPressed = state;
                 break;
+                default:
         }
     }
 }

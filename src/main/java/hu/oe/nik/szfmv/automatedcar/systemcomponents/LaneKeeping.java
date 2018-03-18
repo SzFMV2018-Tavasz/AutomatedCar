@@ -14,8 +14,8 @@ public class LaneKeeping extends SystemComponent {
 
     private boolean laneKeepingOn;
 
-    public LaneKeeping(VirtualFunctionBus VirtualFunctionBus) {
-        super(VirtualFunctionBus);
+    public LaneKeeping(VirtualFunctionBus virtualFunctionBus) {
+        super(virtualFunctionBus);
 
         inputPacket = InputPacket.getInstance();
         virtualFunctionBus.inputPacket = inputPacket;
