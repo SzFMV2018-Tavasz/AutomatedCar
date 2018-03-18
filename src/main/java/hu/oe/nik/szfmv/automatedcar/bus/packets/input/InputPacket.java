@@ -18,9 +18,9 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     private boolean rightIndexOn;
 
-    private boolean LaneKeepingOn;
+    private boolean laneKeepingOn;
 
-    private boolean ParkingPilote;
+    private boolean parkingPilote;
 
     private double accDistanceValue;
 
@@ -62,7 +62,7 @@ public class InputPacket implements ReadOnlyInputPacket {
     }
 
     public void setParkingPiloteStatus(boolean value) {
-        ParkingPilote = value;
+        parkingPilote = value;
     }
 
     public void setAccDistanceValue(double value) {
@@ -85,16 +85,16 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     @Override
     public boolean getLaneKeepingStatus() {
-        return LaneKeepingOn;
+        return laneKeepingOn;
     }
 
     public void setLaneKeepingStatus(boolean value) {
-        this.LaneKeepingOn = value;
+        this.laneKeepingOn = value;
     }
 
     @Override
     public boolean getParkingPilotStatus() {
-        return ParkingPilote;
+        return parkingPilote;
     }
 
     @Override

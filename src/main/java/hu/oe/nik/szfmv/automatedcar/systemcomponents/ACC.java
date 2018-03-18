@@ -27,12 +27,15 @@ public class ACC extends SystemComponent {
 
     @Override
     public void loop() {
-        if (inputHandler.isAccDistancePressed())
+        if (inputHandler.isAccDistancePressed()) {
             rotateDistanceValue();
-        if (inputHandler.isAccSpeedIncrementPressedPressed() && !inputHandler.isAccSpeedDecrementPressedPressed())
+        }
+        if (inputHandler.isAccSpeedIncrementPressedPressed() && !inputHandler.isAccSpeedDecrementPressedPressed()) {
             setAccSpeedValue(+accSpeedStepValue);
-        if (!inputHandler.isAccSpeedIncrementPressedPressed() && inputHandler.isAccSpeedDecrementPressedPressed())
+        }
+        if (!inputHandler.isAccSpeedIncrementPressedPressed() && inputHandler.isAccSpeedDecrementPressedPressed()) {
             setAccSpeedValue(-accSpeedStepValue);
+        }
 
         inputPacket.setAccDistanceValue(accDistanceValue);
         inputPacket.setAccSpeedValue(accSpeedValue);
@@ -40,23 +43,25 @@ public class ACC extends SystemComponent {
     }
 
     private void rotateDistanceValue() {
-        if (accDistanceValue == 0.8)
+        if (accDistanceValue == 0.8) {
             accDistanceValue = 1;
-        else if (accDistanceValue == 1)
+        } else if (accDistanceValue == 1) {
             accDistanceValue = 1.2;
-        else if (accDistanceValue == 1.2)
+        } else if (accDistanceValue == 1.2) {
             accDistanceValue = 1.4;
-        else if (accDistanceValue == 1.4)
+        } else if (accDistanceValue == 1.4) {
             accDistanceValue = 0.8;
-        else    //just to be sure
+        } else {    //just to be sure
             accDistanceValue = 0.8;
+        }
     }
 
     private void setAccSpeedValue(int diff) {
         accSpeedValue += diff;
-        if (accSpeedValue < accSpeedMinValue)
+        if (accSpeedValue < accSpeedMinValue) {
             accSpeedValue = accSpeedMinValue;
-        else if (accSpeedValue > accSpeedMaxValue)
+        } else if (accSpeedValue > accSpeedMaxValue) {
             accSpeedValue = accSpeedMaxValue;
+        }
     }
 }

@@ -6,9 +6,9 @@ import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
 
 public class SteeringWheel extends SystemComponent {
 
-    private static final double minPosition = -100;
+    private static final double MINPOSITION = -100;
 
-    private static final double maxPosition = 100;
+    private static final double MAXPOSITION = 100;
 
     private static final double step = 5;
 
@@ -27,8 +27,9 @@ public class SteeringWheel extends SystemComponent {
     @Override
     public void loop() {
 
-        if (inputHandler.isSteeringLeftPressed() && inputHandler.isSteeringRightPressed())
+        if (inputHandler.isSteeringLeftPressed() && inputHandler.isSteeringRightPressed()) {
             return;
+        }
 
         double newPosition = 0.0;
 
@@ -47,14 +48,19 @@ public class SteeringWheel extends SystemComponent {
 
     private double calculateNewSteeringWheelPosition(double newPos) {
 
-        if (newPos > maxPosition)
-            return maxPosition;
+        if (newPos > MAXPOSITION) {
+            return MAXPOSITION;
+        }
 
-        if (newPos < minPosition)
-            return minPosition;
+        if (newPos < MINPOSITION) {
+            return MINPOSITION;
+        }
 
-        if (Math.abs(newPos) < step) // Ha már egy lépésnyinél kevesebbel térünk el 0-tól, akkor beállítjuk 0-ra, hogy ne ugráljon magától ide oda a kormányállás.
+        // Ha már egy lépésnyinél kevesebbel térünk el 0-tól, akkor beállítjuk 0-ra
+        // hogy ne ugráljon magától ide oda a kormányállás.
+        if (Math.abs(newPos) < step) {
             return 0;
+        }
 
         return newPos;
     }

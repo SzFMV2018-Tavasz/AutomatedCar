@@ -3,7 +3,6 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.InputPacket;
 import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
-import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 
 public class Index extends SystemComponent {
 
@@ -29,21 +28,24 @@ public class Index extends SystemComponent {
     @Override
     public void loop() {
 
-        if (inputHandler.isLeftIndexPressed() && inputHandler.isRightIndexPressed())
+        if (inputHandler.isLeftIndexPressed() && inputHandler.isRightIndexPressed()) {
             return;
+        }
         if (inputHandler.isRightIndexPressed()) {
-            if (!rightTurnSingalOn)
+            if (!rightTurnSingalOn) {
                 rightTurnSingalOn = true;
-            else
+            } else {
                 rightTurnSingalOn = false;
+            }
 
             inputPacket.setRightTurnSignalStatus(rightTurnSingalOn);
         }
         if (inputHandler.isLeftIndexPressed()) {
-            if (!leftTurnSignalOn)
+            if (!leftTurnSignalOn) {
                 leftTurnSignalOn = true;
-            else
+            } else {
                 leftTurnSignalOn = false;
+            }
 
             inputPacket.setLeftTurnSignalStatus(leftTurnSignalOn);
         }
