@@ -1,14 +1,18 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
 import hu.oe.nik.szfmv.environment.WorldObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AutomatedCar extends WorldObject {
 
+    private static final Logger LOGGER = LogManager.getLogger(AutomatedCar.class);
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
@@ -34,7 +38,12 @@ public class AutomatedCar extends WorldObject {
      * Provides a sample method for modifying the position of the car.
      */
     public void drive() {
-        virtualFunctionBus.loop();
+        try {
+            virtualFunctionBus.loop();
+        } catch (MissingPacketException e) {
+            LOGGER.error(e);
+        }
+
     }
 
     /**
