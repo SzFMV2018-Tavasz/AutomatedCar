@@ -6,16 +6,7 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     private static InputPacket instance = null;
 
-    public static InputPacket getInstance(){
-        if (instance == null){
-            instance = new InputPacket();
-        }
-
-        return instance;
-    }
-
     private double steeringWheelPosition;
-
 
     private int gaspedalposition;
 
@@ -23,15 +14,25 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     private GearEnum gearEnum;
 
-    private  boolean leftIndexOn;
+    private boolean leftIndexOn;
 
-    private  boolean rightIndexOn;
-
+    private boolean rightIndexOn;
 
     private boolean LaneKeepingOn;
 
     private boolean ParkingPilote;
 
+    private double accDistanceValue;
+
+    private int accSpeedValue;
+
+    public static InputPacket getInstance() {
+        if (instance == null) {
+            instance = new InputPacket();
+        }
+
+        return instance;
+    }
 
     @Override
     public int getGasPedalPosition() {
@@ -44,39 +45,42 @@ public class InputPacket implements ReadOnlyInputPacket {
     }
 
     @Override
-    public double getSteeringWheelPosition()
-    {
+    public double getSteeringWheelPosition() {
         return steeringWheelPosition;
     }
 
-    public void setSteeringWheelPosition(double steeringWheelPosition)
-    {
+    public void setSteeringWheelPosition(double steeringWheelPosition) {
         this.steeringWheelPosition = steeringWheelPosition;
     }
 
-    public void setGaspeadalposition(int value)
-    {
+    public void setGaspeadalposition(int value) {
         this.gaspedalposition = value;
     }
 
-    public void setBrakepedalvalue(int brakepedalvalue)
-    {
+    public void setBrakepedalvalue(int brakepedalvalue) {
         this.brakepedalvalue = brakepedalvalue;
     }
 
-    public void setParkingPiloteStatus(boolean value)
-    {
+    public void setParkingPiloteStatus(boolean value) {
         ParkingPilote = value;
+    }
+
+    public void setAccDistanceValue(double value) {
+        accDistanceValue = value;
+    }
+
+    public void setAccSpeedValue(int value) {
+        accSpeedValue = value;
     }
 
     @Override
     public int getACCTargetSpeed() {
-        return 0;
+        return accSpeedValue;
     }
 
     @Override
     public double getACCTargetDistance() {
-        return 0;
+        return accDistanceValue;
     }
 
     @Override
@@ -84,7 +88,9 @@ public class InputPacket implements ReadOnlyInputPacket {
         return LaneKeepingOn;
     }
 
-    public void setLaneKeepingStatus(boolean value){this.LaneKeepingOn = value;}
+    public void setLaneKeepingStatus(boolean value) {
+        this.LaneKeepingOn = value;
+    }
 
     @Override
     public boolean getParkingPilotStatus() {
@@ -96,8 +102,7 @@ public class InputPacket implements ReadOnlyInputPacket {
         return gearEnum;
     }
 
-    public  void setGearSate(GearEnum gearEnum)
-    {
+    public void setGearSate(GearEnum gearEnum) {
         this.gearEnum = gearEnum;
 
     }

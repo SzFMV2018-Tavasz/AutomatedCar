@@ -4,10 +4,12 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.InputPacket;
 import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
 
-public class SteeringWheel extends SystemComponent{
+public class SteeringWheel extends SystemComponent {
 
     private static final double minPosition = -100;
+
     private static final double maxPosition = 100;
+
     private static final double step = 5;
 
     private final InputPacket inputPacket;
@@ -30,13 +32,11 @@ public class SteeringWheel extends SystemComponent{
 
         double newPosition = 0.0;
 
-        if (inputHandler.isSteeringLeftPressed()){
+        if (inputHandler.isSteeringLeftPressed()) {
             newPosition = calculateNewSteeringWheelPosition(inputPacket.getSteeringWheelPosition() - step);
-        }
-        else if (inputHandler.isSteeringRightPressed()){
+        } else if (inputHandler.isSteeringRightPressed()) {
             newPosition = calculateNewSteeringWheelPosition(inputPacket.getSteeringWheelPosition() + step);
-        }
-        else if (inputPacket.getSteeringWheelPosition() != 0){
+        } else if (inputPacket.getSteeringWheelPosition() != 0) {
             // Ha nincs lenyomva egyik irány sem, és nem középen áll a kormány, a 0 felé közelítjük az állást.
             int sign = inputPacket.getSteeringWheelPosition() > 0 ? -1 : 1;
             newPosition = calculateNewSteeringWheelPosition(inputPacket.getSteeringWheelPosition() + (sign * step));
@@ -45,7 +45,7 @@ public class SteeringWheel extends SystemComponent{
         inputPacket.setSteeringWheelPosition(newPosition);
     }
 
-    private double calculateNewSteeringWheelPosition(double newPos){
+    private double calculateNewSteeringWheelPosition(double newPos) {
 
         if (newPos > maxPosition)
             return maxPosition;

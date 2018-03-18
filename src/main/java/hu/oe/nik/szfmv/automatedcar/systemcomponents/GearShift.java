@@ -6,10 +6,12 @@ import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 
 
-public class GearShift extends  SystemComponent {
+public class GearShift extends SystemComponent {
 
     private InputHandler inputHandler;
+
     private final InputPacket inputPacket;
+
     private GearEnum gearShiftsate;
 
     public GearShift(VirtualFunctionBus virtualFunctionBus) {
@@ -55,7 +57,7 @@ public class GearShift extends  SystemComponent {
                 return GearEnum.N;
 
             default:
-                return  gearShiftsate;
+                return gearShiftsate;
         }
 
     }
@@ -76,7 +78,6 @@ public class GearShift extends  SystemComponent {
             default:
                 return gearShiftsate;
         }
-
 
 
     }

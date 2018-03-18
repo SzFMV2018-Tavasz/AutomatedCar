@@ -4,14 +4,15 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.InputPacket;
 import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
 
-public class ParkingPilote extends SystemComponent
-{
+public class ParkingPilote extends SystemComponent {
+
     private InputHandler inputhandler;
+
     private final InputPacket packet;
+
     private boolean on;
 
-    public ParkingPilote(VirtualFunctionBus bus)
-    {
+    public ParkingPilote(VirtualFunctionBus bus) {
         super(bus);
         on = false;
         this.packet = InputPacket.getInstance();
@@ -20,16 +21,11 @@ public class ParkingPilote extends SystemComponent
     }
 
     @Override
-    public void loop()
-    {
-        if (inputhandler.isParkinPilotePressed())
-        {
-            if (!on)
-            {
+    public void loop() {
+        if (inputhandler.isParkinPilotePressed()) {
+            if (!on) {
                 on = true;
-            }
-            else
-            {
+            } else {
                 on = false;
             }
         }
