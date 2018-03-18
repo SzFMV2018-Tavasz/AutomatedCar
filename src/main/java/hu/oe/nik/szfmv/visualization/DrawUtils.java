@@ -4,6 +4,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -19,8 +20,8 @@ public abstract class DrawUtils {
     /**
      * Loads the transformation reference points from the resource xml into the referencePoints HashMap
      *
-     * @param referencePoints HashMap that contains reference points for images
-     * @param referencePointsURI    path to xml file
+     * @param referencePoints    HashMap that contains reference points for images
+     * @param referencePointsURI path to xml file
      * @throws ParserConfigurationException throws if parser has an error
      * @throws IOException                  throws if can't read xml
      * @throws SAXException

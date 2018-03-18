@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv.visualization;
 
+import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -20,6 +22,7 @@ public class Gui extends JFrame {
         setTitle("AutomatedCar");
         setLocation(0, 0); // default is 0,0 (top left corner)
         addWindowListener(new GuiAdapter());
+        addKeyListener(InputHandler.getInstance());
         setPreferredSize(new Dimension(windowWidth, windowHeight)); // inner size
         setResizable(false);
         pack();
