@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.bus;
 
+import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.car.ReadOnlyCarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.sample.ReadOnlySamplePacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
@@ -17,6 +19,7 @@ public class VirtualFunctionBus {
 
     public ReadOnlySamplePacket samplePacket;
     public ReadOnlyInputPacket inputPacket;
+    public ReadOnlyCarPacket carPacket;
 
     private List<SystemComponent> components = new ArrayList<>();
 
@@ -27,6 +30,7 @@ public class VirtualFunctionBus {
      */
     public void registerComponent(SystemComponent comp) {
         components.add(comp);
+        carPacket = new CarPacket();
     }
 
     /**

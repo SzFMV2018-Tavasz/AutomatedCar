@@ -27,7 +27,7 @@ public class Pedestrian extends Movable {
      * Method of pedestrian move
      */
     public void moveOnCrosswalk() {
-        this.move(this.getX(), this.getY() - moveDirection, this.getRotation());
+        this.move(this.getX(), this.getY() - moveDirection, (float) this.getRotation());
         final int movingUnit = 5;
 
         moveStatus += movingUnit;
