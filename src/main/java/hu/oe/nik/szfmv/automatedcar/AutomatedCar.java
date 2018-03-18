@@ -57,6 +57,7 @@ public class AutomatedCar extends WorldObject {
 
     /**
      * Gets the input values as required by the dashboard.
+     *
      * @return input packet containing the values that are displayed on the dashboard
      */
     public ReadOnlyInputPacket getInputValues() {

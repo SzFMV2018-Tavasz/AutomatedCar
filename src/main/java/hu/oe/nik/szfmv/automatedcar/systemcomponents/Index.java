@@ -8,11 +8,12 @@ import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 public class Index extends SystemComponent {
 
     private InputHandler inputHandler;
+
     private final InputPacket inputPacket;
 
-    private boolean  rightTurnSingalOn;
+    private boolean rightTurnSingalOn;
 
-    private  boolean leftTurnSignalOn;
+    private boolean leftTurnSignalOn;
 
     protected Index(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
@@ -30,14 +31,14 @@ public class Index extends SystemComponent {
 
         if (inputHandler.isLeftIndexPressed() && inputHandler.isRightIndexPressed())
             return;
-        if (inputHandler.isRightIndexPressed()){
-            if(!rightTurnSingalOn)
+        if (inputHandler.isRightIndexPressed()) {
+            if (!rightTurnSingalOn)
                 rightTurnSingalOn = true;
             else
                 rightTurnSingalOn = false;
 
             inputPacket.setRightTurnSignalStatus(rightTurnSingalOn);
-            }
+        }
         if (inputHandler.isLeftIndexPressed()) {
             if (!leftTurnSignalOn)
                 leftTurnSignalOn = true;

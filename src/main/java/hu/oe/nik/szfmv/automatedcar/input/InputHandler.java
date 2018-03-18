@@ -7,14 +7,6 @@ import java.awt.event.KeyListener;
 
 public class InputHandler implements KeyListener {
 
-    public static InputHandler getInstance() {
-        if (instance == null) {
-            instance = new InputHandler();
-        }
-
-        return instance;
-    }
-
     private static InputHandler instance = null;
 
     private static final int steeringLeftKeyCode = KeyEvent.VK_LEFT;
@@ -39,6 +31,14 @@ public class InputHandler implements KeyListener {
 
     private boolean laneKeepingPressed;
 
+    private boolean ParkingPiloteOn;
+
+    private boolean accDistancePressed;
+
+    private boolean accSpeedIncrementPressed;
+
+    private boolean accSpeedDecrementPressed;
+
     private static final int rightIndexKeyCode = KeyEvent.VK_1;
 
     private static final int leftIndexKeyCode = KeyEvent.VK_0;
@@ -53,9 +53,21 @@ public class InputHandler implements KeyListener {
 
     private static final int laneKeepingKeyCode = KeyEvent.VK_L;
 
-    private boolean ParkingPiloteOn;
+    private static final int accDistanceKeyCode = KeyEvent.VK_T;
+
+    private static final int accSpeedIncrementKeyCode = KeyEvent.VK_PLUS;
+
+    private static final int accSpeedDecrementKeyCode = KeyEvent.VK_MINUS;
 
     private static final int parkingpiloteKeyCode = KeyEvent.VK_P;
+
+    public static InputHandler getInstance() {
+        if (instance == null) {
+            instance = new InputHandler();
+        }
+
+        return instance;
+    }
 
     public boolean isRightIndexPressed() {
         return rightIndexPressed;
@@ -94,10 +106,15 @@ public class InputHandler implements KeyListener {
         return brakepressed;
     }
 
-    public boolean isParkinPilotePressed()
-    {
+    public boolean isParkinPilotePressed() {
         return ParkingPiloteOn;
     }
+
+    public boolean isAccDistancePressed() {return accDistancePressed;}
+
+    public boolean isAccSpeedIncrementPressedPressed() {return accSpeedIncrementPressed;}
+
+    public boolean isAccSpeedDecrementPressedPressed() {return accSpeedDecrementPressed;}
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -106,21 +123,18 @@ public class InputHandler implements KeyListener {
     }
 
     @Override
-    public void keyPressed(KeyEvent e)
-    {
+    public void keyPressed(KeyEvent e) {
         setKeyState(e.getKeyCode(), true);
     }
 
     @Override
-    public void keyReleased(KeyEvent e)
-    {
+    public void keyReleased(KeyEvent e) {
         setKeyState(e.getKeyCode(), false);
     }
 
-    private void setKeyState(int keyCode, boolean state)
-    {
+    private void setKeyState(int keyCode, boolean state) {
 
-        switch (keyCode){
+        switch (keyCode) {
             case (steeringLeftKeyCode):
                 steeringLeftPressed = state;
                 break;
@@ -142,13 +156,22 @@ public class InputHandler implements KeyListener {
             case (laneKeepingKeyCode):
                 laneKeepingPressed = state;
                 break;
-            case(rightIndexKeyCode):
+            case (rightIndexKeyCode):
                 rightIndexPressed = state;
                 break;
-            case(leftIndexKeyCode):
+            case (leftIndexKeyCode):
                 leftIndexPressed = state;
-            case(parkingpiloteKeyCode):
+            case (parkingpiloteKeyCode):
                 ParkingPiloteOn = state;
+                break;
+            case(accDistanceKeyCode):
+                accDistancePressed = state;
+                break;
+            case(accSpeedIncrementKeyCode):
+                accSpeedIncrementPressed = state;
+                break;
+            case(accSpeedDecrementKeyCode):
+                accSpeedDecrementPressed = state;
                 break;
         }
     }
