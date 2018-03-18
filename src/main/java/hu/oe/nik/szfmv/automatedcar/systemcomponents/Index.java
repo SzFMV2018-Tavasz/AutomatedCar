@@ -14,6 +14,11 @@ public class Index extends SystemComponent {
 
     private boolean leftTurnSignalOn;
 
+    /**
+     * Index Constructor
+     *
+     * @param virtualFunctionBus
+     */
     protected Index(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
 
@@ -49,6 +54,5 @@ public class Index extends SystemComponent {
 
             inputPacket.setLeftTurnSignalStatus(leftTurnSignalOn);
         }
-
     }
 }

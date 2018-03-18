@@ -10,12 +10,17 @@ public class SteeringWheel extends SystemComponent {
 
     private static final double MAXPOSITION = 100;
 
-    private static final double step = 5;
+    private static final double STEP = 5;
 
     private final InputPacket inputPacket;
 
     private InputHandler inputHandler;
 
+    /**
+     * SteeringWheel Constructor
+     *
+     * @param virtualFunctionBus
+     */
     public SteeringWheel(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
         inputPacket = InputPacket.getInstance();
@@ -34,13 +39,13 @@ public class SteeringWheel extends SystemComponent {
         double newPosition = 0.0;
 
         if (inputHandler.isSteeringLeftPressed()) {
-            newPosition = calculateNewSteeringWheelPosition(inputPacket.getSteeringWheelPosition() - step);
+            newPosition = calculateNewSteeringWheelPosition(inputPacket.getSteeringWheelPosition() - STEP);
         } else if (inputHandler.isSteeringRightPressed()) {
-            newPosition = calculateNewSteeringWheelPosition(inputPacket.getSteeringWheelPosition() + step);
+            newPosition = calculateNewSteeringWheelPosition(inputPacket.getSteeringWheelPosition() + STEP);
         } else if (inputPacket.getSteeringWheelPosition() != 0) {
             // Ha nincs lenyomva egyik irány sem, és nem középen áll a kormány, a 0 felé közelítjük az állást.
             int sign = inputPacket.getSteeringWheelPosition() > 0 ? -1 : 1;
-            newPosition = calculateNewSteeringWheelPosition(inputPacket.getSteeringWheelPosition() + (sign * step));
+            newPosition = calculateNewSteeringWheelPosition(inputPacket.getSteeringWheelPosition() + (sign * STEP));
         }
 
         inputPacket.setSteeringWheelPosition(newPosition);
@@ -58,7 +63,7 @@ public class SteeringWheel extends SystemComponent {
 
         // Ha már egy lépésnyinél kevesebbel térünk el 0-tól, akkor beállítjuk 0-ra
         // hogy ne ugráljon magától ide oda a kormányállás.
-        if (Math.abs(newPos) < step) {
+        if (Math.abs(newPos) < STEP) {
             return 0;
         }
 
