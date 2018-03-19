@@ -13,10 +13,12 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import javax.imageio.ImageIO;
 import javax.xml.crypto.dsig.XMLSignatureException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,7 +69,7 @@ public abstract class XmlToModelConverter {
      * @throws XMLSignatureException thrown if tag missing from XmlObject
      */
     private static WorldObject readValueFromXml
-    (Element objectElement) throws XMLSignatureException {
+    (Element objectElement) throws XMLSignatureException, IOException {
 
         //Find Position, Transform, type parameter in current object.
         String type = objectElement.getAttribute("type");
@@ -93,6 +95,11 @@ public abstract class XmlToModelConverter {
         //Set setImageFileName
         wo.setImageFileName(type + ".png");
 
+        //set dimens
+        Integer[] dimens = getDimensFromPicture(wo);
+        wo.setWidth(dimens[0]);
+        wo.setHeight(dimens[1]);
+
         //Set position
         Integer[] points = getPointsFromPositionElement(position);
         wo.setX(points[0]);
@@ -102,6 +109,7 @@ public abstract class XmlToModelConverter {
         wo.setRotation(getRotacionfromTransFormElement(transform));
         LOGGER.debug(wo.toString());
         return wo;
+
     }
 
     /**
@@ -181,4 +189,23 @@ public abstract class XmlToModelConverter {
             throw new XMLSignatureException("Invalid format: Transform attributes is not Double: " + e.getMessage());
         }
     }
+
+    /**
+     * @param wo WorldObject
+     * @return picture dimension param
+     * @throws IOException picture not found
+     */
+    private static Integer[] getDimensFromPicture
+    (WorldObject wo) throws IOException {
+        //dimens[0]=>Width
+        //dimens[1]=>Height
+        Integer[] dimens = new Integer[2];
+        //get picture
+        BufferedImage image = ImageIO.read(new File(ClassLoader.getSystemResource(wo.getImageFileName()).getFile()));
+        //get picture dimens
+        dimens[0] = image.getWidth();
+        dimens[1] = image.getHeight();
+        return dimens;
+    }
+
 }
