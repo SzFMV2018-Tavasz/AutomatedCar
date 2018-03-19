@@ -24,7 +24,8 @@ public class CarHeadingTest extends AutomatedCar {
     public void FacingEastTest() {
 
         double expectedDegs = 0;
-        double heading = CalculateHeadingFromWheelsState(new Point2D.Double(50, 0), new Point2D.Double(-50, 0));
+        double heading = CalculateHeadingFromWheelsState(new Point2D.Double(50, 0),
+                new Point2D.Double(-50, 0));
 
         Assert.assertEquals(expectedDegs, heading, THRESHOLD);
     }
@@ -33,7 +34,8 @@ public class CarHeadingTest extends AutomatedCar {
     public void FacingSouthTest() {
 
         double expectedDegs = 90;
-        double heading = CalculateHeadingFromWheelsState(new Point2D.Double(0, 50), new Point2D.Double(-0, -50));
+        double heading = CalculateHeadingFromWheelsState(new Point2D.Double(0, 50),
+                new Point2D.Double(-0, -50));
 
         Assert.assertEquals(expectedDegs, heading, THRESHOLD);
     }
@@ -42,7 +44,8 @@ public class CarHeadingTest extends AutomatedCar {
     public void FacingNorthTest() {
 
         double expectedDegs = 90;
-        double heading = CalculateHeadingFromWheelsState(new Point2D.Double(40.001, 50), new Point2D.Double(40.001, 33.1));
+        double heading = CalculateHeadingFromWheelsState(new Point2D.Double(40.001, 50),
+                new Point2D.Double(40.001, 33.1));
 
         Assert.assertEquals(expectedDegs, heading, THRESHOLD);
     }
@@ -51,7 +54,8 @@ public class CarHeadingTest extends AutomatedCar {
     public void FacingWestTest() {
 
         double expectedDegs = 180;
-        double heading = CalculateHeadingFromWheelsState(new Point2D.Double(40.001, 33.1), new Point2D.Double(50, 33.1));
+        double heading = CalculateHeadingFromWheelsState(new Point2D.Double(40.001, 33.1),
+                new Point2D.Double(50, 33.1));
 
         Assert.assertEquals(expectedDegs, heading, THRESHOLD);
     }
@@ -60,7 +64,8 @@ public class CarHeadingTest extends AutomatedCar {
     public void FacingSouthWestTest() {
         double expectedDegs = 135;
         //calc'd using http://www.cleavebooks.co.uk/scol/calrtri.htm
-        double heading = CalculateHeadingFromWheelsState(new Point2D.Double(-35.3553, 35.3553), new Point2D.Double(35.3553, -35.3553));
+        double heading = CalculateHeadingFromWheelsState(new Point2D.Double(-35.3553, 35.3553),
+                new Point2D.Double(35.3553, -35.3553));
 
         Assert.assertEquals(expectedDegs, heading, THRESHOLD);
     }
@@ -69,7 +74,8 @@ public class CarHeadingTest extends AutomatedCar {
     public void FacingSouthEastTest() {
 
         double expectedDegs = -45;
-        double heading = CalculateHeadingFromWheelsState(new Point2D.Double(35.3553, -35.3553), new Point2D.Double(-35.3553, 35.3553));
+        double heading = CalculateHeadingFromWheelsState(new Point2D.Double(35.3553, -35.3553),
+                new Point2D.Double(-35.3553, 35.3553));
 
         Assert.assertEquals(expectedDegs, heading, THRESHOLD);
 

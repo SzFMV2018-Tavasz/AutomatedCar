@@ -63,18 +63,17 @@ public class WheelDisplacementTest extends AutomatedCar {
         double wheelHeading = 0;
 
         for (int n = -100; n <= 100; n++) {
-            double speed = n;
 
             double[] position = {0, 0};
 
             for (int i = 0; i < FPS; i++) {
-                Point2D displacement = SteeringMethods.getFrontWheelDisplacement(carHeading, wheelHeading, -speed, FPS);
+                Point2D displacement = SteeringMethods.getFrontWheelDisplacement(carHeading, wheelHeading, -n, FPS);
                 double[] displacementArray = {displacement.getX(), displacement.getY()};
                 position[0] -= displacementArray[0];
                 position[1] -= displacementArray[1];
             }
 
-            double[] expectedArray = {speed, 0};
+            double[] expectedArray = {n, 0};
             Assert.assertArrayEquals(expectedArray, position, THRESHOLD);
         }
     }
