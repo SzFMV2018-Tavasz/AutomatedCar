@@ -2,7 +2,9 @@ package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 import hu.oe.nik.szfmv.environment.models.RoadSign;
+
 import javax.imageio.ImageIO;
+
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,7 +40,7 @@ public class Dashboard extends JPanel {
     private final JPanel accStatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private final int accStatePanelX = 0;
     private final int accStatePanelY = 280;
-    private final int accStatePanelWidth = 115;
+    private final int accStatePanelWidth = 130;
     private final int accStatePanelHeight = 100;
 
     private final JButton accDistanceButtonMinus = new JButton();
@@ -46,7 +48,7 @@ public class Dashboard extends JPanel {
     private final JButton accSpeedButtonMinus = new JButton();
     private final JButton accSpeedButtonPlus = new JButton();
 
-    private final int accLabelSize = 20;
+    private final int accLabelSize = 30;
     private final JPanel accDistancePanel = new JPanel();
     private final JPanel accSpeedPanel = new JPanel();
     private final JLabel accDistanceLabel = new JLabel();
@@ -55,9 +57,9 @@ public class Dashboard extends JPanel {
     /**
      * Road sign
      */
-    private final int roadSignPanelX = 120;
+    private final int roadSignPanelX = 130;
     private final int roadSignPanelY = 280;
-    private final int roadSignPanelWidth = 115;
+    private final int roadSignPanelWidth = 110;
     private final int roadSignPanelHeight = 115;
     private final JPanel roadSignPanel = new JPanel();
     private final JLabel roadSignIcon = new JLabel();
@@ -81,13 +83,13 @@ public class Dashboard extends JPanel {
     /**
      * Steering wheel
      */
-    private final int wheelTextLabelX = 10;
-    private final int wheelTextLabelY = 500;
+    private final int wheelTextLabelX = 20;
+    private final int wheelTextLabelY = 520;
     private final int wheelTextLabelWidth = 100;
     private final int wheelTextLabelHeight = 20;
     private final JLabel wheelTextLabel = new JLabel();
-    private final int wheelValueLabelX = 110;
-    private final int wheelValueLabelY = 500;
+    private final int wheelValueLabelX = 120;
+    private final int wheelValueLabelY = 520;
     private final int wheelValueLabelWidth = 50;
     private final int wheelValueLabelHeight = 20;
     private final JLabel wheelValueLabel = new JLabel();
@@ -107,7 +109,7 @@ public class Dashboard extends JPanel {
      */
     private final int ppButtonX = 65;
     private final int ppButtonY = 350;
-    private final int ppButtonWidth = 50;
+    private final int ppButtonWidth = 60;
     private final int ppButtonHeight = 30;
     private JButton ppButton = new JButton();
     private boolean ppOn = false;
@@ -175,7 +177,7 @@ public class Dashboard extends JPanel {
     private final JLabel carPositionXLabel = new JLabel();
     private final JLabel carPositionYLabel = new JLabel();
     private final JPanel carPositionPanel = new JPanel();
-    
+
     /**
      * Initialize the dashboard
      */
@@ -185,9 +187,10 @@ public class Dashboard extends JPanel {
 
     /**
      * Update the displayed values
+     *
      * @param inputPacket Contains all the required values coming from input.
-     * @param carX is the X coordinate of the car object
-     * @param carY is the Y coordinate of the car object
+     * @param carX        is the X coordinate of the car object
+     * @param carY        is the Y coordinate of the car object
      */
     public void updateDisplayedValues(ReadOnlyInputPacket inputPacket, int carX, int carY) {
         if (inputPacket != null) {
@@ -206,7 +209,8 @@ public class Dashboard extends JPanel {
 
     /**
      * Updates the progress bars related to gas and break pedals based on their current values.
-     * @param gasValue the gas pedal's current state
+     *
+     * @param gasValue   the gas pedal's current state
      * @param breakValue the break pedal's current state
      */
     private void updateProgressBars(int gasValue, int breakValue) {
@@ -216,6 +220,7 @@ public class Dashboard extends JPanel {
 
     /**
      * Updates the gear label based on its current state
+     *
      * @param state the gear's current state
      */
     private void updateGear(GearEnum state) {
@@ -224,16 +229,18 @@ public class Dashboard extends JPanel {
 
     /**
      * Updates the steering wheel value label with the given amount
+     *
      * @param position the steering wheel's position
      */
     private void updateSteeringWheel(double position) {
-        String labelText = String.valueOf((int)position);
+        String labelText = String.valueOf((int) position);
         wheelValueLabel.setText(labelText);
     }
 
     /**
      * Updates the turn signals with the given values.
-     * @param left the left turn signal's state
+     *
+     * @param left  the left turn signal's state
      * @param right the right turn signal's state
      */
     private void updateTurnSignals(boolean left, boolean right) {
@@ -243,8 +250,9 @@ public class Dashboard extends JPanel {
 
     /**
      * Updates the analog meters
+     *
      * @param speed the speed the car is moving at
-     * @param rpm the revolutions per minute
+     * @param rpm   the revolutions per minute
      */
     private void updateAnalogMeters(int speed, int rpm) {
         speedLabel.setText(speed + " km/h");
@@ -256,8 +264,9 @@ public class Dashboard extends JPanel {
 
     /**
      * Updates the values related to ACC
+     *
      * @param distance the distance set for ACC
-     * @param speed the speed set for ACC
+     * @param speed    the speed set for ACC
      */
     private void updateACC(double distance, int speed) {
         accDistanceLabel.setText(String.valueOf(distance));
@@ -266,6 +275,7 @@ public class Dashboard extends JPanel {
 
     /**
      * Updates the background color of the PP indicator.
+     *
      * @param value whether PP is on or off
      */
     private void updateParkingPilotIndicator(boolean value) {
@@ -275,6 +285,7 @@ public class Dashboard extends JPanel {
 
     /**
      * Updates the background color of the LK indicator.
+     *
      * @param value whether LK is on or off
      */
     private void updateLaneKeepingIndicator(boolean value) {
@@ -400,8 +411,9 @@ public class Dashboard extends JPanel {
 
     /**
      * Updates the given button's background color based on the given boolean value
+     *
      * @param buttonValue the boolean value represented by the button
-     * @param button the button we are updating
+     * @param button      the button we are updating
      */
     private void updateButtonBackground(Boolean buttonValue, JButton button) {
         if (buttonValue) {
@@ -446,6 +458,7 @@ public class Dashboard extends JPanel {
 
     /**
      * Displays the given road sign in place of the last seen road sign.
+     *
      * @param roadSign The last seen road sign
      */
     private void displayRoadSign(RoadSign roadSign) {
@@ -456,7 +469,7 @@ public class Dashboard extends JPanel {
             roadSignIcon.setIcon(new ImageIcon(roadSignPicture));
         } catch (IOException e) {
             e.printStackTrace();
-        }        
+        }
     }
 
     /**
@@ -483,8 +496,8 @@ public class Dashboard extends JPanel {
     }
 
     /**
-    *  Initializes the car position label on the dashboard
-    */
+     * Initializes the car position label on the dashboard
+     */
     private void initializeCarPositionLabel() {
         carPositionPanel.setBounds(carPositionPanelX, carPositionPanelY,
                 getCarPositionPanelWidth, getCarPositionPanelHeight);
@@ -501,6 +514,7 @@ public class Dashboard extends JPanel {
 
     /**
      * Update the coordinate labels in the position panel
+     *
      * @param x is the X coordinate of the car
      * @param y is the Y coordinate of the car object
      */
@@ -549,7 +563,7 @@ public class Dashboard extends JPanel {
     /**
      * Drawing the index arrows
      *
-     * @param g {@link Graphics} object that can draw to the canvas
+     * @param g      {@link Graphics} object that can draw to the canvas
      * @param signal {@link String} index image selector
      * @param indexX {@link int} image X position
      */
@@ -566,6 +580,7 @@ public class Dashboard extends JPanel {
 
     /**
      * Map the RPM to a displayable value for the gauge.
+     *
      * @param rpm The unmapped input value of the Tachometer's visual display.
      * @return The mapped value between [-75, 255] interval.
      */
@@ -581,6 +596,7 @@ public class Dashboard extends JPanel {
 
     /**
      * Map the Speed to a displayable value for the gauge.
+     *
      * @param speed The unmapped input value of the Speedometer's visual display.
      * @return The mapped value between [-75, 255] interval.
      */
