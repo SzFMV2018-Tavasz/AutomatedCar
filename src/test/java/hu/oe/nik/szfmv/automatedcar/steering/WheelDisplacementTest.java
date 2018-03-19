@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
 
 public class WheelDisplacementTest extends AutomatedCar {
     public WheelDisplacementTest() {
-        super(0,0, null);
+        super(0, 0, null);
     }
 
     private double FPS;
@@ -30,7 +30,7 @@ public class WheelDisplacementTest extends AutomatedCar {
 
         Point2D displacement = SteeringMethods.getFrontWheelDisplacement(carHeading, wheelHeading, speed, FPS);
         double[] displacementArray = {displacement.getX(), displacement.getY()};
-        double[] expectedArray = {0,0};
+        double[] expectedArray = {0, 0};
 
         Assert.assertArrayEquals(expectedArray, displacementArray, THRESHOLD);
     }
@@ -40,20 +40,19 @@ public class WheelDisplacementTest extends AutomatedCar {
         double carHeading = 0;
         double wheelHeading = 0;
 
-        for(int n = -100; n <= 100; n++) {
-            double speed = n;
+        for (int n = -100; n <= 100; n++) {
 
-            double[] position = {0,0};
+            double[] position = {0, 0};
 
             //run for 1 second <-> 24 frames
-            for(int i = 0 ; i < FPS; i++) {
-                Point2D displacement = SteeringMethods.getFrontWheelDisplacement(carHeading, wheelHeading, speed, FPS);
+            for (int i = 0; i < FPS; i++) {
+                Point2D displacement = SteeringMethods.getFrontWheelDisplacement(carHeading, wheelHeading, n, FPS);
                 double[] displacementArray = {displacement.getX(), displacement.getY()};
                 position[0] += displacementArray[0];
                 position[1] += displacementArray[1];
             }
 
-            double[] expectedArray = {speed,0};
+            double[] expectedArray = {n, 0};
             Assert.assertArrayEquals(expectedArray, position, THRESHOLD);
         }
     }
@@ -63,19 +62,19 @@ public class WheelDisplacementTest extends AutomatedCar {
         double carHeading = 0;
         double wheelHeading = 0;
 
-        for(int n = -100; n <= 100; n++) {
+        for (int n = -100; n <= 100; n++) {
             double speed = n;
 
-            double[] position = {0,0};
+            double[] position = {0, 0};
 
-            for(int i = 0 ; i < FPS; i++) {
+            for (int i = 0; i < FPS; i++) {
                 Point2D displacement = SteeringMethods.getFrontWheelDisplacement(carHeading, wheelHeading, -speed, FPS);
                 double[] displacementArray = {displacement.getX(), displacement.getY()};
                 position[0] -= displacementArray[0];
                 position[1] -= displacementArray[1];
             }
 
-            double[] expectedArray = {speed,0};
+            double[] expectedArray = {speed, 0};
             Assert.assertArrayEquals(expectedArray, position, THRESHOLD);
         }
     }

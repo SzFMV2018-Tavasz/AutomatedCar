@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class SteerAngleTest extends AutomatedCar {
 
     public SteerAngleTest() {
-        super(0,0, null);
+        super(0, 0, null);
     }
 
     @Test
@@ -23,9 +23,8 @@ public class SteerAngleTest extends AutomatedCar {
             angle = SteeringMethods.getSteerAngle(0);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
-            assertThat((int)Math.abs(angle), is(0));
+        } finally {
+            assertThat((int) Math.abs(angle), is(0));
         }
     }
 
@@ -53,7 +52,7 @@ public class SteerAngleTest extends AutomatedCar {
 
     @Test
     public void loopSteeringTest() {
-        for(int n = -100; n <= 100; n += 5) {
+        for (int n = -100; n <= 100; n += 5) {
             Double angle = null;
             try {
                 angle = SteeringMethods.getSteerAngle(n);
@@ -61,7 +60,7 @@ public class SteerAngleTest extends AutomatedCar {
                 e.printStackTrace();
             }
 
-            assertThat(angle, is(-Math.toRadians(n*0.6)));
+            assertThat(angle, is(-Math.toRadians(n * 0.6)));
         }
     }
 
