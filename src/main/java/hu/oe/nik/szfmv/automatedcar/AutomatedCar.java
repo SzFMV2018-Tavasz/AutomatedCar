@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.ReadOnlyCarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
@@ -88,6 +89,11 @@ public class AutomatedCar extends WorldObject {
         this.setX((int) (carPosition.getX() - halfWidth));
         this.setY((int) (carPosition.getY() - halfWheelBase));
         rotation = Math.toRadians(threeQuarterCircle) - carHeading;
+
+        setCarValues().setRotation(Math.toRadians(threeQuarterCircle) - carHeading);
+        setCarValues().setX((int) (carPosition.getX() - halfWidth));
+        setCarValues().setY((int) (carPosition.getY() - halfWheelBase));
+        setCarValues().setRotationPoint(new Point((int) carPosition.getX(), (int) carPosition.getY()));
     }
 
 
@@ -100,12 +106,21 @@ public class AutomatedCar extends WorldObject {
         return virtualFunctionBus.inputPacket;
     }
 
+
     /**
      * Gets the car values which needs to change the car position
      *
-     * @return car packet
+     * @return Read only car packet
      */
     private ReadOnlyCarPacket getCarValues() {
         return virtualFunctionBus.carPacket;
+    }
+
+    /**
+     * Sets the car values which needs to change the car position
+     * @return Car packet
+     */
+    private CarPacket setCarValues() {
+        return virtualFunctionBus.setCarPacket;
     }
 }

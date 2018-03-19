@@ -9,18 +9,18 @@ import org.junit.Test;
 import java.awt.geom.Point2D;
 
 public class WheelPositionTest extends AutomatedCar {
-    public WheelPositionTest(){
-        super(0,0,null);
+    public WheelPositionTest() {
+        super(0, 0, null);
     }
 
     private double THRESHOLD;
     private Point2D carPosition;
-    private double wheelBase ;
+    private double wheelBase;
 
     @Before
     public void setUp() {
         THRESHOLD = 0.0001d;
-        carPosition = new Point2D.Double(0,0);
+        carPosition = new Point2D.Double(0, 0);
         wheelBase = 100;
     }
 
@@ -28,7 +28,7 @@ public class WheelPositionTest extends AutomatedCar {
 
     @Test
     public void FacingEastFrontWheelTest() {
-        for(int i = -10; i <= 10; i++) {
+        for (int i = -10; i <= 10; i++) {
             double multipleOf360 = Math.toRadians(360) * i;
 
             Point2D frontWheelPos = SteeringMethods.getFrontWheel(eastRotation + multipleOf360, wheelBase / 2, carPosition);
@@ -54,7 +54,7 @@ public class WheelPositionTest extends AutomatedCar {
 
     @Test
     public void FacingNorthFrontWheelTest() {
-        for(int i = -10; i <= 10; i++) {
+        for (int i = -10; i <= 10; i++) {
             double multipleOf360 = Math.toRadians(360) * i;
 
             Point2D frontWheelPos = SteeringMethods.getFrontWheel(northRotation + multipleOf360, wheelBase / 2, carPosition);
@@ -66,7 +66,7 @@ public class WheelPositionTest extends AutomatedCar {
 
     @Test
     public void FacingNorthBackWheelTest() {
-        for(int i = -10; i <= 10; i++) {
+        for (int i = -10; i <= 10; i++) {
             double multipleOf360 = Math.toRadians(360) * i;
 
             Point2D backWheelPos = SteeringMethods.getBackWheel(northRotation + multipleOf360, wheelBase / 2, carPosition);
@@ -80,12 +80,12 @@ public class WheelPositionTest extends AutomatedCar {
 
     @Test
     public void FacingNorthEastFrontWheelTest() {
-        for(int i = -10; i <= 10; i++) {
-            double multipleOf360 = Math.toRadians(360)*i;
+        for (int i = -10; i <= 10; i++) {
+            double multipleOf360 = Math.toRadians(360) * i;
 
-            Point2D frontWheelPos = SteeringMethods.getFrontWheel(northEastRotation + multipleOf360, wheelBase/2, carPosition);
+            Point2D frontWheelPos = SteeringMethods.getFrontWheel(northEastRotation + multipleOf360, wheelBase / 2, carPosition);
             double[] frontWheelArray = {frontWheelPos.getX(), frontWheelPos.getY()};
-            double[] expected = {35.3553, -35.3553 }; //calc'd using http://www.cleavebooks.co.uk/scol/calrtri.htm
+            double[] expected = {35.3553, -35.3553}; //calc'd using http://www.cleavebooks.co.uk/scol/calrtri.htm
             Assert.assertArrayEquals(expected, frontWheelArray, THRESHOLD);
         }
 
@@ -93,12 +93,12 @@ public class WheelPositionTest extends AutomatedCar {
 
     @Test
     public void FacingNorthEastBackWheelTest() {
-        for(int i = -10; i <= 10; i++) {
-            double multipleOf360 = Math.toRadians(360)*i;
+        for (int i = -10; i <= 10; i++) {
+            double multipleOf360 = Math.toRadians(360) * i;
 
-            Point2D backWheelPos = SteeringMethods.getBackWheel(northEastRotation + multipleOf360, wheelBase/2, carPosition);
+            Point2D backWheelPos = SteeringMethods.getBackWheel(northEastRotation + multipleOf360, wheelBase / 2, carPosition);
             double[] backWheelArray = {backWheelPos.getX(), backWheelPos.getY()};
-            double[] expected = {-35.3553, +35.3553 }; //calc'd using http://www.cleavebooks.co.uk/scol/calrtri.htm
+            double[] expected = {-35.3553, +35.3553}; //calc'd using http://www.cleavebooks.co.uk/scol/calrtri.htm
             Assert.assertArrayEquals(expected, backWheelArray, THRESHOLD);
         }
     }
