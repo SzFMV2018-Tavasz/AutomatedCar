@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.steering;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.SteeringMethods;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,7 +18,7 @@ public class SteerAngleTest extends AutomatedCar {
     public void noSteeringTest() {
         Double angle = null;
         try {
-            angle = getSteerAngle(0);
+            angle = SteeringMethods.getSteerAngle(0);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -28,7 +29,7 @@ public class SteerAngleTest extends AutomatedCar {
     public void fullSteeringTest() {
         Double angle = null;
         try {
-            angle = getSteerAngle(-100);
+            angle = SteeringMethods.getSteerAngle(-100);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -36,7 +37,7 @@ public class SteerAngleTest extends AutomatedCar {
 
 
         try {
-            angle = getSteerAngle(100);
+            angle = SteeringMethods.getSteerAngle(100);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,7 +50,7 @@ public class SteerAngleTest extends AutomatedCar {
         for(int n = -100; n <= 100; n += 5) {
             Double angle = null;
             try {
-                angle = getSteerAngle(n);
+                angle = SteeringMethods.getSteerAngle(n);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -61,7 +62,7 @@ public class SteerAngleTest extends AutomatedCar {
     public void invalidNegativeSteeringTest() {
         Boolean thrown = false;
         try {
-            Double angle = getSteerAngle(-100.1);
+            Double angle = SteeringMethods.getSteerAngle(-100.1);
         } catch (Exception e) {
             thrown = true;
         }
@@ -72,7 +73,7 @@ public class SteerAngleTest extends AutomatedCar {
     public void invalidPositiveSteeringTest() {
         Boolean thrown = false;
         try {
-            Double angle = getSteerAngle(+100.1);
+            Double angle = SteeringMethods.getSteerAngle(+100.1);
         } catch (Exception e) {
             thrown = true;
         }

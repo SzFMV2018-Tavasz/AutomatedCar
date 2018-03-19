@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.steering;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.SteeringMethods;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,7 @@ public class WheelDisplacementTest extends AutomatedCar {
     private double THRESHOLD;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         FPS = 24;
         THRESHOLD = 0.0001d;
     }
@@ -27,7 +28,7 @@ public class WheelDisplacementTest extends AutomatedCar {
         double wheelHeading = 0;
         double speed = 0;
 
-        Point2D displacement = getFrontWheelDisplacement(carHeading, wheelHeading, speed, FPS);
+        Point2D displacement = SteeringMethods.getFrontWheelDisplacement(carHeading, wheelHeading, speed, FPS);
         double[] displacementArray = {displacement.getX(), displacement.getY()};
         double[] expectedArray = {0,0};
 
@@ -46,7 +47,7 @@ public class WheelDisplacementTest extends AutomatedCar {
 
             //run for 1 second <-> 24 frames
             for(int i = 0 ; i < FPS; i++) {
-                Point2D displacement = getFrontWheelDisplacement(carHeading, wheelHeading, speed, FPS);
+                Point2D displacement = SteeringMethods.getFrontWheelDisplacement(carHeading, wheelHeading, speed, FPS);
                 double[] displacementArray = {displacement.getX(), displacement.getY()};
                 position[0] += displacementArray[0];
                 position[1] += displacementArray[1];
@@ -68,7 +69,7 @@ public class WheelDisplacementTest extends AutomatedCar {
             double[] position = {0,0};
 
             for(int i = 0 ; i < FPS; i++) {
-                Point2D displacement = getFrontWheelDisplacement(carHeading, wheelHeading, -speed, FPS);
+                Point2D displacement = SteeringMethods.getFrontWheelDisplacement(carHeading, wheelHeading, -speed, FPS);
                 double[] displacementArray = {displacement.getX(), displacement.getY()};
                 position[0] -= displacementArray[0];
                 position[1] -= displacementArray[1];
