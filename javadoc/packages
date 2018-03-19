@@ -6,6 +6,8 @@ hu.oe.nik.szfmv.automatedcar.bus.packets.sample
 hu.oe.nik.szfmv.automatedcar.input.enums
 hu.oe.nik.szfmv.automatedcar.systemcomponents
 hu.oe.nik.szfmv.common
+hu.oe.nik.szfmv.detector.classes
+hu.oe.nik.szfmv.detector.interfaces
 hu.oe.nik.szfmv.environment
 hu.oe.nik.szfmv.environment.interfaces
 hu.oe.nik.szfmv.environment.models
