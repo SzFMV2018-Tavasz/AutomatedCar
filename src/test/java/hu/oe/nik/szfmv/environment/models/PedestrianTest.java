@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 
 public class PedestrianTest {
     @Test
-    public void IsMovable() {
+    public void isMovable() {
         Pedestrian pedestrian = new Pedestrian(500, 500,"man.png", 1000, 1000);
         assertTrue(Movable.class.isInstance(pedestrian));
     }

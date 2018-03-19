@@ -5,7 +5,9 @@ import hu.oe.nik.szfmv.automatedcar.SteeringMethods;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class SteerAngleTest extends AutomatedCar {
@@ -22,7 +24,9 @@ public class SteerAngleTest extends AutomatedCar {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertEquals(new Double(0), angle);
+        finally {
+            assertThat((int)Math.abs(angle), is(0));
+        }
     }
 
     @Test
@@ -33,7 +37,8 @@ public class SteerAngleTest extends AutomatedCar {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertEquals(new Double(-60), angle);
+        //assertEquals(new Double(-60), angle);
+        assertThat(angle, is(-Math.toRadians(-60)));
 
 
         try {
@@ -41,7 +46,8 @@ public class SteerAngleTest extends AutomatedCar {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertEquals(new Double(60), angle);
+        //assertEquals(new Double(60), angle);
+        assertThat(angle, is(-Math.toRadians(60)));
 
     }
 
@@ -54,7 +60,8 @@ public class SteerAngleTest extends AutomatedCar {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            assertEquals(new Double(n*0.6),angle);
+
+            assertThat(angle, is(-Math.toRadians(n*0.6)));
         }
     }
 
