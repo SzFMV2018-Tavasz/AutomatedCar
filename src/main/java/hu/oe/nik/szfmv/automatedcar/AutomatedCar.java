@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.ReadOnlyCarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
@@ -13,13 +14,12 @@ import java.awt.geom.Point2D;
 
 public class AutomatedCar extends WorldObject {
 
-    private final double wheelBase = height;
-    private double halfWidth = width / 2;
     private final double fps = 1;
-
+    private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
+    private double wheelBase;
+    private double halfWidth;
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
-    private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
 
     /**
      * Constructor of the AutomatedCar class
@@ -33,8 +33,14 @@ public class AutomatedCar extends WorldObject {
 
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
-        setLocation(new Point(300, 300));
+        setLocation(new Point(500, 500));
         setRotation(Math.toRadians(360 - 90));
+        setWidth(102);
+        setHeight(208);
+        wheelBase = height;
+        halfWidth = width / 2;
+        virtualFunctionBus.carPacket = new CarPacket(this.getX(), this.getY(), this.getRotation());
+
         new Driver(virtualFunctionBus);
     }
 
@@ -52,8 +58,8 @@ public class AutomatedCar extends WorldObject {
      */
     private void calculatePositionAndOrientation() {
 
-        double speed = 100;
-        double angularSpeed = 0;
+        double speed = 10;
+        double angularSpeed = 100;
         try {
             angularSpeed = SteeringMethods.getSteerAngle(angularSpeed);
         } catch (Exception e) {
@@ -62,10 +68,9 @@ public class AutomatedCar extends WorldObject {
         double carHeading = Math.toRadians(270) - rotation;
         double halfWheelBase = wheelBase / 2;
 
-        Point2D carPosition = new Point2D.Double(getCarValues().getRotationPoint().x, getCarValues().getRotationPoint().y);
-
+        Point2D carPosition = new Point2D.Double(getCarValues().getX(), getCarValues().getY());
         Point2D frontWheel = SteeringMethods.getFrontWheel(carHeading, halfWheelBase, carPosition);
-        Point2D backWheel =SteeringMethods.getBackWheel(carHeading, halfWheelBase, carPosition);
+        Point2D backWheel = SteeringMethods.getBackWheel(carHeading, halfWheelBase, carPosition);
 
         Point2D backWheelDisplacement = SteeringMethods.getBackWheelDisplacement(carHeading, speed, fps);
         Point2D frontWheelDisplacement = SteeringMethods.getFrontWheelDisplacement(carHeading, angularSpeed, speed, fps);
@@ -76,21 +81,19 @@ public class AutomatedCar extends WorldObject {
         carPosition = SteeringMethods.getCarPosition(frontWheel, backWheel);
         carHeading = SteeringMethods.getCarHeading(frontWheel, backWheel);
 
-        this.setX((int) (carPosition.getX() - halfWidth));
-        this.setY((int) (carPosition.getY() - halfWheelBase));
+        this.setX((int) (carPosition.getX()));
+        this.setY((int) (carPosition.getY()));
         rotation = Math.toRadians(270) - carHeading;
 
-        this.getCarValues().setX((int)(carPosition.getX() - halfWidth));
-        this.getCarValues().setY((int)(carPosition.getY() - halfWheelBase));
-        this.getCarValues().setRotation(Math.toRadians(270) - carHeading);
-        this.getCarValues().setRotationPoint(new Point((int)(carPosition.getX()),
-                (int)(carPosition.getY())));
+        this.getCarValues().setX((int) (carPosition.getX()));
+        this.getCarValues().setY((int) (carPosition.getY()));
+        this.getCarValues().setRotation(this.getRotation());
     }
-
 
 
     /**
      * Gets the input values as required by the dashboard.
+     *
      * @return input packet containing the values that are displayed on the dashboard
      */
     public ReadOnlyInputPacket getInputValues() {
@@ -99,6 +102,7 @@ public class AutomatedCar extends WorldObject {
 
     /**
      * Gets the car values which needs to change the car position
+     *
      * @return car packet
      */
     private ReadOnlyCarPacket getCarValues() {

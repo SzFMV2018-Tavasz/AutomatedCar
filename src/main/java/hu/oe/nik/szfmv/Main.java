@@ -26,8 +26,7 @@ public class Main {
         World w = new World(800, 600);
         // create an automated car
         AutomatedCar car = new AutomatedCar(20, 20, "car_2_white.png");
-        car.setWidth(108);
-        car.setHeight(240);
+
         // add car to the world
         w.addObjectToWorld(car);
 
