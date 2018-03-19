@@ -13,6 +13,8 @@ public abstract class WorldObject implements IWorldObject {
     protected Point location;
     protected Point offsetVector;
 
+    protected Shape shape;
+
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
      *
@@ -78,6 +80,8 @@ public abstract class WorldObject implements IWorldObject {
         return this.imageFileName;
     }
 
+    public Shape getShape() { return shape; }
+
     public void setWidth(int width) {
         this.width = width;
     }
@@ -92,6 +96,21 @@ public abstract class WorldObject implements IWorldObject {
 
     public void setImageFileName(String imageFileName) {
         this.imageFileName = imageFileName;
+    }
+
+    public void setShape(Shape shape) { this.shape = shape; }
+
+    @Override
+    public String toString() {
+        return "WorldObject{" +
+                "width=" + width +
+                ", height=" + height +
+                ", rotation=" + rotation +
+                ", imageFileName='" + imageFileName + '\'' +
+                ", location=" + location +
+                ", offsetVector=" + offsetVector +
+                ", shape=" + shape +
+                '}';
     }
 
 }

@@ -100,7 +100,7 @@ public abstract class XmlToModelConverter {
 
         //Set rotation
         wo.setRotation(getRotacionfromTransFormElement(transform));
-        LOGGER.error(wo.toString());
+        LOGGER.debug(wo.toString());
         return wo;
     }
 
