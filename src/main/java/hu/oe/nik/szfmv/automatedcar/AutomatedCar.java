@@ -4,8 +4,8 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.ReadOnlyCarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
-// import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
-// import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
 import hu.oe.nik.szfmv.environment.WorldObject;
 
 import java.awt.*;
@@ -16,8 +16,8 @@ public class AutomatedCar extends WorldObject {
     private final double wheelBase = height;
     private double halfWidth = width / 2;
 
-    // private PowertrainSystem powertrainSystem;
-    // private SteeringSystem steeringSystem;
+    private PowertrainSystem powertrainSystem;
+    private SteeringSystem steeringSystem;
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
 
     /**
@@ -35,8 +35,8 @@ public class AutomatedCar extends WorldObject {
         final int fullCircle = 360;
         final int carTestRotation = 90;
 
-        // powertrainSystem = new PowertrainSystem(virtualFunctionBus);
-        // steeringSystem = new SteeringSystem(virtualFunctionBus);
+        powertrainSystem = new PowertrainSystem(virtualFunctionBus);
+        steeringSystem = new SteeringSystem(virtualFunctionBus);
         setLocation(new Point(carTestX, carTestY));
         setRotation(Math.toRadians(fullCircle - carTestRotation));
         new Driver(virtualFunctionBus);
@@ -88,12 +88,6 @@ public class AutomatedCar extends WorldObject {
         this.setX((int) (carPosition.getX() - halfWidth));
         this.setY((int) (carPosition.getY() - halfWheelBase));
         rotation = Math.toRadians(threeQuarterCircle) - carHeading;
-
-        // this.getCarValues().setX((int) (carPosition.getX() - halfWidth));
-        // this.getCarValues().setY((int) (carPosition.getY() - halfWheelBase));
-        // this.getCarValues().setRotation(Math.toRadians(270) - carHeading);
-        // this.getCarValues().setRotationPoint(new Point((int) (carPosition.getX()),
-        //           (int) (carPosition.getY())));
     }
 
 

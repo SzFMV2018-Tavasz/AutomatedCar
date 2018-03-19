@@ -26,8 +26,6 @@ public class Main {
         final int carHeight = 240;
         final int pedestrianX = 1350;
         final int pedestrianY = 500;
-        final int crosswalkX = 1495;
-        final int crosswalkY = 486;
 
         // log the current debug mode in config
         LOGGER.info(ConfigProvider.provide().getBoolean("general.debug"));
@@ -41,7 +39,7 @@ public class Main {
         // add car to the world
         w.addObjectToWorld(car);
 
-        Pedestrian pedestrian = new Pedestrian(pedestrianX, pedestrianY, "man.png", crosswalkX, crosswalkY);
+        Pedestrian pedestrian = new Pedestrian(pedestrianX, pedestrianY, "man.png");
         w.addObjectToWorld(pedestrian);
 
         // create gui
