@@ -15,7 +15,6 @@
     <module name="TreeWalker">
         <!-- require javadoc allowing missing javadoc for getters and setters-->
         <module name="JavadocMethod">
-            <property name="excludeScope" value="private"/>
             <property name="allowMissingPropertyJavadoc" value="true"/>
         </module>
 
@@ -63,7 +62,10 @@
 
         <module name="StringLiteralEquality"/>
 
-        <module name="MagicNumber"/>
+        <module name="MagicNumber">
+            <property name="ignoreFieldDeclaration" value="true"/>
+            <property name="ignoreAnnotation" value="true"/>
+        </module>
 
         <module name="MissingSwitchDefault"/>
 
