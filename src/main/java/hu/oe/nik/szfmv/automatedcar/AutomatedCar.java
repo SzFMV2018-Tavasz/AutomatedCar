@@ -21,6 +21,7 @@ public class AutomatedCar extends WorldObject {
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
 
+
     /**
      * Constructor of the AutomatedCar class
      *
@@ -68,7 +69,7 @@ public class AutomatedCar extends WorldObject {
         double carHeading = Math.toRadians(270) - rotation;
         double halfWheelBase = wheelBase / 2;
 
-        Point2D carPosition = new Point2D.Double(getCarValues().getX(), getCarValues().getY());
+        Point2D carPosition = new Point2D.Double(getCarValues().getX() + halfWidth, getCarValues().getY() + halfWheelBase);
         Point2D frontWheel = SteeringMethods.getFrontWheel(carHeading, halfWheelBase, carPosition);
         Point2D backWheel = SteeringMethods.getBackWheel(carHeading, halfWheelBase, carPosition);
 
@@ -81,15 +82,14 @@ public class AutomatedCar extends WorldObject {
         carPosition = SteeringMethods.getCarPosition(frontWheel, backWheel);
         carHeading = SteeringMethods.getCarHeading(frontWheel, backWheel);
 
-        this.setX((int) (carPosition.getX()));
-        this.setY((int) (carPosition.getY()));
+        this.setX((int) (carPosition.getX() - halfWidth));
+        this.setY((int) (carPosition.getY() - halfWheelBase));
         rotation = Math.toRadians(270) - carHeading;
 
-        this.getCarValues().setX((int) (carPosition.getX()));
-        this.getCarValues().setY((int) (carPosition.getY()));
+        this.getCarValues().setX((int) (this.getX()));
+        this.getCarValues().setY((int) (this.getY()));
         this.getCarValues().setRotation(this.getRotation());
     }
-
 
     /**
      * Gets the input values as required by the dashboard.
