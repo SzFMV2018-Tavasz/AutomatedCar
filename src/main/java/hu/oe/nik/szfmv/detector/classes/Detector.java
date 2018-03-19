@@ -22,11 +22,15 @@ public class Detector implements ICamera, IRadarUltrasonic {
 
     @Override
     public List<WorldObject> getWorldObjects(Point a, Point b, Point c) {
-        return null;
+        List<WorldObject> noticeableObjects = new ArrayList<WorldObject>();
+
+        return noticeableObjects;
     }
 
     @Override
     public List<Collidable> getCollidableObjects(Point a, Point b, Point c) {
-        return null;
+        List<Collidable> noticeableObjects = new ArrayList<Collidable>();
+
+        return noticeableObjects;
     }
 }
