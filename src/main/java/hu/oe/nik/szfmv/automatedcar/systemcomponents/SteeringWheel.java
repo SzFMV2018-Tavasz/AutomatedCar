@@ -58,21 +58,20 @@ public class SteeringWheel extends SystemComponent {
      * @return steeringwhell position
      */
     private double calculateNewSteeringWheelPosition(double newPos) {
-        double position = 0;
         if (newPos > MAXPOSITION) {
-            position = MAXPOSITION;
+            return MAXPOSITION;
         }
 
         if (newPos < MINPOSITION) {
-            position = MINPOSITION;
+            return MINPOSITION;
         }
 
         // Ha már egy lépésnyinél kevesebbel térünk el 0-tól, akkor beállítjuk 0-ra
         // hogy ne ugráljon magától ide oda a kormányállás.
         if (Math.abs(newPos) < STEP) {
-            position = 0;
+            return 0;
         }
 
-        return position;
+        return newPos;
     }
 }
