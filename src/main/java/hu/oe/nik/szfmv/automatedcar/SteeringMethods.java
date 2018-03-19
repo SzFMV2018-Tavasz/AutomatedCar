@@ -11,7 +11,7 @@ public class SteeringMethods {
      * @param backWheel  Position of the back wheel
      * @return Position of the car based on its wheels
      */
-    static double getCarHeading(Point2D frontWheel, Point2D backWheel) {
+    public static double getCarHeading(Point2D frontWheel, Point2D backWheel) {
         return Math.atan2(frontWheel.getY() - backWheel.getY(), frontWheel.getX() - backWheel.getX());
     }
 
@@ -22,7 +22,7 @@ public class SteeringMethods {
      * @return steeringAngle between -60 and 60 degree.
      * @throws Exception wrong parameter Exception
      */
-    static double getSteerAngle(double wheelPosition) throws Exception {
+    public static double getSteerAngle(double wheelPosition) throws Exception {
 
         final double maxLeft = 100d;
         final double maxRight = -100d;
@@ -49,7 +49,7 @@ public class SteeringMethods {
      * @param carPosition   Car position, x and y point
      * @return front wheel position
      **/
-    static Point2D getFrontWheel(double carHeading, double halfWheelBase, Point2D carPosition) {
+    public static Point2D getFrontWheel(double carHeading, double halfWheelBase, Point2D carPosition) {
         return new Point2D.Double((Math.cos(carHeading) * halfWheelBase) + carPosition.getX(),
                 (Math.sin(carHeading) * halfWheelBase) + carPosition.getY());
     }
@@ -62,7 +62,7 @@ public class SteeringMethods {
      * @param carPosition   Car position, x and y point
      * @return back wheel position
      **/
-    static Point2D getBackWheel(double carHeading, double halfWheelBase, Point2D carPosition) {
+    public static Point2D getBackWheel(double carHeading, double halfWheelBase, Point2D carPosition) {
         return new Point2D.Double(carPosition.getX() - (Math.cos(carHeading) * halfWheelBase),
                 carPosition.getY() - (Math.sin(carHeading) * halfWheelBase));
     }
@@ -75,7 +75,7 @@ public class SteeringMethods {
      * @param fps        Display fps
      * @return Back wheel displacement after moving
      **/
-    static Point2D getBackWheelDisplacement(double carHeading, double speed, double fps) {
+    public static Point2D getBackWheelDisplacement(double carHeading, double speed, double fps) {
         return new Point2D.Double(Math.cos(carHeading) * speed * (1 / fps),
                 (Math.sin(carHeading) * speed * (1 / fps)));
     }
@@ -89,7 +89,7 @@ public class SteeringMethods {
      * @param fps          Display fps
      * @return Front wheel displacement after moving
      **/
-    static Point2D getFrontWheelDisplacement(double carHeading, double angularSpeed, double speed, double fps) {
+    public static Point2D getFrontWheelDisplacement(double carHeading, double angularSpeed, double speed, double fps) {
         return new Point2D.Double(Math.cos(carHeading + angularSpeed) * speed * (1 / fps),
                 (Math.sin(carHeading + angularSpeed) * speed * (1 / fps)));
     }
@@ -101,7 +101,7 @@ public class SteeringMethods {
      * @param frontWheelDisplacement Front wheel displacement
      * @return New front position
      */
-    static Point2D getNewFrontWheelPosition(Point2D frontWheel, Point2D frontWheelDisplacement) {
+    public static Point2D getNewFrontWheelPosition(Point2D frontWheel, Point2D frontWheelDisplacement) {
         return new Point2D.Double(frontWheel.getX() + frontWheelDisplacement.getX(),
                 frontWheel.getY() + frontWheelDisplacement.getY());
     }
@@ -113,7 +113,7 @@ public class SteeringMethods {
      * @param backWheelDisplacement Back wheel displacement
      * @return New back position
      */
-    static Point2D getNewBackWheelPosition(Point2D backWheel, Point2D backWheelDisplacement) {
+    public static Point2D getNewBackWheelPosition(Point2D backWheel, Point2D backWheelDisplacement) {
         return new Point2D.Double(backWheel.getX() + backWheelDisplacement.getX(),
                 backWheel.getY() + backWheelDisplacement.getY());
     }
@@ -125,7 +125,7 @@ public class SteeringMethods {
      * @param backWheel  Back wheel position
      * @return Car position
      **/
-    static Point2D getCarPosition(Point2D frontWheel, Point2D backWheel) {
+    public static Point2D getCarPosition(Point2D frontWheel, Point2D backWheel) {
         return new Point2D.Double((frontWheel.getX() + backWheel.getX()) / 2,
                 (frontWheel.getY() + backWheel.getY()) / 2);
     }

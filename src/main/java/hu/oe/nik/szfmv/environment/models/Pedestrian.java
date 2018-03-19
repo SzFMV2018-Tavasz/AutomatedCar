@@ -28,7 +28,7 @@ public class Pedestrian extends Movable {
     public void moveOnCrosswalk() {
         this.move(this.getX(), this.getY() - moveDirection, (float) this.getRotation());
         final int movingUnit = 5;
-        final int manSize = 72;
+        final int manSize = 102;
 
         moveStatus += movingUnit;
         if (moveStatus == height + manSize) {
