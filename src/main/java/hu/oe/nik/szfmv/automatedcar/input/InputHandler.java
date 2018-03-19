@@ -62,7 +62,7 @@ public class InputHandler implements KeyListener {
     /**
      * Inputhandler
      *
-     * @return
+     * @return inputhandler
      */
     public static InputHandler getInstance() {
         if (instance == null) {

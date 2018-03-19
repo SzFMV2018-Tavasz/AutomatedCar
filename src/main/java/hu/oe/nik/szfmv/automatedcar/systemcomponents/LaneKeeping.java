@@ -17,7 +17,7 @@ public class LaneKeeping extends SystemComponent {
     /**
      * Lanekeeping Constructor
      *
-     * @param virtualFunctionBus
+     * @param virtualFunctionBus is the given functionbus
      */
     public LaneKeeping(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);

@@ -27,8 +27,9 @@ public class InputPacket implements ReadOnlyInputPacket {
     private int accSpeedValue;
 
     /**
+     * Inpuutpacket
      *
-     * @return
+     * @return inputpacket
      */
     public static InputPacket getInstance() {
         if (instance == null) {

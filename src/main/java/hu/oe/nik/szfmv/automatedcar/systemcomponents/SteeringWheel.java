@@ -19,7 +19,7 @@ public class SteeringWheel extends SystemComponent {
     /**
      * SteeringWheel Constructor
      *
-     * @param virtualFunctionBus
+     * @param virtualFunctionBus is the given functionbus
      */
     public SteeringWheel(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
@@ -51,8 +51,13 @@ public class SteeringWheel extends SystemComponent {
         inputPacket.setSteeringWheelPosition(newPosition);
     }
 
+    /**
+     * Calculate the new position
+     *
+     * @param newPos is the newpos
+     * @return steeringwhell position
+     */
     private double calculateNewSteeringWheelPosition(double newPos) {
-
         if (newPos > MAXPOSITION) {
             return MAXPOSITION;
         }

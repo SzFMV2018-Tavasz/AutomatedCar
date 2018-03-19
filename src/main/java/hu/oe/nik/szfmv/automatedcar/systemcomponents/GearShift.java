@@ -17,7 +17,7 @@ public class GearShift extends SystemComponent {
     /**
      * GearShift Constructor
      *
-     * @param virtualFunctionBus
+     * @param virtualFunctionBus is the given functionbus
      */
     public GearShift(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
@@ -48,40 +48,56 @@ public class GearShift extends SystemComponent {
 
     }
 
+    /**
+     * Set
+     *
+     * @return the gearshift
+     */
     private GearEnum gearShiftDown() {
+        GearEnum e = null;
         switch (gearShiftsate) {
             case P:
-                return GearEnum.P;
+                e = GearEnum.D;
 
             case R:
-                return GearEnum.P;
+                e = GearEnum.P;
 
             case N:
-                return GearEnum.R;
+                e = GearEnum.R;
 
             case D:
-                return GearEnum.N;
+                e = GearEnum.N;
 
             default:
-                return gearShiftsate;
+                break;
         }
+
+        return e;
     }
 
+    /**
+     * Set
+     *
+     * @return the gearshift
+     */
     private GearEnum gearShiftUp() {
+        GearEnum e = null;
         switch (gearShiftsate) {
             case P:
-                return GearEnum.R;
+                e = GearEnum.R;
 
             case R:
-                return GearEnum.N;
+                e = GearEnum.N;
 
             case N:
-                return GearEnum.D;
+                e = GearEnum.D;
 
             case D:
-                return GearEnum.D;
+                e = GearEnum.D;
             default:
-                return gearShiftsate;
+                break;
         }
+
+        return e;
     }
 }
