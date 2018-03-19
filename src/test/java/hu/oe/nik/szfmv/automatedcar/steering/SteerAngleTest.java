@@ -1,7 +1,6 @@
 package hu.oe.nik.szfmv.automatedcar.steering;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -10,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 public class SteerAngleTest extends AutomatedCar {
 
     public SteerAngleTest() {
-        super(0,0, null);
+        super(0, 0, null);
     }
 
     @Test
@@ -46,14 +45,14 @@ public class SteerAngleTest extends AutomatedCar {
 
     @Test
     public void loopSteeringTest() {
-        for(int n = -100; n <= 100; n += 5) {
+        for (int n = -100; n <= 100; n += 5) {
             Double angle = null;
             try {
                 angle = getSteerAngle(n);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            assertEquals(new Double(n*0.6),angle);
+            assertEquals(new Double(n * 0.6), angle);
         }
     }
 

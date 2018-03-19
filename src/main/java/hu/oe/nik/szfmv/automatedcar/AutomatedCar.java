@@ -92,11 +92,12 @@ public class AutomatedCar extends WorldObject {
      *
      * @param wheelPosition in percent form.
      * @return steeringAngle between -60 and 60 degree.
+     * @throws Exception if bad wheelposition occured
      */
     public double getSteerAngle(double wheelPosition) throws Exception {
 
         if (wheelPosition > 100d || wheelPosition < -100d) {
-            throw new Exception();
+            throw new Exception("Bad wheelPosition angle input");
         }
 
         // From -60 to 60 degree
