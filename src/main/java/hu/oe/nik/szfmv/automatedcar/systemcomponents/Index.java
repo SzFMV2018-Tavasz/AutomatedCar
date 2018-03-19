@@ -17,7 +17,7 @@ public class Index extends SystemComponent {
     /**
      * Index Constructor
      *
-     * @param virtualFunctionBus
+     * @param virtualFunctionBus is the given functionbus
      */
     protected Index(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);

@@ -8,6 +8,9 @@ public class ACC extends SystemComponent {
     private static final int ACCSPEEDMINVALUE = 30;
     private static final int ACCSPEEDMAXVALUE = 160;
     private static final int ACCSPEEDSTEPVALUE = 5;
+    private static final double ACC_DISTANCE_STEP = 0.2;
+    private static final double ACC_DISTANCE = 0.8;
+    private static final double MAX_ACC_DISTANCE = 1.6;
 
     private double accDistanceValue;
     private int accSpeedValue;
@@ -18,7 +21,7 @@ public class ACC extends SystemComponent {
     /**
      * ACC constructor
      *
-     * @param bus
+     * @param bus is the given functionbus
      */
     public ACC(VirtualFunctionBus bus) {
         super(bus);
@@ -47,20 +50,21 @@ public class ACC extends SystemComponent {
 
     }
 
+    /**
+     * Set the distance value
+     */
     private void rotateDistanceValue() {
-        if (accDistanceValue == 0.8) {
-            accDistanceValue = 1;
-        } else if (accDistanceValue == 1) {
-            accDistanceValue = 1.2;
-        } else if (accDistanceValue == 1.2) {
-            accDistanceValue = 1.4;
-        } else if (accDistanceValue == 1.4) {
-            accDistanceValue = 0.8;
-        } else {    //just to be sure
-            accDistanceValue = 0.8;
+        accDistanceValue += ACC_DISTANCE_STEP;
+        if (accDistanceValue == MAX_ACC_DISTANCE) {
+            accDistanceValue = ACC_DISTANCE;
         }
     }
 
+    /**
+     * Set the acc speed
+     *
+     * @param diff is the given diff
+     */
     private void setAccSpeedValue(int diff) {
         accSpeedValue += diff;
         if (accSpeedValue < ACCSPEEDMINVALUE) {

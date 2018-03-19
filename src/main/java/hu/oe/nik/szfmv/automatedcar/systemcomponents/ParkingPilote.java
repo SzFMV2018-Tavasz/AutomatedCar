@@ -15,7 +15,7 @@ public class ParkingPilote extends SystemComponent {
     /**
      * Pilote constructor
      *
-     * @param bus
+     * @param bus is the given functionbus
      */
     public ParkingPilote(VirtualFunctionBus bus) {
         super(bus);

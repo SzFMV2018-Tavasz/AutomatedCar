@@ -23,9 +23,9 @@ public class GasBrake extends SystemComponent {
     private InputHandler inputHandler;
 
     /**
-     * class constructor
+     * Class constructor
      *
-     * @param virtual
+     * @param virtual is the given functionbus
      */
     public GasBrake(VirtualFunctionBus virtual) {
         super(virtual);
@@ -34,12 +34,22 @@ public class GasBrake extends SystemComponent {
         inputHandler = InputHandler.getInstance();
     }
 
+    /**
+     * Set the gaspedal value
+     *
+     * @param value is the gaspedal value
+     */
     private void setGaspedalvalue(int value) {
         if (gaspedalvalue + value <= MAXGASPEDALVALUE && gaspedalvalue + value >= MINGASPEDALVALUE) {
             gaspedalvalue += value;
         }
     }
 
+    /**
+     * Set the brakepedal value
+     *
+     * @param value is the brakepedal value
+     */
     private void setBrakepedalvalue(int value) {
         if (gaspedalvalue + value <= MAXGASPEDALVALUE && gaspedalvalue + value >= MINGASPEDALVALUE) {
             brakepedalvalue += value;
