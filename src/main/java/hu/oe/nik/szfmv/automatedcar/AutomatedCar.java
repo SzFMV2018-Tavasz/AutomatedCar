@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
@@ -55,7 +56,7 @@ public class AutomatedCar extends WorldObject {
         }
         double carHeading = 0;
         double halfWheelBase = wheelBase / 2;
-        Point2D carPosition = new Point2D.Double(x, y);
+        Point2D carPosition = new Point2D.Double(this.getX(), this.getY());
 
         Point2D frontWheel = getFrontWheel(carHeading, halfWheelBase, carPosition);
         Point2D backWheel = getBackWheel(carHeading, halfWheelBase, carPosition);
@@ -70,8 +71,8 @@ public class AutomatedCar extends WorldObject {
         carHeading = getCarHeading(frontWheel, backWheel);
 
 
-        x = (int) carPosition.getX();
-        y = (int) carPosition.getY();
+        this.setX((int) carPosition.getX());
+        this.setY((int) carPosition.getY());
         rotation = (float) carHeading;
     }
 
@@ -193,5 +194,14 @@ public class AutomatedCar extends WorldObject {
     public Point2D getCarPosition(Point2D frontWheel, Point2D backWheel) {
         return new Point2D.Double((frontWheel.getX() + backWheel.getX()) / 2,
                 (frontWheel.getY() + backWheel.getY()) / 2);
+    }
+
+    /**
+     * Gets the input values as required by the dashboard.
+     *
+     * @return input packet containing the values that are displayed on the dashboard
+     */
+    public ReadOnlyInputPacket getInputValues() {
+        return virtualFunctionBus.inputPacket;
     }
 }
