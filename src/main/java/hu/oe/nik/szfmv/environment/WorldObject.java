@@ -1,12 +1,17 @@
 package hu.oe.nik.szfmv.environment;
 
-public class WorldObject {
-    protected int x;
-    protected int y;
+import hu.oe.nik.szfmv.environment.interfaces.IWorldObject;
+
+import java.awt.*;
+
+public abstract class WorldObject implements IWorldObject {
+
     protected int width;
     protected int height;
-    protected float rotation = 0f;
+    protected double rotation = 0f;
     protected String imageFileName;
+    protected Point location;
+    protected Point offsetVector;
 
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
@@ -16,17 +21,45 @@ public class WorldObject {
      * @param imageFileName the filename of the image representing the object in the virtual world
      */
     public WorldObject(int x, int y, String imageFileName) {
-        this.x = x;
-        this.y = y;
+        this.location = new Point(x, y);
         this.imageFileName = imageFileName;
     }
 
+    public WorldObject(Point location, String imageFileName) {
+        this.location = location;
+        this.imageFileName = imageFileName;
+    }
+
+    public Point getOffsetVector() {
+        return offsetVector;
+    }
+
+    public void setOffsetVector(Point offsetVector) {
+        this.offsetVector = offsetVector;
+    }
+
+    public Point getLocation() {
+        return location;
+    }
+
+    public void setLocation(Point location) {
+        this.location = location;
+    }
+
     public int getX() {
-        return this.x;
+        return this.location.x;
+    }
+
+    public void setX(int x) {
+        this.location.x = x;
     }
 
     public int getY() {
-        return this.y;
+        return this.location.y;
+    }
+
+    public void setY(int y) {
+        this.location.y = y;
     }
 
     public int getWidth() {
@@ -37,20 +70,12 @@ public class WorldObject {
         return this.height;
     }
 
-    public float getRotation() {
+    public double getRotation() {
         return this.rotation;
     }
 
     public String getImageFileName() {
         return this.imageFileName;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public void setWidth(int width) {
@@ -61,11 +86,13 @@ public class WorldObject {
         this.height = height;
     }
 
-    public void setRotation(float rotation) {
+    public void setRotation(double rotation) {
         this.rotation = rotation;
     }
 
     public void setImageFileName(String imageFileName) {
         this.imageFileName = imageFileName;
     }
+
 }
+
