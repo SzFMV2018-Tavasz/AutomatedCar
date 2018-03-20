@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.bus;
 
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.sample.ReadOnlySamplePacket;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
@@ -20,6 +21,7 @@ public class VirtualFunctionBus {
     public ReadOnlyPowertrainPacket powertrainPacket;
     public ReadOnlySamplePacket samplePacket;
     public ReadOnlyInputPacket inputPacket;
+    public CarPacket carPacket;
 
     private List<SystemComponent> components = new ArrayList<>();
 
