@@ -18,6 +18,7 @@ import javax.xml.crypto.dsig.XMLSignatureException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -107,8 +108,13 @@ public abstract class XmlToModelConverter {
 
         //Set rotation
         wo.setRotation(getRotacionfromTransFormElement(transform));
-        LOGGER.debug(wo.toString());
+
+        //Testing Shape drowing
+        wo.setShape(new Rectangle(wo.getX(),wo.getY(),wo.getWidth(),wo.getHeight()));
+
+        LOGGER.error(wo.toString());
         return wo;
+
 
     }
 
