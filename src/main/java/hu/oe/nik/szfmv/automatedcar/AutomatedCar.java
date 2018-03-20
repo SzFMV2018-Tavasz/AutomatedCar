@@ -2,7 +2,6 @@ package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.car.ReadOnlyCarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
@@ -14,12 +13,11 @@ import java.awt.geom.Point2D;
 
 public class AutomatedCar extends WorldObject {
 
-    private final double wheelBase = height;
-    private double halfWidth = width / 2;
-
+    private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
+    private double wheelBase;
+    private double halfWidth;
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
-    private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
 
     /**
      * Constructor of the AutomatedCar class
@@ -31,15 +29,24 @@ public class AutomatedCar extends WorldObject {
     public AutomatedCar(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
 
-        final int carTestX = 300;
-        final int carTestY = 300;
+        final int carTestX = 500;
+        final int carTestY = 500;
         final int fullCircle = 360;
         final int carTestRotation = 90;
+        final int carWidth = 108;
+        final int carHeight = 240;
 
-        powertrainSystem = new PowertrainSystem(virtualFunctionBus);
-        steeringSystem = new SteeringSystem(virtualFunctionBus);
         setLocation(new Point(carTestX, carTestY));
         setRotation(Math.toRadians(fullCircle - carTestRotation));
+        wheelBase = carHeight;
+        halfWidth = carWidth / 2;
+        this.setWidth(carWidth);
+        this.setHeight(carHeight);
+
+        virtualFunctionBus.carPacket = new CarPacket(this.getX(), this.getY(), this.getRotation());
+        powertrainSystem = new PowertrainSystem(virtualFunctionBus);
+        steeringSystem = new SteeringSystem(virtualFunctionBus);
+
         new Driver(virtualFunctionBus);
     }
 
@@ -57,11 +64,10 @@ public class AutomatedCar extends WorldObject {
      */
     private void calculatePositionAndOrientation() {
 
-        final double testSpeed = 100;
-        double angularSpeed = 0;
+        final double testSpeed = 10;
+        double angularSpeed = -100;
         final double fps = 1;
         final int threeQuarterCircle = 270;
-
         try {
             angularSpeed = SteeringMethods.getSteerAngle(angularSpeed);
         } catch (Exception e) {
@@ -70,9 +76,8 @@ public class AutomatedCar extends WorldObject {
         double carHeading = Math.toRadians(threeQuarterCircle) - rotation;
         double halfWheelBase = wheelBase / 2;
 
-        Point2D carPosition = new Point2D.Double(getCarValues().getRotationPoint().x,
-                getCarValues().getRotationPoint().y);
-
+        Point2D carPosition = new Point2D.Double(getCarValues().getX() + halfWidth,
+                getCarValues().getY() + halfWheelBase);
         Point2D frontWheel = SteeringMethods.getFrontWheel(carHeading, halfWheelBase, carPosition);
         Point2D backWheel = SteeringMethods.getBackWheel(carHeading, halfWheelBase, carPosition);
 
@@ -90,10 +95,9 @@ public class AutomatedCar extends WorldObject {
         this.setY((int) (carPosition.getY() - halfWheelBase));
         rotation = Math.toRadians(threeQuarterCircle) - carHeading;
 
-        setCarValues().setRotation(Math.toRadians(threeQuarterCircle) - carHeading);
-        setCarValues().setX((int) (carPosition.getX() - halfWidth));
-        setCarValues().setY((int) (carPosition.getY() - halfWheelBase));
-        setCarValues().setRotationPoint(new Point((int) carPosition.getX(), (int) carPosition.getY()));
+        getCarValues().setX((int) (this.getX()));
+        getCarValues().setY((int) (this.getY()));
+        getCarValues().setRotation(this.getRotation());
     }
 
 
@@ -110,17 +114,10 @@ public class AutomatedCar extends WorldObject {
     /**
      * Gets the car values which needs to change the car position
      *
-     * @return Read only car packet
+     * @return car packet
      */
-    private ReadOnlyCarPacket getCarValues() {
+    private CarPacket getCarValues() {
         return virtualFunctionBus.carPacket;
     }
 
-    /**
-     * Sets the car values which needs to change the car position
-     * @return Car packet
-     */
-    private CarPacket setCarValues() {
-        return virtualFunctionBus.setCarPacket;
-    }
 }

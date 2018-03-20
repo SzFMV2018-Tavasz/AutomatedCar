@@ -9,12 +9,12 @@ import org.junit.Test;
 import java.awt.geom.Point2D;
 
 public class WheelDisplacementTest extends AutomatedCar {
+    private double FPS;
+    private double THRESHOLD;
+
     public WheelDisplacementTest() {
         super(0, 0, null);
     }
-
-    private double FPS;
-    private double THRESHOLD;
 
     @Before
     public void setUp() {
