@@ -42,7 +42,7 @@ public class WorldTest {
     public void WorldListHasXml() {
         World testWorld = new World(0, 0);
         testWorld.build("");
-        Assert.assertTrue(testWorld.getWorldObjects().isEmpty());
+        Assert.assertTrue(!testWorld.getWorldObjects().isEmpty());
     }
 
     @Test
