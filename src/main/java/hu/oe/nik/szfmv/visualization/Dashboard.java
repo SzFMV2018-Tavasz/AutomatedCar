@@ -1,14 +1,12 @@
 package hu.oe.nik.szfmv.visualization;
 
+import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 import hu.oe.nik.szfmv.environment.models.RoadSign;
-
-import javax.imageio.ImageIO;
-
-import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -101,9 +99,6 @@ public class Dashboard extends JPanel {
     private final int lkaButtonY = 350;
     private final int lkaButtonWidth = 60;
     private final int lkaButtonHeight = 30;
-    private JButton lkaButton = new JButton();
-    private boolean lkaOn = false;
-
     /**
      * Parking pilot
      */
@@ -111,9 +106,6 @@ public class Dashboard extends JPanel {
     private final int ppButtonY = 350;
     private final int ppButtonWidth = 50;
     private final int ppButtonHeight = 30;
-    private JButton ppButton = new JButton();
-    private boolean ppOn = false;
-
     /**
      * Break & gas
      */
@@ -126,7 +118,6 @@ public class Dashboard extends JPanel {
     private final JProgressBar gasProgressBar = new JProgressBar();
     private final JLabel breakLabel = new JLabel();
     private final JProgressBar breakProgressBar = new JProgressBar();
-
     /**
      * Speed & RPM
      */
@@ -136,37 +127,21 @@ public class Dashboard extends JPanel {
     private final int tachoMeterY = 50;
     private final int meterHeight = 100;
     private final int meterWidth = 100;
-    private int speedAngle;
-    private int rpmAngle;
-
     private final int speedLabelWidth = 60;
     private final int speedLabelHeight = 24;
     private final int speedLabelX = 30;
     private final int speedLabelY = 110;
-
     private final int rpmLabelWidth = 60;
     private final int rpmLabelHeight = 24;
     private final int rpmLabelX = 150;
     private final int rpmLabelY = 110;
-
     private final JLabel speedLabel = new JLabel();
     private final JLabel rpmLabel = new JLabel();
-
-    /**
-     * Turn signal
-     */
-    private String indexLeftOff = "index_left_off.png";
-    private String indexRightOff = "index_right_off.png";
-    private String indexLeftOn = "index_left_on.png";
-    private String indexRightOn = "index_right_on.png";
-    private boolean leftIndexState = false;
-    private boolean rightIndexState = false;
     private final int leftIndexX = 10;
     private final int rightIndexX = 185;
     private final int indexY = 160;
     private final int imageH = 50;
     private final int imageW = 50;
-
     /**
      * Position
      */
@@ -177,6 +152,21 @@ public class Dashboard extends JPanel {
     private final JLabel carPositionXLabel = new JLabel();
     private final JLabel carPositionYLabel = new JLabel();
     private final JPanel carPositionPanel = new JPanel();
+    private JButton lkaButton = new JButton();
+    private boolean lkaOn = false;
+    private JButton ppButton = new JButton();
+    private boolean ppOn = false;
+    private int speedAngle;
+    private int rpmAngle;
+    /**
+     * Turn signal
+     */
+    private String indexLeftOff = "index_left_off.png";
+    private String indexRightOff = "index_right_off.png";
+    private String indexLeftOn = "index_left_on.png";
+    private String indexRightOn = "index_right_on.png";
+    private boolean leftIndexState = false;
+    private boolean rightIndexState = false;
 
     /**
      * Initialize the dashboard
@@ -310,6 +300,7 @@ public class Dashboard extends JPanel {
         initializeLka();
         initializePp();
         initializeAccStatePanel();
+        setFocusable(false);
     }
 
     private void initializeSpeedRPMLabels() {
@@ -394,15 +385,15 @@ public class Dashboard extends JPanel {
      */
     private void initializeSteeringWheel() {
         wheelTextLabel.setBounds(
-                wheelTextLabelX,
-                wheelTextLabelY,
-                wheelTextLabelWidth,
-                wheelTextLabelHeight);
+            wheelTextLabelX,
+            wheelTextLabelY,
+            wheelTextLabelWidth,
+            wheelTextLabelHeight);
         wheelValueLabel.setBounds(
-                wheelValueLabelX,
-                wheelValueLabelY,
-                wheelValueLabelWidth,
-                wheelValueLabelHeight);
+            wheelValueLabelX,
+            wheelValueLabelY,
+            wheelValueLabelWidth,
+            wheelValueLabelHeight);
         wheelTextLabel.setText("steering wheel:");
         wheelValueLabel.setText("0");
         add(wheelTextLabel);
@@ -464,7 +455,7 @@ public class Dashboard extends JPanel {
     private void displayRoadSign(RoadSign roadSign) {
         try {
             File roadSignImageFile = new File(Objects.requireNonNull(getClass().getClassLoader().
-                    getResource(roadSign.getImageFileName())).getFile());
+                                                                                                    getResource(roadSign.getImageFileName())).getFile());
             BufferedImage roadSignPicture = ImageIO.read(roadSignImageFile);
             roadSignIcon.setIcon(new ImageIcon(roadSignPicture));
         } catch (IOException e) {
@@ -478,10 +469,10 @@ public class Dashboard extends JPanel {
     private void initializeProgressBars() {
         progressBarsPanel.setBackground(new Color(backgroundColor));
         progressBarsPanel.setBounds(
-                progressBarsPanelX,
-                progressBarsPanelY,
-                progressBarsPanelWidth,
-                progressBarsPanelHeight);
+            progressBarsPanelX,
+            progressBarsPanelY,
+            progressBarsPanelWidth,
+            progressBarsPanelHeight);
 
         gasLabel.setText("gas pedal");
         breakLabel.setText("break pedal");
@@ -500,7 +491,7 @@ public class Dashboard extends JPanel {
      */
     private void initializeCarPositionLabel() {
         carPositionPanel.setBounds(carPositionPanelX, carPositionPanelY,
-                getCarPositionPanelWidth, getCarPositionPanelHeight);
+            getCarPositionPanelWidth, getCarPositionPanelHeight);
         carPositionPanel.setBackground(new Color(backgroundColor));
 
         carPositionXLabel.setText("X:");
@@ -608,6 +599,6 @@ public class Dashboard extends JPanel {
         int newspeed = maxSpeedValue - speed;
 
         return (newspeed - minSpeedValue) * (maxSpeedMeter - minSpeedMeter)
-                / (maxSpeedValue - minSpeedValue) + minSpeedMeter;
+                   / (maxSpeedValue - minSpeedValue) + minSpeedMeter;
     }
 }

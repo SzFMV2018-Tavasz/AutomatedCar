@@ -8,10 +8,8 @@ import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 
 public class GearShift extends SystemComponent {
 
-    private InputHandler inputHandler;
-
     private final InputPacket inputPacket;
-
+    private InputHandler inputHandler;
     private GearEnum gearShiftsate;
 
     /**
@@ -33,9 +31,9 @@ public class GearShift extends SystemComponent {
     @Override
     public void loop() {
 
-        if (inputHandler.isGearShiftDownPressed() && inputHandler.isGearShiftUpPressed()) {
-            return;
-        }
+//        if (inputHandler.isGearShiftDownPressed() && inputHandler.isGearShiftUpPressed()) {
+//            return;
+//        }
 
         if (inputHandler.isGearShiftUpPressed()) {
             gearShiftsate = gearShiftUp();
@@ -54,21 +52,22 @@ public class GearShift extends SystemComponent {
      * @return the gearshift
      */
     private GearEnum gearShiftDown() {
-        GearEnum e = null;
+        GearEnum e = GearEnum.P;
         switch (gearShiftsate) {
             case P:
                 e = GearEnum.D;
-
+                break;
             case R:
                 e = GearEnum.P;
-
+                break;
             case N:
                 e = GearEnum.R;
-
+                break;
             case D:
                 e = GearEnum.N;
-
+                break;
             default:
+                e = GearEnum.P;
                 break;
         }
 
@@ -81,19 +80,20 @@ public class GearShift extends SystemComponent {
      * @return the gearshift
      */
     private GearEnum gearShiftUp() {
-        GearEnum e = null;
+        GearEnum e = GearEnum.P;
         switch (gearShiftsate) {
             case P:
                 e = GearEnum.R;
-
+                break;
             case R:
                 e = GearEnum.N;
-
+                break;
             case N:
                 e = GearEnum.D;
-
+                break;
             case D:
                 e = GearEnum.D;
+                break;
             default:
                 break;
         }

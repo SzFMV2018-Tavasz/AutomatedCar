@@ -1,38 +1,28 @@
 package hu.oe.nik.szfmv.automatedcar.input;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class InputHandler implements KeyListener {
 
-    private static InputHandler instance = null;
-
+    private static final Logger LOGGER = LogManager.getLogger(InputHandler.class);
     private static final int STEERINGLEFTKEYCODE = KeyEvent.VK_LEFT;
-
     private static final int STEERINGRIGHTKEYCODE = KeyEvent.VK_RIGHT;
-
     private static final int RIGHTINDEXKEYCODE = KeyEvent.VK_1;
-
     private static final int LEFTINDEXKEYCODE = KeyEvent.VK_0;
-
     private static final int GASKEYCODE = KeyEvent.VK_UP;
-
     private static final int BRAKEKEYCODE = KeyEvent.VK_DOWN;
-
     private static final int GEARSHIFTUPKEYCODE = KeyEvent.VK_W;
-
     private static final int GEARSHIFTDOWNKEYCODE = KeyEvent.VK_S;
-
     private static final int LANEKEEPINGKEYCODE = KeyEvent.VK_L;
-
     private static final int ACCDISTANCEKEYCODE = KeyEvent.VK_T;
-
     private static final int ACCSPEEDINCREMENTKEYCODE = KeyEvent.VK_PLUS;
-
     private static final int ACCSPEEDDECREMENTKEYCODE = KeyEvent.VK_MINUS;
-
     private static final int PARKINGPILOTEKEYCODE = KeyEvent.VK_P;
-
+    private static InputHandler instance = null;
     private boolean steeringLeftPressed;
 
     private boolean steeringRightPressed;
@@ -131,6 +121,7 @@ public class InputHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         setKeyState(e.getKeyCode(), true);
+        LOGGER.debug(e.getKeyCode());
     }
 
     @Override

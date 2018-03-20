@@ -1,9 +1,9 @@
 package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.PowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
-import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,7 +25,7 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     private int brakePedalPosition;
     private double speed;                // Unit: m/s
 
-    private GearEnum gearState;
+    private GearEnum gearState = GearEnum.P;
     private int shiftLevel;
     private double orientationVector;    // it is a unit vector which reflects the car's orientation
 
@@ -79,20 +79,20 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
 
         if (isAccelerate) {
             speedDelta = orientationVector * (actualRPM * CarSpecifications.GEAR_RATIOS.get(shiftLevel)
-                    / (CarSpecifications.WEIGHT * WIND_RESISTANCE));
+                                                  / (CarSpecifications.WEIGHT * WIND_RESISTANCE));
         } else {
             speedDelta = -1 * orientationVector * (double) CarSpecifications.ENGINE_BRAKE_TORQUE *
-                    WIND_RESISTANCE / PERCENTAGE;
+                             WIND_RESISTANCE / PERCENTAGE;
         }
 
         if (isBraking) {
             speedDelta = -1 * orientationVector * ((CarSpecifications.MAX_BRAKE_SPEED / PERCENTAGE)
-                    * brakePedalPosition);
+                                                       * brakePedalPosition);
         }
 
         LOGGER.debug(":: calculateSpeedDifference() method called:\n{ IsAccelerate: " + isAccelerate
-                + ", IsBraking: " + isBraking + ", Speed difference (per sec): " + speedDelta
-                + ", Shift level: " + shiftLevel + ", Actual RPM: " + actualRPM + ". Actual speed: " + speed + " }");
+                         + ", IsBraking: " + isBraking + ", Speed difference (per sec): " + speedDelta
+                         + ", Shift level: " + shiftLevel + ", Actual RPM: " + actualRPM + ". Actual speed: " + speed + " }");
 
         return speedDelta / REFRESH_RATE;
     }
@@ -130,7 +130,7 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
             if ((shiftLevelChange > 0)) {
                 shiftLevel += shiftLevelChange;
                 LOGGER.debug(":: gearShiftWatcher() method called: Need to shifting up. New shiftlevel: "
-                        + shiftLevel);
+                                 + shiftLevel);
             } else {
                 LOGGER.debug(":: gearShiftWatcher() method called: Don't need to shift.");
             }
@@ -145,7 +145,7 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
             if ((shiftLevelChange < 0)) {
                 shiftLevel += shiftLevelChange;
                 LOGGER.debug(":: gearShiftWatcher() method called: Need to shifting down. New shiftlevel: "
-                        + shiftLevel);
+                                 + shiftLevel);
             } else {
                 LOGGER.debug(":: gearShiftWatcher() method called: Don't need to shift.");
             }
@@ -253,7 +253,7 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     public void getVirtualFunctionBusSignals() throws MissingPacketException {
         if (virtualFunctionBus.inputPacket == null) {
             throw new MissingPacketException("Powertrain try to read InputPacket signals from VirtualFunctionBus, " +
-                    "but InputPacket was not initiated");
+                                                 "but InputPacket was not initiated");
         } else {
             gasPedalPosition = virtualFunctionBus.inputPacket.getGasPedalPosition();
             brakePedalPosition = virtualFunctionBus.inputPacket.getBreakPedalPosition();
