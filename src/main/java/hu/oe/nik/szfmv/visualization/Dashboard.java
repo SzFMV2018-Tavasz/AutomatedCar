@@ -343,9 +343,13 @@ public class Dashboard extends JPanel {
      */
     private void initializeACCButtons() {
         accDistanceButtonMinus.setText("-");
+        accDistanceButtonMinus.setFocusable(false);
         accSpeedButtonMinus.setText("-");
+        accSpeedButtonMinus.setFocusable(false);
         accDistanceButtonPlus.setText("+");
+        accDistanceButtonPlus.setFocusable(false);
         accSpeedButtonPlus.setText("+");
+        accSpeedButtonPlus.setFocusable(false);
 
         accDistanceButtonMinus.addActionListener(e -> LOGGER.info("ACC dist. minus button pressed."));
         accDistanceButtonPlus.addActionListener(e -> LOGGER.info("ACC dist. plus button pressed."));
@@ -439,6 +443,7 @@ public class Dashboard extends JPanel {
         });
         lkaButton.setBounds(lkaButtonX, lkaButtonY, lkaButtonWidth, lkaButtonHeight);
         lkaButton.setText("LKA");
+        lkaButton.setFocusable(false);
         add(lkaButton);
     }
 
@@ -455,8 +460,8 @@ public class Dashboard extends JPanel {
         });
         ppButton.setBounds(ppButtonX, ppButtonY, ppButtonWidth, ppButtonHeight);
         ppButton.setText("PP");
+        ppButton.setFocusable(false);
         add(ppButton);
-        //ppSignLabel.setText("PP");
     }
 
     /**
