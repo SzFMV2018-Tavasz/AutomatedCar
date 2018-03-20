@@ -9,11 +9,11 @@ import org.junit.Test;
 import java.awt.geom.Point2D;
 
 public class CarPositionTest extends AutomatedCar {
+    private double THRESHOLD;
+
     public CarPositionTest() {
         super(0, 0, null);
     }
-
-    private double THRESHOLD;
 
     @Before
     public void setUp() {

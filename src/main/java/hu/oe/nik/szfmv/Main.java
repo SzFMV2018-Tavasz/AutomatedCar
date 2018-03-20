@@ -22,8 +22,6 @@ public class Main {
         final int worldHeight = 600;
         final int carX = 20;
         final int carY = 20;
-        final int carWidth = 108;
-        final int carHeight = 240;
         final int pedestrianX = 1350;
         final int pedestrianY = 500;
 
@@ -34,8 +32,6 @@ public class Main {
         World w = new World(worldWidth, worldHeight);
         // create an automated car
         AutomatedCar car = new AutomatedCar(carX, carY, "car_2_white.png");
-        car.setWidth(carWidth);
-        car.setHeight(carHeight);
         // add car to the world
         w.addObjectToWorld(car);
 

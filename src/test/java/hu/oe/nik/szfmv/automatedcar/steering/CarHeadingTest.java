@@ -3,21 +3,15 @@ package hu.oe.nik.szfmv.automatedcar.steering;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.SteeringMethods;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.geom.Point2D;
 
 public class CarHeadingTest extends AutomatedCar {
+    final double THRESHOLD = 0.0001d;
+
     public CarHeadingTest() {
         super(0, 0, null);
-    }
-
-    private double THRESHOLD;
-
-    @Before
-    public void setUp() {
-        THRESHOLD = 0.0001d;
     }
 
     @Test

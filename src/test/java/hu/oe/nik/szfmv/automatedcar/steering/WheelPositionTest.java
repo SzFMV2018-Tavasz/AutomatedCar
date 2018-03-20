@@ -9,13 +9,16 @@ import org.junit.Test;
 import java.awt.geom.Point2D;
 
 public class WheelPositionTest extends AutomatedCar {
-    public WheelPositionTest() {
-        super(0, 0, null);
-    }
-
     private double THRESHOLD;
     private Point2D carPosition;
     private double wheelBase;
+    private double eastRotation = Math.toRadians(0);
+    private double northRotation = Math.toRadians(-90);
+    private double northEastRotation = Math.toRadians(-45);
+
+    public WheelPositionTest() {
+        super(0, 0, null);
+    }
 
     @Before
     public void setUp() {
@@ -23,8 +26,6 @@ public class WheelPositionTest extends AutomatedCar {
         carPosition = new Point2D.Double(0, 0);
         wheelBase = 100;
     }
-
-    private double eastRotation = Math.toRadians(0);
 
     @Test
     public void FacingEastFrontWheelTest() {
@@ -52,8 +53,6 @@ public class WheelPositionTest extends AutomatedCar {
         }
     }
 
-    private double northRotation = Math.toRadians(-90);
-
     @Test
     public void FacingNorthFrontWheelTest() {
         for (int i = -10; i <= 10; i++) {
@@ -79,8 +78,6 @@ public class WheelPositionTest extends AutomatedCar {
             Assert.assertArrayEquals(expected, backWheelArray, THRESHOLD);
         }
     }
-
-    private double northEastRotation = Math.toRadians(-45);
 
     @Test
     public void FacingNorthEastFrontWheelTest() {
