@@ -14,6 +14,7 @@ public abstract class WorldObject implements IWorldObject {
     protected Point location;
     protected Point offsetVector;
     public Shape shape;
+
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
      *
@@ -24,11 +25,10 @@ public abstract class WorldObject implements IWorldObject {
     public WorldObject(int x, int y, String imageFileName) {
         this.location = new Point(x, y);
         this.imageFileName = imageFileName;
-        if(getWidth()==getHeight()){
-            this.shape=new Ellipse2D.Double(x,y,getWidth(),getHeight());
-        }
-        else {
-            this.shape=new Rectangle(x,y,getWidth(),getHeight());
+        if (getWidth() == getHeight()) {
+            this.shape = new Ellipse2D.Double(x, y, getWidth(), getHeight());
+        } else {
+            this.shape = new Rectangle(x, y, getWidth(), getHeight());
         }
 
     }
