@@ -20,6 +20,7 @@ public class VirtualFunctionBus {
     public ReadOnlySamplePacket samplePacket;
     public ReadOnlyInputPacket inputPacket;
     public ReadOnlyCarPacket carPacket;
+    public CarPacket setCarPacket;
 
     private List<SystemComponent> components = new ArrayList<>();
 
@@ -31,6 +32,7 @@ public class VirtualFunctionBus {
     public void registerComponent(SystemComponent comp) {
         components.add(comp);
         carPacket = new CarPacket();
+        setCarPacket = new CarPacket();
     }
 
     /**

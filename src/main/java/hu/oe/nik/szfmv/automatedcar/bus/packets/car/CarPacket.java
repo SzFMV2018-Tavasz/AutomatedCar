@@ -8,6 +8,9 @@ public class CarPacket implements ReadOnlyCarPacket {
     private Point rotationPoint;
     private double rotation;
 
+    /**
+     * Car packet constructor
+     */
     public CarPacket() {
         x = 0;
         y = 0;
