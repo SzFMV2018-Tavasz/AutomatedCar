@@ -6,6 +6,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringWheel;
 import hu.oe.nik.szfmv.environment.WorldObject;
 
 import java.awt.*;
@@ -18,6 +19,8 @@ public class AutomatedCar extends WorldObject {
     private double halfWidth;
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
+    private SteeringWheel steeringWheel;
+  
 
     /**
      * Constructor of the AutomatedCar class
@@ -46,6 +49,7 @@ public class AutomatedCar extends WorldObject {
         virtualFunctionBus.carPacket = new CarPacket(this.getX(), this.getY(), this.getRotation());
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
+        steeringWheel = new SteeringWheel(virtualFunctionBus);
 
         new Driver(virtualFunctionBus);
     }
