@@ -108,8 +108,8 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
             powertrainPacket.setRpm(CarSpecifications.IDLE_RPM);
             return CarSpecifications.IDLE_RPM;
         } else {
-            double multiplier = (double) CarSpecifications.MAX_RPM / PERCENTAGE;
-            int actualRpm = (int) (gaspedalPosition * multiplier);
+            double multiplier = ((double) (CarSpecifications.MAX_RPM - CarSpecifications.IDLE_RPM) / PERCENTAGE);
+            int actualRpm = (int) ((gaspedalPosition * multiplier) + CarSpecifications.IDLE_RPM);
             powertrainPacket.setRpm(actualRpm);
             return actualRpm;
         }
