@@ -65,7 +65,7 @@ public class AutomatedCar extends WorldObject {
     private void calculatePositionAndOrientation() {
 
         final double testSpeed = 10;
-        double angularSpeed = -100;
+        double angularSpeed = 100;
         final double fps = 1;
         final int threeQuarterCircle = 270;
         try {
