@@ -312,6 +312,9 @@ public class Dashboard extends JPanel {
         initializeAccStatePanel();
     }
 
+    /**
+     * Initializes the speed and RPM labels on the dashboard
+     */
     private void initializeSpeedRPMLabels() {
         rpmLabel.setBounds(rpmLabelX, rpmLabelY, rpmLabelWidth, rpmLabelHeight);
         add(rpmLabel);
