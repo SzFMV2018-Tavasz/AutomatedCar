@@ -40,7 +40,7 @@ public class Dashboard extends JPanel {
     private final JPanel accStatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private final int accStatePanelX = 0;
     private final int accStatePanelY = 280;
-    private final int accStatePanelWidth = 115;
+    private final int accStatePanelWidth = 130;
     private final int accStatePanelHeight = 100;
 
     private final JButton accDistanceButtonMinus = new JButton();
@@ -48,7 +48,7 @@ public class Dashboard extends JPanel {
     private final JButton accSpeedButtonMinus = new JButton();
     private final JButton accSpeedButtonPlus = new JButton();
 
-    private final int accLabelSize = 20;
+    private final int accLabelSize = 30;
     private final JPanel accDistancePanel = new JPanel();
     private final JPanel accSpeedPanel = new JPanel();
     private final JLabel accDistanceLabel = new JLabel();
@@ -57,9 +57,9 @@ public class Dashboard extends JPanel {
     /**
      * Road sign
      */
-    private final int roadSignPanelX = 120;
+    private final int roadSignPanelX = 130;
     private final int roadSignPanelY = 280;
-    private final int roadSignPanelWidth = 115;
+    private final int roadSignPanelWidth = 110;
     private final int roadSignPanelHeight = 115;
     private final JPanel roadSignPanel = new JPanel();
     private final JLabel roadSignIcon = new JLabel();
@@ -83,13 +83,13 @@ public class Dashboard extends JPanel {
     /**
      * Steering wheel
      */
-    private final int wheelTextLabelX = 10;
-    private final int wheelTextLabelY = 500;
+    private final int wheelTextLabelX = 20;
+    private final int wheelTextLabelY = 520;
     private final int wheelTextLabelWidth = 100;
     private final int wheelTextLabelHeight = 20;
     private final JLabel wheelTextLabel = new JLabel();
-    private final int wheelValueLabelX = 110;
-    private final int wheelValueLabelY = 500;
+    private final int wheelValueLabelX = 120;
+    private final int wheelValueLabelY = 520;
     private final int wheelValueLabelWidth = 50;
     private final int wheelValueLabelHeight = 20;
     private final JLabel wheelValueLabel = new JLabel();
@@ -109,7 +109,7 @@ public class Dashboard extends JPanel {
      */
     private final int ppButtonX = 65;
     private final int ppButtonY = 350;
-    private final int ppButtonWidth = 50;
+    private final int ppButtonWidth = 60;
     private final int ppButtonHeight = 30;
     private JButton ppButton = new JButton();
     private boolean ppOn = false;
