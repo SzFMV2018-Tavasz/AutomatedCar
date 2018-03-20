@@ -73,7 +73,7 @@ public class PowertrainSystemTest {
             //Thread.sleep(25);
             this.powertrainSystem.loopTest();
         }
-        assertEquals(CarSpecifications.MAX_REVERSE_SPEED, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.15);
+        assertEquals(CarSpecifications.MAX_REVERSE_SPEED, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.3);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class PowertrainSystemTest {
         this.powertrainSystem = new PowertrainSystem(virtualFunctionBus, 50);
         setValues(0, 0, GearEnum.D);
 
-        for (int i = 0; i < 3000; i++) {
+        for (int i = 0; i < 4500; i++) {
             //Thread.sleep(25);
             this.powertrainSystem.loopTest();
         }
