@@ -16,7 +16,7 @@ public class Tree extends Stationary {
     }
 
     //Circle radius for shape property
-    //For more information please see Issue
+    //For more information please see Issue #221
     private static double CIRCLEDIAMETER = 15;
 
     /**

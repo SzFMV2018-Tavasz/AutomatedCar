@@ -14,7 +14,8 @@ public class RoadSign extends Stationary {
     public RoadSign(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
     }
-
+    //Circle radius for shape property
+    //For more information please see Issue #221
     private static double CIRCLEDIAMETER = 3;
 
     /**
