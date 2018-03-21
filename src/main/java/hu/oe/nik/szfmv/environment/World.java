@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.environment;
 
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.detector.classes.Detector;
 import hu.oe.nik.szfmv.environment.interfaces.IWorld;
 import org.apache.logging.log4j.LogManager;
@@ -70,6 +71,7 @@ public class World implements IWorld {
     public void build(String xmlLocation) {
         try {
             worldObjects = XmlToModelConverter.build(xmlLocation);
+            PowertrainSystem.carCollide();
         } catch (Exception ex) {
             LOGGER.info("Error in World build - " + ex.getMessage());
         }

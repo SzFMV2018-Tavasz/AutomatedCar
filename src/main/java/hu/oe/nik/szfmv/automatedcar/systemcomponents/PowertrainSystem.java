@@ -14,20 +14,20 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
 
     private static final Logger LOGGER = LogManager.getLogger(PowertrainSystem.class);
     private static final double WIND_RESISTANCE = 2;
-    private static final double REFRESH_RATE = 40;  // 1 sec / 0.025 sec
+    private static final double REFRESH_RATE = 40;          // 1 sec / 0.025 sec
     private static final int PERCENTAGE = 100;
-
-    private PowertrainPacket powertrainPacket;
+    private static final double SLOWDOWN_DEGREE = 0.3;
+    private static double speed;                            // Unit: m/s
+    private static PowertrainPacket powertrainPacket;
 
     private int expectedRPM;
     private int actualRPM;
     private int gasPedalPosition;
     private int brakePedalPosition;
-    private double speed;                // Unit: m/s
+    private double orientationVector;    // it is a unit vector which reflects the car's orientation
 
     private GearEnum gearState;
     private int shiftLevel;
-    private double orientationVector;    // it is a unit vector which reflects the car's orientation
 
     /**
      * Creates a powertrain system that connects the Virtual Function Bus
@@ -244,9 +244,17 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
      *
      * @param speedDelta speed delta
      */
-    private void adjustSpeed(double speedDelta) {
+    private static void adjustSpeed(double speedDelta) {
         speed += speedDelta;
         powertrainPacket.setSpeed(speed);
+    }
+
+    /**
+     * This method slowing down the car 30 percent of the speed, when its collide traffic sign or NPC car.
+     */
+    public static void carCollide() {
+        double speedDelta = -1 * speed * SLOWDOWN_DEGREE;
+        adjustSpeed(speedDelta);
     }
 
     @Override
