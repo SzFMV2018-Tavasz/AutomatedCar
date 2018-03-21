@@ -26,6 +26,7 @@ public class Detector implements ICamera, IRadarUltrasonic {
      * @param a first point of the triangle
      * @param b second point of the triangle
      * @param c third point of the triangle
+     * @return Polygon created from the three points.
      */
     private Polygon createTriangle(Point a, Point b, Point c) {
         Polygon p = new Polygon();
@@ -36,8 +37,15 @@ public class Detector implements ICamera, IRadarUltrasonic {
         return p;
     }
 
-    private List<WorldObject> getTheObjectsWhichAreInTheTriangle
-            (Point a, Point b, Point c) {
+    /**
+     * Creates a list of WorldObjects which are in the triangle
+     *
+     * @param a first point of the triangle
+     * @param b second point of the triangle
+     * @param c third point of the triangle
+     * @return List<WorldObject> which contains the object which are in the triangle
+     */
+    private List<WorldObject> getTheObjectsWhichAreInTheTriangle(Point a, Point b, Point c) {
         Shape sensorVision = createTriangle(a, b, c);
         List<WorldObject> noticeableObjects = new ArrayList<WorldObject>();
         for (int x = 0; x < worldObjects.size(); x++) {

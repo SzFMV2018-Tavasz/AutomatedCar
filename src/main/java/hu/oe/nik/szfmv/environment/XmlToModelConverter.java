@@ -67,8 +67,7 @@ public abstract class XmlToModelConverter {
      * @throws XMLSignatureException thrown if tag missing from XmlObject
      * @throws IOException           thrown if WorldObject representative picture not found
      */
-    private static WorldObject readValueFromXml
-    (Element objectElement)
+    private static WorldObject readValueFromXml(Element objectElement)
             throws XMLSignatureException, IOException {
 
         //Find Position, Transform, type parameter in current object.
