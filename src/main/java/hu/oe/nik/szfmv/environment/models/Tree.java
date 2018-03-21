@@ -1,5 +1,8 @@
 package hu.oe.nik.szfmv.environment.models;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+
 public class Tree extends Stationary {
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
@@ -12,10 +15,22 @@ public class Tree extends Stationary {
         super(x, y, imageFileName);
     }
 
+    //Circle radius for shape property
+    //For more information please see Issue
+    private static double CIRCLEDIAMETER = 15;
+
     /**
      * Creates an object with default parameter values.
      */
     public Tree() {
         super(0, 0, null);
+    }
+
+    @Override
+    public void generateShape() {
+        this.shape = (Shape) new Ellipse2D.Double(
+                this.getX() + this.getWidth() / 2,
+                this.getY() + this.getHeight() / 2,
+                CIRCLEDIAMETER, CIRCLEDIAMETER);
     }
 }

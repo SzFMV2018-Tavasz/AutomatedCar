@@ -2,7 +2,12 @@ package hu.oe.nik.szfmv.environment;
 
 import hu.oe.nik.szfmv.environment.interfaces.IWorldObject;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public abstract class WorldObject implements IWorldObject {
 
@@ -80,14 +85,8 @@ public abstract class WorldObject implements IWorldObject {
         return this.imageFileName;
     }
 
-    public Shape getShape() { return shape; }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
+    public Shape getShape() {
+        return this.shape;
     }
 
     public void setRotation(float rotation) {
@@ -98,7 +97,27 @@ public abstract class WorldObject implements IWorldObject {
         this.imageFileName = imageFileName;
     }
 
-    public void setShape(Shape shape) { this.shape = shape; }
+    public void generateDimens() throws IOException {
+        BufferedImage image = ImageIO.read(
+                new File(
+                        ClassLoader.getSystemResource(this.getImageFileName())
+                                .getFile()));
+        width = image.getWidth();
+        height = image.getHeight();
+    }
+
+    public void generateShape() {
+        AffineTransform tx = new AffineTransform();
+        tx.rotate(this.getRotation(), this.getX(), this.getY());
+        this.shape = tx.createTransformedShape(
+                new Rectangle(
+                        this.getX(),
+                        this.getY(),
+                        this.getWidth(),
+                        this.getHeight()
+                )
+        );
+    }
 
     @Override
     public String toString() {

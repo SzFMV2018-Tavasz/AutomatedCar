@@ -13,13 +13,11 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import javax.imageio.ImageIO;
 import javax.xml.crypto.dsig.XMLSignatureException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,7 +59,6 @@ public abstract class XmlToModelConverter {
             }
         }
         return objectListToReturn;
-
     }
 
     /**
@@ -97,9 +94,7 @@ public abstract class XmlToModelConverter {
         wo.setImageFileName(type + ".png");
 
         //set dimens
-        Integer[] dimens = getDimensFromPicture(wo);
-        wo.setWidth(dimens[0]);
-        wo.setHeight(dimens[1]);
+        wo.generateDimens();
 
         //Set position
         Integer[] points = getPointsFromPositionElement(position);
@@ -107,15 +102,13 @@ public abstract class XmlToModelConverter {
         wo.setY(points[1]);
 
         //Set rotation
-        wo.setRotation(getRotacionfromTransFormElement(transform));
+        wo.setRotation(getRotacionFromTransformElement(transform));
 
-        //Testing Shape drowing
-        wo.setShape(new Rectangle(wo.getX(),wo.getY(),wo.getWidth(),wo.getHeight()));
+        //Shape drowing
+        wo.generateShape();
 
-        LOGGER.error(wo.toString());
+        LOGGER.debug(wo.toString());
         return wo;
-
-
     }
 
     /**
@@ -176,7 +169,7 @@ public abstract class XmlToModelConverter {
      * @return rotacion param
      * @throws XMLSignatureException transform matrix error
      */
-    private static float getRotacionfromTransFormElement
+    private static float getRotacionFromTransformElement
     (Element transform) throws XMLSignatureException {
         //Inicialize
         double m11;
@@ -195,23 +188,4 @@ public abstract class XmlToModelConverter {
             throw new XMLSignatureException("Invalid format: Transform attributes is not Double: " + e.getMessage());
         }
     }
-
-    /**
-     * @param wo WorldObject
-     * @return picture dimension param
-     * @throws IOException picture not found
-     */
-    private static Integer[] getDimensFromPicture
-    (WorldObject wo) throws IOException {
-        //dimens[0]=>Width
-        //dimens[1]=>Height
-        Integer[] dimens = new Integer[2];
-        //get picture
-        BufferedImage image = ImageIO.read(new File(ClassLoader.getSystemResource(wo.getImageFileName()).getFile()));
-        //get picture dimens
-        dimens[0] = image.getWidth();
-        dimens[1] = image.getHeight();
-        return dimens;
-    }
-
 }
