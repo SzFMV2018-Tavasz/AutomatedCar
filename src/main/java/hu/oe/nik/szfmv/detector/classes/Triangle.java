@@ -17,19 +17,22 @@ public class Triangle {
      * @param sensorRotation - in degrees (Double)
      * @return a Point array with 3 elemtns. First element: start point, second element: A point, third element: B
      */
-    public static Point[] TrianglePoints(Point start, Double vectorLength, Double degree, Double sensorRotation) {
+    public static Point[] trianglePoints(Point start, Double vectorLength, Double degree, Double sensorRotation) {
+        final Double utilAngle = 90.0;
+        final int numberOfPoints = 3;
+        Point[] triangle = new Point[numberOfPoints];
+
         Double newLength = vectorLength / Math.cos(Math.toRadians(degree / 2));
 
-        Point aPoint = getPolarPoint(newLength, utilAngle + degree / 2 + sensorRotation);
-        Point bPoint = getPolarPoint(newLength, utilAngle - degree / 2 + sensorRotation);
+        Point pointA = getPolarPoint(newLength, utilAngle + degree / 2 + sensorRotation);
+        Point pointB = getPolarPoint(newLength, utilAngle - degree / 2 + sensorRotation);
 
-        aPoint = movePoint(aPoint, start);
-        bPoint = movePoint(bPoint, start);
-
-        Point[] triangle = new Point[numberOfPoints];
+        pointA = movePoint(pointA, start);
+        pointB = movePoint(pointB, start);
+        
         triangle[0] = start;
-        triangle[1] = aPoint;
-        triangle[2] = bPoint;
+        triangle[1] = pointA;
+        triangle[2] = pointB;
         return triangle;
     }
 
