@@ -1,11 +1,11 @@
 package hu.oe.nik.szfmv.environment;
 
 import hu.oe.nik.szfmv.environment.interfaces.IWorldObject;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.awt.geom.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -13,10 +13,11 @@ public abstract class WorldObject implements IWorldObject {
 
     protected int width;
     protected int height;
-    protected float rotation = 0f;
+    protected double rotation = 0f;
     protected String imageFileName;
     protected Point location;
     protected Point offsetVector;
+    public Shape shape;
 
     protected Shape shape;
 
@@ -30,6 +31,12 @@ public abstract class WorldObject implements IWorldObject {
     public WorldObject(int x, int y, String imageFileName) {
         this.location = new Point(x, y);
         this.imageFileName = imageFileName;
+        if (getWidth() == getHeight()) {
+            this.shape = new Ellipse2D.Double(x, y, getWidth(), getHeight());
+        } else {
+            this.shape = new Rectangle(x, y, getWidth(), getHeight());
+        }
+
     }
 
     public WorldObject(Point location, String imageFileName) {
@@ -77,7 +84,7 @@ public abstract class WorldObject implements IWorldObject {
         return this.height;
     }
 
-    public float getRotation() {
+    public double getRotation() {
         return this.rotation;
     }
 
@@ -89,7 +96,7 @@ public abstract class WorldObject implements IWorldObject {
         return this.shape;
     }
 
-    public void setRotation(float rotation) {
+    public void setRotation(double rotation) {
         this.rotation = rotation;
     }
 

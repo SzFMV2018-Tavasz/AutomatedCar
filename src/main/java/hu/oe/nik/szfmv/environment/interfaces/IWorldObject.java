@@ -8,7 +8,7 @@ import java.awt.*;
  */
 public interface IWorldObject {
 
-    float getRotation();
+    double getRotation();
 
     String getImageFileName();
 
