@@ -7,9 +7,7 @@ import java.awt.Point;
  * Create Triangle
  */
 public class Triangle {
-
-    private static final Double utilAngle = 90.0;
-    private static final int numberOfPoints = 3;
+    
     /**
      * @param start - Start point of the sensor (Point)
      * @param vectorLength -view range of the sensor (Double)
@@ -29,7 +27,7 @@ public class Triangle {
 
         pointA = movePoint(pointA, start);
         pointB = movePoint(pointB, start);
-        
+
         triangle[0] = start;
         triangle[1] = pointA;
         triangle[2] = pointB;
