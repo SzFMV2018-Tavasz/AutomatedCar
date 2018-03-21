@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
 public class RoadSign extends Stationary {
+    private static double CIRCLEDIAMETER = 3;
+
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
      *
@@ -14,9 +16,6 @@ public class RoadSign extends Stationary {
     public RoadSign(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
     }
-    //Circle radius for shape property
-    //For more information please see Issue #221
-    private static double CIRCLEDIAMETER = 3;
 
     /**
      * Creates an object with default parameter values.
@@ -28,6 +27,8 @@ public class RoadSign extends Stationary {
 
     @Override
     public void generateShape() {
+        //Circle radius for shape property
+        //For more information please see Issue #221
         this.shape = (Shape) new Ellipse2D.Double(
                 this.getX() + this.getWidth() / 2,
                 this.getY() + this.getHeight() / 2,

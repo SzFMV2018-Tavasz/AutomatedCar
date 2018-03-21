@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
 public class Tree extends Stationary {
+
+    private static double CIRCLEDIAMETER = 15;
+
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
      *
@@ -15,10 +18,6 @@ public class Tree extends Stationary {
         super(x, y, imageFileName);
     }
 
-    //Circle radius for shape property
-    //For more information please see Issue #221
-    private static double CIRCLEDIAMETER = 15;
-
     /**
      * Creates an object with default parameter values.
      */
@@ -28,6 +27,7 @@ public class Tree extends Stationary {
 
     @Override
     public void generateShape() {
+        //For more information please see Issue #221
         this.shape = (Shape) new Ellipse2D.Double(
                 this.getX() + this.getWidth() / 2,
                 this.getY() + this.getHeight() / 2,

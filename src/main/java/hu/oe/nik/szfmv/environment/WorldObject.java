@@ -96,7 +96,10 @@ public abstract class WorldObject implements IWorldObject {
     public void setImageFileName(String imageFileName) {
         this.imageFileName = imageFileName;
     }
-
+    /**
+     * This method get and store attribute from imageFile
+     * @throws IOException when image not found
+     */
     public void generateDimens() throws IOException {
         BufferedImage image = ImageIO.read(
                 new File(
@@ -105,7 +108,10 @@ public abstract class WorldObject implements IWorldObject {
         width = image.getWidth();
         height = image.getHeight();
     }
-
+    /**
+     * This method create Rectangle
+     *
+     */
     public void generateShape() {
         AffineTransform tx = new AffineTransform();
         tx.rotate(this.getRotation(), this.getX(), this.getY());

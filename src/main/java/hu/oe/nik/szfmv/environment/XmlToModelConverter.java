@@ -65,9 +65,10 @@ public abstract class XmlToModelConverter {
      * @param objectElement A Xml Object that can be converted to WorldObject
      * @return WorldObject created from Xml Object
      * @throws XMLSignatureException thrown if tag missing from XmlObject
+     * @throws IOException thrown if WorldObject representative picture not found
      */
-    private static WorldObject readValueFromXml
-    (Element objectElement) throws XMLSignatureException, IOException {
+    private static WorldObject readValueFromXml(Element objectElement)
+            throws XMLSignatureException, IOException {
 
         //Find Position, Transform, type parameter in current object.
         String type = objectElement.getAttribute("type");
@@ -150,8 +151,8 @@ public abstract class XmlToModelConverter {
      * @return Array of integer, contains point parameter
      * @throws XMLSignatureException position parse error
      */
-    private static Integer[] getPointsFromPositionElement
-    (Element position) throws XMLSignatureException {
+    private static Integer[] getPointsFromPositionElement(Element position)
+            throws XMLSignatureException {
         //points[0]=>x
         //points[1]=>y
         Integer[] points = new Integer[2];
@@ -169,8 +170,8 @@ public abstract class XmlToModelConverter {
      * @return rotacion param
      * @throws XMLSignatureException transform matrix error
      */
-    private static float getRotacionFromTransformElement
-    (Element transform) throws XMLSignatureException {
+    private static float getRotacionFromTransformElement(Element transform)
+            throws XMLSignatureException {
         //Inicialize
         double m11;
         double m12;
