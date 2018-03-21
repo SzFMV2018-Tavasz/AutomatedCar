@@ -8,7 +8,7 @@ public abstract class WorldObject implements IWorldObject {
 
     protected int width;
     protected int height;
-    protected float rotation = 0f;
+    protected double rotation = 0f;
     protected String imageFileName;
     protected Point location;
     protected Point offsetVector;
@@ -70,7 +70,7 @@ public abstract class WorldObject implements IWorldObject {
         return this.height;
     }
 
-    public float getRotation() {
+    public double getRotation() {
         return this.rotation;
     }
 
@@ -86,7 +86,7 @@ public abstract class WorldObject implements IWorldObject {
         this.height = height;
     }
 
-    public void setRotation(float rotation) {
+    public void setRotation(double rotation) {
         this.rotation = rotation;
     }
 
