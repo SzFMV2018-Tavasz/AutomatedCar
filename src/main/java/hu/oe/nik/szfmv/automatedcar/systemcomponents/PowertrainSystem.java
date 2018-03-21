@@ -20,13 +20,13 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     private static double speed;                            // Unit: m/s
     private static PowertrainPacket powertrainPacket;
 
+    private GearEnum gearState;
+
     private int expectedRPM;
     private int actualRPM;
     private int gasPedalPosition;
     private int brakePedalPosition;
     private double orientationVector;    // it is a unit vector which reflects the car's orientation
-
-    private GearEnum gearState;
     private int shiftLevel;
 
     /**
