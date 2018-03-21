@@ -50,7 +50,7 @@ public class AutomatedCar extends WorldObject {
         new GasBrake(virtualFunctionBus);
         new Index(virtualFunctionBus);
         new GearShift(virtualFunctionBus);
-//        powertrainSystem = new PowertrainSystem(virtualFunctionBus);
+        powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         steeringWheel = new SteeringWheel(virtualFunctionBus);
 
@@ -75,8 +75,7 @@ public class AutomatedCar extends WorldObject {
      */
     private void calculatePositionAndOrientation() {
 
-        final double testSpeed = 0;
-//        final double testSpeed = virtualFunctionBus.powertrainPacket.getSpeed();
+        final double testSpeed = virtualFunctionBus.powertrainPacket.getSpeed();
 
         double angularSpeed = 0;
         final double fps = 1;

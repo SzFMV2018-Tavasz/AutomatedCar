@@ -121,7 +121,7 @@ public class InputHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         setKeyState(e.getKeyCode(), true);
-        LOGGER.debug(e.getKeyCode());
+//        LOGGER.debug(e.getKeyCode());
     }
 
     @Override

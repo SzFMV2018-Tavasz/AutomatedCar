@@ -12,7 +12,7 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     private int brakepedalvalue;
 
-    private GearEnum gearEnum;
+    private GearEnum gearEnum = GearEnum.P;
 
     private boolean leftIndexOn;
 

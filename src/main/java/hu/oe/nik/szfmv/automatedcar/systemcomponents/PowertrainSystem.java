@@ -90,9 +90,9 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
                                                        * brakePedalPosition);
         }
 
-        LOGGER.debug(":: calculateSpeedDifference() method called:\n{ IsAccelerate: " + isAccelerate
-                         + ", IsBraking: " + isBraking + ", Speed difference (per sec): " + speedDelta
-                         + ", Shift level: " + shiftLevel + ", Actual RPM: " + actualRPM + ". Actual speed: " + speed + " }");
+//        LOGGER.debug(":: calculateSpeedDifference() method called:\n{ IsAccelerate: " + isAccelerate
+//        +", IsBraking: " + isBraking + ", Speed difference (per sec): " + speedDelta
+//            + ", Shift level: " + shiftLevel + ", Actual RPM: " + actualRPM + ". Actual speed: " + speed + " }")
 
         return speedDelta / REFRESH_RATE;
     }

@@ -22,7 +22,11 @@ public class GearShift extends SystemComponent {
 
         inputPacket = InputPacket.getInstance();
 
-        gearShiftsate = GearEnum.P;
+        //ha nincs itt beállítva akkor null, ha a P-re tesszük, akkor félő, hogy mindig az marad
+        //A kiolvasással sem jobb monjuk, bár a kezdőérték már P
+//        gearShiftsate = GearEnum.P;
+        gearShiftsate = inputPacket.getGearState();
+
         virtualFunctionBus.inputPacket = inputPacket;
         inputHandler = InputHandler.getInstance();
 
@@ -31,9 +35,9 @@ public class GearShift extends SystemComponent {
     @Override
     public void loop() {
 
-//        if (inputHandler.isGearShiftDownPressed() && inputHandler.isGearShiftUpPressed()) {
-//            return;
-//        }
+        if (inputHandler.isGearShiftDownPressed() && inputHandler.isGearShiftUpPressed()) {
+            return;
+        }
 
         if (inputHandler.isGearShiftUpPressed()) {
             gearShiftsate = gearShiftUp();
@@ -43,6 +47,7 @@ public class GearShift extends SystemComponent {
         }
         inputPacket.setGearSate(gearShiftsate);
 
+//        System.out.println(inputPacket.getGearState());
 
     }
 
@@ -52,7 +57,7 @@ public class GearShift extends SystemComponent {
      * @return the gearshift
      */
     private GearEnum gearShiftDown() {
-        GearEnum e = GearEnum.P;
+        GearEnum e;
         switch (gearShiftsate) {
             case P:
                 e = GearEnum.D;
@@ -80,7 +85,7 @@ public class GearShift extends SystemComponent {
      * @return the gearshift
      */
     private GearEnum gearShiftUp() {
-        GearEnum e = GearEnum.P;
+        GearEnum e;
         switch (gearShiftsate) {
             case P:
                 e = GearEnum.R;
@@ -95,6 +100,7 @@ public class GearShift extends SystemComponent {
                 e = GearEnum.D;
                 break;
             default:
+                e = GearEnum.P;
                 break;
         }
 
