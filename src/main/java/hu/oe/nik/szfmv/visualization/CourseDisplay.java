@@ -28,7 +28,7 @@ public class CourseDisplay extends JPanel {
     private static final String referencePointsURI = "./src/main/resources/reference_points.xml";
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private final float scale = 0.55F;
+    private final float scale = 0.5F;
     private final int width = 770;
     private final int height = 700;
     private final int backgroundColor = 0xEEEEEE;
@@ -37,10 +37,11 @@ public class CourseDisplay extends JPanel {
     private final int courseWidth = 5120;
     private final int courseHeight = 3000;
 
-    private int offsetX = 0;
-    private int offsetY = 0;
     private World world;
-    private BufferedImage env = null;
+    // roadsigns and trees
+    private BufferedImage staticEnvironmentZ1 = null;
+    // other static objects
+    private BufferedImage staticEnvironmentZ0 = null;
 
     /**
      * Initialize the course display
@@ -75,15 +76,17 @@ public class CourseDisplay extends JPanel {
             LOGGER.error(e.getMessage());
         }
 
-        Point center = referencePoints.getOrDefault(object.getImageFileName(), null);
-        if (center == null) {
-            center = new Point(0, 0);
+        // referencePoint is the red dot on the pictures from wiki, stored in xml, default
+        // point is (0,0).
+        Point referencePoint = referencePoints.getOrDefault(object.getImageFileName(), null);
+        if (referencePoint == null) {
+            referencePoint = new Point(0, 0);
         }
 
         AffineTransform at = new AffineTransform();
         at.scale(scale, scale);
-        at.rotate(-object.getRotation(), object.getX(), object.getY());
-        at.translate(object.getX() - center.x + offsetX, object.getY() - center.y + offsetY);
+        at.rotate(-object.getRotation(), object.getX() + offsetX, object.getY() + offsetY);
+        at.translate(object.getX() - referencePoint.x +offsetX , object.getY() - referencePoint.y + offsetY );
 
         ((Graphics2D) g).drawImage(image, at, this);
     }
@@ -130,6 +133,8 @@ public class CourseDisplay extends JPanel {
      * @return offset value to move camera with
      */
     private Point getOffset(int scaledWidth, int scaledHeight, AutomatedCar car) {
+        int offsetX = 0;
+        int offsetY = 0;
         int diffX = (scaledWidth / 2) - car.getX() - carWidth / 2;
         if (diffX < 0) {
             offsetX = diffX;
@@ -170,16 +175,16 @@ public class CourseDisplay extends JPanel {
         int scaledWidth = (int) (width / scale);
         int scaledHeight = (int) (height / scale);
         Point offset = getOffset(scaledWidth, scaledHeight, car);
-        offsetX = offset.x;
-        offsetY = offset.y;
-        if (env == null) {
-            env = drawEnvironment();
+        if (staticEnvironmentZ0 == null) {
+            staticEnvironmentZ0 = drawEnvironment();
         }
-        g.drawImage(env, offsetX, offsetY, this);
+        g.drawImage(staticEnvironmentZ0, offset.x, offset.y, this);
         for (WorldObject object : this.world.getWorldObjects()) {
-            if (Movable.class.isAssignableFrom(object.getClass()) ||
-                    AutomatedCar.class.isAssignableFrom(object.getClass())) {
-                drawWorldObject(object, g, offsetX, offsetY);
+            if (AutomatedCar.class.isAssignableFrom(object.getClass())) {
+                drawWorldObject(object, g, offset.x, offset.y);
+            }
+            if (Movable.class.isAssignableFrom(object.getClass())) {
+                drawWorldObject(object, g, 2*offset.x, 2*offset.y);
             }
         }
     }
