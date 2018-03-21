@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.environment;
 
 import hu.oe.nik.szfmv.environment.interfaces.IWorldObject;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -17,8 +18,6 @@ public abstract class WorldObject implements IWorldObject {
     protected String imageFileName;
     protected Point location;
     protected Point offsetVector;
-    public Shape shape;
-
     protected Shape shape;
 
     /**
@@ -31,14 +30,14 @@ public abstract class WorldObject implements IWorldObject {
     public WorldObject(int x, int y, String imageFileName) {
         this.location = new Point(x, y);
         this.imageFileName = imageFileName;
-        if (getWidth() == getHeight()) {
-            this.shape = new Ellipse2D.Double(x, y, getWidth(), getHeight());
-        } else {
-            this.shape = new Rectangle(x, y, getWidth(), getHeight());
-        }
-
     }
 
+    /**
+     * Creates an object of the virtual world on the given coordinates with the given image.
+     *
+     * @param location      the initial location coordinate of the object
+     * @param imageFileName the filename of the image representing the object in the virtual world
+     */
     public WorldObject(Point location, String imageFileName) {
         this.location = location;
         this.imageFileName = imageFileName;
@@ -80,8 +79,17 @@ public abstract class WorldObject implements IWorldObject {
         return this.width;
     }
 
+
     public int getHeight() {
         return this.height;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     public double getRotation() {
@@ -103,8 +111,10 @@ public abstract class WorldObject implements IWorldObject {
     public void setImageFileName(String imageFileName) {
         this.imageFileName = imageFileName;
     }
+
     /**
      * This method get and store attribute from imageFile
+     *
      * @throws IOException when image not found
      */
     public void generateDimens() throws IOException {
@@ -115,9 +125,9 @@ public abstract class WorldObject implements IWorldObject {
         width = image.getWidth();
         height = image.getHeight();
     }
+
     /**
      * This method create Rectangle
-     *
      */
     public void generateShape() {
         AffineTransform tx = new AffineTransform();

@@ -1,15 +1,11 @@
 package hu.oe.nik.szfmv.detector.classes;
 
-
 import hu.oe.nik.szfmv.detector.interfaces.ICamera;
 import hu.oe.nik.szfmv.detector.interfaces.IRadarUltrasonic;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Collidable;
 
-import javax.lang.model.type.IntersectionType;
 import java.awt.*;
-import java.awt.geom.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,28 +20,29 @@ public class Detector implements ICamera, IRadarUltrasonic {
         this.worldObjects = worldObjects;
     }
 
+    /**
+     * Creates a triangle from the three points.
+     *
+     * @param a first point of the triangle
+     * @param b second point of the triangle
+     * @param c third point of the triangle
+     */
+    private Polygon createTriangle(Point a, Point b, Point c) {
+        Polygon p = new Polygon();
+        p.addPoint(a.x, a.y);
+        p.addPoint(b.x, b.y);
+        p.addPoint(c.x, c.y);
 
-    private Polygon CreateTriangle(Point a, Point b, Point c) {
-        int[] XArray = new int[3];
-        XArray[0] = a.x;
-        XArray[1] = b.x;
-        XArray[2] = c.x;
-        int[] YArray = new int[3];
-        YArray[0] = a.y;
-        YArray[1] = b.y;
-        YArray[2] = c.y;
-
-        return new Polygon(XArray, YArray, 3);
+        return p;
     }
 
-    @Override
-    public List<WorldObject> getWorldObjects(Point a, Point b, Point c) {
-
-        Shape sensorVision = CreateTriangle(a, b, c);
+    private List<WorldObject> getTheObjectsWhichAreInTheTriangle
+            (Point a, Point b, Point c) {
+        Shape sensorVision = createTriangle(a, b, c);
         List<WorldObject> noticeableObjects = new ArrayList<WorldObject>();
-        for (int x = 0; x < worldObjects.size(); x = x + 1) {
+        for (int x = 0; x < worldObjects.size(); x++) {
             WorldObject actualObject = worldObjects.get(x);
-            if (actualObject.shape.intersects(sensorVision.getBounds())) {
+            if (actualObject.getShape().intersects(sensorVision.getBounds())) {
                 noticeableObjects.add(actualObject);
             }
         }
@@ -53,9 +50,20 @@ public class Detector implements ICamera, IRadarUltrasonic {
     }
 
     @Override
-    public List<Collidable> getCollidableObjects(Point a, Point b, Point c) {
-        List<Collidable> noticeableObjects = new ArrayList<Collidable>();
+    public List<WorldObject> getWorldObjects(Point a, Point b, Point c) {
+        return getTheObjectsWhichAreInTheTriangle(a, b, c);
+    }
 
+    @Override
+    public List<Collidable> getCollidableObjects(Point a, Point b, Point c) {
+        List<WorldObject> allObjectsInTheTriangle =
+                getTheObjectsWhichAreInTheTriangle(a, b, c);
+        List<Collidable> noticeableObjects = new ArrayList<Collidable>();
+        for (int i = 0; i < allObjectsInTheTriangle.size(); i++) {
+            if (allObjectsInTheTriangle.get(i) instanceof Collidable) {
+                noticeableObjects.add((Collidable) allObjectsInTheTriangle.get(i));
+            }
+        }
         return noticeableObjects;
     }
 }
