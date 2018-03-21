@@ -1,12 +1,15 @@
 package hu.oe.nik.szfmv.detector.classes;
 
-import java.lang.*;
+import java.lang.Math;
 import java.awt.Point;
 
 /**
  * Create Triangle
  */
 public class Triangle {
+
+    private static final Double utilAngle = 90.0;
+    private static final int numberOfPoints = 3;
     /**
      * @param start - Start point of the sensor (Point)
      * @param vectorLength -view range of the sensor (Double)
@@ -17,18 +20,16 @@ public class Triangle {
     public static Point[] TrianglePoints(Point start, Double vectorLength, Double degree, Double sensorRotation) {
         Double newLength = vectorLength / Math.cos(Math.toRadians(degree / 2));
 
-        Double utilAngle = 90.0;
-        Point APoint = GetPolarPoint(newLength, utilAngle + degree / 2 + sensorRotation);
-        Point BPoint = GetPolarPoint(newLength, utilAngle- degree / 2 + sensorRotation);
+        Point aPoint = getPolarPoint(newLength, utilAngle + degree / 2 + sensorRotation);
+        Point bPoint = getPolarPoint(newLength, utilAngle - degree / 2 + sensorRotation);
 
-        APoint = MovePoint(APoint, start);
-        BPoint = MovePoint(BPoint, start);
+        aPoint = movePoint(aPoint, start);
+        bPoint = movePoint(bPoint, start);
 
-        int numberOfPoints = 3;
         Point[] triangle = new Point[numberOfPoints];
         triangle[0] = start;
-        triangle[1] = APoint;
-        triangle[2] = BPoint;
+        triangle[1] = aPoint;
+        triangle[2] = bPoint;
         return triangle;
     }
 
@@ -37,7 +38,7 @@ public class Triangle {
      * @param degree - angle of view in degrees
      * @return A point from polar coordinate system
      */
-    private static Point GetPolarPoint(Double length, Double degree) {
+    private static Point getPolarPoint(Double length, Double degree) {
         Double x = (length * Math.cos(Math.toRadians(degree)));
         Double y = (length * Math.sin(Math.toRadians(degree)));
         return new Point((int)Math.round(x.doubleValue()), (int)Math.round(y.doubleValue()));
@@ -48,7 +49,7 @@ public class Triangle {
      * @param transformationPoint - new origo
      * @return the original point with moved coordinates
      */
-    private static Point MovePoint(Point originalPoint, Point transformationPoint) {
+    private static Point movePoint(Point originalPoint, Point transformationPoint) {
         return new Point(originalPoint.x + transformationPoint.x, originalPoint.y + transformationPoint.y);
     }
 }
