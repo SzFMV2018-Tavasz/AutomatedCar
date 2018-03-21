@@ -183,4 +183,5 @@ public class CourseDisplay extends JPanel {
             }
         }
     }
+
 }

@@ -17,6 +17,7 @@ import javax.xml.crypto.dsig.XMLSignatureException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,16 +59,16 @@ public abstract class XmlToModelConverter {
             }
         }
         return objectListToReturn;
-
     }
 
     /**
      * @param objectElement A Xml Object that can be converted to WorldObject
      * @return WorldObject created from Xml Object
      * @throws XMLSignatureException thrown if tag missing from XmlObject
+     * @throws IOException           thrown if WorldObject representative picture not found
      */
-    private static WorldObject readValueFromXml
-    (Element objectElement) throws XMLSignatureException {
+    private static WorldObject readValueFromXml(Element objectElement)
+            throws XMLSignatureException, IOException {
 
         //Find Position, Transform, type parameter in current object.
         String type = objectElement.getAttribute("type");
@@ -83,41 +84,31 @@ public abstract class XmlToModelConverter {
                     transform = (Element) objectChildNodes.item(i);
                     break;
                 default:
-
             }
         }
         if (position == null || transform == null) {
             throw new XMLSignatureException("Invalid format: Not found Position or Transform in Object");
         }
 
-
         WorldObject wo = createObjectFromType(type);
-
         //Set setImageFileName
         wo.setImageFileName(type + ".png");
 
+        //set dimens
+        wo.generateDimens();
+
         //Set position
-        try {
-            wo.setX(Integer.parseInt(position.getAttribute("x")));
-            wo.setY(Integer.parseInt(position.getAttribute("y")));
-        } catch (NumberFormatException e) {
-            throw new XMLSignatureException("Invalid format: Position attributes is not Integer: " + e.getMessage());
-        }
+        Integer[] points = getPointsFromPositionElement(position);
+        wo.setX(points[0]);
+        wo.setY(points[1]);
 
         //Set rotation
-        double m11;
-        double m12;
-        double m21;
-        double m22;
-        try {
-            m11 = Double.parseDouble(transform.getAttribute("m11"));
-            m12 = Double.parseDouble(transform.getAttribute("m12"));
-            m21 = Double.parseDouble(transform.getAttribute("m21"));
-            m22 = Double.parseDouble(transform.getAttribute("m22"));
-        } catch (NumberFormatException e) {
-            throw new XMLSignatureException("Invalid format: Transform attributes is not Double: " + e.getMessage());
-        }
-        wo.setRotation((float) convertMatrixToRadians(m11, m12, m21, m22));
+        wo.setRotation(getRotacionFromTransformElement(transform));
+
+        //Shape drowing
+        wo.generateShape();
+
+        LOGGER.debug(wo.toString());
         return wo;
     }
 
@@ -153,5 +144,49 @@ public abstract class XmlToModelConverter {
                 throw new XMLSignatureException("Invalid Object type: " + type);
         }
         return wo;
+    }
+
+    /**
+     * @param position XML element, contain positions param
+     * @return Array of integer, contains point parameter
+     * @throws XMLSignatureException position parse error
+     */
+    private static Integer[] getPointsFromPositionElement(Element position)
+            throws XMLSignatureException {
+        //points[0]=>x
+        //points[1]=>y
+        Integer[] points = new Integer[2];
+        try {
+            points[0] = Integer.parseInt(position.getAttribute("x"));
+            points[1] = Integer.parseInt(position.getAttribute("y"));
+            return points;
+        } catch (NumberFormatException e) {
+            throw new XMLSignatureException("Invalid format: Position attributes is not Integer: " + e.getMessage());
+        }
+    }
+
+    /**
+     * @param transform XML element, contain transform matrix param
+     * @return rotacion param
+     * @throws XMLSignatureException transform matrix error
+     */
+    private static float getRotacionFromTransformElement(Element transform)
+            throws XMLSignatureException {
+        //Inicialize
+        double m11;
+        double m12;
+        double m21;
+        double m22;
+        try {
+            //Get and parse attribute from element
+            m11 = Double.parseDouble(transform.getAttribute("m11"));
+            m12 = Double.parseDouble(transform.getAttribute("m12"));
+            m21 = Double.parseDouble(transform.getAttribute("m21"));
+            m22 = Double.parseDouble(transform.getAttribute("m22"));
+            //convert transform matirx to rotacion
+            return (float) convertMatrixToRadians(m11, m12, m21, m22);
+        } catch (NumberFormatException e) {
+            throw new XMLSignatureException("Invalid format: Transform attributes is not Double: " + e.getMessage());
+        }
     }
 }
