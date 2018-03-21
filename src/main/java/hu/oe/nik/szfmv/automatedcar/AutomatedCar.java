@@ -120,7 +120,7 @@ public class AutomatedCar extends WorldObject {
      *
      * @return car packet
      */
-    private CarPacket getCarValues() {
+    public CarPacket getCarValues() {
         return virtualFunctionBus.carPacket;
     }
 
