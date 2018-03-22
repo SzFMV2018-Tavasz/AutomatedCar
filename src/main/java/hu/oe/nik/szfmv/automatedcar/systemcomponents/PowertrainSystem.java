@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 public class PowertrainSystem extends SystemComponent implements IPowertrainSystem {
 
     private static final Logger LOGGER = LogManager.getLogger(PowertrainSystem.class);
-    private static final double WIND_RESISTANCE = 2;
+    private static final double WIND_RESISTANCE = 1.5;
     private static final double REFRESH_RATE = 40;          // 1 sec / 0.025 sec
     private static final int PERCENTAGE = 100;
     private static final double SLOWDOWN_DEGREE = 0.3;
