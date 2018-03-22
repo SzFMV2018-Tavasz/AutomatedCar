@@ -1,9 +1,9 @@
 package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.PowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
-import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,8 +26,8 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     private int actualRPM;
     private int gasPedalPosition;
     private int brakePedalPosition;
-    private double orientationVector;    // it is a unit vector which reflects the car's orientation
     private int shiftLevel;
+    private double orientationVector;    // it is a unit vector which reflects the car's orientation
 
     /**
      * Creates a powertrain system that connects the Virtual Function Bus
@@ -89,7 +89,6 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
             speedDelta = -1 * orientationVector * ((CarSpecifications.MAX_BRAKE_SPEED / PERCENTAGE)
                     * brakePedalPosition);
         }
-
         LOGGER.debug(":: calculateSpeedDifference() method called:\n{ IsAccelerate: " + isAccelerate
                 + ", IsBraking: " + isBraking + ", Speed difference (per sec): " + speedDelta
                 + ", Shift level: " + shiftLevel + ", Actual RPM: " + actualRPM + ". Actual speed: " + speed + " }");
@@ -269,4 +268,3 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
         }
     }
 }
-
