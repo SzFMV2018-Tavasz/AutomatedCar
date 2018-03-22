@@ -32,8 +32,8 @@ public class AutomatedCar extends WorldObject {
     public AutomatedCar(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
 
-        final int carTestX = 500;
-        final int carTestY = 500;
+        final int carTestX = 200;
+        final int carTestY = 200;
         final int fullCircle = 360;
         final int carTestRotation = 90;
         final int carWidth = 108;
@@ -76,7 +76,6 @@ public class AutomatedCar extends WorldObject {
     private void calculatePositionAndOrientation() {
 
         final double testSpeed = virtualFunctionBus.powertrainPacket.getSpeed();
-
         double angularSpeed = 0;
         final double fps = 1;
         final int threeQuarterCircle = 270;
@@ -127,7 +126,7 @@ public class AutomatedCar extends WorldObject {
      *
      * @return car packet
      */
-    private CarPacket getCarValues() {
+    public CarPacket getCarValues() {
         return virtualFunctionBus.carPacket;
     }
 

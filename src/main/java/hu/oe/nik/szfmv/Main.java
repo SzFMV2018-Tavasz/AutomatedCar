@@ -22,7 +22,7 @@ public class Main {
         final int worldHeight = 600;
         final int carX = 20;
         final int carY = 20;
-        final int pedestrianX = 1350;
+        final int pedestrianX = 1550;
         final int pedestrianY = 500;
 
         // log the current debug mode in config
@@ -42,14 +42,14 @@ public class Main {
         Gui gui = new Gui();
 
         // draw world to course display
-        gui.getCourseDisplay().drawWorld(w);
+        gui.getCourseDisplay().drawWorld(w, car.getCarValues());
 
         while (true) {
             try {
                 car.drive();
                 pedestrian.moveOnCrosswalk();
 
-                gui.getCourseDisplay().drawWorld(w);
+                gui.getCourseDisplay().drawWorld(w, car.getCarValues());
                 gui.getDashboard().updateDisplayedValues(car.getInputValues(), car.getX(), car.getY());
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
