@@ -20,17 +20,58 @@ public class Detector implements ICamera, IRadarUltrasonic {
         this.worldObjects = worldObjects;
     }
 
-    @Override
-    public List<WorldObject> getWorldObjects(Point a, Point b, Point c) {
-        List<WorldObject> noticeableObjects = new ArrayList<WorldObject>();
+    /**
+     * Creates a triangle from the three points.
+     *
+     * @param a first point of the triangle
+     * @param b second point of the triangle
+     * @param c third point of the triangle
+     * @return Polygon created from the three points.
+     */
+    private Polygon createTriangle(Point a, Point b, Point c) {
+        Polygon p = new Polygon();
+        p.addPoint(a.x, a.y);
+        p.addPoint(b.x, b.y);
+        p.addPoint(c.x, c.y);
 
+        return p;
+    }
+
+    /**
+     * Creates a list of WorldObjects which are in the triangle
+     *
+     * @param a first point of the triangle
+     * @param b second point of the triangle
+     * @param c third point of the triangle
+     * @return List<WorldObject> which contains the object which are in the triangle
+     */
+    private List<WorldObject> getTheObjectsWhichAreInTheTriangle(Point a, Point b, Point c) {
+        Shape sensorVision = createTriangle(a, b, c);
+        List<WorldObject> noticeableObjects = new ArrayList<WorldObject>();
+        for (int x = 0; x < worldObjects.size(); x++) {
+            WorldObject actualObject = worldObjects.get(x);
+            if (actualObject.getShape().intersects(sensorVision.getBounds())) {
+                noticeableObjects.add(actualObject);
+            }
+        }
         return noticeableObjects;
     }
 
     @Override
-    public List<Collidable> getCollidableObjects(Point a, Point b, Point c) {
-        List<Collidable> noticeableObjects = new ArrayList<Collidable>();
+    public List<WorldObject> getWorldObjects(Point a, Point b, Point c) {
+        return getTheObjectsWhichAreInTheTriangle(a, b, c);
+    }
 
+    @Override
+    public List<Collidable> getCollidableObjects(Point a, Point b, Point c) {
+        List<WorldObject> allObjectsInTheTriangle =
+                getTheObjectsWhichAreInTheTriangle(a, b, c);
+        List<Collidable> noticeableObjects = new ArrayList<Collidable>();
+        for (int i = 0; i < allObjectsInTheTriangle.size(); i++) {
+            if (allObjectsInTheTriangle.get(i) instanceof Collidable) {
+                noticeableObjects.add((Collidable) allObjectsInTheTriangle.get(i));
+            }
+        }
         return noticeableObjects;
     }
 }

@@ -180,4 +180,5 @@ public class CourseDisplay extends JPanel {
         // draw stationary children (Tree, Road sign)
         g.drawImage(staticEnvironmentZ1, (int) (offset.x * scale), (int) (offset.y * scale), this);
     }
+
 }

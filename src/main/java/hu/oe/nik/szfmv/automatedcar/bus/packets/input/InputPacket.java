@@ -12,7 +12,7 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     private int brakepedalvalue;
 
-    private GearEnum gearEnum;
+    private GearEnum gearEnum = GearEnum.P;
 
     private boolean leftIndexOn;
 
@@ -117,13 +117,13 @@ public class InputPacket implements ReadOnlyInputPacket {
         return leftIndexOn;
     }
 
+    public void setLeftTurnSignalStatus(boolean leftIndexOn) {
+        this.leftIndexOn = leftIndexOn;
+    }
+
     @Override
     public boolean getRightTurnSignalStatus() {
         return rightIndexOn;
-    }
-
-    public void setLeftTurnSignalStatus(boolean leftIndexOn) {
-        this.leftIndexOn = leftIndexOn;
     }
 
     public void setRightTurnSignalStatus(boolean rightIndexOn) {
