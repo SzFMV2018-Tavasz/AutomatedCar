@@ -12,10 +12,10 @@ import org.apache.logging.log4j.Logger;
  */
 public class PowertrainSystem extends SystemComponent implements IPowertrainSystem {
 
-    private static final Logger LOGGER = LogManager.getLogger(PowertrainSystem.class);
     private static final double WIND_RESISTANCE = 3.0;
     private static final double REFRESH_RATE = 40;  // 1 sec / 0.025 sec
     private static final int PERCENTAGE = 100;
+    private static Logger LOGGER = LogManager.getLogger(PowertrainSystem.class);
 
     private PowertrainPacket powertrainPacket;
 
@@ -23,9 +23,9 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
     private int actualRPM;
     private int gasPedalPosition;
     private int brakePedalPosition;
-    private double speed;                // Unit: m/s
+    private double speed; // Unit: m/s
 
-    private GearEnum gearState = GearEnum.P;
+    private GearEnum gearState;
     private int shiftLevel;
     private double orientationVector;    // it is a unit vector which reflects the car's orientation
 
@@ -89,10 +89,9 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
             speedDelta = -1 * orientationVector * ((CarSpecifications.MAX_BRAKE_SPEED / PERCENTAGE)
                                                        * brakePedalPosition);
         }
-
-//        LOGGER.debug(":: calculateSpeedDifference() method called:\n{ IsAccelerate: " + isAccelerate
-//        +", IsBraking: " + isBraking + ", Speed difference (per sec): " + speedDelta
-//            + ", Shift level: " + shiftLevel + ", Actual RPM: " + actualRPM + ". Actual speed: " + speed + " }")
+        LOGGER.debug(":: calculateSpeedDifference() method called:\n{ IsAccelerate: " + isAccelerate
+                         + ", IsBraking: " + isBraking + ", Speed difference (per sec): " + speedDelta
+                         + ", Shift level: " + shiftLevel + ", Actual RPM: " + actualRPM + ". Actual speed: " + speed + " }");
 
         return speedDelta / REFRESH_RATE;
     }
