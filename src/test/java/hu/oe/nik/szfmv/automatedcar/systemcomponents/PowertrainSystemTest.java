@@ -85,7 +85,7 @@ public class PowertrainSystemTest {
             //Thread.sleep(25);
             powertrainSystem.loopTest();
         }
-        assertEquals(CarSpecifications.MIN_FORWARD_SPEED, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.01);
+        assertEquals(CarSpecifications.MIN_FORWARD_SPEED, powertrainSystem.virtualFunctionBus.powertrainPacket.getSpeed(), 0.1);
     }
 
     @Test
