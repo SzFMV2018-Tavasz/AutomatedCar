@@ -81,7 +81,7 @@ public class AutomatedCar extends WorldObject {
         final double fps = 1;
         final int threeQuarterCircle = 270;
         try {
-            angularSpeed = SteeringMethods.getSteerAngle(angularSpeed);
+            angularSpeed = SteeringMethods.getSteerAngle(-this.getInputValues().getSteeringWheelPosition());
         } catch (Exception e) {
             e.printStackTrace();
         }
