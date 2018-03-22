@@ -4,6 +4,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import org.apache.logging.log4j.LogManager;
@@ -130,4 +131,12 @@ public class AutomatedCar extends WorldObject {
         return virtualFunctionBus.carPacket;
     }
 
+    /**
+     * Gets the powertrain values as required by the dashboard.
+     *
+     * @return powertrain packet containing the values that are displayed on the dashboard
+     */
+    public ReadOnlyPowertrainPacket getPowertrainValues() {
+        return virtualFunctionBus.powertrainPacket;
+    }
 }
