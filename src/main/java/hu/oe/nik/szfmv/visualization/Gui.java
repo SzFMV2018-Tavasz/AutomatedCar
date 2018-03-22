@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv.visualization;
 
+import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -32,11 +34,15 @@ public class Gui extends JFrame {
         // Not using any layout manager, but fixed coordinates
         setLayout(null);
 
+        dashboard = new Dashboard();
+        addKeyListener(InputHandler.getInstance());
+        add(dashboard);
         courseDisplay = new CourseDisplay();
         add(courseDisplay);
 
-        dashboard = new Dashboard();
-        add(dashboard);
+        dashboard.setFocusable(false);
+        courseDisplay.setFocusable(false);
+        courseDisplay.addKeyListener(InputHandler.getInstance());
 
         setVisible(true);
     }
