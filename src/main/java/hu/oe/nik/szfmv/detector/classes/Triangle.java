@@ -1,6 +1,10 @@
 package hu.oe.nik.szfmv.detector.classes;
 
-import static java.lang.Math.*;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+import static java.lang.Math.toRadians;
+import static java.lang.Math.round;
+
 import java.awt.Point;
 
 /**
