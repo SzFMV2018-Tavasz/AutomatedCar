@@ -15,7 +15,8 @@ public class Triangle {
      * @param sensorRotation - in degrees (Double)
      * @return a Point array with 3 elemtns. First element: start point, second element: A point, third element: B
      */
-    public static Point[] trianglePoints(Point sensorPosition, Double sensorRange, Double angleOfView, Double sensorRotation) {
+    public static Point[] trianglePoints(Point sensorPosition, Double sensorRange,
+                                         Double angleOfView, Double sensorRotation) {
         final Double utilAngle = 90.0;
         final int numberOfPoints = 3;
         Point[] triangle = new Point[numberOfPoints];
