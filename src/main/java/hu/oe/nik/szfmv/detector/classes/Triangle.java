@@ -1,6 +1,6 @@
 package hu.oe.nik.szfmv.detector.classes;
 
-import java.lang.Math;
+import static java.lang.Math.*;
 import java.awt.Point;
 
 /**
@@ -21,7 +21,7 @@ public class Triangle {
         final int numberOfPoints = 3;
         Point[] triangle = new Point[numberOfPoints];
 
-        Double triangleEdge = sensorRange / Math.cos(Math.toRadians(angleOfView / 2));
+        Double triangleEdge = sensorRange / Math.cos(toRadians(angleOfView / 2));
 
         Point pointA = getPolarPoint(triangleEdge, utilAngle + angleOfView / 2 + sensorRotation);
         Point pointB = getPolarPoint(triangleEdge, utilAngle - angleOfView / 2 + sensorRotation);
@@ -41,9 +41,9 @@ public class Triangle {
      * @return A point from polar coordinate system
      */
     private static Point getPolarPoint(Double distance, Double angle) {
-        Double x = (distance * Math.cos(Math.toRadians(angle)));
-        Double y = (distance * Math.sin(Math.toRadians(angle)));
-        return new Point((int)Math.round(x.doubleValue()), (int)Math.round(y.doubleValue()));
+        Double x = (distance * cos(toRadians(angle)));
+        Double y = (distance * sin(toRadians(angle)));
+        return new Point((int)round(x.doubleValue()), (int)round(y.doubleValue()));
     }
 
     /**
