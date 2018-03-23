@@ -80,7 +80,7 @@ public class GearShift extends SystemComponent {
         GearEnum e;
         switch (gearShiftsate) {
             case P:
-                e = GearEnum.D;
+                e = GearEnum.P;
                 break;
             case R:
                 e = GearEnum.P;
