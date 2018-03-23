@@ -1,7 +1,6 @@
 package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.powertrain.PowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 import org.junit.Before;
