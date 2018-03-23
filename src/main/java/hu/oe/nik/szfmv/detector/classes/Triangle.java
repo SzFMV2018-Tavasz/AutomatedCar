@@ -4,44 +4,44 @@ import java.lang.Math;
 import java.awt.Point;
 
 /**
- * Create Triangle
+ * Create a Isosceles triangle
  */
 public class Triangle {
-    
+
     /**
-     * @param start - Start point of the sensor (Point)
-     * @param vectorLength -view range of the sensor (Double)
-     * @param degree - Angle of view in degrees (Double)
+     * @param sensorPosition - Start point of the sensor (Point)
+     * @param sensorRange -view range of the sensor (Double)
+     * @param angleOfView - Angle of view in degrees (Double)
      * @param sensorRotation - in degrees (Double)
      * @return a Point array with 3 elemtns. First element: start point, second element: A point, third element: B
      */
-    public static Point[] trianglePoints(Point start, Double vectorLength, Double degree, Double sensorRotation) {
+    public static Point[] trianglePoints(Point sensorPosition, Double sensorRange, Double angleOfView, Double sensorRotation) {
         final Double utilAngle = 90.0;
         final int numberOfPoints = 3;
         Point[] triangle = new Point[numberOfPoints];
 
-        Double newLength = vectorLength / Math.cos(Math.toRadians(degree / 2));
+        Double triangleEdge = sensorRange / Math.cos(Math.toRadians(angleOfView / 2));
 
-        Point pointA = getPolarPoint(newLength, utilAngle + degree / 2 + sensorRotation);
-        Point pointB = getPolarPoint(newLength, utilAngle - degree / 2 + sensorRotation);
+        Point pointA = getPolarPoint(triangleEdge, utilAngle + angleOfView / 2 + sensorRotation);
+        Point pointB = getPolarPoint(triangleEdge, utilAngle - angleOfView / 2 + sensorRotation);
 
-        pointA = movePoint(pointA, start);
-        pointB = movePoint(pointB, start);
+        pointA = movePoint(pointA, sensorPosition);
+        pointB = movePoint(pointB, sensorPosition);
 
-        triangle[0] = start;
+        triangle[0] = sensorPosition;
         triangle[1] = pointA;
         triangle[2] = pointB;
         return triangle;
     }
 
     /**
-     * @param length - view range of the sensor
-     * @param degree - angle of view in degrees
+     * @param distance - view range of the sensor
+     * @param angle - angle of view in degrees
      * @return A point from polar coordinate system
      */
-    private static Point getPolarPoint(Double length, Double degree) {
-        Double x = (length * Math.cos(Math.toRadians(degree)));
-        Double y = (length * Math.sin(Math.toRadians(degree)));
+    private static Point getPolarPoint(Double distance, Double angle) {
+        Double x = (distance * Math.cos(Math.toRadians(angle)));
+        Double y = (distance * Math.sin(Math.toRadians(angle)));
         return new Point((int)Math.round(x.doubleValue()), (int)Math.round(y.doubleValue()));
     }
 
