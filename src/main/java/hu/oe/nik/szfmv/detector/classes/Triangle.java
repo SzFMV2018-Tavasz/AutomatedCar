@@ -25,7 +25,7 @@ public class Triangle {
         final int numberOfPoints = 3;
         Point[] triangle = new Point[numberOfPoints];
 
-        Double triangleEdge = sensorRange / Math.cos(toRadians(angleOfView / 2));
+        Double triangleEdge = sensorRange / cos(toRadians(angleOfView / 2));
 
         Point pointA = getPolarPoint(triangleEdge, utilAngle + angleOfView / 2 + sensorRotation);
         Point pointB = getPolarPoint(triangleEdge, utilAngle - angleOfView / 2 + sensorRotation);
