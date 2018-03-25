@@ -12,71 +12,144 @@ public class TriangleTest {
 
     @Test
     public void notNull() {
-        Point[] actualOutput = Triangle.trianglePoints(new Point(0, 0), 3.0, 90.0, 0.0);
+        final Double sensorRange = 3.0;
+        final Double angleOfView = 90.0;
+        final Double sensorRotation = 0.0;
+        Point[] actualOutput = Triangle.trianglePoints(new Point(0, 0), sensorRange, angleOfView, sensorRotation);
         Assert.assertNotNull(actualOutput);
     }
 
     @Test
     public void rotationOf0Degrees() {
-        Point[] expectedOutput = new Point[]{new Point(0, 0), new Point(-3, 3), new Point(3, 3)};
-        Point[] actualOutput = Triangle.trianglePoints(new Point(0, 0), 3.0, 90.0, 0.0);
+        final Double sensorRange = 3.0;
+        final int expectedAX = -3;
+        final int expectedAY = 3;
+        final int expectedBX = 3;
+        final int expectedBY = 3;
+        final Double angleOfView = 90.0;
+        final Double sensorRotation = 0.0;
+
+        Point[] expectedOutput = new Point[]{new Point(0, 0), new Point(expectedAX, expectedAY), new Point(expectedBX, expectedBY)};
+        Point[] actualOutput = Triangle.trianglePoints(new Point(0, 0), sensorRange, angleOfView, sensorRotation);
         Assert.assertArrayEquals(expectedOutput, actualOutput);
     }
 
     @Test
     public void rotationOf90Degrees() {
-        Point[] expectedOutput = new Point[]{new Point(0, 0), new Point(-3, -3), new Point(-3, 3)};
-        Point[] actualOutput = Triangle.trianglePoints(new Point(0, 0), 3.0, 90.0, 90.0);
+        final Double sensorRange = 3.0;
+        final int expectedAX = -3;
+        final int expectedAY = -3;
+        final int expectedBX = -3;
+        final int expectedBY = 3;
+        final Double angleOfView = 90.0;
+        final Double sensorRotation = 90.0;
+
+        Point[] expectedOutput = new Point[]{new Point(0, 0), new Point(expectedAX, expectedAY), new Point(expectedBX, expectedBY)};
+        Point[] actualOutput = Triangle.trianglePoints(new Point(0, 0), sensorRange, angleOfView, sensorRotation);
         Assert.assertArrayEquals(expectedOutput, actualOutput);
     }
 
     @Test
     public void rotationOf180Degrees() {
-        Point[] expectedOutput = new Point[]{new Point(0, 0), new Point(3, -3), new Point(-3, -3)};
-        Point[] actualOutput = Triangle.trianglePoints(new Point(0, 0), 3.0, 90.0, 180.0);
+        final Double sensorRange = 3.0;
+        final int expectedAX = 3;
+        final int expectedAY = -3;
+        final int expectedBX = -3;
+        final int expectedBY = -3;
+        final Double angleOfView = 90.0;
+        final Double sensorRotation = 180.0;
+
+        Point[] expectedOutput = new Point[]{new Point(0, 0), new Point(expectedAX, expectedAY), new Point(expectedBX, expectedBY)};
+        Point[] actualOutput = Triangle.trianglePoints(new Point(0, 0), sensorRange, angleOfView, sensorRotation);
         Assert.assertArrayEquals(expectedOutput, actualOutput);
     }
 
     @Test
     public void rotationOf270Degrees() {
-        Point[] expectedOutput = new Point[]{new Point(0, 0), new Point(3, 3), new Point(3, -3)};
-        Point[] actualOutput = Triangle.trianglePoints(new Point(0, 0), 3.0, 90.0, 270.0);
+        final Double sensorRange = 3.0;
+        final int expectedAX = 3;
+        final int expectedAY = 3;
+        final int expectedBX = 3;
+        final int expectedBY = -3;
+        final Double angleOfView = 90.0;
+        final Double sensorRotation = 270.0;
+
+        Point[] expectedOutput = new Point[]{new Point(0, 0), new Point(expectedAX, expectedAY), new Point(expectedBX, expectedBY)};
+        Point[] actualOutput = Triangle.trianglePoints(new Point(0, 0), sensorRange, angleOfView, sensorRotation);
         Assert.assertArrayEquals(expectedOutput, actualOutput);
     }
 
     @Test
     public void rotationOf360Degrees() {
-        Point[] expectedOutput = new Point[]{new Point(0, 0), new Point(-3, 3), new Point(3, 3)};
-        Point[] actualOutput = Triangle.trianglePoints(new Point(0, 0), 3.0, 90.0, 360.0);
+        final Double sensorRange = 3.0;
+        final int expectedAX = -3;
+        final int expectedAY = 3;
+        final int expectedBX = 3;
+        final int expectedBY = 3;
+        final Double angleOfView = 90.0;
+        final Double sensorRotation = 360.0;
+
+        Point[] expectedOutput = new Point[]{new Point(0, 0), new Point(expectedAX, expectedAY), new Point(expectedBX, expectedBY)};
+        Point[] actualOutput = Triangle.trianglePoints(new Point(0, 0), sensorRange, angleOfView, sensorRotation);
         Assert.assertArrayEquals(expectedOutput, actualOutput);
     }
 
     @Test
     public void zeroSensorRange() {
-        Point[] expectedOutput = new Point[]{new Point(0, 0), new Point(0, 0), new Point(0, 0)};
-        Point[] actualOutput = Triangle.trianglePoints(new Point(0, 0), 0.0, 90.0, 0.0);
+        final Double sensorRange = 0.0;
+        final int expectedAX = 0;
+        final int expectedAY = 0;
+        final int expectedBX = 0;
+        final int expectedBY = 0;
+        final Double angleOfView = 90.0;
+        final Double sensorRotation = 0.0;
+
+        Point[] expectedOutput = new Point[]{new Point(0, 0), new Point(expectedAX, expectedAY), new Point(expectedBX, expectedBY)};
+        Point[] actualOutput = Triangle.trianglePoints(new Point(0, 0), sensorRange, angleOfView, sensorRotation);
         Assert.assertArrayEquals(expectedOutput, actualOutput);
     }
 
     @Test
     public void notOriginSensorPosition() {
-        Point[] expectedOutput = new Point[]{new Point(3, 3), new Point(0, 6), new Point(6, 6)};
-        Point[] actualOutput = Triangle.trianglePoints(new Point(3, 3), 3.0, 90.0, 0.0);
+        final Double sensorRange = 3.0;
+        final int originX = 3;
+        final int originY = 3;
+        final int expectedAX = 0;
+        final int expectedAY = 6;
+        final int expectedBX = 6;
+        final int expectedBY = 6;
+        final Double angleOfView = 90.0;
+        final Double sensorRotation = 0.0;
+
+        Point[] expectedOutput = new Point[]{new Point(originX, originY), new Point(expectedAX, expectedAY), new Point(expectedBX, expectedBY)};
+        Point[] actualOutput = Triangle.trianglePoints(new Point(3, 3), sensorRange, angleOfView, sensorRotation);
         Assert.assertArrayEquals(expectedOutput, actualOutput);
     }
 
     @Test
     public void viewAngle120Degrees() {
-        Point[] expectedOutput = new Point[]{new Point(0, 0), new Point(-7, 4), new Point(7, 4)};
-        Point[] actualOutput = Triangle.trianglePoints(new Point(0, 0), 4.0, 120.0, 0.0);
+        final Double sensorRange = 4.0;
+        final int expectedAX = -7;
+        final int expectedAY = 4;
+        final int expectedBX = 7;
+        final int expectedBY = 4;
+        final Double angleOfView = 120.0;
+        final Double sensorRotation = 0.0;
+
+        Point[] expectedOutput = new Point[]{new Point(0, 0), new Point(expectedAX, expectedAY), new Point(expectedBX, expectedBY)};
+        Point[] actualOutput = Triangle.trianglePoints(new Point(0, 0), sensorRange, angleOfView, sensorRotation);
         Assert.assertArrayEquals(expectedOutput, actualOutput);
     }
 
     @Test
     public void zeroAngleOfView() {
-        Point[] actualOutput = Triangle.trianglePoints(new Point(0, 0), 3.0, 0.0, 0.0);
-        Point PointA = actualOutput[1];
-        Point PointB = actualOutput[2];
-        Assert.assertEquals(PointA, PointB);
+        final Double sensorRange = 3.0;
+        final Double angleOfView = 0.0;
+        final Double sensorRotation = 0.0;
+
+        Point[] actualOutput = Triangle.trianglePoints(new Point(0, 0), sensorRange, angleOfView, sensorRotation);
+        Point pointA = actualOutput[1];
+        Point pointB = actualOutput[2];
+        Assert.assertEquals(pointA, pointB);
     }
 }
