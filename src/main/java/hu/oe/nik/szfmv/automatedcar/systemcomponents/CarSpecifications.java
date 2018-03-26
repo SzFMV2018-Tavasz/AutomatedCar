@@ -27,5 +27,5 @@ public final class CarSpecifications {
      * 15, 30, 50, 70, 100, 130 km/h
      */
     public static final ArrayList<Double> GEAR_SHIFT_LEVEL_SPEED =
-            new ArrayList<>(Arrays.asList(9.3205, 18.6411, 31.0685, 43.4959, 62.1371, 80.7782, Double.MAX_VALUE));
+            new ArrayList<>(Arrays.asList(1.3888, 5.5555, 9.7222, 13.8888, 22.2222, 30.5555, Double.MAX_VALUE));
 }
