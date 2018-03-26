@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class PowertrainSystem extends SystemComponent implements IPowertrainSystem {
 
-    private static final double WIND_RESISTANCE = 3.0;
+    private static final double WIND_RESISTANCE = 2;
     private static final double REFRESH_RATE = 40;  // 1 sec / 0.025 sec
     private static final int PERCENTAGE = 100;
     private static Logger LOGGER = LogManager.getLogger(PowertrainSystem.class);
@@ -107,8 +107,8 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
             powertrainPacket.setRpm(CarSpecifications.IDLE_RPM);
             return CarSpecifications.IDLE_RPM;
         } else {
-            double multiplier = (double) CarSpecifications.MAX_RPM / PERCENTAGE;
-            int actualRpm = (int) (gaspedalPosition * multiplier);
+            double multiplier = ((double) (CarSpecifications.MAX_RPM - CarSpecifications.IDLE_RPM) / PERCENTAGE);
+            int actualRpm = (int) ((gaspedalPosition * multiplier) + CarSpecifications.IDLE_RPM);
             powertrainPacket.setRpm(actualRpm);
             return actualRpm;
         }
