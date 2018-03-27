@@ -22,6 +22,14 @@ public class PedestrianTest {
     }
 
     @Test
+    public void moveOnCrosswalkTwoTimes() {
+        Pedestrian pedestrian = new Pedestrian(500, 500, "man.png");
+        pedestrian.moveOnCrosswalk();
+        pedestrian.moveOnCrosswalk();
+        assertThat(pedestrian.getY(), is(490));
+    }
+
+    @Test
     public void moveOnCrosswalkTenTimes() {
         Pedestrian pedestrian = new Pedestrian(500, 500, "man.png");
         for (int i = 0; i < 10; i++) {
@@ -36,6 +44,6 @@ public class PedestrianTest {
         for (int i = 0; i < 100; i++) {
             pedestrian.moveOnCrosswalk();
         }
-        assertThat(pedestrian.getY(), is(120));
+        assertThat(pedestrian.getY(), is(216));
     }
 }

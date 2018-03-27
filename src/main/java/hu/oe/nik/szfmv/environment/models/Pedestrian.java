@@ -2,9 +2,8 @@ package hu.oe.nik.szfmv.environment.models;
 
 public class Pedestrian extends Movable {
 
-    private final int height = 338;
     private int moveStatus = 0;
-    private int moveDirection = 5;
+    private int status = 1;
 
     /**
      * @param x             pedestrian x coordinate
@@ -19,14 +18,34 @@ public class Pedestrian extends Movable {
      * Method of pedestrian move
      */
     public void moveOnCrosswalk() {
-        this.move(this.getX(), this.getY() - moveDirection, (float) this.getRotation());
-        final int movingUnit = 5;
-        final int manSize = 102;
 
-        moveStatus += movingUnit;
-        if (moveStatus == height + manSize) {
-            moveStatus = 0;
-            moveDirection = -moveDirection;
+        final int movingUnit = 5;
+        final int height = 338;
+        final int manSize = 72;
+
+        switch (status) {
+            case 0: {
+                this.move(this.getX(), this.getY() + movingUnit, (float) this.getRotation());
+                moveStatus -= movingUnit;
+                if (moveStatus == 0) {
+                    status = 1;
+                    this.setY(this.getY() - manSize / 2);
+                    setRotation(Math.toRadians(0));
+                }
+                break;
+            }
+            case 1: {
+                this.move(this.getX(), this.getY() - movingUnit, (float) this.getRotation());
+                moveStatus += movingUnit;
+                if (moveStatus == height + manSize) {
+                    status = 0;
+                    this.setY(this.getY() + manSize / 2);
+                    setRotation(Math.PI);
+                }
+                break;
+            }
+            default:
+                break;
         }
     }
 }
