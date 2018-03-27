@@ -8,11 +8,11 @@ import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 
 public class GearShift extends SystemComponent {
 
-    private InputHandler inputHandler;
-
     private final InputPacket inputPacket;
-
+    private InputHandler inputHandler;
     private GearEnum gearShiftsate;
+    private boolean isDownPressed;
+    private boolean isUpPressed;
 
     /**
      * GearShift Constructor
@@ -23,8 +23,14 @@ public class GearShift extends SystemComponent {
         super(virtualFunctionBus);
 
         inputPacket = InputPacket.getInstance();
+        isDownPressed = false;
+        isUpPressed = false;
 
-        gearShiftsate = GearEnum.P;
+        //ha nincs itt beállítva akkor null, ha a P-re tesszük, akkor félő, hogy mindig az marad
+        //A kiolvasással sem jobb monjuk, bár a kezdőérték már P
+//        gearShiftsate = GearEnum.P;
+        gearShiftsate = inputPacket.getGearState();
+
         virtualFunctionBus.inputPacket = inputPacket;
         inputHandler = InputHandler.getInstance();
 
@@ -32,19 +38,32 @@ public class GearShift extends SystemComponent {
 
     @Override
     public void loop() {
-
-        if (inputHandler.isGearShiftDownPressed() && inputHandler.isGearShiftUpPressed()) {
-            return;
-        }
-
         if (inputHandler.isGearShiftUpPressed()) {
-            gearShiftsate = gearShiftUp();
-        } else if (inputHandler.isGearShiftDownPressed()) {
-
-            gearShiftsate = gearShiftDown();
+            if (!isUpPressed) {
+                gearShiftsate = gearShiftUp();
+                isUpPressed = true;
+            }
         }
+        if (inputHandler.isGearShiftDownPressed()) {
+            if (!isDownPressed) {
+                gearShiftsate = gearShiftDown();
+                isDownPressed = true;
+            }
+        }
+        if (!inputHandler.isGearShiftUpPressed()) {
+            if (isUpPressed) {
+                isUpPressed = false;
+            }
+        }
+        if (!inputHandler.isGearShiftDownPressed()) {
+            if (isDownPressed) {
+                isDownPressed = false;
+            }
+        }
+
         inputPacket.setGearSate(gearShiftsate);
 
+//        System.out.println(inputPacket.getGearState());
 
     }
 
@@ -54,24 +73,24 @@ public class GearShift extends SystemComponent {
      * @return the gearshift
      */
     private GearEnum gearShiftDown() {
-        GearEnum e = null;
+        GearEnum e;
         switch (gearShiftsate) {
             case P:
-                e = GearEnum.D;
-
+                e = GearEnum.P;
+                break;
             case R:
                 e = GearEnum.P;
-
+                break;
             case N:
                 e = GearEnum.R;
-
+                break;
             case D:
                 e = GearEnum.N;
-
+                break;
             default:
+                e = GearEnum.P;
                 break;
         }
-
         return e;
     }
 
@@ -81,23 +100,24 @@ public class GearShift extends SystemComponent {
      * @return the gearshift
      */
     private GearEnum gearShiftUp() {
-        GearEnum e = null;
+        GearEnum e;
         switch (gearShiftsate) {
             case P:
                 e = GearEnum.R;
-
+                break;
             case R:
                 e = GearEnum.N;
-
+                break;
             case N:
                 e = GearEnum.D;
-
+                break;
             case D:
                 e = GearEnum.D;
+                break;
             default:
+                e = GearEnum.P;
                 break;
         }
-
         return e;
     }
 }
