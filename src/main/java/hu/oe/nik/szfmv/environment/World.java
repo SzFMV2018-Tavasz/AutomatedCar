@@ -86,7 +86,7 @@ public class World implements IWorld {
         }
     }
 
-    public void collision(AutomatedCar car) {
+    public void checkForCollisions(AutomatedCar car) {
         List<WorldObject> collidables = worldObjects.stream().filter(it -> Collidable.class.isInstance(it)).collect(Collectors.toList());
         isGameOver = false;
         for (WorldObject collidable : collidables) {
@@ -101,6 +101,7 @@ public class World implements IWorld {
     }
 
     private boolean isColliding(WorldObject a, WorldObject b) {
+        //TODO its not working yet
         if (a.getShape() == null || b.getShape() == null) {
             LOGGER.info("The Shape was null");
             return false;

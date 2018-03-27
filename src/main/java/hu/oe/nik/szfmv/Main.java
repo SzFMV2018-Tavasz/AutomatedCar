@@ -52,7 +52,7 @@ public class Main {
                 gui.getCourseDisplay().drawWorld(w, car.getCarValues());
                 gui.getDashboard().updateDisplayedValues(car.getInputValues(), car.getX(), car.getY());
 
-                w.collision(car);
+                w.checkForCollisions(car);
 
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
