@@ -44,13 +44,16 @@ public class Main {
         // draw world to course display
         gui.getCourseDisplay().drawWorld(w, car.getCarValues());
 
-        while (true) {
+        while (!w.isGameOver()) {
             try {
                 car.drive();
                 pedestrian.moveOnCrosswalk();
 
                 gui.getCourseDisplay().drawWorld(w, car.getCarValues());
                 gui.getDashboard().updateDisplayedValues(car.getInputValues(), car.getX(), car.getY());
+
+                w.collision(car);
+
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());

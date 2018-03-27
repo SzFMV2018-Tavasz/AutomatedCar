@@ -1,12 +1,21 @@
 package hu.oe.nik.szfmv.environment;
 
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.detector.classes.Detector;
 import hu.oe.nik.szfmv.environment.interfaces.IWorld;
+import hu.oe.nik.szfmv.environment.models.Collidable;
+import hu.oe.nik.szfmv.environment.models.Pedestrian;
+import hu.oe.nik.szfmv.environment.models.RoadSign;
+import hu.oe.nik.szfmv.environment.models.Tree;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class World implements IWorld {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -15,6 +24,8 @@ public class World implements IWorld {
     private int height = 0;
     private List<WorldObject> worldObjects = new ArrayList<>();
     private Detector detector;
+
+    private boolean isGameOver = false;
 
     /**
      * Creates the virtual world with the given dimension.
@@ -75,5 +86,29 @@ public class World implements IWorld {
         }
     }
 
+    public void collision(AutomatedCar car) {
+        List<WorldObject> collidables = worldObjects.stream().filter(it -> Collidable.class.isInstance(it)).collect(Collectors.toList());
+        isGameOver = false;
+        for (WorldObject collidable : collidables) {
+            if (isColliding(car, collidable)) {
+                if (RoadSign.class.isInstance(collidable)) {
+                    PowertrainSystem.carCollide();
+                } else {
+                    isGameOver = true;
+                }
+            }
+        }
+    }
 
+    private boolean isColliding(WorldObject a, WorldObject b) {
+        if (a.getShape() == null || b.getShape() == null) {
+            LOGGER.info("The Shape was null");
+            return false;
+        }
+        return a.getShape().intersects(b.getShape().getBounds());
+    }
+
+    public boolean isGameOver() {
+        return isGameOver;
+    }
 }
