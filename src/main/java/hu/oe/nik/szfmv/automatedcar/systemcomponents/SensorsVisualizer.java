@@ -31,26 +31,17 @@ public class SensorsVisualizer extends SystemComponent {
     @Override
     public void loop() {
         if (inputHandler.isRadarTestPressed()) {
-            inputPacket.setRadarVizualizerState(state((radarVizualizerPressed)));
+            radarVizualizerPressed = !radarVizualizerPressed;
+            inputPacket.setRadarVizualizerState(radarVizualizerPressed);
         }
         if (inputHandler.isCameraTestPressed()) {
-            inputPacket.setCameraVizualizerState(state(cameraVizualizerPressed));
+            cameraVizualizerPressed = !cameraVizualizerPressed;
+            inputPacket.setCameraVizualizerState(cameraVizualizerPressed);
         }
         if (inputHandler.isUltrasonicTestPressed()) {
-            inputPacket.setUltrasonicVizualizerState(state(ultrasonicVizualizerPressed));
+            ultrasonicVizualizerPressed = !ultrasonicVizualizerPressed;
+            inputPacket.setUltrasonicVizualizerState(ultrasonicVizualizerPressed);
         }
     }
-
-    private boolean state(boolean pressed) {
-        boolean state = false;
-        if (!pressed) {
-            state = true;
-        } else {
-            state = false;
-        }
-        return state;
-    }
-
-
 }
 
