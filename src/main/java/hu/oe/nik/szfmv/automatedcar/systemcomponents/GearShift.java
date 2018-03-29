@@ -40,27 +40,27 @@ public class GearShift extends SystemComponent {
     public void loop() {
 
         if (inputHandler.isGearShiftUpPressed()) {
-            if (!isUpPressed){
+            if (!isUpPressed) {
                 gearShiftsate = gearShiftUp();
                 isUpPressed = true;
             }
         }
 
         if (inputHandler.isGearShiftDownPressed()) {
-            if (!isDownPressed){
+            if (!isDownPressed) {
                 gearShiftsate = gearShiftDown();
                 isDownPressed = true;
             }
         }
 
         if (!inputHandler.isGearShiftUpPressed()) {
-            if (isUpPressed){
+            if (isUpPressed) {
                 isUpPressed = false;
             }
         }
 
         if (!inputHandler.isGearShiftDownPressed()) {
-            if (isDownPressed){
+            if (isDownPressed) {
                 isDownPressed = false;
             }
         }

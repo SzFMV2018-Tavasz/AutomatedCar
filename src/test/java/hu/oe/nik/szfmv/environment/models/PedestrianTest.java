@@ -18,7 +18,7 @@ public class PedestrianTest {
     public void moveOnCrosswalkOneTimes() {
         Pedestrian pedestrian = new Pedestrian(500, 500, "man.png");
         pedestrian.moveOnCrosswalk();
-        assertThat(pedestrian.getY(), is(495));
+        assertThat(pedestrian.getY(), is(495.0));
     }
 
     @Test
@@ -26,7 +26,7 @@ public class PedestrianTest {
         Pedestrian pedestrian = new Pedestrian(500, 500, "man.png");
         pedestrian.moveOnCrosswalk();
         pedestrian.moveOnCrosswalk();
-        assertThat(pedestrian.getY(), is(490));
+        assertThat(pedestrian.getY(), is(490.0));
     }
 
     @Test
@@ -35,7 +35,7 @@ public class PedestrianTest {
         for (int i = 0; i < 10; i++) {
             pedestrian.moveOnCrosswalk();
         }
-        assertThat(pedestrian.getY(), is(450));
+        assertThat(pedestrian.getY(), is(450.0));
     }
 
     @Test
@@ -44,6 +44,6 @@ public class PedestrianTest {
         for (int i = 0; i < 100; i++) {
             pedestrian.moveOnCrosswalk();
         }
-        assertThat(pedestrian.getY(), is(216));
+        assertThat(pedestrian.getY(), is(216.0));
     }
 }

@@ -42,7 +42,7 @@ public class AutomatedCar extends WorldObject {
         setLocation(new Point(carTestX, carTestY));
         setRotation(Math.toRadians(fullCircle - carTestRotation));
         wheelBase = carHeight;
-        halfWidth = carWidth / 2;
+        //halfWidth = carWidth / 2;
         this.setWidth(carWidth);
         this.setHeight(carHeight);
 
@@ -88,26 +88,31 @@ public class AutomatedCar extends WorldObject {
         double halfWheelBase = wheelBase / 2;
 
         Point2D carPosition = new Point2D.Double(getCarValues().getX() + halfWidth,
-            getCarValues().getY() + halfWheelBase);
+                getCarValues().getY() + halfWheelBase);
         Point2D frontWheel = SteeringMethods.getFrontWheel(carHeading, halfWheelBase, carPosition);
         Point2D backWheel = SteeringMethods.getBackWheel(carHeading, halfWheelBase, carPosition);
 
         Point2D backWheelDisplacement = SteeringMethods.getBackWheelDisplacement(carHeading, testSpeed, fps);
         Point2D frontWheelDisplacement =
-            SteeringMethods.getFrontWheelDisplacement(carHeading, angularSpeed, testSpeed, fps);
+                SteeringMethods.getFrontWheelDisplacement(carHeading, angularSpeed, testSpeed, fps);
 
         frontWheel = SteeringMethods.getNewFrontWheelPosition(frontWheel, frontWheelDisplacement);
         backWheel = SteeringMethods.getNewBackWheelPosition(backWheel, backWheelDisplacement);
 
         carPosition = SteeringMethods.getCarPosition(frontWheel, backWheel);
         carHeading = SteeringMethods.getCarHeading(frontWheel, backWheel);
+        /*Point2D carPosition = new Point2D.Double(getCarValues().getX(), getCarValues().getY());
+        carPosition = SteeringMethods.getCarPosition(new Point2D.Double(getCarValues().getX(), getCarValues().getY()),
+                carHeading, testSpeed, angularSpeed, new int[]{width, height});
+        carHeading = SteeringMethods.getCarHeading(new Point2D.Double(getCarValues().getX(), getCarValues().getY()),
+                carHeading, testSpeed, angularSpeed, new int[]{width, height});*/
 
-        this.setX((int) (carPosition.getX() - halfWidth));
-        this.setY((int) (carPosition.getY() - halfWheelBase));
+        this.setX(carPosition.getX() - halfWidth);
+        this.setY(carPosition.getY() - halfWheelBase);
         rotation = Math.toRadians(threeQuarterCircle) - carHeading;
 
-        getCarValues().setX((int) (this.getX()));
-        getCarValues().setY((int) (this.getY()));
+        getCarValues().setX(this.getX());
+        getCarValues().setY(this.getY());
         getCarValues().setRotation(this.getRotation());
     }
 

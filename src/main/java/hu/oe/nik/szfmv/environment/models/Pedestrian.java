@@ -25,7 +25,7 @@ public class Pedestrian extends Movable {
 
         switch (status) {
             case 0: {
-                this.move(this.getX(), this.getY() + movingUnit, (float) this.getRotation());
+                this.move((int) this.getX(), (int) this.getY() + movingUnit, (float) this.getRotation());
                 moveStatus -= movingUnit;
                 if (moveStatus == 0) {
                     status = 1;
