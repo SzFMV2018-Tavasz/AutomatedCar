@@ -4,24 +4,44 @@ import java.awt.geom.Point2D;
 
 public class SteeringMethods {
 
+
     /**
      * @param xy             Car x and y position
      * @param carHeading     Car heading
      * @param speed          Car speed
      * @param angularSpeed   Car wheel position in radian
      * @param widthAndHeight Car image width and height
-     * @return Return with car front and back wheel
+     * @return Return with car position and car heading
+     */
+    public static Object[] getCarPositionAndCarHead(Point2D xy, double carHeading, double speed, double angularSpeed,
+                                                    int[] widthAndHeight) {
+        xy = new Point2D.Double(xy.getX() + widthAndHeight[0] / 2,
+                xy.getY() + widthAndHeight[1] / 2);
+        Point2D[] frontAndBack = getFrontAndBackWheel(xy, carHeading, speed, angularSpeed, widthAndHeight);
+
+        Object[] carPositionAndCarHead = new Object[2];
+
+        carPositionAndCarHead[0] = getCarPosition(frontAndBack[0], frontAndBack[1]);
+        carPositionAndCarHead[1] = getCarHeading(frontAndBack[0], frontAndBack[1]);
+
+        return carPositionAndCarHead;
+    }
+
+    /**
+     * @param xy             Car x and y position
+     * @param carHeading     Car heading
+     * @param speed          Car speed
+     * @param angularSpeed   Car wheel position in radian
+     * @param widthAndHeight Car image width and height
+     * @return Return with car front and back wheel position
      */
     public static Point2D[] getFrontAndBackWheel(Point2D xy, double carHeading, double speed, double angularSpeed,
                                                  int[] widthAndHeight) {
-        int halfWidth = widthAndHeight[0] / 2;
         int halfWheelBase = widthAndHeight[1] / 2;
         int fps = 1;
 
-        Point2D carPosition = new Point2D.Double(xy.getX() + halfWidth,
-                xy.getY() + halfWheelBase);
-        Point2D frontWheel = getFrontWheel(carHeading, halfWheelBase, carPosition);
-        Point2D backWheel = getBackWheel(carHeading, halfWheelBase, carPosition);
+        Point2D frontWheel = getFrontWheel(carHeading, halfWheelBase, xy);
+        Point2D backWheel = getBackWheel(carHeading, halfWheelBase, xy);
 
         Point2D backWheelDisplacement = getBackWheelDisplacement(carHeading, speed, fps);
         Point2D frontWheelDisplacement =
@@ -31,21 +51,11 @@ public class SteeringMethods {
         backWheel = getNewBackWheelPosition(backWheel, backWheelDisplacement);
 
         Point2D[] frontAndBack = new Point2D[2];
-        frontAndBack[0].setLocation(frontWheel);
-        frontAndBack[1].setLocation(backWheel);
+        frontAndBack[0] = frontWheel;
+        frontAndBack[1] = backWheel;
 
         return frontAndBack;
-
-        //carPosition = getCarPosition(frontWheel, backWheel);
-        //carHeading = getCarHeading(frontWheel, backWheel);
     }
-
-
-    /*public static double getCarHeading(Point2D xy, double carHeading, double speed, double angularSpeed,
-                                       int[] widthAndHeight) {
-        Point2D[] frontAndBack = getFrontAndBackWheel(xy, carHeading, speed, angularSpeed, widthAndHeight);
-        return getCarHeadingOther(frontAndBack[0], frontAndBack[1]);
-    }*/
 
     /**
      * Returns the position of the car based on its two wheels by calculating the middle point between two points
@@ -160,15 +170,6 @@ public class SteeringMethods {
         return new Point2D.Double(backWheel.getX() + backWheelDisplacement.getX(),
                 backWheel.getY() + backWheelDisplacement.getY());
     }
-
-
-    /*public static Point2D getCarPosition(Point2D xy, double carHeading, double speed, double angularSpeed,
-                                         int[] widthAndHeight) {
-        Point2D[] frontAndBack = getFrontAndBackWheel(xy, carHeading, speed, angularSpeed, widthAndHeight);
-        return getCarPositionOther(frontAndBack[0], frontAndBack[1]);
-        //return new Point2D.Double((frontWheel.getX() + backWheel.getX()) / 2,
-        //        (frontWheel.getY() + backWheel.getY()) / 2);
-    }*/
 
     /**
      * Get back new car position
