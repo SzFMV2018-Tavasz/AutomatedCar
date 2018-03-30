@@ -130,7 +130,7 @@ public abstract class WorldObject implements IWorldObject {
      */
     public void generateShape() {
         AffineTransform tx = new AffineTransform();
-        tx.rotate(-this.getRotation(), this.getX() + this.getWidth(), this.getY() + this.getHeight());
+        tx.rotate(-this.getRotation(), this.getX(), this.getY());
         this.shape = tx.createTransformedShape(
                 new Rectangle(
                         this.getX(),

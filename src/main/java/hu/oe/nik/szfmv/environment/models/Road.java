@@ -111,7 +111,7 @@ public class Road extends Crossable {
     public void generateShape() {
         AffineTransform at = new AffineTransform();
         //at.translate(this.getX(), this.getY());
-        at.rotate(-this.getRotation(), this.getX() + this.getWidth() / 2, this.getY() + this.getHeight() / 2);
+        at.rotate(-this.getRotation(), this.getX() , this.getY() );
         this.shape = at.createTransformedShape(roadPolyMap.get(this.imageFileName));
 
         //ha a map nem tartalmazza:
