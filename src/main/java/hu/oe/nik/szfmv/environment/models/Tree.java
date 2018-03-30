@@ -1,11 +1,12 @@
 package hu.oe.nik.szfmv.environment.models;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
 public class Tree extends Stationary {
 
-    private static double CIRCLEDIAMETER = 15;
+    private static double CIRCLEDIAMETER = 25;
 
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
@@ -27,10 +28,13 @@ public class Tree extends Stationary {
 
     @Override
     public void generateShape() {
+        //Circle radius for shape property
         //For more information please see Issue #221
-        this.shape = (Shape) new Ellipse2D.Double(
-                this.getX() + this.getWidth() / 2,
-                this.getY() + this.getHeight() / 2,
-                CIRCLEDIAMETER, CIRCLEDIAMETER);
+        AffineTransform tx = new AffineTransform();
+        tx.rotate(-this.getRotation(), this.getX(), this.getY());
+        this.shape = tx.createTransformedShape((Shape) new Ellipse2D.Double(
+                this.getX() + this.getWidth() / 2 - CIRCLEDIAMETER / 2,
+                this.getY() + this.getHeight() / 2 - CIRCLEDIAMETER / 2,
+                CIRCLEDIAMETER, CIRCLEDIAMETER));
     }
 }
