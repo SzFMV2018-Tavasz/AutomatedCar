@@ -12,12 +12,24 @@ import java.util.List;
 /**
  * Class Responsible for Sensor Functionality
  */
-public class Detector implements ICamera, IRadarUltrasonic {
+public final class Detector implements ICamera, IRadarUltrasonic {
 
     private List<WorldObject> worldObjects;
+    private static Detector detector;
 
-    public Detector(List<WorldObject> worldObjects) {
+    private Detector() {}
+
+    public void setWorldObjects(List<WorldObject> worldObjects) {
         this.worldObjects = worldObjects;
+    }
+
+    public static Detector getDetector() {
+        if(detector != null) {
+            return detector;
+        }
+        else {
+            return detector = new Detector();
+        }
     }
 
     @Override
