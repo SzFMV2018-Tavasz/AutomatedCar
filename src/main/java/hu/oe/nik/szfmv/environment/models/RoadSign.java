@@ -5,7 +5,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
 public class RoadSign extends Stationary {
-    private static double CIRCLEDIAMETER = 3;
+    private static double CIRCLEDIAMETER = 10;
 
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
@@ -33,8 +33,8 @@ public class RoadSign extends Stationary {
         AffineTransform tx = new AffineTransform();
         tx.rotate(-this.getRotation(), this.getX(), this.getY());
         this.shape = tx.createTransformedShape((Shape) new Ellipse2D.Double(
-                this.getX(),
-                this.getY(),
-                this.getWidth(), this.getHeight()));
+                this.getX() + this.getWidth() / 2 - CIRCLEDIAMETER / 2,
+                this.getY() + this.getHeight() / 2 - CIRCLEDIAMETER / 2,
+                CIRCLEDIAMETER, CIRCLEDIAMETER));
     }
 }
