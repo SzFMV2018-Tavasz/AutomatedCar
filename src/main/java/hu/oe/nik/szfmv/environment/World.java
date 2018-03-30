@@ -28,8 +28,7 @@ public class World implements IWorld {
         this.width = width;
         this.height = height;
         this.build("src/main/resources/test.xml");
-        detector = Detector.getDetector();
-        detector.setWorldObjects(worldObjects);
+        detector = new Detector(worldObjects);
     }
 
     public int getWidth() {
@@ -76,6 +75,4 @@ public class World implements IWorld {
             LOGGER.info("Error in World build - " + ex.getMessage());
         }
     }
-
-
 }
