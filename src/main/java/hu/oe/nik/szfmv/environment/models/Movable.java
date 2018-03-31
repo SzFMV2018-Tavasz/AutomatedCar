@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv.environment.models;
 
+import java.awt.geom.Point2D;
+
 //This class will be the parent of the "car" classes.
 public abstract class Movable extends Collidable {
     /**
@@ -24,12 +26,11 @@ public abstract class Movable extends Collidable {
      * Use this method if you want to move a movable object.
      *
      * @param newX        X component of the new location
-     * @param newX        Y component of the new location
+     * @param newY        Y component of the new location
      * @param newRotation The value of the new Rotation(radian)
      */
-    public void move(int newX, int newY, float newRotation) {
-        this.location.x = newX;
-        this.location.y = newY;
+    public void move(double newX, double newY, float newRotation) {
+        this.location = new Point2D.Double(newX, newY);
         this.rotation = newRotation;
     }
 }
