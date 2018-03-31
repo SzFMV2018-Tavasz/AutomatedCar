@@ -17,6 +17,11 @@ public class FrontBackDetector extends Detector {
         previousCollidables = new ArrayList<Collidable>();
     }
 
+    /**
+     *
+     * @param Triangle FOW of detector
+     * @return returns center line of detector with point A and the point with the least and equal distance to point B and C
+     */
     private Point[] createCenterLine(Polygon Triangle) {
         Point[] p = new Point[2];
         p[0] = new Point(Triangle.xpoints[0], Triangle.ypoints[0]);
@@ -29,7 +34,14 @@ public class FrontBackDetector extends Detector {
         return previousCollidables;
     }
 
-    List<Collidable> getCollidableObjectsApproachingCenterLineofAutomatedCar(Point[] CenterLine, ArrayList<Collidable> CollidableObjectsInTriangle) {
+    /**
+     *
+     * @param CenterLine Centerline of triangle
+     * @param CollidableObjectsInTriangle objects that are collidable in triangle
+     * @return returns collidable objects in the triangle that are closer to the centerline than in the previous loop, or just appeared in the triangle.
+     */
+    List<Collidable> getCollidableObjectsApproachingCenterLineofAutomatedCar
+            (Point[] CenterLine, ArrayList<Collidable> CollidableObjectsInTriangle) {
         ArrayList<Collidable> ApproachingCollidables = new ArrayList<Collidable>();
 
         for (Collidable object : CollidableObjectsInTriangle) {
@@ -51,6 +63,13 @@ public class FrontBackDetector extends Detector {
         return ApproachingCollidables;
     }
 
+    /**
+     *
+     * @param A point of line
+     * @param B point of line
+     * @param P point of object
+     * @return returns distance of object from line
+     */
     private double pointToLineDistance(Point A, Point B, Point P) {
         double normalLength = Math.sqrt((B.x - A.x) * (B.x - A.x) + (B.y - A.y) * (B.y - A.y));
         return Math.abs((P.x - A.x) * (B.y - A.y) - (P.y - A.y) * (B.x - A.x)) / normalLength;
