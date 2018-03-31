@@ -64,7 +64,7 @@ public class Road extends Crossable {
             new int[]{875, 525, 525, 450, 350, 0, 0, 1399, 1399, 1050, 950, 875},
             12);
 
-    private static void tolt() {
+    private static void hashMapIni() {
         roadPolyMap.put("road_2lane_90left.png", ROAD_2LANE_90_LEFT);
         roadPolyMap.put("road_2lane_90right.png", ROAD_2LANE_90_RIGHT);
         roadPolyMap.put("road_2lane_45left.png", ROAD_2LANE_45_LEFT);
@@ -85,7 +85,7 @@ public class Road extends Crossable {
      */
     public Road(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
-        tolt();
+        hashMapIni();
     }
 
 
@@ -94,7 +94,7 @@ public class Road extends Crossable {
      */
     public Road() {
         super(0, 0, null);
-        tolt();
+        hashMapIni();
     }
 
 
