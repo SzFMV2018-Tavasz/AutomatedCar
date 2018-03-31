@@ -6,6 +6,10 @@ import java.awt.geom.Ellipse2D;
 
 public class Tree extends Stationary {
 
+    //Ha a fához tartozó kör shape átmérője akkora lenne mint maga a kép szélessége, akkor az
+    // azt jelentené, hogy a fa lombjának tudunk nekimenni, viszont mi a fa törzsét szeretnénk
+    //ütköztethetővé tenni, ezért a CIRCLEDIAMETER változóval befolyásoljuk a shape méretét úgy
+    // hogy az a fa törzsének méretét közelítse meg.
     private static double CIRCLEDIAMETER = 25;
 
     /**
