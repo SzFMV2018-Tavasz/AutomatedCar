@@ -14,17 +14,19 @@ import static org.junit.Assert.assertTrue;
 
 public class DetectorTest {
     World w = new World(800, 600);
-
+    final int magicnumber = 5000;
     @Test
-    public void ItHasAllWorldObjects() {
+    public void itHasAllWorldObjects() {
         Detector dec = new Detector(w.getWorldObjects());
-        Assert.assertNotEquals(dec.getWorldObjects(new Point(0, 0), new Point(5000, 0), new Point(0, 5000)).size(), 0);
+        Assert.assertNotEquals(dec.getWorldObjects(new Point(0, 0),
+                new Point(magicnumber, 0), new Point(0, magicnumber)).size(), 0);
     }
 
     @Test
-    public void OnlyCollidableObjects() {
+    public void onlyCollidableObjects() {
         Detector dec = new Detector(w.getWorldObjects());
-        List<Collidable> obj = dec.getCollidableObjects(new Point(0, 0), new Point(5000, 0), new Point(0, 5000));
+        List<Collidable> obj = dec.getCollidableObjects(new Point(0, 0),
+                new Point(magicnumber, 0), new Point(0, magicnumber));
         assertTrue(Collidable.class.isInstance(obj.get(0)));
 
     }
