@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.automatedcar.bus;
 
+import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.sample.SamplePacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
 import org.junit.Before;
@@ -31,14 +32,14 @@ public class VirtualFunctionBusTest {
     }
 
     @Test
-    public void sendLoopfunctions() {
+    public void sendLoopfunctions() throws MissingPacketException {
         virtualFunctionBus.loop();
         assertThat(senderLoopCalled, is(true));
         assertThat(receiverLoopCalled, is(true));
     }
 
     @Test
-    public void testSignalWritingReading() {
+    public void testSignalWritingReading() throws MissingPacketException {
         virtualFunctionBus.loop();
         assertThat(receiverComponent.gaspedalPosition, is(42));
     }

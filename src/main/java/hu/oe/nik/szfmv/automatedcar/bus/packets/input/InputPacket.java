@@ -12,7 +12,7 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     private int brakepedalvalue;
 
-    private GearEnum gearEnum;
+    private GearEnum gearEnum = GearEnum.P;
 
     private boolean leftIndexOn;
 
@@ -26,6 +26,12 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     private int accSpeedValue;
 
+    private boolean radarVizualizerState;
+
+    private boolean cameraVizualizerState;
+
+    private boolean ultrasonicVizualizerState;
+
     /**
      * Inpuutpacket
      *
@@ -37,21 +43,6 @@ public class InputPacket implements ReadOnlyInputPacket {
         }
 
         return instance;
-    }
-
-    @Override
-    public int getGasPedalPosition() {
-        return gaspedalposition;
-    }
-
-    @Override
-    public int getBreakPedalPosition() {
-        return brakepedalvalue;
-    }
-
-    @Override
-    public double getSteeringWheelPosition() {
-        return steeringWheelPosition;
     }
 
     public void setSteeringWheelPosition(double steeringWheelPosition) {
@@ -78,6 +69,46 @@ public class InputPacket implements ReadOnlyInputPacket {
         accSpeedValue = value;
     }
 
+    public void setLaneKeepingStatus(boolean value) {
+        this.laneKeepingOn = value;
+    }
+
+    public void setRightTurnSignalStatus(boolean rightIndexOn) {
+        this.rightIndexOn = rightIndexOn;
+    }
+
+    public void setRadarVizualizerState(boolean radarVizualizerState) {
+        this.radarVizualizerState = radarVizualizerState;
+    }
+
+    public void setCameraVizualizerState(boolean cameraVizualizerState) {
+        this.radarVizualizerState = radarVizualizerState;
+    }
+
+    public void setUltrasonicVizualizerState(boolean ultrasonicVizualizerState) {
+        this.ultrasonicVizualizerState = ultrasonicVizualizerState;
+    }
+
+
+    public void setGearSate(GearEnum gearEnum) {
+        this.gearEnum = gearEnum;
+    }
+
+    @Override
+    public int getGasPedalPosition() {
+        return gaspedalposition;
+    }
+
+    @Override
+    public int getBreakPedalPosition() {
+        return brakepedalvalue;
+    }
+
+    @Override
+    public double getSteeringWheelPosition() {
+        return steeringWheelPosition;
+    }
+
     @Override
     public int getACCTargetSpeed() {
         return accSpeedValue;
@@ -93,10 +124,6 @@ public class InputPacket implements ReadOnlyInputPacket {
         return laneKeepingOn;
     }
 
-    public void setLaneKeepingStatus(boolean value) {
-        this.laneKeepingOn = value;
-    }
-
     @Override
     public boolean getParkingPilotStatus() {
         return parkingPilote;
@@ -107,14 +134,13 @@ public class InputPacket implements ReadOnlyInputPacket {
         return gearEnum;
     }
 
-    public void setGearSate(GearEnum gearEnum) {
-        this.gearEnum = gearEnum;
-
-    }
-
     @Override
     public boolean getLeftTurnSignalStatus() {
         return leftIndexOn;
+    }
+
+    public void setLeftTurnSignalStatus(boolean leftIndexOn) {
+        this.leftIndexOn = leftIndexOn;
     }
 
     @Override
@@ -122,11 +148,20 @@ public class InputPacket implements ReadOnlyInputPacket {
         return rightIndexOn;
     }
 
-    public void setLeftTurnSignalStatus(boolean leftIndexOn) {
-        this.leftIndexOn = leftIndexOn;
+    @Override
+    public boolean getRadarVizualizerStatus() {
+        return radarVizualizerState;
     }
 
-    public void setRightTurnSignalStatus(boolean rightIndexOn) {
-        this.rightIndexOn = rightIndexOn;
+    @Override
+    public boolean getCameraVizualizerStatus() {
+        return cameraVizualizerState;
     }
+
+    @Override
+    public boolean getUltrasonicVizualizerStatus() {
+        return ultrasonicVizualizerState;
+    }
+
+
 }
