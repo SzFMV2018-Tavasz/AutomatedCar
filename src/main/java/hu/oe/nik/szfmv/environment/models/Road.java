@@ -1,8 +1,16 @@
 package hu.oe.nik.szfmv.environment.models;
 
+import hu.oe.nik.szfmv.visualization.DrawUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Road extends Crossable {
     private static HashMap<String, Polygon> roadPolyMap = new HashMap<String, Polygon>();
@@ -45,10 +53,8 @@ public class Road extends Crossable {
 
     //874*1399
     private static final Polygon ROAD_2LANE_ROTARY = new Polygon(
-            new int[]{0, 0, 350, 450, 525, 525, 875, 875, 950, 1050, 1399, 1399, 1050,
-                    950, 875, 875, 525, 525, 450, 350},
-            new int[]{875, 525, 525, 450, 350, 0, 0, 350, 450, 525, 525, 875, 875, 950,
-                    1050, 1399, 1399, 1050, 950, 875},
+            new int[]{0, 0, 350, 450, 525, 525, 875, 875, 950, 1050, 1399, 1399, 1050, 950, 875, 875, 525, 525, 450, 350},
+            new int[]{875, 525, 525, 450, 350, 0, 0, 350, 450, 525, 525, 875, 875, 950, 1050, 1399, 1399, 1050, 950, 875},
             20);
 
 
@@ -102,7 +108,29 @@ public class Road extends Crossable {
     public void generateShape() {
         AffineTransform at = new AffineTransform();
         //at.translate(this.getX(), this.getY());
-        at.rotate(-this.getRotation(), this.getX() + this.getWidth() / 2, this.getY() + this.getHeight() / 2);
+
+        Map<String, Point> referencePoints = new HashMap<>();
+        String referencePointsURI = "./src/main/resources/reference_points.xml";
+        Logger LOGGER = LogManager.getLogger();
+
+        try {
+            DrawUtils.loadReferencePoints(referencePoints, referencePointsURI);
+        } catch (ParserConfigurationException | IOException | SAXException e) {
+            LOGGER.error(e.getMessage());
+        }
+
+
+        Point referencePoint = referencePoints.get(this.imageFileName);
+
+        //newX = centerX + (point2x-centerX)*Math.cos(-this.getRotation()) - (point2y-centerY)*Math.sin(-this.getRotation());
+
+        //newY = centerY + (point2x-centerX)*Math.sin(-this.getRotation()) + (point2y-centerY)*Math.cos(-this.getRotation());
+
+        if (referencePoint == null) {
+            at.rotate(-this.getRotation(), this.getX() + this.getWidth() / 2, this.getY() + this.getHeight() / 2);
+        } else {
+            at.rotate(-this.getRotation(), referencePoint.getX() + this.getWidth() / 2, referencePoint.getY() + this.getHeight() / 2);
+        }
         this.shape = at.createTransformedShape(roadPolyMap.get(this.imageFileName));
 
         //ha a map nem tartalmazza:
