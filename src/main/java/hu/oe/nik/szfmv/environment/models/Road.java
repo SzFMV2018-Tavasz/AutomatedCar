@@ -120,11 +120,8 @@ public class Road extends Crossable {
             at.rotate(-this.getRotation(), this.getX() + this.getWidth() / 2,
                     this.getY() + this.getHeight() / 2);
         } else {
-            //double newX = this.getX() + (referencePoint.getX() - this.getX()) * Math.cos(-this.getRotation()) - (referencePoint.getY() - this.getY()) * Math.sin(-this.getRotation());
-            //double newY = this.getY() + (referencePoint.getX() - this.getX()) * Math.sin(-this.getRotation()) + (referencePoint.getY() - this.getY()) * Math.cos(-this.getRotation());
-            at.translate(this.getX(), this.getY());
-            at.rotate(-this.getRotation(), referencePoint.getX() + this.getWidth() / 2,
-                    referencePoint.getY() + this.getHeight() / 2);
+            at.translate(this.getX() - referencePoint.getX(), this.getY() - referencePoint.getY());
+            at.rotate(-this.getRotation(), referencePoint.getX(), referencePoint.getY());
         }
         this.shape = at.createTransformedShape(roadPolyMap.get(this.imageFileName));
 
