@@ -22,7 +22,6 @@ public class Gui extends JFrame {
         setTitle("AutomatedCar");
         setLocation(0, 0); // default is 0,0 (top left corner)
         addWindowListener(new GuiAdapter());
-        addKeyListener(InputHandler.getInstance());
         setPreferredSize(new Dimension(windowWidth, windowHeight)); // inner size
         setResizable(false);
         pack();
@@ -35,11 +34,15 @@ public class Gui extends JFrame {
         // Not using any layout manager, but fixed coordinates
         setLayout(null);
 
+        dashboard = new Dashboard();
+        addKeyListener(InputHandler.getInstance());
+        add(dashboard);
         courseDisplay = new CourseDisplay();
         add(courseDisplay);
 
-        dashboard = new Dashboard();
-        add(dashboard);
+        dashboard.setFocusable(false);
+        courseDisplay.setFocusable(false);
+        courseDisplay.addKeyListener(InputHandler.getInstance());
 
         setVisible(true);
     }

@@ -1,9 +1,19 @@
 package hu.oe.nik.szfmv.automatedcar.bus.packets.sample;
 
-public class SamplePacket implements ReadOnlySamplePacket {
-    private int gaspedalPosition = 0;
+import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 
+public class SamplePacket implements ReadOnlySamplePacket {
+    private int gaspedalPosition;
+    private int brakepedalPosition;
+    private GearEnum gearState;
+
+    /**
+     * SamplePacket constructor
+     */
     public SamplePacket() {
+        gaspedalPosition = 0;
+        brakepedalPosition = 0;
+        this.gearState = GearEnum.P;
     }
 
     public int getGaspedalPosition() {
@@ -14,5 +24,21 @@ public class SamplePacket implements ReadOnlySamplePacket {
         this.gaspedalPosition = gaspedalPosition;
     }
 
-    // TODO implement all of the HMI signals
+    @Override
+    public int getBrakepedalPosition() {
+        return brakepedalPosition;
+    }
+
+    public void setBrakepedalPosition(int brakepedalPosition) {
+        this.brakepedalPosition = brakepedalPosition;
+    }
+
+    @Override
+    public GearEnum getGearState() {
+        return gearState;
+    }
+
+    public void setGearState(GearEnum gearState) {
+        this.gearState = gearState;
+    }
 }

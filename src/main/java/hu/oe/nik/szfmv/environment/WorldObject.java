@@ -2,7 +2,12 @@ package hu.oe.nik.szfmv.environment;
 
 import hu.oe.nik.szfmv.environment.interfaces.IWorldObject;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public abstract class WorldObject implements IWorldObject {
 
@@ -12,6 +17,7 @@ public abstract class WorldObject implements IWorldObject {
     protected String imageFileName;
     protected Point location;
     protected Point offsetVector;
+    protected Shape shape;
 
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
@@ -25,6 +31,12 @@ public abstract class WorldObject implements IWorldObject {
         this.imageFileName = imageFileName;
     }
 
+    /**
+     * Creates an object of the virtual world on the given coordinates with the given image.
+     *
+     * @param location      the initial location coordinate of the object
+     * @param imageFileName the filename of the image representing the object in the virtual world
+     */
     public WorldObject(Point location, String imageFileName) {
         this.location = location;
         this.imageFileName = imageFileName;
@@ -66,16 +78,9 @@ public abstract class WorldObject implements IWorldObject {
         return this.width;
     }
 
+
     public int getHeight() {
         return this.height;
-    }
-
-    public double getRotation() {
-        return this.rotation;
-    }
-
-    public String getImageFileName() {
-        return this.imageFileName;
     }
 
     public void setWidth(int width) {
@@ -86,12 +91,67 @@ public abstract class WorldObject implements IWorldObject {
         this.height = height;
     }
 
+    public double getRotation() {
+        return this.rotation;
+    }
+
+    public String getImageFileName() {
+        return this.imageFileName;
+    }
+
+    public Shape getShape() {
+        return this.shape;
+    }
+
     public void setRotation(double rotation) {
         this.rotation = rotation;
     }
 
     public void setImageFileName(String imageFileName) {
         this.imageFileName = imageFileName;
+    }
+
+    /**
+     * This method get and store attribute from imageFile
+     *
+     * @throws IOException when image not found
+     */
+    public void generateDimens() throws IOException {
+        BufferedImage image = ImageIO.read(
+                new File(
+                        ClassLoader.getSystemResource(this.getImageFileName())
+                                .getFile()));
+        width = image.getWidth();
+        height = image.getHeight();
+    }
+
+    /**
+     * This method create Rectangle
+     */
+    public void generateShape() {
+        AffineTransform tx = new AffineTransform();
+        tx.rotate(-this.getRotation(), this.getX() + this.getWidth(), this.getY() + this.getHeight());
+        this.shape = tx.createTransformedShape(
+                new Rectangle(
+                        this.getX(),
+                        this.getY(),
+                        this.getWidth(),
+                        this.getHeight()
+                )
+        );
+    }
+
+    @Override
+    public String toString() {
+        return "WorldObject{" +
+                "width=" + width +
+                ", height=" + height +
+                ", rotation=" + rotation +
+                ", imageFileName='" + imageFileName + '\'' +
+                ", location=" + location +
+                ", offsetVector=" + offsetVector +
+                ", shape=" + shape +
+                '}';
     }
 
 }

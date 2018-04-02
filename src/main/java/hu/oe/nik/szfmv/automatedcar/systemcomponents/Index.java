@@ -6,10 +6,8 @@ import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
 
 public class Index extends SystemComponent {
 
-    private InputHandler inputHandler;
-
     private final InputPacket inputPacket;
-
+    private InputHandler inputHandler;
     private boolean rightTurnSingalOn;
 
     private boolean leftTurnSignalOn;
@@ -19,7 +17,7 @@ public class Index extends SystemComponent {
      *
      * @param virtualFunctionBus is the given functionbus
      */
-    protected Index(VirtualFunctionBus virtualFunctionBus) {
+    public Index(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
 
         rightTurnSingalOn = false;
@@ -32,7 +30,6 @@ public class Index extends SystemComponent {
 
     @Override
     public void loop() {
-
         if (inputHandler.isLeftIndexPressed() && inputHandler.isRightIndexPressed()) {
             return;
         }
@@ -42,7 +39,6 @@ public class Index extends SystemComponent {
             } else {
                 rightTurnSingalOn = false;
             }
-
             inputPacket.setRightTurnSignalStatus(rightTurnSingalOn);
         }
         if (inputHandler.isLeftIndexPressed()) {
@@ -51,7 +47,6 @@ public class Index extends SystemComponent {
             } else {
                 leftTurnSignalOn = false;
             }
-
             inputPacket.setLeftTurnSignalStatus(leftTurnSignalOn);
         }
     }

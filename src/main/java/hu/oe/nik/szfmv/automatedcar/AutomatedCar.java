@@ -1,26 +1,26 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringWheel;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
 import hu.oe.nik.szfmv.environment.WorldObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class AutomatedCar extends WorldObject {
 
+    private static final Logger LOGGER = LogManager.getLogger(AutomatedCar.class);
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
     private double wheelBase;
     private double halfWidth;
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
     private SteeringWheel steeringWheel;
-  
 
     /**
      * Constructor of the AutomatedCar class
@@ -32,8 +32,8 @@ public class AutomatedCar extends WorldObject {
     public AutomatedCar(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
 
-        final int carTestX = 500;
-        final int carTestY = 500;
+        final int carTestX = 200;
+        final int carTestY = 200;
         final int fullCircle = 360;
         final int carTestRotation = 90;
         final int carWidth = 108;
@@ -47,9 +47,14 @@ public class AutomatedCar extends WorldObject {
         this.setHeight(carHeight);
 
         virtualFunctionBus.carPacket = new CarPacket(this.getX(), this.getY(), this.getRotation());
+        new GasBrake(virtualFunctionBus);
+        new Index(virtualFunctionBus);
+        new GearShift(virtualFunctionBus);
+        new SensorsVisualizer(virtualFunctionBus);
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         steeringWheel = new SteeringWheel(virtualFunctionBus);
+
 
         new Driver(virtualFunctionBus);
     }
@@ -58,9 +63,12 @@ public class AutomatedCar extends WorldObject {
      * Provides a sample method for modifying the position of the car.
      */
     public void drive() {
-        virtualFunctionBus.loop();
-
-        calculatePositionAndOrientation();
+        try {
+            virtualFunctionBus.loop();
+            calculatePositionAndOrientation();
+        } catch (MissingPacketException e) {
+            LOGGER.error(e);
+        }
     }
 
     /**
@@ -68,12 +76,12 @@ public class AutomatedCar extends WorldObject {
      */
     private void calculatePositionAndOrientation() {
 
-        final double testSpeed = 10;
-        double angularSpeed = 100;
+        final double testSpeed = virtualFunctionBus.powertrainPacket.getSpeed();
+        double angularSpeed = 0;
         final double fps = 1;
         final int threeQuarterCircle = 270;
         try {
-            angularSpeed = SteeringMethods.getSteerAngle(angularSpeed);
+            angularSpeed = SteeringMethods.getSteerAngle(-this.getInputValues().getSteeringWheelPosition());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,13 +89,13 @@ public class AutomatedCar extends WorldObject {
         double halfWheelBase = wheelBase / 2;
 
         Point2D carPosition = new Point2D.Double(getCarValues().getX() + halfWidth,
-                getCarValues().getY() + halfWheelBase);
+            getCarValues().getY() + halfWheelBase);
         Point2D frontWheel = SteeringMethods.getFrontWheel(carHeading, halfWheelBase, carPosition);
         Point2D backWheel = SteeringMethods.getBackWheel(carHeading, halfWheelBase, carPosition);
 
         Point2D backWheelDisplacement = SteeringMethods.getBackWheelDisplacement(carHeading, testSpeed, fps);
         Point2D frontWheelDisplacement =
-                SteeringMethods.getFrontWheelDisplacement(carHeading, angularSpeed, testSpeed, fps);
+            SteeringMethods.getFrontWheelDisplacement(carHeading, angularSpeed, testSpeed, fps);
 
         frontWheel = SteeringMethods.getNewFrontWheelPosition(frontWheel, frontWheelDisplacement);
         backWheel = SteeringMethods.getNewBackWheelPosition(backWheel, backWheelDisplacement);
@@ -104,7 +112,6 @@ public class AutomatedCar extends WorldObject {
         getCarValues().setRotation(this.getRotation());
     }
 
-
     /**
      * Gets the input values as required by the dashboard.
      *
@@ -120,7 +127,7 @@ public class AutomatedCar extends WorldObject {
      *
      * @return car packet
      */
-    private CarPacket getCarValues() {
+    public CarPacket getCarValues() {
         return virtualFunctionBus.carPacket;
     }
 
