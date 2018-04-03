@@ -38,29 +38,25 @@ public class GearShift extends SystemComponent {
 
     @Override
     public void loop() {
-
         if (inputHandler.isGearShiftUpPressed()) {
-            if (!isUpPressed){
+            if (!isUpPressed) {
                 gearShiftsate = gearShiftUp();
                 isUpPressed = true;
             }
         }
-
         if (inputHandler.isGearShiftDownPressed()) {
-            if (!isDownPressed){
+            if (!isDownPressed) {
                 gearShiftsate = gearShiftDown();
                 isDownPressed = true;
             }
         }
-
         if (!inputHandler.isGearShiftUpPressed()) {
-            if (isUpPressed){
+            if (isUpPressed) {
                 isUpPressed = false;
             }
         }
-
         if (!inputHandler.isGearShiftDownPressed()) {
-            if (isDownPressed){
+            if (isDownPressed) {
                 isDownPressed = false;
             }
         }
@@ -80,7 +76,7 @@ public class GearShift extends SystemComponent {
         GearEnum e;
         switch (gearShiftsate) {
             case P:
-                e = GearEnum.D;
+                e = GearEnum.P;
                 break;
             case R:
                 e = GearEnum.P;
@@ -95,7 +91,6 @@ public class GearShift extends SystemComponent {
                 e = GearEnum.P;
                 break;
         }
-
         return e;
     }
 
@@ -123,7 +118,6 @@ public class GearShift extends SystemComponent {
                 e = GearEnum.P;
                 break;
         }
-
         return e;
     }
 }

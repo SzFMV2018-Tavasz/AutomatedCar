@@ -2,20 +2,20 @@ Summary of changes and the sender team
 
 The irrelevant parts must be removed!
 
-# Fixed bugs (with issue)
+# Fixed bugs (with referenced issue)
 
- - Egocar now turns left pressing left arrow #39
+ - Egocar now turns left pressing left arrow #ISSUE-ID
  - ...
 
-# Added functionalities (with issue)
+# Added functionalities (with referenced issue)
 
- - Flux capacitor has been implemented #88
+ - Flux capacitor has been implemented #ISSUE-ID
  - ...
 
-# (Breaking) changes (with issue)
+# (Breaking) changes (with referenced issue)
 
  - getWorldObjectReferencePoint no longer returns the top-left corner
-   but the centroid #23
+   but the centroid #ISSUE-ID
  - ...
 
 # Other (test, documentation addition, refactor)

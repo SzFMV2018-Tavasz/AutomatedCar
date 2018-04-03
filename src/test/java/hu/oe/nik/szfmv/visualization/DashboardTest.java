@@ -141,5 +141,20 @@ public class DashboardTest {
             rightTurnSignalGetterCalled = true;
             return false;
         }
+
+        @Override
+        public boolean getRadarVizualizerStatus() {
+            return false;
+        }
+
+        @Override
+        public boolean getCameraVizualizerStatus() {
+            return false;
+        }
+
+        @Override
+        public boolean getUltrasonicVizualizerStatus() {
+            return false;
+        }
     }
 }
