@@ -57,7 +57,7 @@ public class SteeringWheel extends SystemComponent {
      * @param newPos is the newpos
      * @return steeringwhell position
      */
-    private double calculateNewSteeringWheelPosition(double newPos) {
+    public double calculateNewSteeringWheelPosition(double newPos) {
         if (newPos > MAXPOSITION) {
             return MAXPOSITION;
         }
