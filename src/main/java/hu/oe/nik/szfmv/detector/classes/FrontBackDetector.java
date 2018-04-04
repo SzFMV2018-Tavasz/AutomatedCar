@@ -45,8 +45,8 @@ public class FrontBackDetector extends Detector {
      * @param collidableObjectsInTriangle objects that are collidable in triangle
      * @return returns collidable objects in the triangle that are closer to the centerline
      */
-    List<Collidable> getCollidableObjectsApproachingCenterLineofAutomatedCar
-            (Point[] centerLine, ArrayList<Collidable> collidableObjectsInTriangle) {
+    List<Collidable> getCollidableObjectsApproachingCenterLine (Point[] centerLine,
+                                                                ArrayList<Collidable> collidableObjectsInTriangle) {
         ArrayList<Collidable> approachingCollidables = new ArrayList<Collidable>();
 
         for (Collidable object : collidableObjectsInTriangle) {
