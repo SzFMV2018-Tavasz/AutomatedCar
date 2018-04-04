@@ -11,6 +11,10 @@ public class FrontBackDetector extends Detector {
 
     ArrayList<Collidable> previousCollidables;
 
+    /**
+     *
+     * @param worldObjects Objects from world lol
+     */
     public FrontBackDetector(List<WorldObject> worldObjects) {
         super(worldObjects);
 
@@ -19,13 +23,14 @@ public class FrontBackDetector extends Detector {
 
     /**
      *
-     * @param Triangle FOW of detector
-     * @return returns center line of detector with point A and the point with the least and equal distance to point B and C
+     * @param triangle FOW of detector
+     * @return returns center line of detector
      */
-    private Point[] createCenterLine(Polygon Triangle) {
+    private Point[] createCenterLine(Polygon triangle) {
         Point[] p = new Point[2];
-        p[0] = new Point(Triangle.xpoints[0], Triangle.ypoints[0]);
-        p[1] = new Point((Triangle.xpoints[1] + Triangle.xpoints[2]) / 2, (Triangle.ypoints[1] + Triangle.ypoints[2]) / 2);
+        p[0] = new Point(triangle.xpoints[0], triangle.ypoints[0]);
+        p[1] = new Point((triangle.xpoints[1] + triangle.xpoints[2]) / 2,
+                            (triangle.ypoints[1] + triangle.ypoints[2]) / 2);
 
         return p;
     }
@@ -36,42 +41,44 @@ public class FrontBackDetector extends Detector {
 
     /**
      *
-     * @param CenterLine Centerline of triangle
-     * @param CollidableObjectsInTriangle objects that are collidable in triangle
-     * @return returns collidable objects in the triangle that are closer to the centerline than in the previous loop, or just appeared in the triangle.
+     * @param centerLine Centerline of triangle
+     * @param collidableObjectsInTriangle objects that are collidable in triangle
+     * @return returns collidable objects in the triangle that are closer to the centerline
      */
     List<Collidable> getCollidableObjectsApproachingCenterLineofAutomatedCar
-            (Point[] CenterLine, ArrayList<Collidable> CollidableObjectsInTriangle) {
-        ArrayList<Collidable> ApproachingCollidables = new ArrayList<Collidable>();
+            (Point[] centerLine, ArrayList<Collidable> collidableObjectsInTriangle) {
+        ArrayList<Collidable> approachingCollidables = new ArrayList<Collidable>();
 
-        for (Collidable object : CollidableObjectsInTriangle) {
+        for (Collidable object : collidableObjectsInTriangle) {
 
-            Collidable PreviousCollidable = null;
+            Collidable previousCollidable = null;
             for (Collidable previousobject : previousCollidables) {
                 if (previousobject.getImageFileName() == object.getImageFileName() && 1 == 1) {
-                    PreviousCollidable = previousobject;
+                    previousCollidable = previousobject;
                     break;
                 }
             }
 
-            if (PreviousCollidable == null || pointToLineDistance(CenterLine[0], CenterLine[1], object.getLocation()) < pointToLineDistance(CenterLine[0], CenterLine[1], PreviousCollidable.getLocation())) {
-                ApproachingCollidables.add(object);
+            if (previousCollidable == null ||
+                    pointToLineDistance(centerLine[0], centerLine[1], object.getLocation()) <
+                            pointToLineDistance(centerLine[0], centerLine[1], previousCollidable.getLocation())) {
+                approachingCollidables.add(object);
             }
         }
 
-        previousCollidables = CollidableObjectsInTriangle;
-        return ApproachingCollidables;
+        previousCollidables = collidableObjectsInTriangle;
+        return approachingCollidables;
     }
 
     /**
      *
-     * @param A point of line
-     * @param B point of line
-     * @param P point of object
+     * @param a point of line
+     * @param b point of line
+     * @param p point of object
      * @return returns distance of object from line
      */
-    private double pointToLineDistance(Point A, Point B, Point P) {
-        double normalLength = Math.sqrt((B.x - A.x) * (B.x - A.x) + (B.y - A.y) * (B.y - A.y));
-        return Math.abs((P.x - A.x) * (B.y - A.y) - (P.y - A.y) * (B.x - A.x)) / normalLength;
+    private double pointToLineDistance(Point a, Point b, Point p) {
+        double normalLength = Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
+        return Math.abs((p.x - a.x) * (b.y - a.y) - (p.y - a.y) * (b.x - a.x)) / normalLength;
     }
 }
