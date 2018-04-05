@@ -6,13 +6,10 @@ import hu.oe.nik.szfmv.detector.classes.Detector;
 import hu.oe.nik.szfmv.environment.interfaces.IWorld;
 import hu.oe.nik.szfmv.environment.models.Collidable;
 import hu.oe.nik.szfmv.environment.models.Pedestrian;
-import hu.oe.nik.szfmv.environment.models.RoadSign;
 import hu.oe.nik.szfmv.environment.models.Tree;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +22,7 @@ public class World implements IWorld {
     private List<WorldObject> worldObjects = new ArrayList<>();
     private Detector detector;
 
-    private boolean isGameOver = false;
+    private static boolean isGameOver = false;
 
     /**
      * Creates the virtual world with the given dimension.
@@ -86,30 +83,47 @@ public class World implements IWorld {
         }
     }
 
+    /**
+     * It is true when fatal collision happened.
+     *
+     * @return if the game is over.
+     */
+    public static boolean isGameOver() {
+        return isGameOver;
+    }
+
+    /**
+     * ÍIterate trought all the collidable objects from the world.
+     * If collision happens set the speed of the car, or ends the "game".
+     *
+     * @param car {@link AutomatedCar}  provides the current controleld AutomatedCar.
+     */
     public void checkForCollisions(AutomatedCar car) {
         List<WorldObject> collidables = worldObjects.stream().filter(it -> Collidable.class.isInstance(it)).collect(Collectors.toList());
         isGameOver = false;
         for (WorldObject collidable : collidables) {
             if (isColliding(car, collidable)) {
-                if (RoadSign.class.isInstance(collidable)) {
-                    PowertrainSystem.carCollide();
-                } else {
+                if (Pedestrian.class.isInstance(collidable) || Tree.class.isInstance(collidable)){
                     isGameOver = true;
+                } else {
+                    PowertrainSystem.carCollide();
                 }
             }
         }
     }
 
-    private boolean isColliding(WorldObject a, WorldObject b) {
-        //TODO its not working yet
+    /**
+     * Check if the 2 given {@link WorldObject} collide.
+     *
+     * @param a a {@link WorldObject} to check
+     * @param b a {@link WorldObject} to check
+     * @return true if they collide, false if they not.
+     */
+    public boolean isColliding(WorldObject a, WorldObject b) {
         if (a.getShape() == null || b.getShape() == null) {
             LOGGER.info("The Shape was null");
             return false;
         }
         return a.getShape().intersects(b.getShape().getBounds());
-    }
-
-    public boolean isGameOver() {
-        return isGameOver;
     }
 }
