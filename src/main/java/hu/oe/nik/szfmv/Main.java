@@ -50,7 +50,8 @@ public class Main {
                 pedestrian.moveOnCrosswalk();
 
                 gui.getCourseDisplay().drawWorld(w, car.getCarValues());
-                gui.getDashboard().updateDisplayedValues(car.getInputValues(), car.getX(), car.getY());
+                gui.getDashboard().updateDisplayedValues(car.getInputValues(), car.getPowertrainValues(),
+                        car.getX(), car.getY());
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());
