@@ -1,7 +1,6 @@
 package hu.oe.nik.szfmv.environment;
 
 import hu.oe.nik.szfmv.detector.classes.Detector;
-import hu.oe.nik.szfmv.detector.classes.Triangle;
 import hu.oe.nik.szfmv.environment.interfaces.IWorld;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,8 +27,7 @@ public class World implements IWorld {
         this.width = width;
         this.height = height;
         this.build("src/main/resources/test.xml");
-        detector = Detector.getDetector();
-        detector.setWorldObjects(worldObjects);
+        detector = new Detector(worldObjects);
     }
 
     public int getWidth() {
