@@ -51,7 +51,7 @@ public class Main {
             try {
                 car.drive();
                 pedestrian.moveOnCrosswalk();
-                npcCar.Move();
+                npcCar.move();
 
                 gui.getCourseDisplay().drawWorld(w, car.getCarValues());
                 gui.getDashboard().updateDisplayedValues(car.getInputValues(), (int) car.getX(), (int) car.getY());

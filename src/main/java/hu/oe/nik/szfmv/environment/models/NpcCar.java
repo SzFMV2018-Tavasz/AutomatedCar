@@ -16,7 +16,10 @@ public class NpcCar extends Movable {
     /**
      * Creates the NPC car, and initializes the sorted roads so it can do actions on it.
      *
-     * @param world The World
+     * @param world         World
+     * @param x             the Car's x coordinate
+     * @param y             the Car's y coordinate
+     * @param imageFileName the Car's image filename
      */
     public NpcCar(World world, int x, int y, String imageFileName) {
         super(x, y, imageFileName);
@@ -25,6 +28,7 @@ public class NpcCar extends Movable {
         this.setWidth(carWidth);
         this.setHeight(carHeight);
 
+        // filter out the world objects which are roads
         roads = new ArrayList<>();
         for (WorldObject object : world.getWorldObjects()) {
             if (!object.getImageFileName().contains("roadsign") && object.getImageFileName().startsWith("road")) { // if it is road we add it to the list
@@ -35,31 +39,10 @@ public class NpcCar extends Movable {
         sortRoads();
     }
 
-    private static int roadComparatorX(WorldObject o1, WorldObject o2) {
-        if (o1.getX() == o2.getX()) {
-            return 0;
-        }
-        if (o1.getX() < o2.getX()) {
-            return -1;
-        }
-
-        return 1;
-
-    }
-
-    private static int roadComparatorY(WorldObject o1, WorldObject o2) {
-
-        if (o1.getY() == o2.getY()) {
-            return 0;
-        }
-        if (o1.getY() < o2.getY()) {
-            return -1;
-        }
-
-        return 1;
-
-    }
-
+    /**
+     * Sorts the road objects
+     * After the sort it is traversable in counter-clockwise motion
+     */
     private void sortRoads() {
         ArrayList<Point2D> points2d = new ArrayList<>();
 
@@ -98,19 +81,22 @@ public class NpcCar extends Movable {
         }
 
         actualRoadTarget = minDistance;
-
     }
 
-    public void Move() {
+    /**
+     * Sets the next roadTarget, and moves the car towards it
+     */
+    public void move() {
         // Search for the closest road in the list
         // then make a move unit towards that road
         // calculate the rotation between the road x,y and the car head
         // check if the car is in the road's boundary, if yes, search for the next closest road abd repeat
 
         // if we are in the actualRoadTarget's image boundary, then we go to the next Road
+        int errorMargin = 40; // this will be substracted from the boundaries
         double distanceFromActualTarget = Point2D.distance(this.getX(), this.getY(), roads.get(actualRoadTarget).getX(), roads.get(actualRoadTarget).getY());
-        if (distanceFromActualTarget <= roads.get(actualRoadTarget).getHeight() ||
-                distanceFromActualTarget <= roads.get(actualRoadTarget).getWidth()) {
+        if (distanceFromActualTarget <= roads.get(actualRoadTarget).getHeight() - errorMargin ||
+                distanceFromActualTarget <= roads.get(actualRoadTarget).getWidth() - errorMargin) {
             if (actualRoadTarget + 1 < roads.size()) {
                 actualRoadTarget++;  // then we go to the next road, and target that road, and try to reach it
             } else {
@@ -121,7 +107,10 @@ public class NpcCar extends Movable {
         double roadCenterX = roads.get(actualRoadTarget).getX() + (roads.get(actualRoadTarget).getWidth() / 2);
         double roadCenterY = roads.get(actualRoadTarget).getY() + (roads.get(actualRoadTarget).getHeight() / 2);
 
+        // here we could divide by the Math.abs((roadCenterX - this.getX())
+        // and then in the setY multiply this value by something (eg. 5)
         double deltaX = ((roadCenterX - this.getX()) / 100);
+        // here we could divide by the Math.abs((roadCenterY - this.getY())
         double deltaY = ((roadCenterY - this.getY()) / 100);
         this.setY(this.getY() + deltaY);
         this.setX(this.getX() + deltaX);
