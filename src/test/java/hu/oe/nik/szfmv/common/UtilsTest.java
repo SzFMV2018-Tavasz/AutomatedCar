@@ -34,12 +34,15 @@ public class UtilsTest {
 
     @Test
     public void testDistanceBetweenTwoPoints() {
-        assertEquals(10.7703, Utils.getDistanceBetweenTwoPoints(3, 6, 13, 2), THRESHOLD);
-        assertEquals(4679.3406, Utils.getDistanceBetweenTwoPoints(123, 322, 11, 5000), THRESHOLD);
+        double expected = 10.7703;
+        assertEquals(expected, Utils.getDistanceBetweenTwoPoints(3, 6, 13, 2), THRESHOLD);
+        expected = 4679.3406;
+        assertEquals(expected, Utils.getDistanceBetweenTwoPoints(123, 322, 11, 5000), THRESHOLD);
     }
 
     @Test
     public void testMeterConverter() {
-        assertEquals(2500, Utils.convertMeterToPixel(50), THRESHOLD);
+        int expected = 2500;
+        assertEquals(expected, Utils.convertMeterToPixel(50), THRESHOLD);
     }
 }

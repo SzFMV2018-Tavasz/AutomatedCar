@@ -2,20 +2,22 @@ package hu.oe.nik.szfmv.automatedcar.sensors;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.World;
-import hu.oe.nik.szfmv.environment.WorldObject;
-import hu.oe.nik.szfmv.environment.models.Collidable;
 import hu.oe.nik.szfmv.environment.models.RoadSign;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class UltrasonicSensorTest {
 
     private static final double THRESHOLD = 0.0001d;
-    World w = new World(800, 600);
-    AutomatedCar car = new AutomatedCar(0, 0, "");
+    private static final World w = new World(800, 600);
+    private static final AutomatedCar car = new AutomatedCar(0, 0, "");
 
+    /**
+     * Initializes the car and the world needed for the tests.
+     */
     @Before
     public void initialize() {
         car.setRotation(Math.toRadians(270));
@@ -34,25 +36,37 @@ public class UltrasonicSensorTest {
         w.addObjectToWorld(other);
     }
 
+    /**
+     * Tests the nearest object method of the ultrasonic sensor.
+     */
     @Test
     public void testNearestObject() {
         UltrasonicSensor sensor = new UltrasonicSensor(0, 0, 0, car, w);
         assertEquals(sensor.getNearestObject().getImageFileName(), "roadsign_speed_40.png");
     }
 
+    /**
+     * Tests the nearest object distance method of the ultrasonic sensor.
+     */
     @Test
     public void testNearestObjectDistance() {
         UltrasonicSensor sensor = new UltrasonicSensor(0, 0, 0, car, w);
-        assertEquals(sensor.getNearestObjectDistance(), Math.sqrt(2000), THRESHOLD);
+        int expected = 2000;
+        assertEquals(sensor.getNearestObjectDistance(), Math.sqrt(expected), THRESHOLD);
     }
 
+    /**
+     * Tests the nearest object dimensions method of the ultrasonic sensor.
+     */
     @Test
     public void testNearestObjectDimensions() {
         UltrasonicSensor sensor = new UltrasonicSensor(0, 0, 0, car, w);
         int[] dimensions = sensor.getNearestObjectDimensions();
 
+        int expectedX = 30;
+        int expectedY = 40;
         assertNotNull(dimensions);
-        assertEquals(dimensions[0], 30);
-        assertEquals(dimensions[1], 40);
+        assertEquals(dimensions[0], expectedX);
+        assertEquals(dimensions[1], expectedY);
     }
 }
