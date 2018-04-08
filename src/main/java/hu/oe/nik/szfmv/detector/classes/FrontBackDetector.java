@@ -53,7 +53,7 @@ public class FrontBackDetector extends Detector {
 
             Collidable previousCollidable = null;
             for (Collidable previousobject : previousCollidables) {
-                if (previousobject.getImageFileName() == object.getImageFileName() && 1 == 1) {
+                if (previousobject.getImageFileName().equals(object.getImageFileName())) {
                     previousCollidable = previousobject;
                     break;
                 }

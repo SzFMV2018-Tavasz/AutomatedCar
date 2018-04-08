@@ -16,15 +16,13 @@ public class RoadLaneDetector extends Detector {
 
     private static final double OFFSET_Y = 2;
 
-    private ArrayList<Collidable> inRoadLaneObjects;
-
-    private List<WorldObject> worldobjects;
+    private List<WorldObject> worldObjects;
 
     private List<Road> roads;
 
     private AutomatedCar car;
 
-    private Shape leteralOffset;
+    private Shape lateralOffset;
 
     /**
      * Constructor LOL
@@ -33,17 +31,18 @@ public class RoadLaneDetector extends Detector {
      */
     public RoadLaneDetector(List<WorldObject> worldObjects, AutomatedCar car) {
         super(worldObjects);
-        inRoadLaneObjects = new ArrayList<>();
         this.car = car;
-        this.worldobjects = worldObjects;
+        this.worldObjects = worldObjects;
         this.roads = new ArrayList<>();
+
+        scaleCarShape();
     }
 
     /**
      * find road from worldobject
      */
     private void findRoads() {
-        for (WorldObject w : worldobjects) {
+        for (WorldObject w : worldObjects) {
             if (w instanceof Road) {
                 Road r = (Road) w;
                 r.generateShape();
@@ -71,8 +70,54 @@ public class RoadLaneDetector extends Detector {
     private void scaleCarShape() {
         AffineTransform at = new AffineTransform();
         at.scale(OFFSET_X, OFFSET_Y);
-        leteralOffset = at.createTransformedShape(car.getShape());
+        lateralOffset = at.createTransformedShape(car.getShape());
     }
 
+    /**
+     * rotate the detection area according to the car's rotation
+     */
+    private void rotateDetectionArea(){
+        AffineTransform at = new AffineTransform();
+        at.rotate(car.getCarValues().getRotation());
+        lateralOffset = at.createTransformedShape(car.getShape());
+    }
 
+    /**
+     * returns the closest object to the sensor, based on lateral offset
+     */
+    public Collidable getClosestCollidableObjectBasedOnLateralOffset(){
+
+        rotateDetectionArea();
+
+        ArrayList<Collidable> objectsInDetectionArea = new ArrayList<>();
+
+        for (WorldObject worldObject : worldObjects){
+               if (worldObject instanceof Collidable && worldObject != car && worldObject.getShape().intersects(lateralOffset.getBounds()))
+               {
+                    objectsInDetectionArea.add((Collidable) worldObject);
+               }
+        }
+
+        if (objectsInDetectionArea.size() == 0){
+            return null;
+        }
+
+        if (objectsInDetectionArea.size() == 1){
+            return objectsInDetectionArea.get(0);
+        }
+
+        int minIdx = 0;
+        double minDistance = Double.MAX_VALUE;
+
+        for (int i = 1; i < objectsInDetectionArea.size(); i++){
+            double distance = objectsInDetectionArea.get(i).getLocation().distance(objectsInDetectionArea.get(minIdx).getLocation());
+            if (distance < minDistance)
+            {
+                minIdx = i;
+                minDistance = distance;
+            }
+        }
+
+        return objectsInDetectionArea.get(minIdx);
+    }
 }
