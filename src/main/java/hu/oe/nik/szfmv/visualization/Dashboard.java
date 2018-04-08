@@ -101,6 +101,45 @@ public class Dashboard extends JPanel {
     private  final int imageW = 50;
 
     /**
+     * Instructions
+     */
+    private  final JLabel brakeLabel=new JLabel();
+    private  final int brakeLabelX=10;
+    private  final int brakeLabelY=520;
+    private  final int brakeLabelWidth=100;
+    private  final int brakeLabelHeight=20;
+
+    private  final JLabel acceleratorLabel=new JLabel();
+    private  final int acceleratorLabelX=0;
+    private  final int acceleratorLabelY=0;
+    private  final int acceleratorLabelWidth=0;
+    private  final int acceleratorLabelHeight=0;
+
+    private  final JLabel leftLabel=new JLabel();
+    private  final int leftLabelX=0;
+    private  final int leftLabelY=0;
+    private  final int leftLabelWidth=0;
+    private  final int leftLabelHeight=0;
+
+    private  final JLabel rightLabel=new JLabel();
+    private  final int rightLabelX=0;
+    private  final int rightLabelY=0;
+    private  final int rightLabelWidth=0;
+    private  final int rightLabelHeight=0;
+
+    private  final JLabel indexLeftLabel=new JLabel();
+    private  final int indexLeftLabelX=0;
+    private  final int indexLeftLabelY=0;
+    private  final int indexLeftLabelWidth=0;
+    private  final int indexLeftLabelHeight=0;
+
+    private  final JLabel indexRightLabel=new JLabel();
+    private  final int indexRightLabelX=0;
+    private  final int indexRightLabelY=0;
+    private  final int indexRightLabelWidth=0;
+    private  final int indexRightLabelHeight=0;
+
+    /**
      * Initialize the dashboard
      */
     public Dashboard() {
@@ -196,6 +235,37 @@ public class Dashboard extends JPanel {
         gearLabel.setText("" + GearEnum.P);
         add(gearSignLabel);
         add(gearLabel);
+    }
+
+    /**
+     *
+     */
+    private void initializeInstructionsLabels()
+    {
+        brakeLabel.setBounds(brakeLabelX,brakeLabelY,brakeLabelWidth,brakeLabelHeight);
+        brakeLabel.setText("");
+
+        acceleratorLabel.setBounds(acceleratorLabelX,acceleratorLabelY,acceleratorLabelWidth,acceleratorLabelHeight);
+        acceleratorLabel.setText("");
+
+        leftLabel.setBounds(leftIndexX,leftLabelY,leftLabelWidth,leftLabelHeight);
+        leftLabel.setText("");
+
+        rightLabel.setBounds(rightIndexX,rightLabelY,rightLabelWidth,rightLabelHeight);
+        rightLabel.setText("");
+
+        indexLeftLabel.setBounds(indexLeftLabelX,indexLeftLabelY,indexLeftLabelWidth,indexLeftLabelHeight);
+        indexLeftLabel.setText("");
+
+        indexRightLabel.setBounds(indexRightLabelX,indexLeftLabelY,indexLeftLabelWidth,indexLeftLabelHeight);
+        indexRightLabel.setText("");
+
+        add(breakLabel);
+        add(acceleratorLabel);
+        add(leftLabel);
+        add(rightLabel);
+        add(indexLeftLabel);
+        add(indexRightLabel);
     }
 
     /**
