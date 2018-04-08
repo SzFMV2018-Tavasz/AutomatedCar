@@ -78,7 +78,6 @@ public abstract class WorldObject implements IWorldObject {
         return this.width;
     }
 
-
     public int getHeight() {
         return this.height;
     }
