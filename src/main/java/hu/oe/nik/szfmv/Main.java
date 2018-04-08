@@ -54,7 +54,8 @@ public class Main {
                 npcCar.move();
 
                 gui.getCourseDisplay().drawWorld(w, car.getCarValues());
-                gui.getDashboard().updateDisplayedValues(car.getInputValues(), (int) car.getX(), (int) car.getY());
+                gui.getDashboard().updateDisplayedValues(car.getInputValues(), car.getPowertrainValues(),
+                        (int) car.getX(), (int) car.getY());
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());
