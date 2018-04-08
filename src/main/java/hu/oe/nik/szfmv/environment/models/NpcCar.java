@@ -71,8 +71,8 @@ public class NpcCar extends Movable {
         SortVertices sortvertices = new SortVertices();
         pointsSortVertices = sortvertices.SortClockWise(points2d);
 
-        for (int i = 0; i < roads.size(); i++) {
-            for (int j = 0; j < pointsSortVertices.size(); j++) {
+        for (int j = 0; j < pointsSortVertices.size(); j++) {
+            for (int i = 0; i < roads.size(); i++) {
                 // we match the coordinates and the world objects.
                 if (roads.get(i).getX() == pointsSortVertices.get(j).getX() &&
                         roads.get(i).getY() == pointsSortVertices.get(j).getY()) {
