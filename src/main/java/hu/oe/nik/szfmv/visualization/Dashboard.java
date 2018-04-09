@@ -269,6 +269,14 @@ public class Dashboard extends JPanel {
      * @param rpm   the revolutions per minute
      */
     private void updateAnalogMeters(int speed, int rpm) {
+        if (speed < 0) {
+            speed = 0;
+        }
+
+        if (rpm < 0) {
+            rpm = 0;
+        }
+
         speedLabel.setText(speed + " km/h");
         speedAngle = calculateSpeedometer(speed);
 
