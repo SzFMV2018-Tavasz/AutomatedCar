@@ -99,11 +99,13 @@ public class World implements IWorld {
      * @param car {@link AutomatedCar}  provides the current controleld AutomatedCar.
      */
     public void checkForCollisions(AutomatedCar car) {
-        List<WorldObject> collidables = worldObjects.stream().filter(Collidable.class::isInstance).collect(Collectors.toList());
+        List<WorldObject> collidables = worldObjects.stream()
+                .filter(Collidable.class::isInstance)
+                .collect(Collectors.toList());
         isGameOver = false;
         for (WorldObject collidable : collidables) {
             if (isColliding(car, collidable)) {
-                if (Pedestrian.class.isInstance(collidable) || Tree.class.isInstance(collidable)){
+                if (Pedestrian.class.isInstance(collidable) || Tree.class.isInstance(collidable)) {
                     isGameOver = true;
                 } else {
                     PowertrainSystem.carCollide();
