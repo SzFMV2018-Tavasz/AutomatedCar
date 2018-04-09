@@ -1,17 +1,26 @@
 package hu.oe.nik.szfmv.environment.models;
 
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.common.SortVertices;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class NpcCar extends Movable {
 
     private List<WorldObject> roads;
     private int actualRoadTarget = 0;
+    private static final Logger LOGGER = LogManager.getLogger(NpcCar.class);
+    private static final int CAR_SPEED = 6;
+
+
 
     /**
      * Creates the NPC car, and initializes the sorted roads so it can do actions on it.
@@ -93,28 +102,42 @@ public class NpcCar extends Movable {
         // check if the car is in the road's boundary, if yes, search for the next closest road abd repeat
 
         // if we are in the actualRoadTarget's image boundary, then we go to the next Road
-        int errorMargin = 40; // this will be substracted from the boundaries
-        double distanceFromActualTarget = Point2D.distance(this.getX(), this.getY(), roads.get(actualRoadTarget).getX(), roads.get(actualRoadTarget).getY());
+        int errorMargin = 50; // this will be substracted from the boundaries
+
+
+        double actualTargetX = roads.get(actualRoadTarget).getX();
+        double actualTargetY = roads.get(actualRoadTarget).getY();
+
+        double distanceFromActualTarget = Point2D.distance(this.getX(), this.getY(), actualTargetX, actualTargetY);
+
         if (distanceFromActualTarget <= roads.get(actualRoadTarget).getHeight() - errorMargin ||
                 distanceFromActualTarget <= roads.get(actualRoadTarget).getWidth() - errorMargin) {
             if (actualRoadTarget + 1 < roads.size()) {
                 actualRoadTarget++;  // then we go to the next road, and target that road, and try to reach it
+
             } else {
                 actualRoadTarget = 0; // we go to the first road, to make a loop
             }
+            // TODO: remove debug
+            WorldObject newTar = roads.get(actualRoadTarget);
+            LOGGER.error( "new road target: X: " + newTar.getX() + " | Y: " + newTar.getY() + " | id: " + actualRoadTarget);
         }
 
         double roadCenterX = roads.get(actualRoadTarget).getX() + (roads.get(actualRoadTarget).getWidth() / 2);
         double roadCenterY = roads.get(actualRoadTarget).getY() + (roads.get(actualRoadTarget).getHeight() / 2);
 
-        // here we could divide by the Math.abs((roadCenterX - this.getX())
-        // and then in the setY multiply this value by something (eg. 5)
-        double deltaX = ((roadCenterX - this.getX()) / 100);
-        // here we could divide by the Math.abs((roadCenterY - this.getY())
-        double deltaY = ((roadCenterY - this.getY()) / 100);
-        this.setY(this.getY() + deltaY);
-        this.setX(this.getX() + deltaX);
-    }
+        double deltaY = roadCenterY - this.getY();
+        double deltaX = roadCenterX - this.getX();
 
+        double rot = Math.toRadians(270) - Math.atan2(deltaY, deltaX);
+
+        deltaX = Math.sin(rot) * -CAR_SPEED;
+        deltaY = Math.cos(rot) * -CAR_SPEED;
+
+        this.setX(this.getX() + deltaX);
+        this.setY(this.getY() + deltaY);
+
+        this.setRotation(Math.toRadians(270) - Math.atan2(deltaY, deltaX));
+    }
 
 }
