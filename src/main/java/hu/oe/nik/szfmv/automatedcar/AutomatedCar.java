@@ -6,11 +6,13 @@ import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
 import hu.oe.nik.szfmv.environment.WorldObject;
+import hu.oe.nik.szfmv.environment.models.Movable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.io.IOException;
 
 public class AutomatedCar extends WorldObject {
 
@@ -29,22 +31,23 @@ public class AutomatedCar extends WorldObject {
      * @param y             the initial y coordinate of the car
      * @param imageFileName name of the image file used displaying the car on the course display
      */
-    public AutomatedCar(int x, int y, String imageFileName) {
+    public AutomatedCar(int x, int y, String imageFileName) throws IOException {
         super(x, y, imageFileName);
 
-        final int carTestX = 200;
-        final int carTestY = 200;
-        final int fullCircle = 360;
-        final int carTestRotation = 90;
-        final int carWidth = 108;
-        final int carHeight = 240;
+        final int carTestRotation = 0;
 
-        setLocation(new Point(carTestX, carTestY));
-        setRotation(Math.toRadians(fullCircle - carTestRotation));
+        generateDimens();
+
+        final int carWidth = this.width;
+        final int carHeight = this.height;
+
+        setLocation(new Point(x, y));
+        setRotation(Math.toRadians(-carTestRotation));
+
+        generateShape();
+
         wheelBase = carHeight;
         halfWidth = carWidth / 2;
-        this.setWidth(carWidth);
-        this.setHeight(carHeight);
 
         virtualFunctionBus.carPacket = new CarPacket(this.getX(), this.getY(), this.getRotation());
         new GasBrake(virtualFunctionBus);
@@ -65,6 +68,7 @@ public class AutomatedCar extends WorldObject {
         try {
             virtualFunctionBus.loop();
             calculatePositionAndOrientation();
+            generateShape();
         } catch (MissingPacketException e) {
             LOGGER.error(e);
         }
@@ -88,13 +92,13 @@ public class AutomatedCar extends WorldObject {
         double halfWheelBase = wheelBase / 2;
 
         Point2D carPosition = new Point2D.Double(getCarValues().getX() + halfWidth,
-            getCarValues().getY() + halfWheelBase);
+                getCarValues().getY() + halfWheelBase);
         Point2D frontWheel = SteeringMethods.getFrontWheel(carHeading, halfWheelBase, carPosition);
         Point2D backWheel = SteeringMethods.getBackWheel(carHeading, halfWheelBase, carPosition);
 
         Point2D backWheelDisplacement = SteeringMethods.getBackWheelDisplacement(carHeading, testSpeed, fps);
         Point2D frontWheelDisplacement =
-            SteeringMethods.getFrontWheelDisplacement(carHeading, angularSpeed, testSpeed, fps);
+                SteeringMethods.getFrontWheelDisplacement(carHeading, angularSpeed, testSpeed, fps);
 
         frontWheel = SteeringMethods.getNewFrontWheelPosition(frontWheel, frontWheelDisplacement);
         backWheel = SteeringMethods.getNewBackWheelPosition(backWheel, backWheelDisplacement);

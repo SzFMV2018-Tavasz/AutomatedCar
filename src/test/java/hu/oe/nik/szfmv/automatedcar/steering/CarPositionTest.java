@@ -7,11 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.geom.Point2D;
+import java.io.IOException;
 
 public class CarPositionTest extends AutomatedCar {
     private double THRESHOLD;
 
-    public CarPositionTest() {
+    public CarPositionTest() throws IOException {
         super(0, 0, null);
     }
 

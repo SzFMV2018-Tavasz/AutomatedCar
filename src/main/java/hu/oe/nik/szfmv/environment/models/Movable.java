@@ -31,5 +31,6 @@ public abstract class Movable extends Collidable {
         this.location.x = newX;
         this.location.y = newY;
         this.rotation = newRotation;
+        generateShape();
     }
 }

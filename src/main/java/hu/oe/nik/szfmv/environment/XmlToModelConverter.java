@@ -1,10 +1,6 @@
 package hu.oe.nik.szfmv.environment;
 
-import hu.oe.nik.szfmv.environment.models.ParkingSpot;
-import hu.oe.nik.szfmv.environment.models.Crosswalk;
-import hu.oe.nik.szfmv.environment.models.Road;
-import hu.oe.nik.szfmv.environment.models.RoadSign;
-import hu.oe.nik.szfmv.environment.models.Tree;
+import hu.oe.nik.szfmv.environment.models.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
@@ -40,6 +36,7 @@ public abstract class XmlToModelConverter {
      */
     public static List<WorldObject> build(String xmlLocation)
             throws ParserConfigurationException, IOException, SAXException {
+        Road.loadReferencePoints();
 
         List<WorldObject> objectListToReturn = new ArrayList<WorldObject>();
         File inputFile = new File(xmlLocation);
@@ -69,6 +66,7 @@ public abstract class XmlToModelConverter {
      */
     private static WorldObject readValueFromXml(Element objectElement)
             throws XMLSignatureException, IOException {
+
 
         //Find Position, Transform, type parameter in current object.
         String type = objectElement.getAttribute("type");
@@ -118,7 +116,7 @@ public abstract class XmlToModelConverter {
      * @throws XMLSignatureException in case type not found
      */
     private static WorldObject createObjectFromType
-    (String type) throws XMLSignatureException {
+    (String type) throws XMLSignatureException, IOException {
         WorldObject wo;
         // road_something_something -> road
         if (type.indexOf('_') != -1) {
@@ -140,6 +138,8 @@ public abstract class XmlToModelConverter {
             case "tree":
                 wo = new Tree();
                 break;
+            case "woman":
+                wo = new Pedestrian();
             default:
                 throw new XMLSignatureException("Invalid Object type: " + type);
         }

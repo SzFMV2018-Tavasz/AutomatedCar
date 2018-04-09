@@ -8,6 +8,8 @@ import hu.oe.nik.szfmv.visualization.Gui;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+
 public class Main {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final int CYCLE_PERIOD = 40;
@@ -17,11 +19,11 @@ public class Main {
      *
      * @param args command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         final int worldWidth = 800;
         final int worldHeight = 600;
-        final int carX = 20;
-        final int carY = 20;
+        final int carX = 0;
+        final int carY = 0;
         final int pedestrianX = 1550;
         final int pedestrianY = 500;
 
