@@ -34,7 +34,7 @@ public class AutomatedCar extends WorldObject {
     public AutomatedCar(int x, int y, String imageFileName) throws IOException {
         super(x, y, imageFileName);
 
-        final int carTestRotation = 0;
+        final int carTestRotation = 90;
 
         generateDimens();
 
