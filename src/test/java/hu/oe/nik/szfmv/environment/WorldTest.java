@@ -74,7 +74,7 @@ public class WorldTest {
         World testWorld = new World(0, 0);
         AutomatedCar car = new AutomatedCar(0, 0, "car_2_white.png");
         Tree tree = new Tree(0, 0, "tree.png");
-
-        Assert.assertEquals(testWorld.isColliding(car, tree), true);
+        boolean result = testWorld.isColliding(car, tree);
+        Assert.assertTrue(result);
     }
 }
