@@ -5,7 +5,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
 public class RoadSign extends Stationary {
-    private static double CIRCLEDIAMETER = 50;
 
     //Ha a táblához tartozó kör shape átmérője akkora lenne mint maga a kép szélessége, akkor az
     // azt jelentené, hogy közvetlenül a tábla lapjának tudunk nekimenni, viszont mi a tábla rúdját
@@ -42,8 +41,5 @@ public class RoadSign extends Stationary {
                 this.getX() +this.getWidth()/2 -CIRCLEDIAMETER/2 ,
                 this.getY()+this.getHeight()/2 - CIRCLEDIAMETER/2,
                 CIRCLEDIAMETER,CIRCLEDIAMETER));
-                this.getX() + this.getWidth() / 2 - CIRCLEDIAMETER / 2,
-                this.getY() + this.getHeight() / 2 - CIRCLEDIAMETER / 2,
-                CIRCLEDIAMETER, CIRCLEDIAMETER));
     }
 }
