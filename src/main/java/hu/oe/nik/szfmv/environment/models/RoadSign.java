@@ -5,7 +5,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
 public class RoadSign extends Stationary {
-    private static double CIRCLEDIAMETER = 50;
+
+    //Ha a táblához tartozó kör shape átmérője akkora lenne mint maga a kép szélessége, akkor az
+    // azt jelentené, hogy közvetlenül a tábla lapjának tudunk nekimenni, viszont mi a tábla rúdját
+    // szeretnénk ütköztethetővé tenni, ezért a CIRCLEDIAMETER változóval befolyásoljuk a shape méretét
+    // úgy, hogy az a tábla rúdjának méretét közelítse meg.
+    private static double CIRCLEDIAMETER = 10;
 
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
