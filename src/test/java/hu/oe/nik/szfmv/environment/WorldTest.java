@@ -1,7 +1,9 @@
 package hu.oe.nik.szfmv.environment;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.environment.models.Pedestrian;
 import hu.oe.nik.szfmv.environment.models.Road;
+import hu.oe.nik.szfmv.environment.models.RoadSign;
 import hu.oe.nik.szfmv.environment.models.Tree;
 import org.junit.Assert;
 import org.junit.Test;
@@ -63,17 +65,46 @@ public class WorldTest {
 
     @Test
     public void checkForCollisions() {
+
+        World testWorld = new World(0, 0);
+        AutomatedCar car = new AutomatedCar(200, 92, "car_2_white.png");
+        Pedestrian pedestrian = new Pedestrian(200, 92, "man.png");
+        testWorld.addObjectToWorld(car);
+        testWorld.addObjectToWorld(pedestrian);
+
+        testWorld.checkForCollisions(car);
+        Assert.assertTrue(testWorld.isColliding(car, pedestrian));
+        Assert.assertTrue(testWorld.isGameOver());
+
     }
 
     @Test
     public void isGameOver() {
+        World testWorld = new World(0, 0);
+        AutomatedCar car = new AutomatedCar(200, 92, "car_2_white.png");
+        RoadSign roadSign = new RoadSign(200, 92, "tree.png");
+
+        testWorld.addObjectToWorld(car);
+        testWorld.addObjectToWorld(roadSign);
+
+        testWorld.checkForCollisions(car);
+
+        Assert.assertTrue(testWorld.isColliding(car, roadSign));
+        Assert.assertFalse(testWorld.isGameOver());
+
+        Pedestrian pedestrian = new Pedestrian(200, 92, "man.png");
+        testWorld.addObjectToWorld(pedestrian);
+
+        testWorld.checkForCollisions(car);
+        Assert.assertTrue(testWorld.isColliding(car, pedestrian));
+        Assert.assertTrue(testWorld.isGameOver());
     }
 
     @Test
     public void isColliding() {
         World testWorld = new World(0, 0);
-        AutomatedCar car = new AutomatedCar(0, 0, "car_2_white.png");
-        Tree tree = new Tree(0, 0, "tree.png");
+        AutomatedCar car = new AutomatedCar(200, 92, "car_2_white.png");
+        Tree tree = new Tree(200, 92, "tree.png");
         boolean result = testWorld.isColliding(car, tree);
         Assert.assertTrue(result);
     }
