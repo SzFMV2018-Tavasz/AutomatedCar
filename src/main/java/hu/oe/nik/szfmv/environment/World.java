@@ -22,7 +22,7 @@ public class World implements IWorld {
     private List<WorldObject> worldObjects = new ArrayList<>();
     private Detector detector;
 
-    private static boolean isGameOver = false;
+    private boolean isGameOver = false;
 
     /**
      * Creates the virtual world with the given dimension.
@@ -88,18 +88,18 @@ public class World implements IWorld {
      *
      * @return if the game is over.
      */
-    public static boolean isGameOver() {
+    public boolean isGameOver() {
         return isGameOver;
     }
 
     /**
-     * ÍIterate trought all the collidable objects from the world.
+     * Iterate trought all the collidable objects from the world.
      * If collision happens set the speed of the car, or ends the "game".
      *
      * @param car {@link AutomatedCar}  provides the current controleld AutomatedCar.
      */
     public void checkForCollisions(AutomatedCar car) {
-        List<WorldObject> collidables = worldObjects.stream().filter(it -> Collidable.class.isInstance(it)).collect(Collectors.toList());
+        List<WorldObject> collidables = worldObjects.stream().filter(Collidable.class::isInstance).collect(Collectors.toList());
         isGameOver = false;
         for (WorldObject collidable : collidables) {
             if (isColliding(car, collidable)) {
@@ -120,10 +120,6 @@ public class World implements IWorld {
      * @return true if they collide, false if they not.
      */
     public boolean isColliding(WorldObject a, WorldObject b) {
-        if (a.getShape() == null || b.getShape() == null) {
-            LOGGER.info("The Shape was null");
-            return false;
-        }
-        return a.getShape().intersects(b.getShape().getBounds());
+        return a.getShape().intersects(b.getShape().getBounds2D());
     }
 }
