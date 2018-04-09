@@ -13,6 +13,17 @@ public class Pedestrian extends Movable {
      */
     public Pedestrian(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
+        generateDimens();
+        generateShape();
+    }
+
+    /**
+     * Creates an object with default parameter values.
+     */
+    public Pedestrian() {
+        super(0, 0, null);
+        generateDimens();
+        generateShape();
     }
 
     /**
