@@ -19,7 +19,7 @@ public class NpcCar extends Movable {
     private int actualRoadTarget = 0;
     private static final Logger LOGGER = LogManager.getLogger(NpcCar.class);
     private static final double CAR_SPEED = 10;
-    private static final double MAX_TURN_DEG_FRAME = 10;
+    private static final double MAX_TURN_DEG_FRAME = 6;
 
     /**
      * Creates the NPC car, and initializes the sorted roads so it can do actions on it.
@@ -108,7 +108,7 @@ public class NpcCar extends Movable {
         // check if the car is in the road's boundary, if yes, search for the next closest road abd repeat
 
         // if we are in the actualRoadTarget's image boundary, then we go to the next Road
-        int errorMargin = 40; // this will be substracted from the boundaries
+        int errorMargin = 20; // this will be substracted from the boundaries
 
 
         double actualTargetX = roads.get(actualRoadTarget).getX();
@@ -124,6 +124,7 @@ public class NpcCar extends Movable {
             } else {
                 actualRoadTarget = 0; // we go to the first road, to make a loop
             }
+            LOGGER.error("NEW TARGET " + actualRoadTarget);
         }
 
         double roadCenterX = roads.get(actualRoadTarget).getX() + (roads.get(actualRoadTarget).getWidth() / 2);
@@ -132,8 +133,8 @@ public class NpcCar extends Movable {
         double deltaY = roadCenterY - this.getY();
         double deltaX = roadCenterX - this.getX();
 
-        double targetRotation = (Math.toRadians(270) - Math.atan2(deltaY, deltaX)) % (2*Math.PI);
-        double angleDifference = (this.getRotation() - targetRotation) % (2*Math.PI);
+        double targetRotation = Math.toRadians(270) - Math.atan2(deltaY, deltaX);
+        double angleDifference = this.getRotation() - targetRotation;
 
         if (Math.abs(angleDifference) > Math.toRadians(MAX_TURN_DEG_FRAME)) {
             if (angleDifference < 0) {
@@ -142,8 +143,6 @@ public class NpcCar extends Movable {
                 targetRotation = this.getRotation() - Math.toRadians(MAX_TURN_DEG_FRAME);
             }
         }
-
-        // TODO: don't allow instant rotation
 
         deltaX = Math.sin(targetRotation) * -CAR_SPEED;
         deltaY = Math.cos(targetRotation) * -CAR_SPEED;
