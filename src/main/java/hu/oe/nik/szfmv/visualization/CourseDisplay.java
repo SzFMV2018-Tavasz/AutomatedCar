@@ -30,7 +30,7 @@ public class CourseDisplay extends JPanel {
     private static final String referencePointsURI = "./src/main/resources/reference_points.xml";
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private final float scale = 0.5F;
+    private final float scale = 0.25F;
     private final int width = 770;
     private final int height = 700;
     private final int backgroundColor = 0xEEEEEE;
@@ -188,14 +188,10 @@ public class CourseDisplay extends JPanel {
             AffineTransform at1 = new AffineTransform();
             at1.scale(scale, scale);
             at1.translate(offsetX,offsetY);
-            // at1.rotate(object.getRotation(), object.getX() + offsetX, object.getY() + offsetY);
-            //  at1.translate(object.getX() + offsetX, object.getY() -  offsetY);
 
-
-            if (object.getShape() != null) {
-                Shape s = object.getShape();
-                Shape t = at1.createTransformedShape(s);
-                ((Graphics2D) g).draw(t);
+            Shape s = object.getShape();
+            if (s != null) {
+                ((Graphics2D) g).draw(at1.createTransformedShape(s));
             }
         }
     }
