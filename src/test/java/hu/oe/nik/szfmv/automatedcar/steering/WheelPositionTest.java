@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.geom.Point2D;
-import java.io.IOException;
 
 public class WheelPositionTest extends AutomatedCar {
     private double THRESHOLD;
@@ -17,7 +16,7 @@ public class WheelPositionTest extends AutomatedCar {
     private double northRotation = Math.toRadians(-90);
     private double northEastRotation = Math.toRadians(-45);
 
-    public WheelPositionTest() throws IOException {
+    public WheelPositionTest() {
         super(0, 0, null);
     }
 

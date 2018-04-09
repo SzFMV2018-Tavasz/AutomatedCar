@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv.environment;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.interfaces.IWorldObject;
+import org.apache.logging.log4j.LogManager;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -9,9 +10,11 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public abstract class WorldObject implements IWorldObject {
 
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(WorldObject.class);
     protected int width;
     protected int height;
     protected double rotation = 0f;
@@ -96,13 +99,17 @@ public abstract class WorldObject implements IWorldObject {
      *
      * @throws IOException when image not found
      */
-    public void generateDimens() throws IOException {
-        BufferedImage image = ImageIO.read(
-                new File(
-                        ClassLoader.getSystemResource(this.getImageFileName())
-                                .getFile()));
-        width = image.getWidth();
-        height = image.getHeight();
+    public void generateDimens() {
+        try {
+            BufferedImage image = ImageIO.read(
+                    new File(
+                            ClassLoader.getSystemResource(this.getImageFileName())
+                                    .getFile()));
+            width = image.getWidth();
+            height = image.getHeight();
+        } catch (IOException e) {
+            LOGGER.error(e);
+        }
     }
 
     /**

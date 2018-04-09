@@ -6,12 +6,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.awt.geom.Point2D;
-import java.io.IOException;
 
 public class CarHeadingTest extends AutomatedCar {
     final double THRESHOLD = 0.0001d;
 
-    public CarHeadingTest() throws IOException {
+    public CarHeadingTest() {
         super(0, 0, null);
     }
 

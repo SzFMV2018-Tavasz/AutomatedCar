@@ -4,15 +4,13 @@ import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.SteeringMethods;
 import org.junit.Test;
 
-import java.io.IOException;
-
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class SteerAngleTest extends AutomatedCar {
 
-    public SteerAngleTest()  throws IOException {
+    public SteerAngleTest() {
         super(0, 0, null);
     }
 

@@ -1,7 +1,5 @@
 package hu.oe.nik.szfmv.environment.models;
 
-import java.io.IOException;
-
 public class Pedestrian extends Movable {
 
     private final int height = 338;
@@ -13,7 +11,7 @@ public class Pedestrian extends Movable {
      * @param y             pedestrian y coordinate
      * @param imageFileName pedestrian image file
      */
-    public Pedestrian(int x, int y, String imageFileName) throws IOException {
+    public Pedestrian(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
         generateDimens();
         generateShape();
@@ -22,7 +20,7 @@ public class Pedestrian extends Movable {
     /**
      * Creates an object with default parameter values.
      */
-    public Pedestrian() throws IOException {
+    public Pedestrian() {
         super(0, 0, null);
         generateDimens();
         generateShape();

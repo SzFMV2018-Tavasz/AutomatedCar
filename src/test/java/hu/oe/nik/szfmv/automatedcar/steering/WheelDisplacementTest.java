@@ -7,13 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.geom.Point2D;
-import java.io.IOException;
 
 public class WheelDisplacementTest extends AutomatedCar {
     private double FPS;
     private double THRESHOLD;
 
-    public WheelDisplacementTest()  throws IOException {
+    public WheelDisplacementTest() {
         super(0, 0, null);
     }
 

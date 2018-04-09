@@ -31,23 +31,25 @@ public class AutomatedCar extends WorldObject {
      * @param y             the initial y coordinate of the car
      * @param imageFileName name of the image file used displaying the car on the course display
      */
-    public AutomatedCar(int x, int y, String imageFileName) throws IOException {
+
+    public AutomatedCar(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
 
+        final int carTestX = 200;
+        final int carTestY = 200;
+        final int fullCircle = 360;
         final int carTestRotation = 90;
+        final int carWidth = 108;
+        final int carHeight = 240;
 
-        generateDimens();
-
-        final int carWidth = this.width;
-        final int carHeight = this.height;
-
-        setLocation(new Point(x, y));
-        setRotation(Math.toRadians(-carTestRotation));
-
-        generateShape();
-
+        setLocation(new Point(carTestX, carTestY));
+        setRotation(Math.toRadians(fullCircle - carTestRotation));
         wheelBase = carHeight;
         halfWidth = carWidth / 2;
+        this.setWidth(carWidth);
+        this.setHeight(carHeight);
+
+        generateShape();
 
         virtualFunctionBus.carPacket = new CarPacket(this.getX(), this.getY(), this.getRotation());
         new GasBrake(virtualFunctionBus);
@@ -57,9 +59,9 @@ public class AutomatedCar extends WorldObject {
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         steeringWheel = new SteeringWheel(virtualFunctionBus);
 
-
         new Driver(virtualFunctionBus);
     }
+
 
     /**
      * Provides a sample method for modifying the position of the car.

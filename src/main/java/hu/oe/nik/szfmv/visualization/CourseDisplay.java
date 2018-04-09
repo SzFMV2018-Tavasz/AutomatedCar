@@ -30,7 +30,7 @@ public class CourseDisplay extends JPanel {
     private static final String referencePointsURI = "./src/main/resources/reference_points.xml";
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private final float scale = 0.25F;
+    private final float scale = 0.5F;
     private final int width = 770;
     private final int height = 700;
     private final int backgroundColor = 0xEEEEEE;
