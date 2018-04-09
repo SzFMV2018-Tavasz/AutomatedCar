@@ -90,6 +90,20 @@ public class UltrasonicSensor {
     }
 
     /**
+     * Updates the sensor according to car movement
+     */
+    public void updateSensor() {
+        double carDegree = Math.toDegrees(car.getRotation());
+        double angleDifference = relativeRotation - carDegree;
+        relativeRotation = carDegree + angleDifference;
+
+        relativeX = (int)(Math.cos(angleDifference) * (relativeX - car.getX()) - Math.sin(angleDifference)
+                * (relativeY - car.getY()) + car.getX());
+        relativeY = (int)(Math.sin(angleDifference) * (relativeX - car.getX()) - Math.cos(angleDifference)
+                * (relativeY - car.getY()) + car.getY());
+    }
+
+    /**
      * Gets the triangle for our sensor.
      * @return a Point[] array containing the 3 points of the triangle created for our sensor
      */
