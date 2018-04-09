@@ -69,4 +69,13 @@ public class UltrasonicSensorTest {
         assertEquals(dimensions[0], expectedX);
         assertEquals(dimensions[1], expectedY);
     }
+
+    /**
+     * Tests if the correct number of sensors are created
+     */
+    @Test
+    public void testSensorCreation() {
+        UltrasonicSensor.CreateUltrasonicSensors(car, w);
+        assertEquals(8, car.getUltrasonicSensors().size());
+    }
 }

@@ -13,6 +13,19 @@ import java.awt.*;
 
 public class UltrasonicSensor {
 
+    private static final int F_ROT = 0;
+    private static final int R_ROT = 90;
+    private static final int B_ROT = 180;
+    private static final int L_ROT = 270;
+    private static final int FBL_X = -25;
+    private static final int FBR_X = 25;
+    private static final int FRONT_Y = -115;
+    private static final int BACK_Y = 115;
+    private static final int RIGHT_X = 45;
+    private static final int LEFT_X = -45;
+    private static final int RLF_Y = -70;
+    private static final int RLB_Y = 70;
+
     private int relativeX;
     private int relativeY;
     private double relativeRotation;
@@ -37,6 +50,30 @@ public class UltrasonicSensor {
         this.relativeRotation = relativeRotation;
         this.car = car;
         this.world = world;
+    }
+
+    /**
+     * Creates the ultrasonic sensors and adds them to the car's list of ultrasonic sensors.
+     * @param car the car the sensors belong to
+     * @param world the world the sensors are in
+     */
+    public static void CreateUltrasonicSensors(AutomatedCar car, World world) {
+        car.getUltrasonicSensors().add(
+                new UltrasonicSensor(FBL_X,FRONT_Y, F_ROT, car, world));
+        car.getUltrasonicSensors().add(
+                new UltrasonicSensor(FBR_X,FRONT_Y, F_ROT, car, world));
+        car.getUltrasonicSensors().add(
+                new UltrasonicSensor(FBL_X,BACK_Y, B_ROT, car, world));
+        car.getUltrasonicSensors().add(
+                new UltrasonicSensor(FBR_X,BACK_Y, B_ROT, car, world));
+        car.getUltrasonicSensors().add(
+                new UltrasonicSensor(RIGHT_X,RLF_Y, R_ROT, car, world));
+        car.getUltrasonicSensors().add(
+                new UltrasonicSensor(RIGHT_X,RLB_Y, R_ROT, car, world));
+        car.getUltrasonicSensors().add(
+                new UltrasonicSensor(LEFT_X,RLF_Y, L_ROT, car, world));
+        car.getUltrasonicSensors().add(
+                new UltrasonicSensor(LEFT_X,RLB_Y, L_ROT, car, world));
     }
 
     /**

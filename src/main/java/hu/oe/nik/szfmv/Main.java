@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.sensors.UltrasonicSensor;
 import hu.oe.nik.szfmv.common.ConfigProvider;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.models.Pedestrian;
@@ -34,6 +35,8 @@ public class Main {
         AutomatedCar car = new AutomatedCar(carX, carY, "car_2_white.png");
         // add car to the world
         w.addObjectToWorld(car);
+        // create ultrasonic sensors for car
+        UltrasonicSensor.CreateUltrasonicSensors(car, w);
 
         Pedestrian pedestrian = new Pedestrian(pedestrianX, pedestrianY, "man.png");
         w.addObjectToWorld(pedestrian);
