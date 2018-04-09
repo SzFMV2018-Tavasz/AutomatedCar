@@ -42,14 +42,14 @@ public class Main {
         Gui gui = new Gui();
 
         // draw world to course display
-        gui.getCourseDisplay().drawWorld(w, car.getCarValues());
+        gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues());
 
         while (true) {
             try {
                 car.drive();
                 pedestrian.moveOnCrosswalk();
 
-                gui.getCourseDisplay().drawWorld(w, car.getCarValues());
+                gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues());
                 gui.getDashboard().updateDisplayedValues(car.getInputValues(), car.getPowertrainValues(),
                         car.getX(), car.getY());
                 Thread.sleep(CYCLE_PERIOD);
