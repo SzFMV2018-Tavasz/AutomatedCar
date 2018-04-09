@@ -116,7 +116,7 @@ public class Road extends Crossable {
     @Override
     public void generateShape() {
         AffineTransform at = new AffineTransform();
-
+      
         Point referencePoint = referencePoints.get(this.imageFileName);
 
         if (referencePoint == null) {
