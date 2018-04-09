@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.environment;
 
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.interfaces.IWorldObject;
 
 import javax.imageio.ImageIO;
@@ -110,14 +111,18 @@ public abstract class WorldObject implements IWorldObject {
     public void generateShape() {
         AffineTransform tx = new AffineTransform();
         tx.rotate(-this.getRotation(), this.getX(), this.getY());
-        this.shape = tx.createTransformedShape(
-                new Rectangle(
-                        this.getX(),
-                        this.getY(),
-                        this.getWidth(),
-                        this.getHeight()
-                )
-        );
+        if (!AutomatedCar.class.isInstance(this)) {
+            this.shape = tx.createTransformedShape(
+                    new Rectangle(
+                            this.getX(), this.getY(),
+                            this.getWidth(), this.getHeight()));
+        } else {
+            this.shape = tx.createTransformedShape(
+                    new Rectangle(
+                            this.getX() - this.getWidth() / 2,
+                            this.getY() - this.getHeight() / 2,
+                            this.getWidth(), this.getHeight()));
+        }
     }
 
     @Override
