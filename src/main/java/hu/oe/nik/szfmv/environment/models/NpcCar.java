@@ -18,9 +18,8 @@ public class NpcCar extends Movable {
     private List<WorldObject> roads;
     private int actualRoadTarget = 0;
     private static final Logger LOGGER = LogManager.getLogger(NpcCar.class);
-    private static final int CAR_SPEED = 6;
-
-
+    private static final double CAR_SPEED = 10;
+    private static final double MAX_TURN_DEG_FRAME = 10;
 
     /**
      * Creates the NPC car, and initializes the sorted roads so it can do actions on it.
@@ -46,6 +45,13 @@ public class NpcCar extends Movable {
         }
 
         sortRoads();
+
+        WorldObject firstRoad = roads.get(0);
+        double deltaY = firstRoad.getY() - this.getY();
+        double deltaX = firstRoad.getX() - this.getX();
+        double rot = Math.toRadians(270) - Math.atan2(deltaY, deltaX);
+
+        this.setRotation(rot);
     }
 
     /**
@@ -102,7 +108,7 @@ public class NpcCar extends Movable {
         // check if the car is in the road's boundary, if yes, search for the next closest road abd repeat
 
         // if we are in the actualRoadTarget's image boundary, then we go to the next Road
-        int errorMargin = 50; // this will be substracted from the boundaries
+        int errorMargin = 40; // this will be substracted from the boundaries
 
 
         double actualTargetX = roads.get(actualRoadTarget).getX();
@@ -118,9 +124,6 @@ public class NpcCar extends Movable {
             } else {
                 actualRoadTarget = 0; // we go to the first road, to make a loop
             }
-            // TODO: remove debug
-            WorldObject newTar = roads.get(actualRoadTarget);
-            LOGGER.error( "new road target: X: " + newTar.getX() + " | Y: " + newTar.getY() + " | id: " + actualRoadTarget);
         }
 
         double roadCenterX = roads.get(actualRoadTarget).getX() + (roads.get(actualRoadTarget).getWidth() / 2);
@@ -129,10 +132,21 @@ public class NpcCar extends Movable {
         double deltaY = roadCenterY - this.getY();
         double deltaX = roadCenterX - this.getX();
 
-        double rot = Math.toRadians(270) - Math.atan2(deltaY, deltaX);
+        double targetRotation = (Math.toRadians(270) - Math.atan2(deltaY, deltaX)) % (2*Math.PI);
+        double angleDifference = (this.getRotation() - targetRotation) % (2*Math.PI);
 
-        deltaX = Math.sin(rot) * -CAR_SPEED;
-        deltaY = Math.cos(rot) * -CAR_SPEED;
+        if (Math.abs(angleDifference) > Math.toRadians(MAX_TURN_DEG_FRAME)) {
+            if (angleDifference < 0) {
+                targetRotation = this.getRotation() + Math.toRadians(MAX_TURN_DEG_FRAME);
+            } else if (angleDifference > 0) {
+                targetRotation = this.getRotation() - Math.toRadians(MAX_TURN_DEG_FRAME);
+            }
+        }
+
+        // TODO: don't allow instant rotation
+
+        deltaX = Math.sin(targetRotation) * -CAR_SPEED;
+        deltaY = Math.cos(targetRotation) * -CAR_SPEED;
 
         this.setX(this.getX() + deltaX);
         this.setY(this.getY() + deltaY);
