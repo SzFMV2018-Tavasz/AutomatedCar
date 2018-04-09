@@ -38,8 +38,8 @@ public class RoadSign extends Stationary {
         AffineTransform tx = new AffineTransform();
         tx.rotate(-this.getRotation(), this.getX(), this.getY());
         this.shape = tx.createTransformedShape((Shape) new Ellipse2D.Double(
-                this.getX() +this.getWidth()/2 -CIRCLEDIAMETER/2 ,
-                this.getY()+this.getHeight()/2 - CIRCLEDIAMETER/2,
-                CIRCLEDIAMETER,CIRCLEDIAMETER));
+                this.getX() + this.getWidth() / 2 - CIRCLEDIAMETER / 2,
+                this.getY() + this.getHeight() / 2 - CIRCLEDIAMETER / 2,
+                CIRCLEDIAMETER, CIRCLEDIAMETER));
     }
 }

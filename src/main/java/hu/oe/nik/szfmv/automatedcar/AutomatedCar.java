@@ -6,13 +6,11 @@ import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
 import hu.oe.nik.szfmv.environment.WorldObject;
-import hu.oe.nik.szfmv.environment.models.Movable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.io.IOException;
 
 public class AutomatedCar extends WorldObject {
 
