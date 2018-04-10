@@ -101,7 +101,7 @@ public abstract class WorldObject implements IWorldObject {
 
 
     /**
-     * This method returns the actual shape of the WorldObject
+     * @return the actual {@link Shape} of the {@link WorldObject}.
      */
     public Shape getShape() {
         generateShape();
