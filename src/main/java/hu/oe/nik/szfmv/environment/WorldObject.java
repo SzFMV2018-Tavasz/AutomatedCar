@@ -1,6 +1,8 @@
 package hu.oe.nik.szfmv.environment;
 
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.interfaces.IWorldObject;
+import org.apache.logging.log4j.LogManager;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,10 +15,12 @@ public abstract class WorldObject implements IWorldObject {
 
     protected int width = 10;
     protected int height = 10;
+
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(WorldObject.class);
+
     protected double rotation = 0f;
     protected String imageFileName;
     protected Point location;
-    protected Point offsetVector;
     protected Shape shape;
 
     /**
@@ -29,25 +33,6 @@ public abstract class WorldObject implements IWorldObject {
     public WorldObject(int x, int y, String imageFileName) {
         this.location = new Point(x, y);
         this.imageFileName = imageFileName;
-    }
-
-    /**
-     * Creates an object of the virtual world on the given coordinates with the given image.
-     *
-     * @param location      the initial location coordinate of the object
-     * @param imageFileName the filename of the image representing the object in the virtual world
-     */
-    public WorldObject(Point location, String imageFileName) {
-        this.location = location;
-        this.imageFileName = imageFileName;
-    }
-
-    public Point getOffsetVector() {
-        return offsetVector;
-    }
-
-    public void setOffsetVector(Point offsetVector) {
-        this.offsetVector = offsetVector;
     }
 
     public Point getLocation() {
@@ -77,7 +62,6 @@ public abstract class WorldObject implements IWorldObject {
     public int getWidth() {
         return this.width;
     }
-
 
     public int getHeight() {
         return this.height;
@@ -121,13 +105,17 @@ public abstract class WorldObject implements IWorldObject {
      *
      * @throws IOException when image not found
      */
-    public void generateDimens() throws IOException {
-        BufferedImage image = ImageIO.read(
-                new File(
-                        ClassLoader.getSystemResource(this.getImageFileName())
-                                .getFile()));
-        width = image.getWidth();
-        height = image.getHeight();
+    public void generateDimens() {
+        try {
+            BufferedImage image = ImageIO.read(
+                    new File(
+                            ClassLoader.getSystemResource(this.getImageFileName())
+                                    .getFile()));
+            width = image.getWidth();
+            height = image.getHeight();
+        } catch (IOException e) {
+            LOGGER.error(e);
+        }
     }
 
     /**
@@ -135,15 +123,19 @@ public abstract class WorldObject implements IWorldObject {
      */
     public void generateShape() {
         AffineTransform tx = new AffineTransform();
-        tx.rotate(this.getRotation(), this.getX(), this.getY());
-        this.shape = tx.createTransformedShape(
-                new Rectangle(
-                        this.getX(),
-                        this.getY(),
-                        this.getWidth(),
-                        this.getHeight()
-                )
-        );
+        tx.rotate(-this.getRotation(), this.getX(), this.getY());
+        if (!AutomatedCar.class.isInstance(this)) {
+            this.shape = tx.createTransformedShape(
+                    new Rectangle(
+                            this.getX(), this.getY(),
+                            this.getWidth(), this.getHeight()));
+        } else {
+            this.shape = tx.createTransformedShape(
+                    new Rectangle(
+                            this.getX() - this.getWidth() / 2,
+                            this.getY() - this.getHeight() / 2,
+                            this.getWidth(), this.getHeight()));
+        }
     }
 
     @Override
@@ -154,7 +146,6 @@ public abstract class WorldObject implements IWorldObject {
                 ", rotation=" + rotation +
                 ", imageFileName='" + imageFileName + '\'' +
                 ", location=" + location +
-                ", offsetVector=" + offsetVector +
                 ", shape=" + shape +
                 '}';
     }

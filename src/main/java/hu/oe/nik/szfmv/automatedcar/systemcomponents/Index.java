@@ -30,7 +30,6 @@ public class Index extends SystemComponent {
 
     @Override
     public void loop() {
-
         if (inputHandler.isLeftIndexPressed() && inputHandler.isRightIndexPressed()) {
             return;
         }
@@ -40,7 +39,6 @@ public class Index extends SystemComponent {
             } else {
                 rightTurnSingalOn = false;
             }
-
             inputPacket.setRightTurnSignalStatus(rightTurnSingalOn);
         }
         if (inputHandler.isLeftIndexPressed()) {
@@ -49,7 +47,6 @@ public class Index extends SystemComponent {
             } else {
                 leftTurnSignalOn = false;
             }
-
             inputPacket.setLeftTurnSignalStatus(leftTurnSignalOn);
         }
     }

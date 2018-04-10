@@ -22,6 +22,12 @@ public class InputHandler implements KeyListener {
     private static final int ACCSPEEDINCREMENTKEYCODE = KeyEvent.VK_PLUS;
     private static final int ACCSPEEDDECREMENTKEYCODE = KeyEvent.VK_MINUS;
     private static final int PARKINGPILOTEKEYCODE = KeyEvent.VK_P;
+    private static final int RADARTESTKEYCODE = KeyEvent.VK_7;
+    private static final int CAMERATESTKEYCODE = KeyEvent.VK_8;
+    private static final int ULTRASONICTESTKEYCODE = KeyEvent.VK_9;
+    private static final int SHAPETESTKEYCODE = KeyEvent.VK_6;
+
+
     private static InputHandler instance = null;
     private boolean steeringLeftPressed;
 
@@ -48,6 +54,14 @@ public class InputHandler implements KeyListener {
     private boolean accSpeedIncrementPressed;
 
     private boolean accSpeedDecrementPressed;
+
+    private boolean radarTestPressed;
+
+    private boolean cameraTestPressed;
+
+    private boolean ultrasonicTestPressed;
+
+    private boolean shapeBorderTestPressed;
 
     /**
      * Inputhandler
@@ -114,6 +128,22 @@ public class InputHandler implements KeyListener {
         return accSpeedDecrementPressed;
     }
 
+    public boolean isRadarTestPressed() {
+        return radarTestPressed;
+    }
+
+    public boolean isCameraTestPressed() {
+        return cameraTestPressed;
+    }
+
+    public boolean isUltrasonicTestPressed() {
+        return ultrasonicTestPressed;
+    }
+
+    public boolean isShapeBorderTestPressed() {
+        return shapeBorderTestPressed;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -169,6 +199,18 @@ public class InputHandler implements KeyListener {
                 break;
             case (ACCSPEEDDECREMENTKEYCODE):
                 accSpeedDecrementPressed = state;
+                break;
+            case (RADARTESTKEYCODE):
+                radarTestPressed = state;
+                break;
+            case (CAMERATESTKEYCODE):
+                cameraTestPressed = state;
+                break;
+            case (ULTRASONICTESTKEYCODE):
+                ultrasonicTestPressed = state;
+                break;
+            case (SHAPETESTKEYCODE):
+                shapeBorderTestPressed = state;
                 break;
             default:
                 break;
