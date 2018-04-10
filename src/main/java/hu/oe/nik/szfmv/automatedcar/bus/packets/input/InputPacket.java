@@ -32,8 +32,6 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     private boolean ultrasonicVizualizerState;
 
-    private boolean shapeBorderVizualizerState;
-
     /**
      * Inpuutpacket
      *
@@ -91,9 +89,6 @@ public class InputPacket implements ReadOnlyInputPacket {
         this.ultrasonicVizualizerState = ultrasonicVizualizerState;
     }
 
-    public void setShapeBorderVizualizerState(boolean shapeBorderVizualizerState) {
-        this.shapeBorderVizualizerState = shapeBorderVizualizerState;
-    }
 
     public void setGearSate(GearEnum gearEnum) {
         this.gearEnum = gearEnum;
@@ -166,11 +161,6 @@ public class InputPacket implements ReadOnlyInputPacket {
     @Override
     public boolean getUltrasonicVizualizerStatus() {
         return ultrasonicVizualizerState;
-    }
-
-    @Override
-    public boolean getShapeBorderVizualizerState() {
-        return shapeBorderVizualizerState;
     }
 
 
