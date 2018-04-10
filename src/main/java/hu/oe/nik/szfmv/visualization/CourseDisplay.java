@@ -2,7 +2,6 @@ package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.input.InputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.detector.classes.Triangle;
 import hu.oe.nik.szfmv.environment.World;
@@ -41,6 +40,10 @@ public class CourseDisplay extends JPanel {
     private final int carHeight = 208;
     private final int courseWidth = 5120;
     private final int courseHeight = 3000;
+
+    private final double sensorRangeRadar = 200.0;
+    private final double angleOfViewRadar = 60.0;
+
 
     private CarPacket carPacket = null;
     private ReadOnlyInputPacket inputPacket = null;
@@ -128,6 +131,7 @@ public class CourseDisplay extends JPanel {
      *
      * @param world     {@link World} object that describes the virtual world
      * @param carPacket {@link CarPacket} Packet that contains the location of the automated car
+     * @param inputPacket {@link ReadOnlyInputPacket} contains key states for debugging
      */
     public void drawWorld(World world, CarPacket carPacket, ReadOnlyInputPacket inputPacket) {
         invalidate();
@@ -184,14 +188,14 @@ public class CourseDisplay extends JPanel {
             }
         }
         // draw sensor scopes depending on debug settings
-        if(inputPacket.getCameraVizualizerStatus()) {
-        //    drawCamera(g);
+        if (inputPacket.getCameraVizualizerStatus()) {
+            //    drawCamera(g);
         }
-        if(inputPacket.getRadarVizualizerStatus()) {
+        if (inputPacket.getRadarVizualizerStatus()) {
             drawRadar(g, offset.x, offset.y);
         }
-        if(inputPacket.getUltrasonicVizualizerStatus()) {
-        //    drawUltrasonic(g);
+        if (inputPacket.getUltrasonicVizualizerStatus()) {
+            //    drawUltrasonic(g);
         }
         // draw stationary children (Tree, Road sign)
         g.drawImage(staticEnvironmentZ1, (int) (offset.x * scale), (int) (offset.y * scale), this);
@@ -218,10 +222,12 @@ public class CourseDisplay extends JPanel {
     private void drawRadar(Graphics g, int offsetX, int offsetY) {
         Point[] radarCoords = Triangle.trianglePoints(
                 new Point(carPacket.getX() + offsetX, carPacket.getY() + offsetY),
-                200.0 * scale, 60.0, carPacket.getRotation()
-                );
-        int[] x = {(int) (radarCoords[0].getX() * scale), (int) (radarCoords[1].getX() * scale), (int) (radarCoords[2].getX() * scale)};
-        int[] y = {(int) (radarCoords[0].getY() * scale), (int) (radarCoords[1].getY() * scale), (int) (radarCoords[2].getY() * scale)};
+                sensorRangeRadar * scale, angleOfViewRadar, carPacket.getRotation()
+        );
+        int[] x = {(int) (radarCoords[0].getX() * scale), (int) (radarCoords[1].getX()
+                * scale), (int) (radarCoords[2].getX() * scale)};
+        int[] y = {(int) (radarCoords[0].getY() * scale), (int) (radarCoords[1].getY()
+                * scale), (int) (radarCoords[2].getY() * scale)};
         g.drawPolygon(x, y, 3);
     }
 
