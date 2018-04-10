@@ -140,7 +140,7 @@ public class InputHandler implements KeyListener {
         return ultrasonicTestPressed;
     }
 
-    public boolean isShapeBorderTestPressed(){
+    public boolean isShapeBorderTestPressed() {
         return shapeBorderTestPressed;
     }
 
