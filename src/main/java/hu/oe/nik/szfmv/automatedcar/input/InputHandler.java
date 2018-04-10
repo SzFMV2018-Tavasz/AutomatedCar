@@ -140,7 +140,9 @@ public class InputHandler implements KeyListener {
         return ultrasonicTestPressed;
     }
 
-    public boolean isShapeBorderTestPressed() { return shapeBorderTestPressed; }
+    public boolean isShapeBorderTestPressed(){
+        return shapeBorderTestPressed;
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {

@@ -169,7 +169,9 @@ public class InputPacket implements ReadOnlyInputPacket {
     }
 
     @Override
-    public boolean getShapeBorderVizualizerState() { return shapeBorderVizualizerState; }
+    public boolean getShapeBorderVizualizerState() {
+        return shapeBorderVizualizerState;
+    }
 
 
 }

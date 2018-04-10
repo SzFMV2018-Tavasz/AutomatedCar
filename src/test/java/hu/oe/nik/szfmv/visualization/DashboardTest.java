@@ -156,5 +156,10 @@ public class DashboardTest {
         public boolean getUltrasonicVizualizerStatus() {
             return false;
         }
+
+        @Override
+        public boolean getShapeBorderVizualizerState() {
+            return false;
+        }
     }
 }
