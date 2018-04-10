@@ -4,6 +4,8 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.RoadSignDetectionPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
 import hu.oe.nik.szfmv.environment.WorldObject;
@@ -55,7 +57,7 @@ public class AutomatedCar extends WorldObject {
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         steeringWheel = new SteeringWheel(virtualFunctionBus);
-
+        new RoadSignDetection(virtualFunctionBus);
 
         new Driver(virtualFunctionBus);
     }
@@ -140,4 +142,10 @@ public class AutomatedCar extends WorldObject {
     public ReadOnlyPowertrainPacket getPowertrainValues() {
         return virtualFunctionBus.powertrainPacket;
     }
+
+    /** Gets the roadsign closest to the car
+     *
+     * @return roadsigndetection packet
+     */
+    public ReadOnlyRoadSignDetectionPacket getRoadSign() { return virtualFunctionBus.roadSignDetectionPacket; }
 }

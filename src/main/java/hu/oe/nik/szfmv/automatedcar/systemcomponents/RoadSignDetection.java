@@ -20,7 +20,6 @@ public class RoadSignDetection extends SystemComponent {
 
     private static final double CAMERAANGLEOFVIEW = 60; // degree
     private static final double CAMERARANGE = 80 * 50; // m * pixels/m
-    private final CarPacket carPacket;
     private RoadSignDetectionPacket roadSignDetectionPacket;
 
     /**
@@ -28,7 +27,7 @@ public class RoadSignDetection extends SystemComponent {
      */
     public RoadSignDetection(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
-        carPacket = virtualFunctionBus.carPacket;
+        roadSignDetectionPacket = RoadSignDetectionPacket.getInstance();
     }
 
     /** makes a triangle representing the camera view on the car, gets the objects which are in the
@@ -37,7 +36,7 @@ public class RoadSignDetection extends SystemComponent {
      *
      * @return roadsign to show on dashboard
      */
-    public RoadSign setRoadSign() {
+    private RoadSign setRoadSign(CarPacket carPacket) {
         Point cameraPosition = new Point(0, 0);
         cameraPosition.x = carPacket.getX();
         cameraPosition.y = carPacket.getY();
@@ -47,8 +46,8 @@ public class RoadSignDetection extends SystemComponent {
         Point[] trianglePoints = triangle.trianglePoints(cameraPosition, CAMERARANGE, CAMERAANGLEOFVIEW, cameraRotation);
         trianglePoints[1] = calculateMiddlePoint(trianglePoints[1], trianglePoints[2]);
 
-        List<WorldObject> worldObjects = new ArrayList<>();
-        Detector detector = new Detector(worldObjects);
+        Detector detector; // TODO: get the static detector
+        List<WorldObject> worldObjects;
         worldObjects = detector.getWorldObjects(trianglePoints[0], trianglePoints[1], trianglePoints[2]);
 
         List<RoadSign> roadSigns = new ArrayList<>();
@@ -96,7 +95,7 @@ public class RoadSignDetection extends SystemComponent {
         double minDistance = Integer.MAX_VALUE;
         int pos = 0;
         for (int j = 0; j < rs.size(); j++) {
-            actualDistance = cp.distance(rs.get(j).getOffsetVector());
+            actualDistance = cp.distance(findCenterPointOfRoadSign(rs.get(j)));
             if (minDistance > actualDistance) {
                 minDistance = actualDistance;
                 pos = j;
@@ -105,9 +104,21 @@ public class RoadSignDetection extends SystemComponent {
         return rs.get(pos);
     }
 
+    /** finds the center point of a given roadsign
+     *
+     * @param r the roadsign
+     * @return center point
+     */
+    private Point findCenterPointOfRoadSign(RoadSign r) {
+        int x = r.getX() + (r.getWidth() / 2);
+        int y = r.getY() + (r.getHeight() / 2);
+        return new Point(x, y);
+    }
+
     @Override
     public void loop() throws MissingPacketException {
-        RoadSign roadSign = setRoadSign();
+        CarPacket carPacket = virtualFunctionBus.carPacket;
+        RoadSign roadSign = setRoadSign(carPacket);
         roadSignDetectionPacket.setRoadSignToShowOnDashboard(roadSign);
     }
 }
