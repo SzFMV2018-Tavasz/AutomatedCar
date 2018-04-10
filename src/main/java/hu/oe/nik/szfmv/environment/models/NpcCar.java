@@ -1,6 +1,5 @@
 package hu.oe.nik.szfmv.environment.models;
 
-import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.common.SortVertices;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
@@ -12,14 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class NpcCar extends Movable {
 
-    private List<WorldObject> roads;
-    private int actualRoadTarget = 0;
     private static final Logger LOGGER = LogManager.getLogger(NpcCar.class);
     private static final double CAR_SPEED = 10;
+
     private static final double MAX_TURN_DEG_FRAME = 6;
+    private List<WorldObject> roads;
+    private int actualRoadTarget = 0;
+
 
     /**
      * Creates the NPC car, and initializes the sorted roads so it can do actions on it.
@@ -127,8 +127,8 @@ public class NpcCar extends Movable {
             LOGGER.error("NEW TARGET " + actualRoadTarget);
         }
 
-        double roadCenterX = roads.get(actualRoadTarget).getX() + (roads.get(actualRoadTarget).getWidth() / 2);
-        double roadCenterY = roads.get(actualRoadTarget).getY() + (roads.get(actualRoadTarget).getHeight() / 2);
+        double roadCenterX = roads.get(actualRoadTarget).getX();
+        double roadCenterY = roads.get(actualRoadTarget).getY();
 
         double deltaY = roadCenterY - this.getY();
         double deltaX = roadCenterX - this.getX();
@@ -136,10 +136,11 @@ public class NpcCar extends Movable {
         double targetRotation = Math.toRadians(270) - Math.atan2(deltaY, deltaX);
         double angleDifference = this.getRotation() - targetRotation;
 
+
         if (Math.abs(angleDifference) > Math.toRadians(MAX_TURN_DEG_FRAME)) {
-            if (angleDifference < 0) {
+            if (angleDifference < 0.0) {
                 targetRotation = this.getRotation() + Math.toRadians(MAX_TURN_DEG_FRAME);
-            } else if (angleDifference > 0) {
+            } else if (angleDifference > 0.0) {
                 targetRotation = this.getRotation() - Math.toRadians(MAX_TURN_DEG_FRAME);
             }
         }
