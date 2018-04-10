@@ -28,6 +28,7 @@ public class RoadLaneDetector extends Detector {
      * Constructor LOL
      *
      * @param worldObjects Object from World
+     * @param car the automated car
      */
     public RoadLaneDetector(List<WorldObject> worldObjects, AutomatedCar car) {
         super(worldObjects);
@@ -36,6 +37,7 @@ public class RoadLaneDetector extends Detector {
         this.roads = new ArrayList<>();
 
         scaleCarShape();
+        findRoads();
     }
 
     /**
@@ -92,7 +94,7 @@ public class RoadLaneDetector extends Detector {
         ArrayList<Collidable> objectsInDetectionArea = new ArrayList<>();
 
         for (WorldObject worldObject : worldObjects) {
-            if (worldObject instanceof Collidable && worldObject != car &&
+            if (onRoad() && worldObject instanceof Collidable && worldObject.equals(car) &&
                     worldObject.getShape().intersects(lateralOffset.getBounds())) {
                 objectsInDetectionArea.add((Collidable) worldObject);
             }
