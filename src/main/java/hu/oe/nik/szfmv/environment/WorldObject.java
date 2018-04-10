@@ -11,8 +11,8 @@ import java.io.IOException;
 
 public abstract class WorldObject implements IWorldObject {
 
-    protected int width;
-    protected int height;
+    protected int width = 10;
+    protected int height = 10;
     protected double rotation = 0f;
     protected String imageFileName;
     protected Point location;
@@ -99,7 +99,12 @@ public abstract class WorldObject implements IWorldObject {
         return this.imageFileName;
     }
 
+
+    /**
+     * @return the actual {@link Shape} of the {@link WorldObject}.
+     */
     public Shape getShape() {
+        generateShape();
         return this.shape;
     }
 
