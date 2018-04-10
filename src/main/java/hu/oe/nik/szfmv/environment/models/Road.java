@@ -104,15 +104,20 @@ public class Road extends Crossable {
         roadPolyMap.put("road_2lane_tjunctionright.png", ROAD_2LANE_TJUNCTIONRIGHT);
     }
 
-    @Override
-    public void generateShape() {
-        AffineTransform at = new AffineTransform();
-
+    /**
+     * Load the reference points.
+     */
+    public static void loadReferencePoints() {
         try {
             DrawUtils.loadReferencePoints(referencePoints, referencePointsURI);
         } catch (ParserConfigurationException | IOException | SAXException e) {
             LOGGER.error(e.getMessage());
         }
+    }
+
+    @Override
+    public void generateShape() {
+        AffineTransform at = new AffineTransform();
 
         Point referencePoint = referencePoints.get(this.imageFileName);
 
