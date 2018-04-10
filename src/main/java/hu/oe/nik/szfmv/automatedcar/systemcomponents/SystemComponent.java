@@ -9,7 +9,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
  * automatically on instantiation.
  */
 public abstract class SystemComponent {
-    final protected VirtualFunctionBus virtualFunctionBus;
+    protected final VirtualFunctionBus virtualFunctionBus;
 
     /**
      *
