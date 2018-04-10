@@ -110,9 +110,11 @@ public class RoadSignDetection extends SystemComponent {
      * @return center point
      */
     private Point findCenterPointOfRoadSign(RoadSign r) {
-        int x = r.getX() + (r.getWidth() / 2);
-        int y = r.getY() + (r.getHeight() / 2);
-        return new Point(x, y);
+        Point center = new Point(0, 0);
+        double x = r.getX() + (r.getWidth() / 2);
+        double y = r.getY() + (r.getHeight() / 2);
+        center.setLocation(x, y);
+        return center;
     }
 
     @Override
