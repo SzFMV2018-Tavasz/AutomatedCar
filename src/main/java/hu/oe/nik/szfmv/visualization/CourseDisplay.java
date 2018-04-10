@@ -2,6 +2,9 @@ package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.input.InputPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
+import hu.oe.nik.szfmv.detector.classes.Triangle;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Movable;
@@ -40,6 +43,7 @@ public class CourseDisplay extends JPanel {
     private final int courseHeight = 3000;
 
     private CarPacket carPacket = null;
+    private ReadOnlyInputPacket inputPacket = null;
     private World world;
     // roadsigns and trees
     private BufferedImage staticEnvironmentZ1 = null;
@@ -54,7 +58,7 @@ public class CourseDisplay extends JPanel {
         setLayout(null);
         setBounds(0, 0, width, height);
         setBackground(new Color(backgroundColor));
-        // Loa reference points from xml
+        // Load reference points from xml
         try {
             DrawUtils.loadReferencePoints(referencePoints, referencePointsURI);
         } catch (ParserConfigurationException | IOException | SAXException e) {
@@ -125,10 +129,11 @@ public class CourseDisplay extends JPanel {
      * @param world     {@link World} object that describes the virtual world
      * @param carPacket {@link CarPacket} Packet that contains the location of the automated car
      */
-    public void drawWorld(World world, CarPacket carPacket) {
+    public void drawWorld(World world, CarPacket carPacket, ReadOnlyInputPacket inputPacket) {
         invalidate();
         this.world = world;
         this.carPacket = carPacket;
+        this.inputPacket = inputPacket;
         validate();
         repaint();
     }
@@ -172,10 +177,21 @@ public class CourseDisplay extends JPanel {
         g.drawImage(staticEnvironmentZ0, (int) (offset.x * scale), (int) (offset.y * scale), this);
         // draw moving objects
         for (WorldObject object : this.world.getWorldObjects()) {
-            if (AutomatedCar.class.isAssignableFrom(object.getClass()) ||
-                    Movable.class.isAssignableFrom(object.getClass())) {
+            if (AutomatedCar.class.isAssignableFrom(object.getClass())) {
+                drawWorldObject(object, g, offset.x, offset.y);
+            } else if (Movable.class.isAssignableFrom(object.getClass())) {
                 drawWorldObject(object, g, offset.x, offset.y);
             }
+        }
+        // draw sensor scopes depending on debug settings
+        if(inputPacket.getCameraVizualizerStatus()) {
+        //    drawCamera(g);
+        }
+        if(inputPacket.getRadarVizualizerStatus()) {
+            drawRadar(g, offset.x, offset.y);
+        }
+        if(inputPacket.getUltrasonicVizualizerStatus()) {
+        //    drawUltrasonic(g);
         }
         // draw stationary children (Tree, Road sign)
         g.drawImage(staticEnvironmentZ1, (int) (offset.x * scale), (int) (offset.y * scale), this);
@@ -194,6 +210,16 @@ public class CourseDisplay extends JPanel {
                 ((Graphics2D) g).draw(at1.createTransformedShape(s));
             }
         }
+    }
+
+    private void drawRadar(Graphics g, int offsetX, int offsetY) {
+        Point[] radarCoords = Triangle.trianglePoints(
+                new Point(carPacket.getX() + offsetX, carPacket.getY() + offsetY),
+                200.0 * scale, 60.0, carPacket.getRotation()
+                );
+        int[] x = {(int) (radarCoords[0].getX() * scale), (int) (radarCoords[1].getX() * scale), (int) (radarCoords[2].getX() * scale)};
+        int[] y = {(int) (radarCoords[0].getY() * scale), (int) (radarCoords[1].getY() * scale), (int) (radarCoords[2].getY() * scale)};
+        g.drawPolygon(x, y, 3);
     }
 
 }
