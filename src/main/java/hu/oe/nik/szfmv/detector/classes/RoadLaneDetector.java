@@ -76,7 +76,7 @@ public class RoadLaneDetector extends Detector {
     /**
      * rotate the detection area according to the car's rotation
      */
-    private void rotateDetectionArea(){
+    private void rotateDetectionArea() {
         AffineTransform at = new AffineTransform();
         at.rotate(car.getCarValues().getRotation());
         lateralOffset = at.createTransformedShape(car.getShape());
@@ -85,34 +85,34 @@ public class RoadLaneDetector extends Detector {
     /**
      * returns the closest object to the sensor, based on lateral offset
      */
-    public Collidable getClosestCollidableObjectBasedOnLateralOffset(){
+    public Collidable getClosestCollidableObjectBasedOnLateralOffset() {
 
         rotateDetectionArea();
 
         ArrayList<Collidable> objectsInDetectionArea = new ArrayList<>();
 
-        for (WorldObject worldObject : worldObjects){
-               if (worldObject instanceof Collidable && worldObject != car && worldObject.getShape().intersects(lateralOffset.getBounds()))
-               {
-                    objectsInDetectionArea.add((Collidable) worldObject);
-               }
+        for (WorldObject worldObject : worldObjects) {
+            if (worldObject instanceof Collidable && worldObject != car &&
+                    worldObject.getShape().intersects(lateralOffset.getBounds())) {
+                objectsInDetectionArea.add((Collidable) worldObject);
+            }
         }
 
-        if (objectsInDetectionArea.size() == 0){
+        if (objectsInDetectionArea.size() == 0) {
             return null;
         }
 
-        if (objectsInDetectionArea.size() == 1){
+        if (objectsInDetectionArea.size() == 1) {
             return objectsInDetectionArea.get(0);
         }
 
         int minIdx = 0;
         double minDistance = Double.MAX_VALUE;
 
-        for (int i = 1; i < objectsInDetectionArea.size(); i++){
-            double distance = objectsInDetectionArea.get(i).getLocation().distance(objectsInDetectionArea.get(minIdx).getLocation());
-            if (distance < minDistance)
-            {
+        for (int i = 1; i < objectsInDetectionArea.size(); i++) {
+            double distance = objectsInDetectionArea.get(i).getLocation()
+                    .distance(objectsInDetectionArea.get(minIdx).getLocation());
+            if (distance < minDistance) {
                 minIdx = i;
                 minDistance = distance;
             }
