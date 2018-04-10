@@ -93,4 +93,6 @@ public interface ReadOnlyInputPacket {
      * @return the right ultrasonic test's status
      */
     boolean getUltrasonicVizualizerStatus();
+
+    boolean getShapeBorderVizualizerState();
 }
