@@ -199,6 +199,9 @@ public class CourseDisplay extends JPanel {
     }
 
     private void drawShapesDebug(Graphics g, int offsetX, int offsetY) {
+        if (!inputPacket.getShapeBorderVizualizerState()) {
+            return;
+        }
         for (WorldObject object : world.getWorldObjects()) {
             g.setColor(Color.BLUE);
             AffineTransform at1 = new AffineTransform();
