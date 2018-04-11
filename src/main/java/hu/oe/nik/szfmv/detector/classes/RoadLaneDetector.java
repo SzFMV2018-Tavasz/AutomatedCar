@@ -28,7 +28,7 @@ public class RoadLaneDetector extends Detector {
      * Constructor LOL
      *
      * @param worldObjects Object from World
-     * @param car the automated car
+     * @param car          the automated car
      */
     public RoadLaneDetector(List<WorldObject> worldObjects, AutomatedCar car) {
         super(worldObjects);
@@ -85,7 +85,7 @@ public class RoadLaneDetector extends Detector {
     }
 
     /**
-     * returns the closest object to the sensor, based on lateral offset
+     * @return the closest object to the sensor, based on lateral offset
      */
     public Collidable getClosestCollidableObjectBasedOnLateralOffset() {
 
