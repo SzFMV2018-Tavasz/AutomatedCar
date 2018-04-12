@@ -49,6 +49,8 @@ public class AutomatedCar extends WorldObject {
         this.setWidth(carWidth);
         this.setHeight(carHeight);
 
+        generateShape();
+
         virtualFunctionBus.carPacket = new CarPacket(this.getX(), this.getY(), this.getRotation());
         new GasBrake(virtualFunctionBus);
         new Index(virtualFunctionBus);
@@ -58,6 +60,7 @@ public class AutomatedCar extends WorldObject {
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         steeringWheel = new SteeringWheel(virtualFunctionBus);
         new RoadSignDetection(virtualFunctionBus);
+
 
         new Driver(virtualFunctionBus);
     }
@@ -69,6 +72,7 @@ public class AutomatedCar extends WorldObject {
         try {
             virtualFunctionBus.loop();
             calculatePositionAndOrientation();
+            generateShape();
         } catch (MissingPacketException e) {
             LOGGER.error(e);
         }
@@ -92,13 +96,13 @@ public class AutomatedCar extends WorldObject {
         double halfWheelBase = wheelBase / 2;
 
         Point2D carPosition = new Point2D.Double(getCarValues().getX() + halfWidth,
-            getCarValues().getY() + halfWheelBase);
+                getCarValues().getY() + halfWheelBase);
         Point2D frontWheel = SteeringMethods.getFrontWheel(carHeading, halfWheelBase, carPosition);
         Point2D backWheel = SteeringMethods.getBackWheel(carHeading, halfWheelBase, carPosition);
 
         Point2D backWheelDisplacement = SteeringMethods.getBackWheelDisplacement(carHeading, testSpeed, fps);
         Point2D frontWheelDisplacement =
-            SteeringMethods.getFrontWheelDisplacement(carHeading, angularSpeed, testSpeed, fps);
+                SteeringMethods.getFrontWheelDisplacement(carHeading, angularSpeed, testSpeed, fps);
 
         frontWheel = SteeringMethods.getNewFrontWheelPosition(frontWheel, frontWheelDisplacement);
         backWheel = SteeringMethods.getNewBackWheelPosition(backWheel, backWheelDisplacement);
