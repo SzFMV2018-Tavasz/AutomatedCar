@@ -4,8 +4,8 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.RoadSignDetectionPacket;
-import hu.oe.nik.szfmv.detector.classes.Detector;
 import hu.oe.nik.szfmv.detector.classes.Triangle;
+import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.RoadSign;
 
@@ -21,6 +21,7 @@ public class RoadSignDetection extends SystemComponent {
     private static final double CAMERAANGLEOFVIEW = 60; // degree
     private static final double CAMERARANGE = 80 * 50; // m * pixels/m
     private RoadSignDetectionPacket roadSignDetectionPacket;
+    private World world;
 
     /**
      * @param virtualFunctionBus VirtualFunctionBus parameter
@@ -46,9 +47,8 @@ public class RoadSignDetection extends SystemComponent {
         Point[] trianglePoints = triangle.trianglePoints(cameraPosition, CAMERARANGE, CAMERAANGLEOFVIEW, cameraRotation);
         trianglePoints[1] = calculateMiddlePoint(trianglePoints[1], trianglePoints[2]);
 
-        Detector detector; // TODO: get the static detector
         List<WorldObject> worldObjects;
-        worldObjects = detector.getWorldObjects(trianglePoints[0], trianglePoints[1], trianglePoints[2]);
+        worldObjects = world.getDetector().getWorldObjects(trianglePoints[0], trianglePoints[1], trianglePoints[2]);
 
         List<RoadSign> roadSigns = new ArrayList<>();
         for (int i = 0; i < worldObjects.size(); i++) {
@@ -119,6 +119,9 @@ public class RoadSignDetection extends SystemComponent {
 
     @Override
     public void loop() throws MissingPacketException {
+        if (world == null) {
+            world = roadSignDetectionPacket.getWorld();
+        }
         CarPacket carPacket = virtualFunctionBus.carPacket;
         RoadSign roadSign = setRoadSign(carPacket);
         roadSignDetectionPacket.setRoadSignToShowOnDashboard(roadSign);

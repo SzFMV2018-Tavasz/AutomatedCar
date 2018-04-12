@@ -32,6 +32,8 @@ public class Main {
         World w = new World(worldWidth, worldHeight);
         // create an automated car
         AutomatedCar car = new AutomatedCar(carX, carY, "car_2_white.png");
+        // sets the world for roadsigndetection
+        car.getRoadSign().setWorld(w);
         // add car to the world
         w.addObjectToWorld(car);
 

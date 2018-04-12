@@ -5,7 +5,6 @@ import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.RoadSignDetectionPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
 import hu.oe.nik.szfmv.environment.WorldObject;
@@ -60,7 +59,6 @@ public class AutomatedCar extends WorldObject {
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         steeringWheel = new SteeringWheel(virtualFunctionBus);
         new RoadSignDetection(virtualFunctionBus);
-
 
         new Driver(virtualFunctionBus);
     }
@@ -128,7 +126,6 @@ public class AutomatedCar extends WorldObject {
         return virtualFunctionBus.inputPacket;
     }
 
-
     /**
      * Gets the car values which needs to change the car position
      *
@@ -151,5 +148,7 @@ public class AutomatedCar extends WorldObject {
      *
      * @return roadsigndetection packet
      */
-    public ReadOnlyRoadSignDetectionPacket getRoadSign() { return virtualFunctionBus.roadSignDetectionPacket; }
+    public ReadOnlyRoadSignDetectionPacket getRoadSign() {
+        return virtualFunctionBus.roadSignDetectionPacket;
+    }
 }

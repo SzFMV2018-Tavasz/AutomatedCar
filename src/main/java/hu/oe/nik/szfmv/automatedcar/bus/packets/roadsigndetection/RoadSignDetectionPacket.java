@@ -1,11 +1,13 @@
 package hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection;
 
+import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.models.RoadSign;
 
 public class RoadSignDetectionPacket implements ReadOnlyRoadSignDetectionPacket {
 
     private static RoadSignDetectionPacket instance = null;
     private RoadSign roadSign;
+    private World world;
 
     /** singleton packet
      *
@@ -25,5 +27,13 @@ public class RoadSignDetectionPacket implements ReadOnlyRoadSignDetectionPacket 
 
     public void setRoadSignToShowOnDashboard(RoadSign roadSign) {
         this.roadSign = roadSign;
+    }
+
+    public void setWorld(World world) {
+        this.world = world;
+    }
+
+    public World getWorld() {
+        return world;
     }
 }
