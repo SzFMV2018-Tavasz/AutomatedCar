@@ -40,7 +40,7 @@ public class Dashboard extends JPanel {
      */
     private final JPanel accStatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private final int accStatePanelX = 0;
-    private final int accStatePanelY = 280;
+    private final int accStatePanelY = 210;
     private final int accStatePanelWidth = 130;
     private final int accStatePanelHeight = 100;
 
@@ -59,7 +59,7 @@ public class Dashboard extends JPanel {
      * Road sign
      */
     private final int roadSignPanelX = 130;
-    private final int roadSignPanelY = 280;
+    private final int roadSignPanelY = 210;
     private final int roadSignPanelWidth = 110;
     private final int roadSignPanelHeight = 115;
     private final JPanel roadSignPanel = new JPanel();
@@ -85,12 +85,12 @@ public class Dashboard extends JPanel {
      * Steering wheel
      */
     private final int wheelTextLabelX = 20;
-    private final int wheelTextLabelY = 520;
+    private final int wheelTextLabelY = 430;
     private final int wheelTextLabelWidth = 100;
     private final int wheelTextLabelHeight = 20;
     private final JLabel wheelTextLabel = new JLabel();
     private final int wheelValueLabelX = 120;
-    private final int wheelValueLabelY = 520;
+    private final int wheelValueLabelY = 430;
     private final int wheelValueLabelWidth = 50;
     private final int wheelValueLabelHeight = 20;
     private final JLabel wheelValueLabel = new JLabel();
@@ -99,7 +99,7 @@ public class Dashboard extends JPanel {
      * Lane keeping
      */
     private final int lkaButtonX = 5;
-    private final int lkaButtonY = 350;
+    private final int lkaButtonY = 290;
     private final int lkaButtonWidth = 60;
     private final int lkaButtonHeight = 30;
     private JButton lkaButton = new JButton();
@@ -109,7 +109,7 @@ public class Dashboard extends JPanel {
      * Parking pilot
      */
     private final int ppButtonX = 65;
-    private final int ppButtonY = 350;
+    private final int ppButtonY = 290;
     private final int ppButtonWidth = 60;
     private final int ppButtonHeight = 30;
     private JButton ppButton = new JButton();
@@ -119,7 +119,7 @@ public class Dashboard extends JPanel {
      * Break & gas
      */
     private final int progressBarsPanelX = 25;
-    private final int progressBarsPanelY = 400;
+    private final int progressBarsPanelY = 330;
     private final int progressBarsPanelWidth = 200;
     private final int progressBarsPanelHeight = 100;
     private final JPanel progressBarsPanel = new JPanel();
@@ -172,12 +172,21 @@ public class Dashboard extends JPanel {
      * Position
      */
     private final int carPositionPanelX = 25;
-    private final int carPositionPanelY = 600;
+    private final int carPositionPanelY = 650;
     private final int getCarPositionPanelWidth = 200;
     private final int getCarPositionPanelHeight = 20;
     private final JLabel carPositionXLabel = new JLabel();
     private final JLabel carPositionYLabel = new JLabel();
     private final JPanel carPositionPanel = new JPanel();
+
+    /**
+     * Controls
+     */
+    private final JTextArea controlsText = new JTextArea();
+    private final int controlsX = 20;
+    private final int controlsY = 460;
+    private final int controlsW = 200;
+    private final int controlsH = 175;
 
     /**
      * Initialize the dashboard
@@ -260,6 +269,14 @@ public class Dashboard extends JPanel {
      * @param rpm   the revolutions per minute
      */
     private void updateAnalogMeters(int speed, int rpm) {
+        if (speed < 0) {
+            speed = 0;
+        }
+
+        if (rpm < 0) {
+            rpm = 0;
+        }
+
         speedLabel.setText(speed + " km/h");
         speedAngle = calculateSpeedometer(speed);
 
@@ -315,6 +332,26 @@ public class Dashboard extends JPanel {
         initializeLka();
         initializePp();
         initializeAccStatePanel();
+        initializeControlsText();
+    }
+
+    /**
+     * Initializes the text area that displays the controls.
+     */
+    private void initializeControlsText() {
+        controlsText.setText("Controls:\n" +
+                "Gas: UP\n" +
+                "BREAK : DOWN\n" +
+                "Steering: LEFT, RIGHT\n" +
+                "Gear: W/S\n" +
+                "Index: 0,1\n" +
+                "LK: L\n" +
+                "PP: P\n" +
+                "ACC: +/-\n" +
+                "Radar, Camera, Ultrasonic: 7,8,9");
+        controlsText.setBounds(controlsX, controlsY, controlsW, controlsH);
+        controlsText.setFocusable(false);
+        this.add(controlsText);
     }
 
     /**
