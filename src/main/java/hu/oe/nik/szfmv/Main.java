@@ -36,7 +36,7 @@ public class Main {
         // add car to the world
         w.addObjectToWorld(car);
         // create ultrasonic sensors for car
-        UltrasonicSensor.CreateUltrasonicSensors(car, w);
+        UltrasonicSensor.createUltrasonicSensors(car, w);
 
         Pedestrian pedestrian = new Pedestrian(pedestrianX, pedestrianY, "man.png");
         w.addObjectToWorld(pedestrian);

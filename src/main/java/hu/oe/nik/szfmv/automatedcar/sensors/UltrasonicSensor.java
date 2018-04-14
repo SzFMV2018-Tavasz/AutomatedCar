@@ -57,23 +57,23 @@ public class UltrasonicSensor {
      * @param car the car the sensors belong to
      * @param world the world the sensors are in
      */
-    public static void CreateUltrasonicSensors(AutomatedCar car, World world) {
+    public static void createUltrasonicSensors(AutomatedCar car, World world) {
         car.getUltrasonicSensors().add(
-                new UltrasonicSensor(FBL_X,FRONT_Y, F_ROT, car, world));
+                new UltrasonicSensor(FBL_X, FRONT_Y, F_ROT, car, world));
         car.getUltrasonicSensors().add(
-                new UltrasonicSensor(FBR_X,FRONT_Y, F_ROT, car, world));
+                new UltrasonicSensor(FBR_X, FRONT_Y, F_ROT, car, world));
         car.getUltrasonicSensors().add(
-                new UltrasonicSensor(FBL_X,BACK_Y, B_ROT, car, world));
+                new UltrasonicSensor(FBL_X, BACK_Y, B_ROT, car, world));
         car.getUltrasonicSensors().add(
-                new UltrasonicSensor(FBR_X,BACK_Y, B_ROT, car, world));
+                new UltrasonicSensor(FBR_X, BACK_Y, B_ROT, car, world));
         car.getUltrasonicSensors().add(
-                new UltrasonicSensor(RIGHT_X,RLF_Y, R_ROT, car, world));
+                new UltrasonicSensor(RIGHT_X, RLF_Y, R_ROT, car, world));
         car.getUltrasonicSensors().add(
-                new UltrasonicSensor(RIGHT_X,RLB_Y, R_ROT, car, world));
+                new UltrasonicSensor(RIGHT_X, RLB_Y, R_ROT, car, world));
         car.getUltrasonicSensors().add(
-                new UltrasonicSensor(LEFT_X,RLF_Y, L_ROT, car, world));
+                new UltrasonicSensor(LEFT_X, RLF_Y, L_ROT, car, world));
         car.getUltrasonicSensors().add(
-                new UltrasonicSensor(LEFT_X,RLB_Y, L_ROT, car, world));
+                new UltrasonicSensor(LEFT_X, RLB_Y, L_ROT, car, world));
     }
 
     /**

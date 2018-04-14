@@ -75,7 +75,7 @@ public class UltrasonicSensorTest {
      */
     @Test
     public void testSensorCreation() {
-        UltrasonicSensor.CreateUltrasonicSensors(car, w);
+        UltrasonicSensor.createUltrasonicSensors(car, w);
         assertEquals(8, car.getUltrasonicSensors().size());
     }
 }
