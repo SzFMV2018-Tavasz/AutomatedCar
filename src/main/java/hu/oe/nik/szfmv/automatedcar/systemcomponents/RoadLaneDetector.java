@@ -4,9 +4,13 @@ import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.detector.DetectorPacket;
+import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
+import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Collidable;
 import hu.oe.nik.szfmv.environment.models.Road;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -15,9 +19,15 @@ import java.util.List;
 
 public class RoadLaneDetector extends SystemComponent {
 
+    private static final Logger LOGGER = LogManager.getLogger(RoadLaneDetector.class);
+
     private static final double OFFSET_X = 1.2;
 
     private static final double OFFSET_Y = 2;
+
+    private static final double SENSOR_RANGE = 200d;
+
+    private static final double ANGLE_OF_VIEW = 60d;
 
     private List<WorldObject> worldObjects;
 
@@ -32,18 +42,16 @@ public class RoadLaneDetector extends SystemComponent {
     /**
      * Constructor LOL
      *
-     * @param worldObjects Object from World
      * @param car          the automated car
      * @param vfb          the virtualfunctionbus
      */
-    public RoadLaneDetector(VirtualFunctionBus vfb, List<WorldObject> worldObjects, AutomatedCar car) {
+    public RoadLaneDetector(VirtualFunctionBus vfb, AutomatedCar car) {
         super(vfb);
         this.car = car;
-        this.worldObjects = worldObjects;
+        this.worldObjects = World.getDetector().getWorldObjects();
         this.roads = new ArrayList<>();
 
         dp = dp.getInstance();
-        scaleCarShape();
         findRoads();
     }
 
@@ -69,6 +77,7 @@ public class RoadLaneDetector extends SystemComponent {
     private boolean onRoad() {
         for (Road r : roads) {
             if (r.getShape().intersects(car.getShape().getBounds2D())) {
+                LOGGER.debug("on the road");
                 return true;
             }
         }
@@ -77,19 +86,11 @@ public class RoadLaneDetector extends SystemComponent {
     }
 
     /**
-     * scale shape for leteral offset
-     */
-    private void scaleCarShape() {
-        AffineTransform at = new AffineTransform();
-        at.scale(OFFSET_X, OFFSET_Y);
-        lateralOffset = at.createTransformedShape(car.getShape());
-    }
-
-    /**
      * rotate the detection area according to the car's rotation
      */
     private void rotateDetectionArea() {
         AffineTransform at = new AffineTransform();
+        at.scale(OFFSET_X, OFFSET_Y);
         at.rotate(car.getCarValues().getRotation());
         lateralOffset = at.createTransformedShape(car.getShape());
     }

@@ -57,6 +57,14 @@ public class Detector implements ICamera, IRadarUltrasonic {
         return noticeableObjects;
     }
 
+    /**
+     *
+     * @return worldobjects
+     */
+    public List<WorldObject> getWorldObjects() {
+        return worldObjects;
+    }
+
     @Override
     public List<WorldObject> getWorldObjects(Point a, Point b, Point c) {
         return getTheObjectsWhichAreInTheTriangle(a, b, c);
