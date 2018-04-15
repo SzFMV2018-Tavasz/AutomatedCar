@@ -1,6 +1,9 @@
-package hu.oe.nik.szfmv.detector.classes;
+package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.detector.DetectorPacket;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Collidable;
 import hu.oe.nik.szfmv.environment.models.Road;
@@ -10,7 +13,7 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoadLaneDetector extends Detector {
+public class RoadLaneDetector extends SystemComponent {
 
     private static final double OFFSET_X = 1.2;
 
@@ -24,18 +27,22 @@ public class RoadLaneDetector extends Detector {
 
     private Shape lateralOffset;
 
+    private DetectorPacket dp;
+
     /**
      * Constructor LOL
      *
      * @param worldObjects Object from World
      * @param car          the automated car
+     * @param vfb          the virtualfunctionbus
      */
-    public RoadLaneDetector(List<WorldObject> worldObjects, AutomatedCar car) {
-        super(worldObjects);
+    public RoadLaneDetector(VirtualFunctionBus vfb, List<WorldObject> worldObjects, AutomatedCar car) {
+        super(vfb);
         this.car = car;
         this.worldObjects = worldObjects;
         this.roads = new ArrayList<>();
 
+        dp = dp.getInstance();
         scaleCarShape();
         findRoads();
     }
@@ -47,7 +54,10 @@ public class RoadLaneDetector extends Detector {
         for (WorldObject w : worldObjects) {
             if (w instanceof Road) {
                 Road r = (Road) w;
-                r.generateShape();
+                if (r.getShape().equals(null)){
+                    r.generateShape();
+                }
+
                 roads.add(r);
             }
         }
@@ -87,7 +97,7 @@ public class RoadLaneDetector extends Detector {
     /**
      * @return the closest object to the sensor, based on lateral offset
      */
-    public Collidable getClosestCollidableObjectBasedOnLateralOffset() {
+    private Collidable getClosestCollidableObjectBasedOnLateralOffset() {
 
         rotateDetectionArea();
 
@@ -121,5 +131,10 @@ public class RoadLaneDetector extends Detector {
         }
 
         return objectsInDetectionArea.get(minIdx);
+    }
+
+    @Override
+    public void loop() throws MissingPacketException {
+        dp.setClosestCollidableinLane(getClosestCollidableObjectBasedOnLateralOffset());
     }
 }
