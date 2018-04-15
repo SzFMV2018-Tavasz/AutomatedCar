@@ -4,7 +4,6 @@ import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.detector.DetectorPacket;
-import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Collidable;
@@ -42,8 +41,8 @@ public class RoadLaneDetector extends SystemComponent {
     /**
      * Constructor LOL
      *
-     * @param car          the automated car
-     * @param vfb          the virtualfunctionbus
+     * @param car the automated car
+     * @param vfb the virtualfunctionbus
      */
     public RoadLaneDetector(VirtualFunctionBus vfb, AutomatedCar car) {
         super(vfb);
@@ -62,7 +61,7 @@ public class RoadLaneDetector extends SystemComponent {
         for (WorldObject w : worldObjects) {
             if (w instanceof Road) {
                 Road r = (Road) w;
-                if (r.getShape().equals(null)){
+                if (r.getShape().equals(null)) {
                     r.generateShape();
                 }
 

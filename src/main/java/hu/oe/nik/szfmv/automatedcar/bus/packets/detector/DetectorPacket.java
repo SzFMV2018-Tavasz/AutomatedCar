@@ -2,8 +2,6 @@ package hu.oe.nik.szfmv.automatedcar.bus.packets.detector;
 
 import hu.oe.nik.szfmv.environment.models.Collidable;
 
-import java.awt.*;
-
 public class DetectorPacket implements ReadOnlyDetectorPacket {
 
     private static DetectorPacket instance;
@@ -12,10 +10,11 @@ public class DetectorPacket implements ReadOnlyDetectorPacket {
 
     /**
      * singleton
+     *
      * @return detectorpacket
      */
     public static DetectorPacket getInstance() {
-        if (instance == null){
+        if (instance == null) {
             instance = new DetectorPacket();
         }
 
@@ -23,10 +22,9 @@ public class DetectorPacket implements ReadOnlyDetectorPacket {
     }
 
     /**
-     *
      * @param c the collidable object
      */
-    public void setClosestCollidableinLane(Collidable c){
+    public void setClosestCollidableinLane(Collidable c) {
         closestCollidableinLane = c;
     }
 
