@@ -6,7 +6,6 @@ import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
-import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

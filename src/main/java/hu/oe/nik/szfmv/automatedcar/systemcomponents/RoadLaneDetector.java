@@ -24,9 +24,9 @@ public class RoadLaneDetector extends SystemComponent {
 
     private static final double OFFSET_Y = 2;
 
-    private static final double SENSOR_RANGE = 200d;
+    //private static final double SENSOR_RANGE = 200d;
 
-    private static final double ANGLE_OF_VIEW = 60d;
+    //private static final double ANGLE_OF_VIEW = 60d;
 
     private List<WorldObject> worldObjects;
 
@@ -61,7 +61,7 @@ public class RoadLaneDetector extends SystemComponent {
         for (WorldObject w : worldObjects) {
             if (w instanceof Road) {
                 Road r = (Road) w;
-                if (r.getShape().equals(null)) {
+                if (r.getShape() == null) {
                     r.generateShape();
                 }
 

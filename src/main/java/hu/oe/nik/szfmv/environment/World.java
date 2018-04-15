@@ -74,6 +74,4 @@ public class World implements IWorld {
             LOGGER.info("Error in World build - " + ex.getMessage());
         }
     }
-
-
 }
