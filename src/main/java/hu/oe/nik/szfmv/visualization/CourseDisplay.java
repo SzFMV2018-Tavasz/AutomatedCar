@@ -179,6 +179,22 @@ public class CourseDisplay extends JPanel {
         }
         // draw stationary children (Tree, Road sign)
         g.drawImage(staticEnvironmentZ1, (int) (offset.getX() * scale), (int) (offset.getY() * scale), this);
+        drawShapesDebug(g, offset.getX(), offset.getY());
+    }
+
+    private void drawShapesDebug(Graphics g, double offsetX, double offsetY) {
+        for (WorldObject object : world.getWorldObjects()) {
+            g.setColor(Color.BLUE);
+            AffineTransform at1 = new AffineTransform();
+            at1.scale(scale, scale);
+            at1.translate(offsetX, offsetY);
+
+            Shape s = object.getShape();
+            if (s != null) {
+                ((Graphics2D) g).draw(at1.createTransformedShape(s));
+            }
+        }
+        g.drawImage(staticEnvironmentZ1, (int) (offsetX * scale), (int) (offsetY * scale), this);
     }
 
 }

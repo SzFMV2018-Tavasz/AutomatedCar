@@ -10,7 +10,6 @@ import hu.oe.nik.szfmv.environment.WorldObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class AutomatedCar extends WorldObject {
@@ -30,22 +29,22 @@ public class AutomatedCar extends WorldObject {
      * @param y             the initial y coordinate of the car
      * @param imageFileName name of the image file used displaying the car on the course display
      */
+
     public AutomatedCar(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
 
-        final int carTestX = 200;
-        final int carTestY = 200;
         final int fullCircle = 360;
         final int carTestRotation = 90;
         final int carWidth = 108;
         final int carHeight = 240;
 
-        setLocation(new Point(carTestX, carTestY));
         setRotation(Math.toRadians(fullCircle - carTestRotation));
         wheelBase = carHeight;
         halfWidth = carWidth / 2;
         this.setWidth(carWidth);
         this.setHeight(carHeight);
+
+        generateShape();
 
         virtualFunctionBus.carPacket = new CarPacket(this.getX(), this.getY(), this.getRotation());
         new GasBrake(virtualFunctionBus);
@@ -60,6 +59,7 @@ public class AutomatedCar extends WorldObject {
         new Driver(virtualFunctionBus);
     }
 
+
     /**
      * Provides a sample method for modifying the position of the car.
      */
@@ -67,6 +67,7 @@ public class AutomatedCar extends WorldObject {
         try {
             virtualFunctionBus.loop();
             calculatePositionAndOrientation();
+            generateShape();
         } catch (MissingPacketException e) {
             LOGGER.error(e);
         }
