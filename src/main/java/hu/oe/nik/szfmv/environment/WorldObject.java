@@ -35,7 +35,7 @@ public abstract class WorldObject implements IWorldObject {
         this.imageFileName = imageFileName;
     }
 
-    public Point getLocation() {
+    public Point2D getLocation() {
         return location;
     }
 
@@ -122,13 +122,13 @@ public abstract class WorldObject implements IWorldObject {
         if (!AutomatedCar.class.isInstance(this)) {
             this.shape = tx.createTransformedShape(
                     new Rectangle(
-                            this.getX(), this.getY(),
+                            (int) this.getX(), (int) this.getY(),
                             this.getWidth(), this.getHeight()));
         } else {
             this.shape = tx.createTransformedShape(
                     new Rectangle(
-                            this.getX() - this.getWidth() / 2,
-                            this.getY() - this.getHeight() / 2,
+                            (int) this.getX() - this.getWidth() / 2,
+                            (int) this.getY() - this.getHeight() / 2,
                             this.getWidth(), this.getHeight()));
         }
     }
