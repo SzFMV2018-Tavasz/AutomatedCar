@@ -10,7 +10,6 @@ import hu.oe.nik.szfmv.environment.WorldObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class AutomatedCar extends WorldObject {
@@ -34,14 +33,11 @@ public class AutomatedCar extends WorldObject {
     public AutomatedCar(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
 
-        final int carTestX = 200;
-        final int carTestY = 200;
         final int fullCircle = 360;
         final int carTestRotation = 90;
         final int carWidth = 108;
         final int carHeight = 240;
 
-        setLocation(new Point(carTestX, carTestY));
         setRotation(Math.toRadians(fullCircle - carTestRotation));
         wheelBase = carHeight;
         halfWidth = carWidth / 2;

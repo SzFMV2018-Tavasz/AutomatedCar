@@ -18,7 +18,7 @@ public class Main {
      *
      * @param args command line arguments
      */
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
         final int worldWidth = 800;
         final int worldHeight = 600;
         final int carX = 200;
