@@ -32,5 +32,6 @@ public abstract class Movable extends Collidable {
     public void move(double newX, double newY, float newRotation) {
         this.location = new Point2D.Double(newX, newY);
         this.rotation = newRotation;
+        generateShape();
     }
 }

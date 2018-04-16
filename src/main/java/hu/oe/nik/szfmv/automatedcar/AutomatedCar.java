@@ -30,6 +30,7 @@ public class AutomatedCar extends WorldObject {
      * @param y             the initial y coordinate of the car
      * @param imageFileName name of the image file used displaying the car on the course display
      */
+
     public AutomatedCar(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
 
@@ -47,6 +48,8 @@ public class AutomatedCar extends WorldObject {
         this.setWidth(carWidth);
         this.setHeight(carHeight);
 
+        generateShape();
+
         virtualFunctionBus.carPacket = new CarPacket(this.getX(), this.getY(), this.getRotation());
         new GasBrake(virtualFunctionBus);
         new Index(virtualFunctionBus);
@@ -60,6 +63,7 @@ public class AutomatedCar extends WorldObject {
         new Driver(virtualFunctionBus);
     }
 
+
     /**
      * Provides a sample method for modifying the position of the car.
      */
@@ -67,6 +71,7 @@ public class AutomatedCar extends WorldObject {
         try {
             virtualFunctionBus.loop();
             calculatePositionAndOrientation();
+            generateShape();
         } catch (MissingPacketException e) {
             LOGGER.error(e);
         }

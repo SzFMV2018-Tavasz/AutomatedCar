@@ -174,10 +174,26 @@ public class CourseDisplay extends JPanel {
         for (WorldObject object : this.world.getWorldObjects()) {
             if (AutomatedCar.class.isAssignableFrom(object.getClass()) ||
                     Movable.class.isAssignableFrom(object.getClass())) {
-                drawWorldObject(object, g, offset.getX(), offset.getY());
+                drawWorldObject(object, g, offset.x, offset.y);
             }
         }
         // draw stationary children (Tree, Road sign)
+        g.drawImage(staticEnvironmentZ1, (int) (offset.x * scale), (int) (offset.y * scale), this);
+        drawShapesDebug(g, offset.x, offset.y);
+    }
+
+    private void drawShapesDebug(Graphics g, int offsetX, int offsetY) {
+        for (WorldObject object : world.getWorldObjects()) {
+            g.setColor(Color.BLUE);
+            AffineTransform at1 = new AffineTransform();
+            at1.scale(scale, scale);
+            at1.translate(offsetX, offsetY);
+
+            Shape s = object.getShape();
+            if (s != null) {
+                ((Graphics2D) g).draw(at1.createTransformedShape(s));
+            }
+        }
         g.drawImage(staticEnvironmentZ1, (int) (offset.getX() * scale), (int) (offset.getY() * scale), this);
     }
 

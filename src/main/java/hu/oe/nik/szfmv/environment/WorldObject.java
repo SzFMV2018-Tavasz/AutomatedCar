@@ -1,6 +1,8 @@
 package hu.oe.nik.szfmv.environment;
 
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.interfaces.IWorldObject;
+import org.apache.logging.log4j.LogManager;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,6 +14,7 @@ import java.io.IOException;
 
 public abstract class WorldObject implements IWorldObject {
 
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(WorldObject.class);
     protected int width;
     protected int height;
     protected double rotation = 0f;
@@ -32,26 +35,7 @@ public abstract class WorldObject implements IWorldObject {
         this.imageFileName = imageFileName;
     }
 
-    /**
-     * Creates an object of the virtual world on the given coordinates with the given image.
-     *
-     * @param location      the initial location coordinate of the object
-     * @param imageFileName the filename of the image representing the object in the virtual world
-     */
-    public WorldObject(Point location, String imageFileName) {
-        this.location = location;
-        this.imageFileName = imageFileName;
-    }
-
-    public Point getOffsetVector() {
-        return offsetVector;
-    }
-
-    public void setOffsetVector(Point offsetVector) {
-        this.offsetVector = offsetVector;
-    }
-
-    public Point2D getLocation() {
+    public Point getLocation() {
         return location;
     }
 
@@ -116,13 +100,17 @@ public abstract class WorldObject implements IWorldObject {
      *
      * @throws IOException when image not found
      */
-    public void generateDimens() throws IOException {
-        BufferedImage image = ImageIO.read(
-                new File(
-                        ClassLoader.getSystemResource(this.getImageFileName())
-                                .getFile()));
-        width = image.getWidth();
-        height = image.getHeight();
+    public void generateDimens() {
+        try {
+            BufferedImage image = ImageIO.read(
+                    new File(
+                            ClassLoader.getSystemResource(this.getImageFileName())
+                                    .getFile()));
+            width = image.getWidth();
+            height = image.getHeight();
+        } catch (IOException e) {
+            LOGGER.error(e);
+        }
     }
 
     /**
@@ -130,15 +118,19 @@ public abstract class WorldObject implements IWorldObject {
      */
     public void generateShape() {
         AffineTransform tx = new AffineTransform();
-        tx.rotate(-this.getRotation(), this.getX() + this.getWidth(), this.getY() + this.getHeight());
-        this.shape = tx.createTransformedShape(
-                new Rectangle(
-                        (int) this.getX(),
-                        (int) this.getY(),
-                        this.getWidth(),
-                        this.getHeight()
-                )
-        );
+        tx.rotate(-this.getRotation(), this.getX(), this.getY());
+        if (!AutomatedCar.class.isInstance(this)) {
+            this.shape = tx.createTransformedShape(
+                    new Rectangle(
+                            this.getX(), this.getY(),
+                            this.getWidth(), this.getHeight()));
+        } else {
+            this.shape = tx.createTransformedShape(
+                    new Rectangle(
+                            this.getX() - this.getWidth() / 2,
+                            this.getY() - this.getHeight() / 2,
+                            this.getWidth(), this.getHeight()));
+        }
     }
 
     @Override

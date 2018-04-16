@@ -18,11 +18,11 @@ public class Main {
      *
      * @param args command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         final int worldWidth = 800;
         final int worldHeight = 600;
-        final int carX = 20;
-        final int carY = 20;
+        final int carX = 200;
+        final int carY = 200;
         final int pedestrianX = 1550;
         final int pedestrianY = 500;
 
