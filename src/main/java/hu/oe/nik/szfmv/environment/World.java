@@ -14,7 +14,6 @@ public class World implements IWorld {
     private int width = 0;
     private int height = 0;
     private List<WorldObject> worldObjects = new ArrayList<>();
-    private Detector detector;
 
     /**
      * Creates the virtual world with the given dimension.
@@ -27,7 +26,10 @@ public class World implements IWorld {
         this.width = width;
         this.height = height;
         this.build("src/main/resources/test.xml");
-        detector = new Detector(worldObjects);
+        //create detector
+        Detector d = Detector.getDetector();
+        //set detector's list
+        d.setWorldObjects(getWorldObjects());
     }
 
     public int getWidth() {
@@ -50,14 +52,7 @@ public class World implements IWorld {
         return worldObjects;
     }
 
-    /**
-     * @return class responsible for sensor functionality
-     */
-    public Detector getDetector() {
-        return detector;
-    }
-
-    /**
+     /**
      * Add an object to the virtual world.
      *
      * @param o {@link WorldObject} to be added to the virtual world
@@ -74,6 +69,4 @@ public class World implements IWorld {
             LOGGER.info("Error in World build - " + ex.getMessage());
         }
     }
-
-
 }

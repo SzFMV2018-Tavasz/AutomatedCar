@@ -14,6 +14,16 @@ public final class Utils {
         return pixel / METER_PIXEL_RATIO;
     }
 
+    /**
+     * Converts the length defined in meters to pixels according the rule of 350 pixel = 7 meters.
+     *
+     * @param meters is the length in meters
+     * @return the length in pixels
+     */
+    public static double convertMeterToPixel(int meters) {
+        return meters * METER_PIXEL_RATIO;
+    }
+
 
     // Copied from https://github.com/SzFMV2017-Tavasz/AutomatedCar
     // /src/main/java/hu/oe/nik/szfmv17t/environment/utils/XmlParser.java#L257
@@ -50,5 +60,17 @@ public final class Utils {
      */
     public static double radianToDegree(double rad) {
         return Math.toDegrees(rad);
+    }
+
+    /**
+     * Gets the distance between the coordinates of the two points.
+     * @param x1 the x coordinate of the first point
+     * @param y1 the y coordinate of the first point
+     * @param x2 the x coordinate of the second point
+     * @param y2 the y coordinate of the second point
+     * @return the distance between the first and second points
+     */
+    public static double getDistanceBetweenTwoPoints(int x1, int y1, int x2, int y2) {
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 }

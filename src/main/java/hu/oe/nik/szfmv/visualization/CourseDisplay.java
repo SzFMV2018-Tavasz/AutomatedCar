@@ -3,7 +3,7 @@ package hu.oe.nik.szfmv.visualization;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
-import hu.oe.nik.szfmv.detector.classes.Triangle;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Movable;
@@ -44,10 +44,11 @@ public class CourseDisplay extends JPanel {
     private final double sensorRangeRadar = 200.0;
     private final double angleOfViewRadar = 60.0;
 
-
+    private ReadOnlyRoadSignDetectionPacket roadSignDetectionPacket = null;
     private CarPacket carPacket = null;
     private ReadOnlyInputPacket inputPacket = null;
     private World world;
+
     // roadsigns and trees
     private BufferedImage staticEnvironmentZ1 = null;
     // other static objects
@@ -129,12 +130,15 @@ public class CourseDisplay extends JPanel {
     /**
      * Draws the world to the course display
      *
-     * @param world     {@link World} object that describes the virtual world
-     * @param carPacket {@link CarPacket} Packet that contains the location of the automated car
+     * @param world       {@link World} object that describes the virtual world
+     * @param carPacket   {@link CarPacket} Packet that contains the location of the automated car
      * @param inputPacket {@link ReadOnlyInputPacket} contains key states for debugging
+     * @param roadSignDetectionPacket contains the camera triangle for debug
      */
-    public void drawWorld(World world, CarPacket carPacket, ReadOnlyInputPacket inputPacket) {
+    public void drawWorld(World world, CarPacket carPacket, ReadOnlyInputPacket inputPacket,
+                          ReadOnlyRoadSignDetectionPacket roadSignDetectionPacket) {
         invalidate();
+        this.roadSignDetectionPacket = roadSignDetectionPacket;
         this.world = world;
         this.carPacket = carPacket;
         this.inputPacket = inputPacket;
@@ -189,17 +193,26 @@ public class CourseDisplay extends JPanel {
         }
         // draw sensor scopes depending on debug settings
         if (inputPacket.getCameraVizualizerStatus()) {
-            //    drawCamera(g);
+            drawSensor(roadSignDetectionPacket.getTrianglePoints(), offset, Color.RED, g);
         }
         if (inputPacket.getRadarVizualizerStatus()) {
-            drawRadar(g, offset.x, offset.y);
+            // Need the coordinates of radar triangle
         }
         if (inputPacket.getUltrasonicVizualizerStatus()) {
-            //    drawUltrasonic(g);
+            // Need the coordinates of ultrasonic triangle
         }
         // draw stationary children (Tree, Road sign)
         g.drawImage(staticEnvironmentZ1, (int) (offset.x * scale), (int) (offset.y * scale), this);
         drawShapesDebug(g, offset.x, offset.y);
+    }
+
+    private void drawSensor(Point[] trianglePoints, Point offset, Color color, Graphics graphics) {
+        int[] x = {(int) ((trianglePoints[0].x + offset.x) * scale),
+                (int) ((trianglePoints[1].x + offset.x) * scale), (int) ((trianglePoints[2].x + offset.x) * scale)};
+        int[] y = {(int) ((trianglePoints[0].y + offset.y) * scale),
+                (int) ((trianglePoints[1].y + offset.y) * scale), (int) ((trianglePoints[2].y + offset.y) * scale)};
+        graphics.setColor(color);
+        graphics.drawPolygon(x, y, 3);
     }
 
     private void drawShapesDebug(Graphics g, int offsetX, int offsetY) {
@@ -218,17 +231,4 @@ public class CourseDisplay extends JPanel {
             }
         }
     }
-
-    private void drawRadar(Graphics g, int offsetX, int offsetY) {
-        Point[] radarCoords = Triangle.trianglePoints(
-                new Point(carPacket.getX() + offsetX, carPacket.getY() + offsetY),
-                sensorRangeRadar * scale, angleOfViewRadar, carPacket.getRotation()
-        );
-        int[] x = {(int) (radarCoords[0].getX() * scale), (int) (radarCoords[1].getX()
-                * scale), (int) (radarCoords[2].getX() * scale)};
-        int[] y = {(int) (radarCoords[0].getY() * scale), (int) (radarCoords[1].getY()
-                * scale), (int) (radarCoords[2].getY() * scale)};
-        g.drawPolygon(x, y, 3);
-    }
-
 }
