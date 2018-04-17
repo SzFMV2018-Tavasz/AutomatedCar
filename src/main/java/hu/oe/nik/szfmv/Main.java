@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.sensors.UltrasonicSensor;
 import hu.oe.nik.szfmv.common.ConfigProvider;
+import hu.oe.nik.szfmv.detector.classes.Detector;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.models.Pedestrian;
 import hu.oe.nik.szfmv.visualization.Gui;
@@ -31,6 +32,10 @@ public class Main {
 
         // create the world
         World w = new World(worldWidth, worldHeight);
+        //create detector
+        Detector d = Detector.getDetector();
+        //set detector's list
+        d.setWorldObjects(w.getWorldObjects());
         // create an automated car
         AutomatedCar car = new AutomatedCar(carX, carY, "car_2_white.png");
         // add car to the world
