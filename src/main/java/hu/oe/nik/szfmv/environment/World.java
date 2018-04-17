@@ -14,7 +14,6 @@ public class World implements IWorld {
     private int width = 0;
     private int height = 0;
     private List<WorldObject> worldObjects = new ArrayList<>();
-    Detector d;
 
     /**
      * Creates the virtual world with the given dimension.
@@ -28,7 +27,7 @@ public class World implements IWorld {
         this.height = height;
         this.build("src/main/resources/test.xml");
         //create detector
-        d = Detector.getDetector();
+        Detector d = Detector.getDetector();
         //set detector's list
         d.setWorldObjects(getWorldObjects());
     }
