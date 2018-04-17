@@ -5,6 +5,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
+import hu.oe.nik.szfmv.automatedcar.sensors.UltrasonicSensor;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import org.apache.logging.log4j.LogManager;
@@ -12,6 +13,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AutomatedCar extends WorldObject {
 
@@ -22,6 +25,7 @@ public class AutomatedCar extends WorldObject {
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
     private SteeringWheel steeringWheel;
+    private final List<UltrasonicSensor> ultrasonicSensors = new ArrayList<>();
 
     /**
      * Constructor of the AutomatedCar class
@@ -143,5 +147,13 @@ public class AutomatedCar extends WorldObject {
      */
     public ReadOnlyPowertrainPacket getPowertrainValues() {
         return virtualFunctionBus.powertrainPacket;
+    }
+
+    /**
+     * Gets the list of ultrasonic sensors
+     * @return the list of ultrasonic sensors
+     */
+    public List<UltrasonicSensor> getUltrasonicSensors() {
+        return ultrasonicSensors;
     }
 }
