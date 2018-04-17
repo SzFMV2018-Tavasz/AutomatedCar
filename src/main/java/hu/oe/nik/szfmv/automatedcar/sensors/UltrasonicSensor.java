@@ -82,7 +82,7 @@ public class UltrasonicSensor {
      */
     public Collidable getNearestObject() {
         Point[] triangle = getTriangleForSensor();
-        Detector detector = world.getDetector();
+        Detector detector = Detector.getDetector();
         List<Collidable> collidables = detector.getCollidableObjects(triangle[0], triangle[1], triangle[2]);
         double minDistance = Double.MAX_VALUE;
         Collidable nearestObject = null;
