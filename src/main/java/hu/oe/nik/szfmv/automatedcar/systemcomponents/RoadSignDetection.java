@@ -21,7 +21,7 @@ import java.awt.*;
 public class RoadSignDetection extends SystemComponent {
 
     private static final double CAMERAANGLEOFVIEW = 60; // degree
-    private static final double CAMERARANGE = 10 * 50; // m * pixels/m
+    private static final double CAMERARANGE = 15 * 50; // m * pixels/m
     private RoadSignDetectionPacket roadSignDetectionPacket;
 
     /**
