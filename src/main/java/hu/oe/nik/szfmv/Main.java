@@ -55,7 +55,7 @@ public class Main {
 
                 gui.getCourseDisplay().drawWorld(w, car.getCarValues());
                 gui.getDashboard().updateDisplayedValues(car.getInputValues(), car.getPowertrainValues(),
-                        (int) car.getX(), (int) car.getY());
+                        (int) Math.round(car.getX()), (int) Math.round(car.getY()));
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());
