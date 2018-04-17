@@ -67,7 +67,7 @@ public class NpcCar extends Movable {
 
         List<Point2D> pointsSortVertices = new ArrayList<>();
         SortVertices sortvertices = new SortVertices();
-        pointsSortVertices = sortvertices.SortClockWise(points2d);
+        pointsSortVertices = sortvertices.sortClockWise(points2d);
 
         for (int j = 0; j < pointsSortVertices.size(); j++) {
             for (int i = 0; i < roads.size(); i++) {

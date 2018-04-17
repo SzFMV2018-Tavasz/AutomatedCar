@@ -1,13 +1,12 @@
 package hu.oe.nik.szfmv.common;
 
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SortVertices {
 
-    public List<Point2D> SortClockWise(List<Point2D> Points) {
+    public List<Point2D> sortClockWise(List<Point2D> Points) {
         List<Point2D> mTempShape = new ArrayList<>();
         // First Calculate Center of Points
         double CenterX = 0;
