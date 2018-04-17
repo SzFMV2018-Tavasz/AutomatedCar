@@ -6,6 +6,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
+import hu.oe.nik.szfmv.automatedcar.sensors.UltrasonicSensor;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import org.apache.logging.log4j.LogManager;
@@ -13,6 +14,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AutomatedCar extends WorldObject {
 
@@ -23,6 +26,7 @@ public class AutomatedCar extends WorldObject {
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
     private SteeringWheel steeringWheel;
+    private final List<UltrasonicSensor> ultrasonicSensors = new ArrayList<>();
 
     /**
      * Constructor of the AutomatedCar class
@@ -56,9 +60,13 @@ public class AutomatedCar extends WorldObject {
         new GearShift(virtualFunctionBus);
         new SensorsVisualizer(virtualFunctionBus);
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
+        new RoadLaneDetector(virtualFunctionBus, this);
+
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         steeringWheel = new SteeringWheel(virtualFunctionBus);
         new RoadSignDetection(virtualFunctionBus);
+
+
 
         new Driver(virtualFunctionBus);
     }
@@ -144,11 +152,19 @@ public class AutomatedCar extends WorldObject {
         return virtualFunctionBus.powertrainPacket;
     }
 
+
     /** Gets the roadsign closest to the car
      *
      * @return roadsigndetection packet
      */
     public ReadOnlyRoadSignDetectionPacket getRoadSign() {
         return virtualFunctionBus.roadSignDetectionPacket;
+    /**
+     * Gets the list of ultrasonic sensors
+     * @return the list of ultrasonic sensors
+     */
+    }
+    public List<UltrasonicSensor> getUltrasonicSensors() {
+        return ultrasonicSensors;
     }
 }

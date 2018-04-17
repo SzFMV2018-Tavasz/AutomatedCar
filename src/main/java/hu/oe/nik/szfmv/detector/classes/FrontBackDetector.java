@@ -7,22 +7,16 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FrontBackDetector extends Detector {
+public class FrontBackDetector {
 
     ArrayList<Collidable> previousCollidables;
 
-    /**
-     *
-     * @param worldObjects Objects from world lol
-     */
-    public FrontBackDetector(List<WorldObject> worldObjects) {
-        super(worldObjects);
 
+    public FrontBackDetector() {
         previousCollidables = new ArrayList<Collidable>();
     }
 
     /**
-     *
      * @param triangle FOW of detector
      * @return returns center line of detector
      */
@@ -30,7 +24,7 @@ public class FrontBackDetector extends Detector {
         Point[] p = new Point[2];
         p[0] = new Point(triangle.xpoints[0], triangle.ypoints[0]);
         p[1] = new Point((triangle.xpoints[1] + triangle.xpoints[2]) / 2,
-                            (triangle.ypoints[1] + triangle.ypoints[2]) / 2);
+                (triangle.ypoints[1] + triangle.ypoints[2]) / 2);
 
         return p;
     }
@@ -40,13 +34,12 @@ public class FrontBackDetector extends Detector {
     }
 
     /**
-     *
-     * @param centerLine Centerline of triangle
+     * @param centerLine                  Centerline of triangle
      * @param collidableObjectsInTriangle objects that are collidable in triangle
      * @return returns collidable objects in the triangle that are closer to the centerline
      */
-    List<Collidable> getCollidableObjectsApproachingCenterLine (Point[] centerLine,
-                                                                ArrayList<Collidable> collidableObjectsInTriangle) {
+    List<Collidable> getCollidableObjectsApproachingCenterLine(Point[] centerLine,
+                                                               ArrayList<Collidable> collidableObjectsInTriangle) {
         ArrayList<Collidable> approachingCollidables = new ArrayList<Collidable>();
 
         for (Collidable object : collidableObjectsInTriangle) {
@@ -71,7 +64,6 @@ public class FrontBackDetector extends Detector {
     }
 
     /**
-     *
      * @param a point of line
      * @param b point of line
      * @param p point of object

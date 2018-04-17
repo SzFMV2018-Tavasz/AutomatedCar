@@ -5,6 +5,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.RoadSignDetectionPacket;
 import hu.oe.nik.szfmv.common.Utils;
+import hu.oe.nik.szfmv.detector.classes.Detector;
 import hu.oe.nik.szfmv.detector.classes.Triangle;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
@@ -51,7 +52,7 @@ public class RoadSignDetection extends SystemComponent {
         trianglePoints[2] = calculateMiddlePoint(trianglePoints[1], trianglePoints[2]);
         roadSignDetectionPacket.setTrianglePoints(trianglePoints);
         List<WorldObject> worldObjects;
-        worldObjects = World.getDetector().getWorldObjects(trianglePoints[0], trianglePoints[1], trianglePoints[2]);
+        worldObjects = Detector.getDetector().getWorldObjects(trianglePoints[0], trianglePoints[1], trianglePoints[2]);
 
         List<RoadSign> roadSigns = new ArrayList<>();
         for (int i = 0; i < worldObjects.size(); i++) {
