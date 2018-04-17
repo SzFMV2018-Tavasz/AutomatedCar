@@ -4,7 +4,6 @@ import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
-import hu.oe.nik.szfmv.detector.classes.Triangle;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Movable;
@@ -134,8 +133,10 @@ public class CourseDisplay extends JPanel {
      * @param world       {@link World} object that describes the virtual world
      * @param carPacket   {@link CarPacket} Packet that contains the location of the automated car
      * @param inputPacket {@link ReadOnlyInputPacket} contains key states for debugging
+     * @param roadSignDetectionPacket contains the camera triangle for debug
      */
-    public void drawWorld(World world, CarPacket carPacket, ReadOnlyInputPacket inputPacket, ReadOnlyRoadSignDetectionPacket roadSignDetectionPacket) {
+    public void drawWorld(World world, CarPacket carPacket, ReadOnlyInputPacket inputPacket,
+                          ReadOnlyRoadSignDetectionPacket roadSignDetectionPacket) {
         invalidate();
         this.roadSignDetectionPacket = roadSignDetectionPacket;
         this.world = world;

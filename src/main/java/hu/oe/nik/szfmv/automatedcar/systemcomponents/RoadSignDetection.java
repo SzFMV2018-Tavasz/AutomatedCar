@@ -7,7 +7,6 @@ import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.RoadSignDetect
 import hu.oe.nik.szfmv.common.Utils;
 import hu.oe.nik.szfmv.detector.classes.Detector;
 import hu.oe.nik.szfmv.detector.classes.Triangle;
-import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.RoadSign;
 
