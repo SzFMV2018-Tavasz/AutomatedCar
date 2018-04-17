@@ -4,6 +4,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.RoadSignDetectionPacket;
+import hu.oe.nik.szfmv.common.Utils;
 import hu.oe.nik.szfmv.detector.classes.Triangle;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
@@ -19,9 +20,8 @@ import java.awt.*;
 public class RoadSignDetection extends SystemComponent {
 
     private static final double CAMERAANGLEOFVIEW = 60; // degree
-    private static final double CAMERARANGE = 80 * 50; // m * pixels/m
+    private static final double CAMERARANGE = 10 * 50; // m * pixels/m
     private RoadSignDetectionPacket roadSignDetectionPacket;
-    private World world;
 
     /**
      * @param virtualFunctionBus VirtualFunctionBus parameter
@@ -29,11 +29,13 @@ public class RoadSignDetection extends SystemComponent {
     public RoadSignDetection(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
         roadSignDetectionPacket = RoadSignDetectionPacket.getInstance();
+        virtualFunctionBus.roadSignDetectionPacket = this.roadSignDetectionPacket;
     }
 
-    /** makes a triangle representing the camera view on the car, gets the objects which are in the
-     *  right half in the view of the camera, and returns the closest roadsign object to the position
-     *  of the camera
+    /**
+     * makes a triangle representing the camera view on the car, gets the objects which are in the
+     * right half in the view of the camera, and returns the closest roadsign object to the position
+     * of the camera
      *
      * @return roadsign to show on dashboard
      */
@@ -44,16 +46,17 @@ public class RoadSignDetection extends SystemComponent {
         double cameraRotation = carPacket.getRotation();
 
         Triangle triangle = new Triangle();
-        Point[] trianglePoints = triangle.trianglePoints(cameraPosition, CAMERARANGE, CAMERAANGLEOFVIEW, cameraRotation);
-        trianglePoints[1] = calculateMiddlePoint(trianglePoints[1], trianglePoints[2]);
-
+        Point[] trianglePoints = triangle.trianglePoints(cameraPosition, CAMERARANGE, CAMERAANGLEOFVIEW,
+                Utils.radianToDegree(-cameraRotation) + 180);
+        trianglePoints[2] = calculateMiddlePoint(trianglePoints[1], trianglePoints[2]);
+        roadSignDetectionPacket.setTrianglePoints(trianglePoints);
         List<WorldObject> worldObjects;
-        worldObjects = world.getDetector().getWorldObjects(trianglePoints[0], trianglePoints[1], trianglePoints[2]);
+        worldObjects = World.getDetector().getWorldObjects(trianglePoints[0], trianglePoints[1], trianglePoints[2]);
 
         List<RoadSign> roadSigns = new ArrayList<>();
         for (int i = 0; i < worldObjects.size(); i++) {
             if (worldObjects.get(i) instanceof RoadSign) {
-                roadSigns.add((RoadSign)worldObjects.get(i));
+                roadSigns.add((RoadSign) worldObjects.get(i));
             }
         }
         return findClosestRoadSign(roadSigns, cameraPosition);
@@ -70,7 +73,8 @@ public class RoadSignDetection extends SystemComponent {
                        \B
      */
 
-    /** calculates the middle point between two points
+    /**
+     * calculates the middle point between two points
      *
      * @param a one point
      * @param b another point
@@ -84,7 +88,8 @@ public class RoadSignDetection extends SystemComponent {
         return c;
     }
 
-    /** finds the closest roadsign to a specific point from a list of roadsigns
+    /**
+     * finds the closest roadsign to a specific point from a list of roadsigns
      *
      * @param rs list of roadsigns
      * @param cp a point which is the position of the camera
@@ -101,10 +106,15 @@ public class RoadSignDetection extends SystemComponent {
                 pos = j;
             }
         }
-        return rs.get(pos);
+        if (rs.size() > 0) {
+            return rs.get(pos);
+        } else {
+            return roadSignDetectionPacket.getRoadSignToShowOnDashboard();
+        }
     }
 
-    /** finds the center point of a given roadsign
+    /**
+     * finds the center point of a given roadsign
      *
      * @param r the roadsign
      * @return center point
@@ -119,9 +129,6 @@ public class RoadSignDetection extends SystemComponent {
 
     @Override
     public void loop() throws MissingPacketException {
-        if (world == null) {
-            world = roadSignDetectionPacket.getWorld();
-        }
         CarPacket carPacket = virtualFunctionBus.carPacket;
         RoadSign roadSign = setRoadSign(carPacket);
         roadSignDetectionPacket.setRoadSignToShowOnDashboard(roadSign);

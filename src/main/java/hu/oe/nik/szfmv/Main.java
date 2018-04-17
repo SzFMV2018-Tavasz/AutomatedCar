@@ -32,8 +32,6 @@ public class Main {
         World w = new World(worldWidth, worldHeight);
         // create an automated car
         AutomatedCar car = new AutomatedCar(carX, carY, "car_2_white.png");
-        // sets the world for roadsigndetection
-        car.getRoadSign().setWorld(w);
         // add car to the world
         w.addObjectToWorld(car);
 
@@ -44,14 +42,14 @@ public class Main {
         Gui gui = new Gui();
 
         // draw world to course display
-        gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues());
+        gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues(),car.getRoadSign());
 
         while (true) {
             try {
                 car.drive();
                 pedestrian.moveOnCrosswalk();
 
-                gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues());
+                gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues(),car.getRoadSign());
                 gui.getDashboard().updateDisplayedValues(car.getInputValues(), car.getPowertrainValues(),
                         car.getX(), car.getY());
                 Thread.sleep(CYCLE_PERIOD);

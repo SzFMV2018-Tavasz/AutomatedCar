@@ -3,11 +3,13 @@ package hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.models.RoadSign;
 
+import java.awt.*;
+
 public class RoadSignDetectionPacket implements ReadOnlyRoadSignDetectionPacket {
 
     private static RoadSignDetectionPacket instance = null;
     private RoadSign roadSign;
-    private World world;
+    private Point[] points;
 
     /** singleton packet
      *
@@ -29,11 +31,11 @@ public class RoadSignDetectionPacket implements ReadOnlyRoadSignDetectionPacket 
         this.roadSign = roadSign;
     }
 
-    public void setWorld(World world) {
-        this.world = world;
+    public void setTrianglePoints(Point[] points) {
+        this.points = points;
     }
 
-    public World getWorld() {
-        return world;
+    public Point[] getTrianglePoints() {
+        return points;
     }
 }

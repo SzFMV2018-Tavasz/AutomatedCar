@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv.visualization;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
 import hu.oe.nik.szfmv.detector.classes.Triangle;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
@@ -44,10 +45,11 @@ public class CourseDisplay extends JPanel {
     private final double sensorRangeRadar = 200.0;
     private final double angleOfViewRadar = 60.0;
 
-
+    private ReadOnlyRoadSignDetectionPacket roadSignDetectionPacket = null;
     private CarPacket carPacket = null;
     private ReadOnlyInputPacket inputPacket = null;
     private World world;
+
     // roadsigns and trees
     private BufferedImage staticEnvironmentZ1 = null;
     // other static objects
@@ -129,12 +131,13 @@ public class CourseDisplay extends JPanel {
     /**
      * Draws the world to the course display
      *
-     * @param world     {@link World} object that describes the virtual world
-     * @param carPacket {@link CarPacket} Packet that contains the location of the automated car
+     * @param world       {@link World} object that describes the virtual world
+     * @param carPacket   {@link CarPacket} Packet that contains the location of the automated car
      * @param inputPacket {@link ReadOnlyInputPacket} contains key states for debugging
      */
-    public void drawWorld(World world, CarPacket carPacket, ReadOnlyInputPacket inputPacket) {
+    public void drawWorld(World world, CarPacket carPacket, ReadOnlyInputPacket inputPacket, ReadOnlyRoadSignDetectionPacket roadSignDetectionPacket) {
         invalidate();
+        this.roadSignDetectionPacket = roadSignDetectionPacket;
         this.world = world;
         this.carPacket = carPacket;
         this.inputPacket = inputPacket;
@@ -188,9 +191,13 @@ public class CourseDisplay extends JPanel {
             }
         }
         // draw sensor scopes depending on debug settings
-        if (inputPacket.getCameraVizualizerStatus()) {
-            //    drawCamera(g);
-        }
+        //if (inputPacket.getCameraVizualizerStatus()) {
+        Point[] trianglePonts = roadSignDetectionPacket.getTrianglePoints();
+
+        int[] x = {(int) ((trianglePonts[0].x + offset.x) * scale), (int) ((trianglePonts[1].x + offset.x) * scale), (int) ((trianglePonts[2].x + offset.x) * scale)};
+        int[] y = {(int) ((trianglePonts[0].y + offset.y) * scale), (int) ((trianglePonts[1].y + offset.y) * scale), (int) ((trianglePonts[2].y + offset.y) * scale)};
+        g.drawPolygon(x, y, 3);
+        //}
         if (inputPacket.getRadarVizualizerStatus()) {
             drawRadar(g, offset.x, offset.y);
         }
@@ -200,6 +207,20 @@ public class CourseDisplay extends JPanel {
         // draw stationary children (Tree, Road sign)
         g.drawImage(staticEnvironmentZ1, (int) (offset.x * scale), (int) (offset.y * scale), this);
         drawShapesDebug(g, offset.x, offset.y);
+
+
+        BufferedImage image = null;
+        if ( roadSignDetectionPacket.getRoadSignToShowOnDashboard() != null){
+            try {
+                image = ImageIO.read(new File(ClassLoader.getSystemResource(roadSignDetectionPacket.getRoadSignToShowOnDashboard().getImageFileName()).getFile()));
+            } catch (IOException e) {
+                LOGGER.error(e.getMessage());
+            }
+            if (image != null)
+                g.drawImage(image, 0, 0, this);
+        }
+        // read file from resources
+
     }
 
     private void drawShapesDebug(Graphics g, int offsetX, int offsetY) {
