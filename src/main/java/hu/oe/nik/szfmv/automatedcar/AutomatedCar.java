@@ -17,6 +17,7 @@ public class AutomatedCar extends WorldObject {
     private static final Logger LOGGER = LogManager.getLogger(AutomatedCar.class);
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
     private double wheelBase;
+    private double halfWheelBase;
     private double halfWidth;
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
@@ -41,6 +42,7 @@ public class AutomatedCar extends WorldObject {
         setRotation(Math.toRadians(fullCircle - carTestRotation));
         wheelBase = carHeight;
         halfWidth = carWidth / 2;
+        halfWheelBase = wheelBase / 2;
         this.setWidth(carWidth);
         this.setHeight(carHeight);
 
@@ -66,7 +68,8 @@ public class AutomatedCar extends WorldObject {
     public void drive() {
         try {
             virtualFunctionBus.loop();
-            calculatePositionAndOrientation();
+            //calculatePositionAndOrientation();
+            parkingPilot();
             generateShape();
         } catch (MissingPacketException e) {
             LOGGER.error(e);
@@ -80,15 +83,22 @@ public class AutomatedCar extends WorldObject {
 
         final double carSpeed = virtualFunctionBus.powertrainPacket.getSpeed();
         double angularSpeed = 0;
-        final double fps = 1;
-        final int threeQuarterCircle = 270;
+
         try {
             angularSpeed = SteeringMethods.getSteerAngle(-this.getInputValues().getSteeringWheelPosition());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        setCarPositionAndOrientation(carSpeed, angularSpeed);
+    }
+
+    /**
+     * @param carSpeed     Automated car actual speed
+     * @param angularSpeed Automated car actual wheel position
+     */
+    private void setCarPositionAndOrientation(double carSpeed, double angularSpeed) {
+        final int threeQuarterCircle = 270;
         double carHeading = Math.toRadians(threeQuarterCircle) - rotation;
-        double halfWheelBase = wheelBase / 2;
 
         Point2D carPosition = new Point2D.Double(getCarValues().getX(), getCarValues().getY());
         Object[] carPositionAndHeading = SteeringMethods.getCarPositionAndCarHead(carPosition, carHeading, carSpeed,
@@ -109,6 +119,58 @@ public class AutomatedCar extends WorldObject {
         getCarValues().setX(this.getX());
         getCarValues().setY(this.getY());
         getCarValues().setRotation(this.getRotation());
+    }
+
+    /**
+     * Automated parking mode
+     */
+    public void parkingPilot() {
+
+        double angularSpeed = 0;
+        double wheelPosition = 0;
+        final double startCarSpeed = 5;
+        final double fullWheelPosition = 100;
+        double carSpeed = -startCarSpeed;
+
+        // These values come from packet
+        final int parkingPlaceHeight = 312;
+        final int parkingPlaceEnd = 980;
+        final int parkingPlaceStart = 1270;
+        final int parkingPlaceLeftLine = 400;
+
+        final double firstStateRate = 0.5;
+        final double secondStateRate = 0.61;
+        int firstState = parkingPlaceEnd + (int) Math.round(parkingPlaceHeight * firstStateRate);
+        int secondState = parkingPlaceEnd + (int) Math.round(parkingPlaceHeight * secondStateRate);
+        int thirdState = parkingPlaceEnd + parkingPlaceHeight;
+
+
+        if (this.getCarValues().getY() < parkingPlaceEnd) {
+            goBackToTheParkingPlace();
+        } else {
+            if (this.getCarValues().getY() < firstState) {
+                wheelPosition = -fullWheelPosition;
+            } else if (this.getCarValues().getY() < secondState) {
+                wheelPosition = 0;
+            } else if (this.getCarValues().getY() < thirdState && this.getCarValues().getY() < parkingPlaceStart) {
+                wheelPosition = fullWheelPosition;
+            } else {
+                carSpeed = 0;
+            }
+
+            try {
+                angularSpeed = SteeringMethods.getSteerAngle(wheelPosition);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            setCarPositionAndOrientation(carSpeed, angularSpeed);
+        }
+
+    }
+
+    private void goBackToTheParkingPlace() {
+        final int carSpeed = -5;
+        setCarPositionAndOrientation(carSpeed, 0);
     }
 
     /**

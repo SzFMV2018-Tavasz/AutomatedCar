@@ -21,8 +21,8 @@ public class Main {
     public static void main(String[] args) {
         final int worldWidth = 800;
         final int worldHeight = 600;
-        final int carX = 200;
-        final int carY = 200;
+        final int carX = 400;
+        final int carY = 800;
         final int pedestrianX = 1550;
         final int pedestrianY = 500;
 
@@ -33,6 +33,7 @@ public class Main {
         World w = new World(worldWidth, worldHeight);
         // create an automated car
         AutomatedCar car = new AutomatedCar(carX, carY, "car_2_white.png");
+        car.setRotation(Math.toRadians(0));
         // add car to the world
         w.addObjectToWorld(car);
 
