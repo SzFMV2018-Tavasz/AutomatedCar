@@ -62,6 +62,9 @@ public class RoadLaneDetector extends SystemComponent {
      * find road from worldobject
      */
     private void findRoads() {
+        if (worldObjects == null) {
+            return;
+        }
         for (WorldObject w : worldObjects) {
             if (w instanceof Road) {
                 Road r = (Road) w;
