@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.common.ConfigProvider;
 import hu.oe.nik.szfmv.environment.World;
+import hu.oe.nik.szfmv.environment.XmlToModelConverter;
 import hu.oe.nik.szfmv.environment.models.Pedestrian;
 import hu.oe.nik.szfmv.visualization.Gui;
 import org.apache.logging.log4j.LogManager;
@@ -18,8 +19,7 @@ public class Main {
      * @param args command line arguments
      */
     public static void main(String[] args)  {
-        final int worldWidth = 800;
-        final int worldHeight = 600;
+        final int[] worldWidthHeight = XmlToModelConverter.worldWidthHeightbuild("src/main/resources/test.xml");
         final int carX = 200;
         final int carY = 200;
         final int pedestrianX = 1550;
@@ -29,7 +29,7 @@ public class Main {
         LOGGER.info(ConfigProvider.provide().getBoolean("general.debug"));
 
         // create the world
-        World w = new World(worldWidth, worldHeight);
+        World w = new World(worldWidthHeight[0], worldWidthHeight[1]);
         // create an automated car
         AutomatedCar car = new AutomatedCar(carX, carY, "car_2_white.png");
         // add car to the world

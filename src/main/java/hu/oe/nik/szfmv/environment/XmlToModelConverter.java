@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static hu.oe.nik.szfmv.common.Utils.convertMatrixToRadians;
+import static java.lang.Integer.parseInt;
 
 public abstract class XmlToModelConverter {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -39,13 +40,8 @@ public abstract class XmlToModelConverter {
         Road.loadReferencePoints();
 
         List<WorldObject> objectListToReturn = new ArrayList<WorldObject>();
-        File inputFile = new File(xmlLocation);
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = factory.newDocumentBuilder();
-        Document doc = dBuilder.parse(inputFile);
-
+        Document doc = docFromXML(xmlLocation);
         NodeList xmlNodes = doc.getElementsByTagName("Object");
-
         for (int iterator = 0; iterator < xmlNodes.getLength(); iterator++) {
             Node nodeToAdd = xmlNodes.item(iterator);
             try {
@@ -157,8 +153,8 @@ public abstract class XmlToModelConverter {
         //points[1]=>y
         Integer[] points = new Integer[2];
         try {
-            points[0] = Integer.parseInt(position.getAttribute("x"));
-            points[1] = Integer.parseInt(position.getAttribute("y"));
+            points[0] = parseInt(position.getAttribute("x"));
+            points[1] = parseInt(position.getAttribute("y"));
             return points;
         } catch (NumberFormatException e) {
             throw new XMLSignatureException("Invalid format: Position attributes is not Integer: " + e.getMessage());
@@ -188,5 +184,41 @@ public abstract class XmlToModelConverter {
         } catch (NumberFormatException e) {
             throw new XMLSignatureException("Invalid format: Transform attributes is not Double: " + e.getMessage());
         }
+    }
+
+    /**
+     *
+     * @param xmlLocation location of the xml containing WorldObjects
+     * @return An array with 2 elements: first element: world's width, second element: world's height
+     */
+    public static int[] worldWidthHeightbuild(String xmlLocation){
+        int[] array = new int[2];
+        try {
+            Document doc = docFromXML(xmlLocation);
+            Element scene = doc.getDocumentElement();
+            array[0]= parseInt(scene.getAttribute("width"));
+            array[1]= parseInt(scene.getAttribute("height"));
+            return array;
+        } catch (ParserConfigurationException | IOException | SAXException e) {
+            LOGGER.error("XML Error" + ": " + e.getMessage());
+        }
+        array[0]=800;
+        array[1]=600;
+        return array;
+    }
+
+    /**
+     *
+     * @param xmlLocation location of the xml containing WorldObjects
+     * @return XML as a Document.
+     * @throws ParserConfigurationException when the parse configuration is bad
+     * @throws IOException                  .
+     * @throws SAXException                 .
+     */
+    private static Document docFromXML(String xmlLocation) throws ParserConfigurationException, IOException, SAXException {
+        File inputFile = new File(xmlLocation);
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = factory.newDocumentBuilder();
+        return dBuilder.parse(inputFile);
     }
 }
