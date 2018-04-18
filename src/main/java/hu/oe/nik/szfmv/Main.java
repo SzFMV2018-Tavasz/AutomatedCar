@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.common.ConfigProvider;
 import hu.oe.nik.szfmv.environment.World;
+import hu.oe.nik.szfmv.environment.models.NpcCar;
 import hu.oe.nik.szfmv.environment.models.Pedestrian;
 import hu.oe.nik.szfmv.visualization.Gui;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +18,7 @@ public class Main {
      *
      * @param args command line arguments
      */
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
         final int worldWidth = 800;
         final int worldHeight = 600;
         final int carX = 200;
@@ -35,9 +36,11 @@ public class Main {
         // add car to the world
         w.addObjectToWorld(car);
 
+        NpcCar npcCar = new NpcCar(w, 500, 500, "car_2_red.png");
+        w.addObjectToWorld(npcCar);
+
         Pedestrian pedestrian = new Pedestrian(pedestrianX, pedestrianY, "man.png");
         w.addObjectToWorld(pedestrian);
-
         // create gui
         Gui gui = new Gui();
 
@@ -48,10 +51,11 @@ public class Main {
             try {
                 car.drive();
                 pedestrian.moveOnCrosswalk();
+                npcCar.move();
 
                 gui.getCourseDisplay().drawWorld(w, car.getCarValues());
                 gui.getDashboard().updateDisplayedValues(car.getInputValues(), car.getPowertrainValues(),
-                        car.getX(), car.getY());
+                        (int) Math.round(car.getX()), (int) Math.round(car.getY()));
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());

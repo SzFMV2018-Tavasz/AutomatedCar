@@ -33,4 +33,7 @@
 	<Image name="car_2_white.png">
 		<Refpoint x="51" y="104"/>
 	</Image>
+	<Image name="car_2_red.png">
+		<Refpoint x="51" y="104"/>
+	</Image>
 </Images>

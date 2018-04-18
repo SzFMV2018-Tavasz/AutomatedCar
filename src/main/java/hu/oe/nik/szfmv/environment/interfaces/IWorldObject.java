@@ -1,6 +1,6 @@
 package hu.oe.nik.szfmv.environment.interfaces;
 
-import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * Interface for objects that can be Visualized
@@ -8,9 +8,18 @@ import java.awt.*;
  */
 public interface IWorldObject {
 
+    /**
+     * @return Return with the world object rotation value
+     */
     double getRotation();
 
+    /**
+     * @return Return with the world object image file name
+     */
     String getImageFileName();
 
-    Point getLocation();
+    /**
+     * @return Return with the the world object location point
+     */
+    Point2D getLocation();
 }
