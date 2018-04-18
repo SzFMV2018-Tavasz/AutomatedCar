@@ -76,8 +76,8 @@ public class AutomatedCar extends WorldObject {
      */
     public void drive() {
         try {
-            virtualFunctionBus.loop();
             calculatePositionAndOrientation();
+            virtualFunctionBus.loop();
             generateShape();
         } catch (MissingPacketException e) {
             LOGGER.error(e);
