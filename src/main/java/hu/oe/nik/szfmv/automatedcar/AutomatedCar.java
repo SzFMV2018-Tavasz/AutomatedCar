@@ -21,6 +21,7 @@ public class AutomatedCar extends WorldObject {
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
     private SteeringWheel steeringWheel;
+    private ReverseRadar reverseRadar;
 
     /**
      * Constructor of the AutomatedCar class
@@ -54,7 +55,7 @@ public class AutomatedCar extends WorldObject {
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         steeringWheel = new SteeringWheel(virtualFunctionBus);
-
+        reverseRadar = new ReverseRadar(virtualFunctionBus);
 
         new Driver(virtualFunctionBus);
     }

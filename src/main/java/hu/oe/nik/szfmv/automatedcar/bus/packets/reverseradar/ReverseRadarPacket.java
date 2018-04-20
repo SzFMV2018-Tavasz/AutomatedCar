@@ -18,10 +18,10 @@ public class ReverseRadarPacket implements ReadOnlyReverseRadarPacket {
     }
 
     public void setDistance(double distance) {
-        this.distance = distance;
+        distance = distance;
     }
 
     public void setReverseRadarState(ReverseRadarState reverseRadarState) {
-        this.reverseRadarState = reverseRadarState;
+        reverseRadarState = reverseRadarState;
     }
 }
