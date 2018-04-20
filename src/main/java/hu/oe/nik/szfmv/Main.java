@@ -20,8 +20,8 @@ public class Main {
     public static void main(String[] args) {
         final int worldWidth = 800;
         final int worldHeight = 600;
-        final int carX = 20;
-        final int carY = 20;
+        final int carX = 200;
+        final int carY = 200;
         final int pedestrianX = 1550;
         final int pedestrianY = 500;
 
@@ -50,7 +50,10 @@ public class Main {
                 pedestrian.moveOnCrosswalk();
 
                 gui.getCourseDisplay().drawWorld(w, car.getCarValues());
-                gui.getDashboard().updateDisplayedValues(car.getInputValues(), car.getX(), car.getY());
+
+                gui.getDashboard().updateDisplayedValues(car.getInputValues(), car.getPowertrainValues(),
+                    car.getX(), car.getY());
+
 
                 w.checkForCollisions(car);
 
