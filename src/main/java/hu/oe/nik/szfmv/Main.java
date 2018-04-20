@@ -48,7 +48,7 @@ public class Main {
         // draw world to course display
         gui.getCourseDisplay().drawWorld(w, car.getCarValues());
 
-        while (true) {
+        while (!w.isGameOver()) {
             try {
                 car.drive();
                 pedestrian.moveOnCrosswalk();

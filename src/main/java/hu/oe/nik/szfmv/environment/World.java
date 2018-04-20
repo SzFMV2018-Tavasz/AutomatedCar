@@ -106,9 +106,12 @@ public class World implements IWorld {
         for (WorldObject collidable : collidables) {
             if (isColliding(car, collidable)) {
                 if (Pedestrian.class.isInstance(collidable) || Tree.class.isInstance(collidable)) {
+                    LOGGER.info("AutomatedCar collided with tree or pedestrian. GAME OVER!");
                     isGameOver = true;
+                    LOGGER.info("[isGameOver: " + isGameOver + "]");
                 } else {
                     PowertrainSystem.carCollide();
+                    LOGGER.info("AutomatedCar collided with traffic sign. [isGameOver: " + isGameOver + "]");
                 }
             }
         }
