@@ -86,7 +86,9 @@ public class WorldTest {
     public void isGameOver() {
         World testWorld = new World(0, 0);
         AutomatedCar car = new AutomatedCar(199, 90, "car_2_blue.png");
-        RoadSign roadSign = new RoadSign(201, 91,"roadsign_speed_40.png");
+        RoadSign roadSign = new RoadSign(201, 180,"roadsign_speed_40.png");
+        LOGGER.debug("isGameOver method::Car: " + car.getShape().getBounds());
+        LOGGER.debug("isGameOver method::RoadSign: " + roadSign.getShape().getBounds());
 
         testWorld.addObjectToWorld(car);
         testWorld.addObjectToWorld(roadSign);
@@ -96,7 +98,8 @@ public class WorldTest {
         Assert.assertTrue(testWorld.isColliding(car, roadSign));
         Assert.assertFalse(testWorld.isGameOver());
 
-        Pedestrian pedestrian = new Pedestrian(200, 92, "man.png");
+        Pedestrian pedestrian = new Pedestrian(200, 180, "man.png");
+        LOGGER.debug("isGameOver method::Pedestrian: " + pedestrian.getShape().getBounds());
         testWorld.addObjectToWorld(pedestrian);
 
         testWorld.checkForCollisions(car);
@@ -111,12 +114,12 @@ public class WorldTest {
         //Tree tree = new Tree(205, 89, "tree.png");
         Tree tree = new Tree(205, 180, "tree.png");
 
-        LOGGER.debug("Car: " + car.getShape().getBounds());
-        LOGGER.debug("Tree1: " + tree.getShape().getBounds());
+        LOGGER.debug("isColliding method::Car: " + car.getShape().getBounds());
+        LOGGER.debug("isColliding method::Tree1: " + tree.getShape().getBounds());
         Assert.assertTrue(testWorld.isColliding(car, tree));
 
         tree = new Tree(20, 20, "tree.png");
-        LOGGER.debug("Tree2: " + tree.getShape().getBounds());
+        LOGGER.debug("isColliding method::Tree2: " + tree.getShape().getBounds());
         Assert.assertFalse(testWorld.isColliding(car, tree));
     }
 }
