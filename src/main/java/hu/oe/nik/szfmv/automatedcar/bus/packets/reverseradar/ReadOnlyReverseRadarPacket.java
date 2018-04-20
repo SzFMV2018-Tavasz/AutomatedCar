@@ -15,4 +15,10 @@ public interface ReadOnlyReverseRadarPacket {
      * @return state
      */
     ReverseRadarState getReverseRadarState();
+
+    /**
+     * Gets the Reverse Radar is activated or not
+     * @return Activation status
+     */
+    Boolean getActivation();
 }

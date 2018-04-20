@@ -6,6 +6,7 @@ public class ReverseRadarPacket implements ReadOnlyReverseRadarPacket {
 
     private double distance;
     private ReverseRadarState reverseRadarState;
+    private Boolean isActive;
 
     @Override
     public double getDistance() {
@@ -17,11 +18,21 @@ public class ReverseRadarPacket implements ReadOnlyReverseRadarPacket {
         return reverseRadarState;
     }
 
+    @Override
+    public Boolean getActivation() {
+        return isActive;
+    }
+
+
     public void setDistance(double distance) {
-        distance = distance;
+        this.distance = distance;
     }
 
     public void setReverseRadarState(ReverseRadarState reverseRadarState) {
-        reverseRadarState = reverseRadarState;
+        this.reverseRadarState = reverseRadarState;
+    }
+
+    public void setActivation(Boolean activation) {
+        isActive = activation;
     }
 }
