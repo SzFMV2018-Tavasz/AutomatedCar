@@ -1,7 +1,6 @@
 package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.szfmv.automatedcar.bus.powertrain.PowertrainTestPacket;
 import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
 
 public class Driver extends SystemComponent {

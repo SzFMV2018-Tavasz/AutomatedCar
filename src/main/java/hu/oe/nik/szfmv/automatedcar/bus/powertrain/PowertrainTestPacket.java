@@ -1,6 +1,5 @@
 package hu.oe.nik.szfmv.automatedcar.bus.powertrain;
 
-import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainTestPacket;
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 
 public class PowertrainTestPacket implements ReadOnlyPowertrainTestPacket {
