@@ -56,10 +56,10 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
         powertrainPacket = new PowertrainPacket();
         virtualFunctionBus.powertrainPacket = powertrainPacket;
 
-        gearState = virtualFunctionBus.samplePacket.getGearState();
+        gearState = virtualFunctionBus.powertrainTestPacket.getGearState();
         this.speed = speed;
-        gasPedalPosition = virtualFunctionBus.samplePacket.getGaspedalPosition();
-        brakePedalPosition = virtualFunctionBus.samplePacket.getBrakepedalPosition();
+        gasPedalPosition = virtualFunctionBus.powertrainTestPacket.getGaspedalPosition();
+        brakePedalPosition = virtualFunctionBus.powertrainTestPacket.getBrakepedalPosition();
 
         expectedRPM = CarSpecifications.IDLE_RPM;
         actualRPM = CarSpecifications.IDLE_RPM;
@@ -162,9 +162,9 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
      * This method for UnitTest
      */
     public void loopTest() {
-        this.gearState = virtualFunctionBus.samplePacket.getGearState();
-        this.gasPedalPosition = virtualFunctionBus.samplePacket.getGaspedalPosition();
-        this.brakePedalPosition = virtualFunctionBus.samplePacket.getBrakepedalPosition();
+        this.gearState = virtualFunctionBus.powertrainTestPacket.getGearState();
+        this.gasPedalPosition = virtualFunctionBus.powertrainTestPacket.getGaspedalPosition();
+        this.brakePedalPosition = virtualFunctionBus.powertrainTestPacket.getBrakepedalPosition();
 
         this.actualRPM = calculateExpectedRPM(gasPedalPosition);
         doPowertrain();
