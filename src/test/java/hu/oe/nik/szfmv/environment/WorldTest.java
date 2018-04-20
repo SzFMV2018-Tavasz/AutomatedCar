@@ -111,7 +111,6 @@ public class WorldTest {
     public void isColliding() {
         World testWorld = new World(0, 0);
         AutomatedCar car = new AutomatedCar(202, 94, "car_2_white.png");
-        //Tree tree = new Tree(205, 89, "tree.png");
         Tree tree = new Tree(205, 180, "tree.png");
 
         LOGGER.debug("isColliding method::Car: " + car.getShape().getBounds());
