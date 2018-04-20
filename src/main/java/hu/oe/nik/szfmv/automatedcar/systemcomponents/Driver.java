@@ -10,6 +10,9 @@ public class Driver extends SystemComponent {
 
     private InputHandler inputHandler;
 
+    /**
+     * @param virtualFunctionBus Can use to send data to other components.
+     */
     public Driver(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
 //        inputPacket = new InputPacket();

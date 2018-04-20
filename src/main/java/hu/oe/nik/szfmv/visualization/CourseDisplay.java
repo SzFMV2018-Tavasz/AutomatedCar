@@ -15,6 +15,7 @@ import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -26,10 +27,9 @@ import java.util.Map;
  */
 public class CourseDisplay extends JPanel {
 
-    private static Map<String, Point> referencePoints = new HashMap<>();
     private static final String referencePointsURI = "./src/main/resources/reference_points.xml";
     private static final Logger LOGGER = LogManager.getLogger();
-
+    private static Map<String, Point> referencePoints = new HashMap<>();
     private final float scale = 0.5F;
     private final int width = 770;
     private final int height = 700;
@@ -70,7 +70,7 @@ public class CourseDisplay extends JPanel {
      * @param offsetX x offset value for course moving
      * @param offsetY y offset value for course moving
      */
-    private void drawWorldObject(WorldObject object, Graphics g, int offsetX, int offsetY) {
+    private void drawWorldObject(WorldObject object, Graphics g, double offsetX, double offsetY) {
         BufferedImage image = null;
         // read file from resources
         try {
@@ -140,18 +140,18 @@ public class CourseDisplay extends JPanel {
      * @param scaledHeight height of the viewport  multiplied by scaling
      * @return offset value to move camera with
      */
-    private Point getOffset(int scaledWidth, int scaledHeight) {
-        int offsetX = 0;
-        int offsetY = 0;
-        int diffX = (scaledWidth / 2) - carPacket.getX() - carWidth / 2;
+    private Point2D getOffset(int scaledWidth, int scaledHeight) {
+        double offsetX = 0;
+        double offsetY = 0;
+        double diffX = (scaledWidth / 2) - carPacket.getX() - carWidth / 2;
         if (diffX < 0) {
             offsetX = diffX;
         }
-        int diffY = scaledHeight / 2 - carPacket.getY() - carHeight / 2;
+        double diffY = scaledHeight / 2 - carPacket.getY() - carHeight / 2;
         if (diffY < 0) {
             offsetY = diffY;
         }
-        return new Point(offsetX, offsetY);
+        return new Point2D.Double(offsetX, offsetY);
     }
 
     /**
@@ -164,25 +164,25 @@ public class CourseDisplay extends JPanel {
         // when the car reach the half width of the viewport the course move, and the car stay on center
         int scaledWidth = (int) (width / scale);
         int scaledHeight = (int) (height / scale);
-        Point offset = getOffset(scaledWidth, scaledHeight);
+        Point2D offset = getOffset(scaledWidth, scaledHeight);
         if (staticEnvironmentZ0 == null && staticEnvironmentZ1 == null) {
             drawEnvironment();
         }
         // draw the lower layer (crossable objects)
-        g.drawImage(staticEnvironmentZ0, (int) (offset.x * scale), (int) (offset.y * scale), this);
+        g.drawImage(staticEnvironmentZ0, (int) (offset.getX() * scale), (int) (offset.getY() * scale), this);
         // draw moving objects
         for (WorldObject object : this.world.getWorldObjects()) {
             if (AutomatedCar.class.isAssignableFrom(object.getClass()) ||
                     Movable.class.isAssignableFrom(object.getClass())) {
-                drawWorldObject(object, g, offset.x, offset.y);
+                drawWorldObject(object, g, offset.getX(), offset.getY());
             }
         }
         // draw stationary children (Tree, Road sign)
-        g.drawImage(staticEnvironmentZ1, (int) (offset.x * scale), (int) (offset.y * scale), this);
-        drawShapesDebug(g, offset.x, offset.y);
+        g.drawImage(staticEnvironmentZ1, (int) (offset.getX() * scale), (int) (offset.getY() * scale), this);
+        drawShapesDebug(g, offset.getX(), offset.getY());
     }
 
-    private void drawShapesDebug(Graphics g, int offsetX, int offsetY) {
+    private void drawShapesDebug(Graphics g, double offsetX, double offsetY) {
         for (WorldObject object : world.getWorldObjects()) {
             g.setColor(Color.BLUE);
             AffineTransform at1 = new AffineTransform();
@@ -194,6 +194,7 @@ public class CourseDisplay extends JPanel {
                 ((Graphics2D) g).draw(at1.createTransformedShape(s));
             }
         }
+        g.drawImage(staticEnvironmentZ1, (int) (offsetX * scale), (int) (offsetY * scale), this);
     }
 
 }
