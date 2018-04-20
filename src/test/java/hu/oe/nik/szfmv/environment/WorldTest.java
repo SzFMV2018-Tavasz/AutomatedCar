@@ -5,10 +5,14 @@ import hu.oe.nik.szfmv.environment.models.Pedestrian;
 import hu.oe.nik.szfmv.environment.models.Road;
 import hu.oe.nik.szfmv.environment.models.RoadSign;
 import hu.oe.nik.szfmv.environment.models.Tree;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class WorldTest {
+
+    private static final Logger LOGGER = LogManager.getLogger(WorldTest.class);
 
     @Test
     public void WorldListNull() {
@@ -104,11 +108,15 @@ public class WorldTest {
     public void isColliding() {
         World testWorld = new World(0, 0);
         AutomatedCar car = new AutomatedCar(202, 94, "car_2_white.png");
-        Tree tree = new Tree(205, 89, "tree.png");
+        //Tree tree = new Tree(205, 89, "tree.png");
+        Tree tree = new Tree(205, 180, "tree.png");
+
+        LOGGER.debug("Car: " + car.getShape().getBounds());
+        LOGGER.debug("Tree1: " + tree.getShape().getBounds());
         Assert.assertTrue(testWorld.isColliding(car, tree));
 
         tree = new Tree(0, 0, "tree.png");
+        LOGGER.debug("Tree2: " + tree.getShape().getBounds());
         Assert.assertFalse(testWorld.isColliding(car, tree));
-
     }
 }
