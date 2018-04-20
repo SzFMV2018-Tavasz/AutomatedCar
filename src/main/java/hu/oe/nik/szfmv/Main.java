@@ -41,6 +41,7 @@ public class Main {
 
         Pedestrian pedestrian = new Pedestrian(pedestrianX, pedestrianY, "man.png");
         w.addObjectToWorld(pedestrian);
+
         // create gui
         Gui gui = new Gui();
 
@@ -54,8 +55,12 @@ public class Main {
                 npcCar.move();
 
                 gui.getCourseDisplay().drawWorld(w, car.getCarValues());
+
                 gui.getDashboard().updateDisplayedValues(car.getInputValues(), car.getPowertrainValues(),
                         (int) Math.round(car.getX()), (int) Math.round(car.getY()));
+
+                w.checkForCollisions(car);
+
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());
