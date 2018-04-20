@@ -86,7 +86,7 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
         }
 
         if (isBraking) {
-            speedDelta = -1 * orientationVector * ((CarSpecifications.MAX_BRAKE_SPEED / PERCENTAGE)
+            speedDelta = -1 * orientationVector * ((CarSpecifications.MAX_BRAKE_DECELERATION / PERCENTAGE)
                     * brakePedalPosition);
         }
         LOGGER.debug(":: calculateSpeedDifference() method called:\n{ IsAccelerate: " + isAccelerate
@@ -177,6 +177,21 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
         double speedDelta = calculateSpeedDifference();
 
         switch (gearState) {
+            case N:
+                if (brakePedalPosition > 0) {
+                    LOGGER.debug("Braking in neutral!!");
+
+                    LOGGER.debug(":: doPowertrain() method called: Braking in Neutral, allow to stop to zero");
+                    if (Math.abs(speed) > 0) {
+                        adjustSpeed(speedDelta);
+                    }
+                    if (speed < 0) {
+                        speed = 0;
+                        powertrainPacket.setSpeed(speed);
+                    }
+                }
+                break;
+
             case R:
                 orientationVector = -1;
                 shiftLevel = 0;
@@ -192,7 +207,6 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
                         adjustSpeed(speedDelta);
                     }
 
-
                 } else {
                     LOGGER.debug(":: doPowertrain() method called: Braking, allow to stop to zero");
                     if (speed < 0) {
@@ -203,7 +217,6 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
                         powertrainPacket.setSpeed(speed);
                     }
                 }
-
                 break;
 
             case D:
