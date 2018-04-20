@@ -1,8 +1,8 @@
-package hu.oe.nik.szfmv.automatedcar.bus.packets.sample;
+package hu.oe.nik.szfmv.automatedcar.bus.powertrain;
 
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 
-public interface ReadOnlySamplePacket {
+public interface ReadOnlyPowertrainTestPacket {
     /**
      * Gets gaspedal position for testing
      *
