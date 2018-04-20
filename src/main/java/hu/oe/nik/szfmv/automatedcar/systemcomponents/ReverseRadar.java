@@ -38,19 +38,12 @@ public class ReverseRadar extends SystemComponent {
     private void activateReverseRadar() {
         reverseRadarPacket.setActivation(true);
         LOGGER.debug("Now the Reverse Radar activated: " + virtualFunctionBus.reverseRadarPacket.getActivation());
-
-        /*
-        TODO: A felelős csapat még nem rakta föl VFB-ra a radar által észlelt objektum referenciáját. Ha az megvan,
-                csak ki kell vonni az objektum és az auto hátulja közti távolságot és az objectDistance változónak adni
-                az eredményt.
-         */
-
-        double objectDistance = 0.1;
+        double objectDistance = Double.MAX_VALUE;
 
         if (objectDistance >= 0.0 && objectDistance <= DANGER_VALUE) {
             reverseRadarState = ReverseRadarState.DANGER;
         }
-        if (objectDistance > DANGER_VALUE && objectDistance <= 0.8) {
+        if (objectDistance > DANGER_VALUE && objectDistance <= WARNING_VALUE) {
             reverseRadarState = ReverseRadarState.WARNING;
         }
         if (objectDistance > WARNING_VALUE) {
