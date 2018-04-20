@@ -72,4 +72,25 @@ public interface ReadOnlyInputPacket {
      * @return the right turn signal's status
      */
     boolean getRightTurnSignalStatus();
+
+    /**
+     * Gets whether the radar test is on or off.
+     *
+     * @return the right radar test's status
+     */
+    boolean getRadarVizualizerStatus();
+
+    /**
+     * Gets whether the camera test is signal is on or off.
+     *
+     * @return the right camera test's status
+     */
+    boolean getCameraVizualizerStatus();
+
+    /**
+     * Gets whether the ultrasonic test is on or off.
+     *
+     * @return the right ultrasonic test's status
+     */
+    boolean getUltrasonicVizualizerStatus();
 }
