@@ -115,7 +115,7 @@ public class WorldTest {
         LOGGER.debug("Tree1: " + tree.getShape().getBounds());
         Assert.assertTrue(testWorld.isColliding(car, tree));
 
-        tree = new Tree(0, 0, "tree.png");
+        tree = new Tree(20, 20, "tree.png");
         LOGGER.debug("Tree2: " + tree.getShape().getBounds());
         Assert.assertFalse(testWorld.isColliding(car, tree));
     }
