@@ -86,7 +86,7 @@ public class PowertrainSystem extends SystemComponent implements IPowertrainSyst
         }
 
         if (isBraking) {
-            speedDelta = -1 * orientationVector * ((CarSpecifications.MAX_BRAKE_SPEED / PERCENTAGE)
+            speedDelta = -1 * orientationVector * ((CarSpecifications.MAX_BRAKE_DECELERATION / PERCENTAGE)
                     * brakePedalPosition);
         }
         LOGGER.debug(":: calculateSpeedDifference() method called:\n{ IsAccelerate: " + isAccelerate
