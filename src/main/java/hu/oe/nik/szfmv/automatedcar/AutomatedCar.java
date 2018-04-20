@@ -68,8 +68,12 @@ public class AutomatedCar extends WorldObject {
     public void drive() {
         try {
             virtualFunctionBus.loop();
-            //calculatePositionAndOrientation();
-            parkingPilot();
+            calculatePositionAndOrientation();
+            if (virtualFunctionBus.readOnlyParkingPacket != null) {
+                if (virtualFunctionBus.readOnlyParkingPacket.getPlaceIsAvailable()) {
+                    parkingPilot();
+                }
+            }
             generateShape();
         } catch (MissingPacketException e) {
             LOGGER.error(e);
@@ -133,10 +137,11 @@ public class AutomatedCar extends WorldObject {
         double carSpeed = -startCarSpeed;
 
         // These values come from packet
-        final int parkingPlaceHeight = 312;
-        final int parkingPlaceEnd = 980;
-        final int parkingPlaceStart = 1270;
-        final int parkingPlaceLeftLine = 400;
+        int parkingPlaceHeight = virtualFunctionBus.readOnlyParkingPacket.getEndPoint().y -
+                virtualFunctionBus.readOnlyParkingPacket.getStartPoint().y;
+        int parkingPlaceEnd = virtualFunctionBus.readOnlyParkingPacket.getEndPoint().y;
+        int parkingPlaceStart = virtualFunctionBus.readOnlyParkingPacket.getStartPoint().y;
+        int parkingPlaceLeftLine = virtualFunctionBus.readOnlyParkingPacket.getStartPoint().x;
 
         final double firstStateRate = 0.5;
         final double secondStateRate = 0.61;
