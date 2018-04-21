@@ -1,16 +1,16 @@
-package hu.oe.nik.szfmv.automatedcar.bus.packets.sample;
+package hu.oe.nik.szfmv.automatedcar.bus.powertrain;
 
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 
-public class SamplePacket implements ReadOnlySamplePacket {
+public class PowertrainTestPacket implements ReadOnlyPowertrainTestPacket {
     private int gaspedalPosition;
     private int brakepedalPosition;
     private GearEnum gearState;
 
     /**
-     * SamplePacket constructor
+     * PowertrainTestPacket constructor
      */
-    public SamplePacket() {
+    public PowertrainTestPacket() {
         gaspedalPosition = 0;
         brakepedalPosition = 0;
         this.gearState = GearEnum.P;

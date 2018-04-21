@@ -14,9 +14,11 @@ import java.io.IOException;
 
 public abstract class WorldObject implements IWorldObject {
 
+    protected int width = 10;
+    protected int height = 10;
+
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(WorldObject.class);
-    protected int width;
-    protected int height;
+
     protected double rotation = 0f;
     protected String imageFileName;
     protected Point2D location;
@@ -79,6 +81,14 @@ public abstract class WorldObject implements IWorldObject {
         return this.rotation;
     }
 
+    /**
+     * @return the actual {@link Shape} of the {@link WorldObject}.
+     */
+    public Shape getShape() {
+        generateShape();
+        return this.shape;
+    }
+
     public void setRotation(double rotation) {
         this.rotation = rotation;
     }
@@ -89,10 +99,6 @@ public abstract class WorldObject implements IWorldObject {
 
     public void setImageFileName(String imageFileName) {
         this.imageFileName = imageFileName;
-    }
-
-    public Shape getShape() {
-        return this.shape;
     }
 
     /**
@@ -141,7 +147,6 @@ public abstract class WorldObject implements IWorldObject {
                 ", rotation=" + rotation +
                 ", imageFileName='" + imageFileName + '\'' +
                 ", location=" + location +
-                ", offsetVector=" + offsetVector +
                 ", shape=" + shape +
                 '}';
     }

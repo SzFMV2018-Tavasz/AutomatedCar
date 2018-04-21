@@ -13,7 +13,7 @@ public final class CarSpecifications {
     public static final double MIN_REVERSE_SPEED = -3.3888;
     public static final int ENGINE_BRAKE_TORQUE = 70;         // unit: Nm
     public static final int WEIGHT = 1360;       // unit: kg
-    public static final double MAX_BRAKE_SPEED = 25;
+    public static final double MAX_BRAKE_DECELERATION = 25;
     public static final int GEARBOX_MAX_LEVEL = 6;
     public static final int GEARBOX_MIN_LEVEL = 1;
 

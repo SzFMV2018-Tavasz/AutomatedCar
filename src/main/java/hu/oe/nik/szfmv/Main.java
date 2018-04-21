@@ -41,21 +41,26 @@ public class Main {
 
         Pedestrian pedestrian = new Pedestrian(pedestrianX, pedestrianY, "man.png");
         w.addObjectToWorld(pedestrian);
+
         // create gui
         Gui gui = new Gui();
 
         // draw world to course display
         gui.getCourseDisplay().drawWorld(w, car.getCarValues());
 
-        while (true) {
+        while (!w.isGameOver()) {
             try {
                 car.drive();
                 pedestrian.moveOnCrosswalk();
                 npcCar.move();
 
                 gui.getCourseDisplay().drawWorld(w, car.getCarValues());
+
                 gui.getDashboard().updateDisplayedValues(car.getInputValues(), car.getPowertrainValues(),
                         (int) Math.round(car.getX()), (int) Math.round(car.getY()));
+
+                w.checkForCollisions(car);
+
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());
