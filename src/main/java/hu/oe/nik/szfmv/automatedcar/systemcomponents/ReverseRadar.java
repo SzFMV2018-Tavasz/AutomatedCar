@@ -12,7 +12,7 @@ public class ReverseRadar extends SystemComponent {
     private static final Logger LOGGER = LogManager.getLogger(ReverseRadar.class);
     private static final double WARNING_VALUE = 0.4;
     private static final double DANGER_VALUE = 0.8;
-    private static ReverseRadarPacket reverseRadarPacket;
+    private ReverseRadarPacket reverseRadarPacket;
     private ReverseRadarState reverseRadarState;
 
     /**
