@@ -4,7 +4,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.sample.ReadOnlySamplePacket;
+import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainTestPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
 
@@ -20,7 +20,7 @@ import java.util.List;
 public class VirtualFunctionBus {
 
     public ReadOnlyPowertrainPacket powertrainPacket;
-    public ReadOnlySamplePacket samplePacket;
+    public ReadOnlyPowertrainTestPacket powertrainTestPacket;
     public ReadOnlyInputPacket inputPacket;
     public CarPacket carPacket;
     public ReadOnlyRoadSignDetectionPacket roadSignDetectionPacket;

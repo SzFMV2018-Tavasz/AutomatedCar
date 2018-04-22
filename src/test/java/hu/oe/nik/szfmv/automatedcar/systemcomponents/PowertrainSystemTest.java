@@ -1,7 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.sample.SamplePacket;
+import hu.oe.nik.szfmv.automatedcar.bus.powertrain.PowertrainTestPacket;
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,45 +11,45 @@ import static org.junit.Assert.assertEquals;
 public class PowertrainSystemTest {
     private VirtualFunctionBus virtualFunctionBus;
     private PowertrainSystem powertrainSystem;
-    private SamplePacket samplePacket;
+    private PowertrainTestPacket powertrainTestPacket;
 
     @Before
     public void registerComponent() {
-        samplePacket = new SamplePacket();
+        powertrainTestPacket = new PowertrainTestPacket();
         virtualFunctionBus = new VirtualFunctionBus();
-        virtualFunctionBus.samplePacket = samplePacket;
+        virtualFunctionBus.powertrainTestPacket = powertrainTestPacket;
 
         powertrainSystem = new PowertrainSystem(virtualFunctionBus, -10);
     }
 
     private void setValues(int gaspedalPosition, int brakepedalPosition, GearEnum gearState) {
-        samplePacket.setGaspedalPosition(gaspedalPosition);
-        samplePacket.setBrakepedalPosition(brakepedalPosition);
-        samplePacket.setGearState(gearState);
+        powertrainTestPacket.setGaspedalPosition(gaspedalPosition);
+        powertrainTestPacket.setBrakepedalPosition(brakepedalPosition);
+        powertrainTestPacket.setGearState(gearState);
     }
 
     @Test
     public void getRPMWithMaxGaspedalState() {
         setValues(100, 0, GearEnum.D);
-        assertEquals(CarSpecifications.MAX_RPM -1, powertrainSystem.calculateExpectedRPM(powertrainSystem.virtualFunctionBus.samplePacket.getGaspedalPosition()));
+        assertEquals(CarSpecifications.MAX_RPM -1, powertrainSystem.calculateExpectedRPM(powertrainSystem.virtualFunctionBus.powertrainTestPacket.getGaspedalPosition()));
     }
 
     @Test
     public void getRPMWithMinGaspedalState() {
         setValues(0, 0, GearEnum.D);
-        assertEquals(CarSpecifications.IDLE_RPM, powertrainSystem.calculateExpectedRPM(powertrainSystem.virtualFunctionBus.samplePacket.getGaspedalPosition()));
+        assertEquals(CarSpecifications.IDLE_RPM, powertrainSystem.calculateExpectedRPM(powertrainSystem.virtualFunctionBus.powertrainTestPacket.getGaspedalPosition()));
     }
 
     @Test
     public void getRPMWithGaspedalState1() {
         setValues(34, 0, GearEnum.D);
-        assertEquals(3004, powertrainSystem.calculateExpectedRPM(powertrainSystem.virtualFunctionBus.samplePacket.getGaspedalPosition()));
+        assertEquals(3004, powertrainSystem.calculateExpectedRPM(powertrainSystem.virtualFunctionBus.powertrainTestPacket.getGaspedalPosition()));
     }
 
     @Test
     public void getRPMWithGaspedalState2() {
         setValues(71, 0, GearEnum.D);
-        assertEquals(5468, powertrainSystem.calculateExpectedRPM(powertrainSystem.virtualFunctionBus.samplePacket.getGaspedalPosition()));
+        assertEquals(5468, powertrainSystem.calculateExpectedRPM(powertrainSystem.virtualFunctionBus.powertrainTestPacket.getGaspedalPosition()));
     }
 
     @Test

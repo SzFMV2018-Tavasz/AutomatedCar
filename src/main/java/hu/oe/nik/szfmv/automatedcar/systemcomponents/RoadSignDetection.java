@@ -41,8 +41,8 @@ public class RoadSignDetection extends SystemComponent {
      */
     private RoadSign setRoadSign(CarPacket carPacket) {
         Point cameraPosition = new Point(0, 0);
-        cameraPosition.x = carPacket.getX();
-        cameraPosition.y = carPacket.getY();
+        cameraPosition.x = (int)carPacket.getX();
+        cameraPosition.y = (int)carPacket.getY();
         double cameraRotation = carPacket.getRotation();
 
         Triangle triangle = new Triangle();
