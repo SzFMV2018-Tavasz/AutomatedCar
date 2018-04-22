@@ -26,6 +26,7 @@ public class UltrasonicSensor {
     private static final int RLF_Y = -70;
     private static final int RLB_Y = 70;
 
+    private int halfACircle = 180;
     private int relativeX;
     private int relativeY;
     private double relativeRotation;
@@ -135,7 +136,7 @@ public class UltrasonicSensor {
      */
     private Point[] getTriangleForSensor() {
         Point sensorPosition = getPosition();
-        double sensorRotation = 180 - getRotation();
+        double sensorRotation = halfACircle - getRotation();
         return Triangle.trianglePoints(sensorPosition, sensorRange, angleOfView, sensorRotation);
     }
 
@@ -143,8 +144,7 @@ public class UltrasonicSensor {
      * Gets the sensor's X and Y coordinates.
      * @return the point containing the coordinates of the sensor
      */
-    private Point getPosition()
-    {
+    private Point getPosition() {
         double angle = car.getRotation();
         int positionX = (int)(relativeX * Math.cos(angle) - relativeY * Math.sin(angle) + car.getX());
         int positionY = (int)(relativeY * Math.cos(angle) + relativeX * Math.sin(angle) + car.getY());
