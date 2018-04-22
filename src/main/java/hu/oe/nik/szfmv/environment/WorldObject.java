@@ -14,10 +14,9 @@ import java.io.IOException;
 
 public abstract class WorldObject implements IWorldObject {
 
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(WorldObject.class);
     protected int width = 10;
     protected int height = 10;
-
-    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(WorldObject.class);
 
     protected double rotation = 0f;
     protected String imageFileName;
