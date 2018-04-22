@@ -95,6 +95,7 @@ public class InputPacket implements ReadOnlyInputPacket {
         this.shapeBorderVizualizerState = shapeBorderVizualizerState;
     }
 
+
     public void setGearSate(GearEnum gearEnum) {
         this.gearEnum = gearEnum;
     }
@@ -172,6 +173,4 @@ public class InputPacket implements ReadOnlyInputPacket {
     public boolean getShapeBorderVizualizerState() {
         return shapeBorderVizualizerState;
     }
-
-
 }
