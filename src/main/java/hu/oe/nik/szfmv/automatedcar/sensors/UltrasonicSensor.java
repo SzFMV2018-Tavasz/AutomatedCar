@@ -86,9 +86,10 @@ public class UltrasonicSensor {
         List<Collidable> collidables = detector.getCollidableObjects(triangle[0], triangle[1], triangle[2]);
         double minDistance = Double.MAX_VALUE;
         Collidable nearestObject = null;
+        Point currentPosition = getPosition();
         for (Collidable collidable : collidables) {
             double distance = Utils.getDistanceBetweenTwoPoints(collidable.getX(), collidable.getY(),
-                    getX(), getY());
+                    currentPosition.x, currentPosition.y);
             if (distance < minDistance) {
                 minDistance = distance;
                 nearestObject = collidable;
@@ -105,7 +106,9 @@ public class UltrasonicSensor {
     public Double getNearestObjectDistance() {
         Collidable nearestObject = getNearestObject();
         if (nearestObject != null) {
-            return Utils.getDistanceBetweenTwoPoints(getX(), getY(), nearestObject.getX(), nearestObject.getY());
+            Point currentPosition = getPosition();
+            return Utils.getDistanceBetweenTwoPoints(currentPosition.x, currentPosition.y,
+                    nearestObject.getX(), nearestObject.getY());
         }
 
         return null;
@@ -127,43 +130,25 @@ public class UltrasonicSensor {
     }
 
     /**
-     * Updates the sensor according to car movement
-     */
-    public void updateSensor() {
-        double carDegree = Math.toDegrees(car.getRotation());
-        double angleDifference = relativeRotation - carDegree;
-        relativeRotation = carDegree + angleDifference;
-
-        relativeX = (int)(Math.cos(angleDifference) * (relativeX - car.getX()) - Math.sin(angleDifference)
-                * (relativeY - car.getY()) + car.getX());
-        relativeY = (int)(Math.sin(angleDifference) * (relativeX - car.getX()) - Math.cos(angleDifference)
-                * (relativeY - car.getY()) + car.getY());
-    }
-
-    /**
      * Gets the triangle for our sensor.
      * @return a Point[] array containing the 3 points of the triangle created for our sensor
      */
     private Point[] getTriangleForSensor() {
-        Point sensorPosition = new Point(getX(), getY());
-        double sensorRotation = getRotation();
+        Point sensorPosition = getPosition();
+        double sensorRotation = 180 - getRotation();
         return Triangle.trianglePoints(sensorPosition, sensorRange, angleOfView, sensorRotation);
     }
 
     /**
-     * Gets the sensor's X coordinate.
-     * @return the X coordinate of the sensor
+     * Gets the sensor's X and Y coordinates.
+     * @return the point containing the coordinates of the sensor
      */
-    private int getX() {
-        return car.getX() + relativeX;
-    }
-
-    /**
-     * Gets the sensor's Y coordinate.
-     * @return the Y coordinate of the sensor
-     */
-    private int getY() {
-        return car.getY() + relativeY;
+    private Point getPosition()
+    {
+        double angle = car.getRotation();
+        int positionX = (int)(relativeX * Math.cos(angle) - relativeY * Math.sin(angle) + car.getX());
+        int positionY = (int)(relativeY * Math.cos(angle) + relativeX * Math.sin(angle) + car.getY());
+        return new Point(positionX, positionY);
     }
 
     /**
