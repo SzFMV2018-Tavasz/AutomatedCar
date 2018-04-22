@@ -1,19 +1,16 @@
 package hu.oe.nik.szfmv.visualization;
 
+import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 import hu.oe.nik.szfmv.environment.models.RoadSign;
-
-import javax.imageio.ImageIO;
-
-import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -393,10 +390,24 @@ public class Dashboard extends JPanel {
         accSpeedButtonPlus.setText("+");
         accSpeedButtonPlus.setFocusable(false);
 
-        accDistanceButtonMinus.addActionListener(e -> LOGGER.info("ACC dist. minus button pressed."));
-        accDistanceButtonPlus.addActionListener(e -> LOGGER.info("ACC dist. plus button pressed."));
-        accSpeedButtonMinus.addActionListener(e -> LOGGER.info("ACC speed minus button pressed."));
-        accSpeedButtonPlus.addActionListener(e -> LOGGER.info("ACC speed plus button pressed."));
+        accDistanceButtonMinus.addActionListener(e -> imitateKeyPress(KeyEvent.VK_T));
+        accDistanceButtonPlus.addActionListener(e -> imitateKeyPress(KeyEvent.VK_T));
+        accSpeedButtonMinus.addActionListener(e -> imitateKeyPress(KeyEvent.VK_MINUS));
+        accSpeedButtonPlus.addActionListener(e -> imitateKeyPress(KeyEvent.VK_PLUS));
+    }
+
+    /**
+     * Imitates keyboard press.
+     * @param keyCode the keycode we want to imitate
+     */
+    private void imitateKeyPress(int keyCode) {
+        try {
+            Robot robot = new Robot();
+            robot.keyPress(keyCode);
+            robot.keyRelease(keyCode);
+        } catch (AWTException e1) {
+            e1.printStackTrace();
+        }
     }
 
     /**
@@ -476,13 +487,7 @@ public class Dashboard extends JPanel {
      * Initializes the lka sign on the dashboard
      */
     private void initializeLka() {
-        lkaButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                lkaOn = !lkaOn;
-                updateButtonBackground(lkaOn, lkaButton);
-            }
-        });
+        lkaButton.addActionListener(e -> imitateKeyPress(KeyEvent.VK_L));
         lkaButton.setBounds(lkaButtonX, lkaButtonY, lkaButtonWidth, lkaButtonHeight);
         lkaButton.setText("LKA");
         lkaButton.setFocusable(false);
@@ -493,13 +498,7 @@ public class Dashboard extends JPanel {
      * Initializes the pp sign on the dashboard
      */
     private void initializePp() {
-        ppButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ppOn = !ppOn;
-                updateButtonBackground(ppOn, ppButton);
-            }
-        });
+        ppButton.addActionListener(e -> imitateKeyPress(KeyEvent.VK_P));
         ppButton.setBounds(ppButtonX, ppButtonY, ppButtonWidth, ppButtonHeight);
         ppButton.setText("PP");
         ppButton.setFocusable(false);
