@@ -26,6 +26,8 @@ public class AutomatedCar extends WorldObject {
     private SteeringSystem steeringSystem;
     private SteeringWheel steeringWheel;
     private final List<UltrasonicSensor> ultrasonicSensors = new ArrayList<>();
+    private ReverseRadar reverseRadar;
+
 
     /**
      * Constructor of the AutomatedCar class
@@ -60,9 +62,9 @@ public class AutomatedCar extends WorldObject {
 
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         steeringWheel = new SteeringWheel(virtualFunctionBus);
+
         new RoadSignDetection(virtualFunctionBus);
-
-
+        reverseRadar = new ReverseRadar(virtualFunctionBus);
 
 
         new Driver(virtualFunctionBus);
