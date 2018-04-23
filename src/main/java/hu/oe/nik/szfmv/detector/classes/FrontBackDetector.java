@@ -12,7 +12,7 @@ public class FrontBackDetector {
     ArrayList<Collidable> previousCollidables;
 
     /**
-     * @param worldObjects Objects from world lol
+     * @param worldobjects Objects from world lol
      */
     public FrontBackDetector(List<WorldObject> worldobjects) {
 

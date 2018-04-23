@@ -87,7 +87,7 @@ public class UltrasonicSensor {
         double minDistance = Double.MAX_VALUE;
         Collidable nearestObject = null;
         for (Collidable collidable : collidables) {
-            double distance = Utils.getDistanceBetweenTwoPoints(collidable.getX(), collidable.getY(),
+            double distance = Utils.getDistanceBetweenTwoPoints((int)collidable.getX(), (int)collidable.getY(),
                     getX(), getY());
             if (distance < minDistance) {
                 minDistance = distance;
@@ -105,7 +105,7 @@ public class UltrasonicSensor {
     public Double getNearestObjectDistance() {
         Collidable nearestObject = getNearestObject();
         if (nearestObject != null) {
-            return Utils.getDistanceBetweenTwoPoints(getX(), getY(), nearestObject.getX(), nearestObject.getY());
+            return Utils.getDistanceBetweenTwoPoints(getX(), getY(), (int)nearestObject.getX(), (int)nearestObject.getY());
         }
 
         return null;
@@ -155,7 +155,7 @@ public class UltrasonicSensor {
      * @return the X coordinate of the sensor
      */
     private int getX() {
-        return car.getX() + relativeX;
+        return (int)car.getX() + relativeX;
     }
 
     /**
@@ -163,7 +163,7 @@ public class UltrasonicSensor {
      * @return the Y coordinate of the sensor
      */
     private int getY() {
-        return car.getY() + relativeY;
+        return (int)car.getY() + relativeY;
     }
 
     /**

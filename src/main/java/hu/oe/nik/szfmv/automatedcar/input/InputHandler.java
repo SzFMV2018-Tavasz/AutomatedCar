@@ -27,7 +27,6 @@ public class InputHandler implements KeyListener {
     private static final int ULTRASONICTESTKEYCODE = KeyEvent.VK_9;
     private static final int SHAPETESTKEYCODE = KeyEvent.VK_6;
 
-
     private static InputHandler instance = null;
     private boolean steeringLeftPressed;
 
