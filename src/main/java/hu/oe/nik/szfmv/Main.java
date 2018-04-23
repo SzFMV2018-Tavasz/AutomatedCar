@@ -36,8 +36,6 @@ public class Main {
         AutomatedCar car = new AutomatedCar(carX, carY, "car_2_white.png");
         // add car to the world
         w.addObjectToWorld(car);
-        // create ultrasonic sensors for car
-        UltrasonicSensor.createUltrasonicSensors(car, w);
 
         NpcCar npcCar = new NpcCar(w, 500, 500, "car_2_red.png");
         w.addObjectToWorld(npcCar);

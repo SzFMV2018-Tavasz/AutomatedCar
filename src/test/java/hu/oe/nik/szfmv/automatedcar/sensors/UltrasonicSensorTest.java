@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.sensors;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.models.RoadSign;
 import org.junit.Before;
@@ -31,9 +32,13 @@ public class UltrasonicSensorTest {
         closer.generateShape();
         w.addObjectToWorld(closer);
 
-        RoadSign other = new RoadSign(150, 100, "roadsign_speed_50.png");
+        RoadSign other = new RoadSign(150, 120, "roadsign_speed_50.png");
         other.generateShape();
         w.addObjectToWorld(other);
+
+        RoadSign bottom = new RoadSign(100, 150, "bottom_sign.png");
+        bottom.generateShape();
+        w.addObjectToWorld(bottom);
     }
 
     /**
@@ -41,7 +46,8 @@ public class UltrasonicSensorTest {
      */
     @Test
     public void testNearestObject() {
-        UltrasonicSensor sensor = new UltrasonicSensor(0, 0, 0, car, w);
+        UltrasonicSensor sensor = new UltrasonicSensor(new VirtualFunctionBus(),
+                0, 0, 0, car);
         assertEquals(sensor.getNearestObject().getImageFileName(), "roadsign_speed_40.png");
     }
 
@@ -50,7 +56,8 @@ public class UltrasonicSensorTest {
      */
     @Test
     public void testNearestObjectDistance() {
-        UltrasonicSensor sensor = new UltrasonicSensor(0, 0, 0, car, w);
+        UltrasonicSensor sensor = new UltrasonicSensor(new VirtualFunctionBus(),
+                0, 0, 0, car);
         int expected = 2000;
         assertEquals(sensor.getNearestObjectDistance(), Math.sqrt(expected), THRESHOLD);
     }
@@ -60,7 +67,8 @@ public class UltrasonicSensorTest {
      */
     @Test
     public void testNearestObjectDimensions() {
-        UltrasonicSensor sensor = new UltrasonicSensor(0, 0, 0, car, w);
+        UltrasonicSensor sensor = new UltrasonicSensor(new VirtualFunctionBus(),
+                0, 0, 0, car);
         int[] dimensions = sensor.getNearestObjectDimensions();
 
         int expectedX = 30;
@@ -75,7 +83,15 @@ public class UltrasonicSensorTest {
      */
     @Test
     public void testSensorCreation() {
-        UltrasonicSensor.createUltrasonicSensors(car, w);
         assertEquals(8, car.getUltrasonicSensors().size());
+    }
+
+    @Test
+    public void testSensorRotation() {
+        UltrasonicSensor sensor = new UltrasonicSensor(new VirtualFunctionBus(),
+                0, 0, 0, car);
+        car.setRotation(Math.toRadians(180));
+
+        assertEquals(sensor.getNearestObject().getImageFileName(), "bottom_sign.png");
     }
 }

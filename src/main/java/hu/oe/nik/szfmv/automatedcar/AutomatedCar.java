@@ -65,7 +65,7 @@ public class AutomatedCar extends WorldObject {
 
         new RoadSignDetection(virtualFunctionBus);
         reverseRadar = new ReverseRadar(virtualFunctionBus);
-
+        UltrasonicSensor.createUltrasonicSensors(this, virtualFunctionBus);
 
         new Driver(virtualFunctionBus);
     }
