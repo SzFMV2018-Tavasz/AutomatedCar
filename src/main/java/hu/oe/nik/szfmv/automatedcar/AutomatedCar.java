@@ -5,6 +5,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.ultrasonicsensor.ReadOnlyUltrasonicSensorPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.sensors.UltrasonicSensor;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
@@ -65,7 +66,7 @@ public class AutomatedCar extends WorldObject {
 
         new RoadSignDetection(virtualFunctionBus);
         reverseRadar = new ReverseRadar(virtualFunctionBus);
-
+        UltrasonicSensor.createUltrasonicSensors(this, virtualFunctionBus);
 
         new Driver(virtualFunctionBus);
     }
@@ -155,6 +156,15 @@ public class AutomatedCar extends WorldObject {
      */
     public ReadOnlyRoadSignDetectionPacket getRoadSign() {
         return virtualFunctionBus.roadSignDetectionPacket;
+    }
+
+    /** Gets the ultrasonic sensors packet
+     *
+     * @return ultrasonic sensors packet
+     */
+    public ReadOnlyUltrasonicSensorPacket getUltrasonicSensorValues() {
+        return virtualFunctionBus.ultrasonicSensorPacket;
+
     /**
      * Gets the list of ultrasonic sensors
      * @return the list of ultrasonic sensors
