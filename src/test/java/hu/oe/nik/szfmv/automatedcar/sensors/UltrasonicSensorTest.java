@@ -47,7 +47,7 @@ public class UltrasonicSensorTest {
     @Test
     public void testNearestObject() {
         UltrasonicSensor sensor = new UltrasonicSensor(new VirtualFunctionBus(),
-                0, 0, 0, car);
+                0, 0, 0, car, 0);
         assertEquals(sensor.getNearestObject().getImageFileName(), "roadsign_speed_40.png");
     }
 
@@ -57,7 +57,7 @@ public class UltrasonicSensorTest {
     @Test
     public void testNearestObjectDistance() {
         UltrasonicSensor sensor = new UltrasonicSensor(new VirtualFunctionBus(),
-                0, 0, 0, car);
+                0, 0, 0, car, 0);
         int expected = 2000;
         assertEquals(sensor.getNearestObjectDistance(), Math.sqrt(expected), THRESHOLD);
     }
@@ -68,7 +68,7 @@ public class UltrasonicSensorTest {
     @Test
     public void testNearestObjectDimensions() {
         UltrasonicSensor sensor = new UltrasonicSensor(new VirtualFunctionBus(),
-                0, 0, 0, car);
+                0, 0, 0, car, 0);
         int[] dimensions = sensor.getNearestObjectDimensions();
 
         int expectedX = 30;
@@ -89,7 +89,7 @@ public class UltrasonicSensorTest {
     @Test
     public void testSensorRotation() {
         UltrasonicSensor sensor = new UltrasonicSensor(new VirtualFunctionBus(),
-                0, 0, 0, car);
+                0, 0, 0, car, 0);
         car.setRotation(Math.toRadians(180));
 
         assertEquals(sensor.getNearestObject().getImageFileName(), "bottom_sign.png");

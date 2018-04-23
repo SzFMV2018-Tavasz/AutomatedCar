@@ -2,18 +2,20 @@ package hu.oe.nik.szfmv.automatedcar.sensors;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.ultrasonicsensor.UltrasonicSensorPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
 import hu.oe.nik.szfmv.common.Utils;
 import hu.oe.nik.szfmv.detector.classes.Detector;
 import hu.oe.nik.szfmv.detector.classes.Triangle;
 import hu.oe.nik.szfmv.environment.models.Collidable;
 
+import java.awt.*;
 import java.util.List;
 
-import java.awt.*;
-
 public class UltrasonicSensor extends SystemComponent {
+
+    private static final UltrasonicSensorPacket ULTRASONIC_SENSOR_PACKET = new UltrasonicSensorPacket();
+    private static int CURRENT_SENSOR_INDEX;
 
     private static final int F_ROT = 0;
     private static final int R_ROT = 90;
@@ -28,6 +30,7 @@ public class UltrasonicSensor extends SystemComponent {
     private static final int RLF_Y = -70;
     private static final int RLB_Y = 70;
 
+    private final int index;
     private int halfACircle = 180;
     private int relativeX;
     private int relativeY;
@@ -47,12 +50,14 @@ public class UltrasonicSensor extends SystemComponent {
      * @param car the car the sensor belongs to
      */
     public UltrasonicSensor(VirtualFunctionBus virtualFunctionBus, int relativeX, int relativeY,
-                            double relativeRotation, AutomatedCar car) {
+                            double relativeRotation, AutomatedCar car, int index) {
         super(virtualFunctionBus);
         this.relativeX = relativeX;
         this.relativeY = relativeY;
         this.relativeRotation = relativeRotation;
         this.car = car;
+        this.index = index;
+        ULTRASONIC_SENSOR_PACKET.getUltrasonicSensorTriangles().add(index, null);
     }
 
     /**
@@ -61,22 +66,34 @@ public class UltrasonicSensor extends SystemComponent {
      * @param virtualFunctionBus the virtual function bus used by the system components
      */
     public static void createUltrasonicSensors(AutomatedCar car, VirtualFunctionBus virtualFunctionBus) {
+        car.getUltrasonicSensors().clear();
+        virtualFunctionBus.ultrasonicSensorPacket = ULTRASONIC_SENSOR_PACKET;
+        CURRENT_SENSOR_INDEX = 0;
+        addSensorsToCar(car, virtualFunctionBus);
+    }
+
+    /**
+     * Adds the created sensors to the car.
+     * @param car will receive the sensors.
+     * @param virtualFunctionBus will be used by the sensors.
+     */
+    private static void addSensorsToCar(AutomatedCar car, VirtualFunctionBus virtualFunctionBus) {
         car.getUltrasonicSensors().add(
-                new UltrasonicSensor(virtualFunctionBus, FBL_X, FRONT_Y, F_ROT, car));
+                new UltrasonicSensor(virtualFunctionBus, FBL_X, FRONT_Y, F_ROT, car,  CURRENT_SENSOR_INDEX));
         car.getUltrasonicSensors().add(
-                new UltrasonicSensor(virtualFunctionBus, FBR_X, FRONT_Y, F_ROT, car));
+                new UltrasonicSensor(virtualFunctionBus, FBR_X, FRONT_Y, F_ROT, car,  ++CURRENT_SENSOR_INDEX));
         car.getUltrasonicSensors().add(
-                new UltrasonicSensor(virtualFunctionBus, FBL_X, BACK_Y, B_ROT, car));
+                new UltrasonicSensor(virtualFunctionBus, FBL_X, BACK_Y, B_ROT, car, ++CURRENT_SENSOR_INDEX));
         car.getUltrasonicSensors().add(
-                new UltrasonicSensor(virtualFunctionBus, FBR_X, BACK_Y, B_ROT, car));
+                new UltrasonicSensor(virtualFunctionBus, FBR_X, BACK_Y, B_ROT, car, ++CURRENT_SENSOR_INDEX));
         car.getUltrasonicSensors().add(
-                new UltrasonicSensor(virtualFunctionBus, RIGHT_X, RLF_Y, R_ROT, car));
+                new UltrasonicSensor(virtualFunctionBus, RIGHT_X, RLF_Y, R_ROT, car, ++CURRENT_SENSOR_INDEX));
         car.getUltrasonicSensors().add(
-                new UltrasonicSensor(virtualFunctionBus, RIGHT_X, RLB_Y, R_ROT, car));
+                new UltrasonicSensor(virtualFunctionBus, RIGHT_X, RLB_Y, R_ROT, car, ++CURRENT_SENSOR_INDEX));
         car.getUltrasonicSensors().add(
-                new UltrasonicSensor(virtualFunctionBus, LEFT_X, RLF_Y, L_ROT, car));
+                new UltrasonicSensor(virtualFunctionBus, LEFT_X, RLF_Y, L_ROT, car, ++CURRENT_SENSOR_INDEX));
         car.getUltrasonicSensors().add(
-                new UltrasonicSensor(virtualFunctionBus, LEFT_X, RLB_Y, L_ROT, car));
+                new UltrasonicSensor(virtualFunctionBus, LEFT_X, RLB_Y, L_ROT, car, ++CURRENT_SENSOR_INDEX));
     }
 
     /**
@@ -162,7 +179,7 @@ public class UltrasonicSensor extends SystemComponent {
     }
 
     @Override
-    public void loop() throws MissingPacketException {
-
+    public void loop() {
+        ULTRASONIC_SENSOR_PACKET.getUltrasonicSensorTriangles().set(index, getTriangleForSensor());
     }
 }
