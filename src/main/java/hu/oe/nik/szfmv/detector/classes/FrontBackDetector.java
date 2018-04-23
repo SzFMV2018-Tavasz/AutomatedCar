@@ -11,9 +11,13 @@ public class FrontBackDetector {
 
     ArrayList<Collidable> previousCollidables;
 
+    /**
+     * @param worldobjects Objects from world lol
+     */
+    public FrontBackDetector(List<WorldObject> worldobjects) {
 
-    public FrontBackDetector() {
-        previousCollidables = new ArrayList<Collidable>();
+        previousCollidables = new ArrayList<>();
+
     }
 
     /**
@@ -40,7 +44,9 @@ public class FrontBackDetector {
      */
     List<Collidable> getCollidableObjectsApproachingCenterLine(Point[] centerLine,
                                                                ArrayList<Collidable> collidableObjectsInTriangle) {
+
         ArrayList<Collidable> approachingCollidables = new ArrayList<Collidable>();
+
 
         for (Collidable object : collidableObjectsInTriangle) {
 
@@ -53,8 +59,8 @@ public class FrontBackDetector {
             }
 
             if (previousCollidable == null ||
-                    pointToLineDistance(centerLine[0], centerLine[1], object.getLocation()) <
-                            pointToLineDistance(centerLine[0], centerLine[1], previousCollidable.getLocation())) {
+                    pointToLineDistance(centerLine[0], centerLine[1], (Point) object.getLocation()) <
+                            pointToLineDistance(centerLine[0], centerLine[1], (Point) previousCollidable.getLocation())) {
                 approachingCollidables.add(object);
             }
         }
@@ -74,3 +80,4 @@ public class FrontBackDetector {
         return Math.abs((p.x - a.x) * (b.y - a.y) - (p.y - a.y) * (b.x - a.x)) / normalLength;
     }
 }
+
