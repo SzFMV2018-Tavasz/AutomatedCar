@@ -7,12 +7,15 @@ public class UltrasonicSensorPacket implements ReadOnlyUltrasonicSensorPacket {
 
     private ArrayList<Point[]> ultrasonicSensorTriangles;
 
+    /**
+     * Initializes the ultrasonic packet
+     */
+    public UltrasonicSensorPacket() {
+        ultrasonicSensorTriangles = new ArrayList<>();
+    }
+
     @Override
     public ArrayList<Point[]> getUltrasonicSensorTriangles() {
         return ultrasonicSensorTriangles;
-    }
-
-    public UltrasonicSensorPacket() {
-        ultrasonicSensorTriangles = new ArrayList<>();
     }
 }
