@@ -55,7 +55,10 @@ public class Main {
                 pedestrian.moveOnCrosswalk();
                 npcCar.move();
                 gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues(), car.getRoadSign());
-                gui.getDashboard().updateDisplayedValues(car.getInputValues(), car.getPowertrainValues(),
+                gui.getDashboard().updateDisplayedValues(
+                        car.getInputValues(),
+                        car.getPowertrainValues(),
+                        car.getRoadSign(),
                         (int) Math.round(car.getX()), (int) Math.round(car.getY()));
 
                 w.checkForCollisions(car);
