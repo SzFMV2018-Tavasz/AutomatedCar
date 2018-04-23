@@ -18,17 +18,17 @@ public class UltrasonicSensor extends SystemComponent {
     private static int CURRENT_SENSOR_INDEX;
 
     private static final int F_ROT = 0;
-    private static final int R_ROT = 90;
+    private static final int R_ROT = 270;
     private static final int B_ROT = 180;
-    private static final int L_ROT = 270;
-    private static final int FBL_X = -25;
-    private static final int FBR_X = 25;
-    private static final int FRONT_Y = -115;
-    private static final int BACK_Y = 115;
-    private static final int RIGHT_X = 45;
-    private static final int LEFT_X = -45;
-    private static final int RLF_Y = -70;
-    private static final int RLB_Y = 70;
+    private static final int L_ROT = 90;
+    private static final int FBL_X = 25;
+    private static final int FBR_X = -25;
+    private static final int FRONT_Y = 115;
+    private static final int BACK_Y = -115;
+    private static final int RIGHT_X = -45;
+    private static final int LEFT_X = 45;
+    private static final int RLF_Y = 70;
+    private static final int RLB_Y = -70;
 
     private final int index;
     private int halfACircle = 180;
@@ -164,7 +164,7 @@ public class UltrasonicSensor extends SystemComponent {
      * @return the point containing the coordinates of the sensor
      */
     private Point getPosition() {
-        double angle = car.getRotation();
+        double angle = Math.toRadians(180) - car.getRotation();
         int positionX = (int)(relativeX * Math.cos(angle) - relativeY * Math.sin(angle) + car.getX());
         int positionY = (int)(relativeY * Math.cos(angle) + relativeX * Math.sin(angle) + car.getY());
         return new Point(positionX, positionY);
