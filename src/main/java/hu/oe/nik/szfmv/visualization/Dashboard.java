@@ -202,6 +202,7 @@ public class Dashboard extends JPanel {
      *
      * @param powertrainPacket Contains all the required values coming from the powertrain.
      * @param inputPacket Contains all the required values coming from input.
+     * @param roadSignPacket Contains all the required values related to the last seen road sign.
      * @param carX        is the X coordinate of the car object
      * @param carY        is the Y coordinate of the car object
      */

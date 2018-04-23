@@ -46,7 +46,8 @@ public class UltrasonicSensor extends SystemComponent {
      * @param relativeRotation the sensor's rotation relative to the car (in degrees)
      * @param car the car the sensor belongs to
      */
-    public UltrasonicSensor(VirtualFunctionBus virtualFunctionBus, int relativeX, int relativeY, double relativeRotation, AutomatedCar car) {
+    public UltrasonicSensor(VirtualFunctionBus virtualFunctionBus, int relativeX, int relativeY,
+                            double relativeRotation, AutomatedCar car) {
         super(virtualFunctionBus);
         this.relativeX = relativeX;
         this.relativeY = relativeY;
@@ -57,6 +58,7 @@ public class UltrasonicSensor extends SystemComponent {
     /**
      * Creates the ultrasonic sensors and adds them to the car's list of ultrasonic sensors.
      * @param car the car the sensors belong to
+     * @param virtualFunctionBus the virtual function bus used by the system components
      */
     public static void createUltrasonicSensors(AutomatedCar car, VirtualFunctionBus virtualFunctionBus) {
         car.getUltrasonicSensors().add(
