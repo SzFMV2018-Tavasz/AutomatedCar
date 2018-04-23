@@ -4,6 +4,7 @@ import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.ultrasonicsensor.ReadOnlyUltrasonicSensorPacket;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Movable;
@@ -21,6 +22,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +49,7 @@ public class CourseDisplay extends JPanel {
     private ReadOnlyRoadSignDetectionPacket roadSignDetectionPacket = null;
     private CarPacket carPacket = null;
     private ReadOnlyInputPacket inputPacket = null;
+    private ReadOnlyUltrasonicSensorPacket ultrasonicSensorPacket = null;
     private World world;
 
     // roadsigns and trees
@@ -136,9 +139,11 @@ public class CourseDisplay extends JPanel {
      * @param roadSignDetectionPacket contains the camera triangle for debug
      */
     public void drawWorld(World world, CarPacket carPacket, ReadOnlyInputPacket inputPacket,
-                          ReadOnlyRoadSignDetectionPacket roadSignDetectionPacket) {
+                          ReadOnlyRoadSignDetectionPacket roadSignDetectionPacket,
+                          ReadOnlyUltrasonicSensorPacket ultrasonicSensorPacket) {
         invalidate();
         this.roadSignDetectionPacket = roadSignDetectionPacket;
+        this.ultrasonicSensorPacket = ultrasonicSensorPacket;
         this.world = world;
         this.carPacket = carPacket;
         this.inputPacket = inputPacket;
@@ -198,7 +203,12 @@ public class CourseDisplay extends JPanel {
             // Need the coordinates of radar triangle
         }
         if (inputPacket.getUltrasonicVizualizerStatus()) {
-            // Need the coordinates of ultrasonic triangle
+            ArrayList<Point[]> points = ultrasonicSensorPacket.getUltrasonicSensorTriangles();
+            drawSensor(points.get(0), offset, Color.GREEN, g);
+            for (Point[] point : points)
+            {
+                //drawSensor(point, offset, Color.GREEN, g);
+            }
         }
         // draw stationary children (Tree, Road sign)
         g.drawImage(staticEnvironmentZ1, (int) (offset.getX() * scale), (int) (offset.getY() * scale), this);
