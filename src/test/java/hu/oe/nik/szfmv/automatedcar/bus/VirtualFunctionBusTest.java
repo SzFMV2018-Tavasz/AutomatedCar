@@ -45,17 +45,17 @@ public class VirtualFunctionBusTest {
     }
 
     class SenderComponentMock extends SystemComponent {
-        PowertrainTestPacket samplePacket = new PowertrainTestPacket();
+        PowertrainTestPacket powertrainTestPacket = new PowertrainTestPacket();
 
         protected SenderComponentMock(VirtualFunctionBus virtualFunctionBus) {
             super(virtualFunctionBus);
-            virtualFunctionBus.powertrainTestPacket = samplePacket;
+            virtualFunctionBus.powertrainTestPacket = powertrainTestPacket;
         }
 
         @Override
         public void loop() {
             senderLoopCalled = true;
-            samplePacket.setGaspedalPosition(42);
+            powertrainTestPacket.setGaspedalPosition(42);
         }
     }
 
