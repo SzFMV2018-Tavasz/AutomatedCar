@@ -1,12 +1,18 @@
 package hu.oe.nik.szfmv.environment;
 
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.detector.classes.Detector;
 import hu.oe.nik.szfmv.environment.interfaces.IWorld;
+import hu.oe.nik.szfmv.environment.models.Collidable;
+import hu.oe.nik.szfmv.environment.models.Pedestrian;
+import hu.oe.nik.szfmv.environment.models.Tree;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class World implements IWorld {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -14,6 +20,8 @@ public class World implements IWorld {
     private int width = 0;
     private int height = 0;
     private List<WorldObject> worldObjects = new ArrayList<>();
+
+    private boolean isGameOver = false;
 
     /**
      * Creates the virtual world with the given dimension.
@@ -70,5 +78,48 @@ public class World implements IWorld {
         }
     }
 
+    /**
+     * It is true when fatal collision happened.
+     *
+     * @return if the game is over.
+     */
+    public boolean isGameOver() {
+        return isGameOver;
+    }
 
+    /**
+     * Iterate trought all the collidable objects from the world.
+     * If collision happens set the speed of the car, or ends the "game".
+     *
+     * @param car {@link AutomatedCar}  provides the current controleld AutomatedCar.
+     */
+    public void checkForCollisions(AutomatedCar car) {
+        List<WorldObject> collidables = worldObjects.stream()
+                .filter(Collidable.class::isInstance)
+                .collect(Collectors.toList());
+        isGameOver = false;
+        for (WorldObject collidable : collidables) {
+            if (isColliding(car, collidable)) {
+                if (Pedestrian.class.isInstance(collidable) || Tree.class.isInstance(collidable)) {
+                    LOGGER.info("AutomatedCar collided with tree or pedestrian. GAME OVER!");
+                    isGameOver = true;
+                    LOGGER.info("[isGameOver: " + isGameOver + "]");
+                } else {
+                    PowertrainSystem.carCollide();
+                    LOGGER.info("AutomatedCar collided with traffic sign. [isGameOver: " + isGameOver + "]");
+                }
+            }
+        }
+    }
+
+    /**
+     * Check if the 2 given {@link WorldObject} collide.
+     *
+     * @param a a {@link WorldObject} to check
+     * @param b a {@link WorldObject} to check
+     * @return true if they collide, false if they not.
+     */
+    public boolean isColliding(WorldObject a, WorldObject b) {
+        return a.getShape().intersects(b.getShape().getBounds2D());
+    }
 }

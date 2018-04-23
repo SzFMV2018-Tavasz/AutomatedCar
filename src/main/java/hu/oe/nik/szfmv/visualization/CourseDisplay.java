@@ -2,6 +2,8 @@ package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Movable;
@@ -15,6 +17,7 @@ import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -26,10 +29,9 @@ import java.util.Map;
  */
 public class CourseDisplay extends JPanel {
 
-    private static Map<String, Point> referencePoints = new HashMap<>();
     private static final String referencePointsURI = "./src/main/resources/reference_points.xml";
     private static final Logger LOGGER = LogManager.getLogger();
-
+    private static Map<String, Point> referencePoints = new HashMap<>();
     private final float scale = 0.5F;
     private final int width = 770;
     private final int height = 700;
@@ -39,8 +41,14 @@ public class CourseDisplay extends JPanel {
     private final int courseWidth = 5120;
     private final int courseHeight = 3000;
 
+    private final double sensorRangeRadar = 200.0;
+    private final double angleOfViewRadar = 60.0;
+
+    private ReadOnlyRoadSignDetectionPacket roadSignDetectionPacket = null;
     private CarPacket carPacket = null;
+    private ReadOnlyInputPacket inputPacket = null;
     private World world;
+
     // roadsigns and trees
     private BufferedImage staticEnvironmentZ1 = null;
     // other static objects
@@ -54,7 +62,7 @@ public class CourseDisplay extends JPanel {
         setLayout(null);
         setBounds(0, 0, width, height);
         setBackground(new Color(backgroundColor));
-        // Loa reference points from xml
+        // Load reference points from xml
         try {
             DrawUtils.loadReferencePoints(referencePoints, referencePointsURI);
         } catch (ParserConfigurationException | IOException | SAXException e) {
@@ -70,7 +78,7 @@ public class CourseDisplay extends JPanel {
      * @param offsetX x offset value for course moving
      * @param offsetY y offset value for course moving
      */
-    private void drawWorldObject(WorldObject object, Graphics g, int offsetX, int offsetY) {
+    private void drawWorldObject(WorldObject object, Graphics g, double offsetX, double offsetY) {
         BufferedImage image = null;
         // read file from resources
         try {
@@ -122,13 +130,18 @@ public class CourseDisplay extends JPanel {
     /**
      * Draws the world to the course display
      *
-     * @param world     {@link World} object that describes the virtual world
-     * @param carPacket {@link CarPacket} Packet that contains the location of the automated car
+     * @param world       {@link World} object that describes the virtual world
+     * @param carPacket   {@link CarPacket} Packet that contains the location of the automated car
+     * @param inputPacket {@link ReadOnlyInputPacket} contains key states for debugging
+     * @param roadSignDetectionPacket contains the camera triangle for debug
      */
-    public void drawWorld(World world, CarPacket carPacket) {
+    public void drawWorld(World world, CarPacket carPacket, ReadOnlyInputPacket inputPacket,
+                          ReadOnlyRoadSignDetectionPacket roadSignDetectionPacket) {
         invalidate();
+        this.roadSignDetectionPacket = roadSignDetectionPacket;
         this.world = world;
         this.carPacket = carPacket;
+        this.inputPacket = inputPacket;
         validate();
         repaint();
     }
@@ -140,18 +153,18 @@ public class CourseDisplay extends JPanel {
      * @param scaledHeight height of the viewport  multiplied by scaling
      * @return offset value to move camera with
      */
-    private Point getOffset(int scaledWidth, int scaledHeight) {
-        int offsetX = 0;
-        int offsetY = 0;
-        int diffX = (scaledWidth / 2) - carPacket.getX() - carWidth / 2;
+    private Point2D getOffset(int scaledWidth, int scaledHeight) {
+        double offsetX = 0;
+        double offsetY = 0;
+        double diffX = (scaledWidth / 2) - carPacket.getX() - carWidth / 2;
         if (diffX < 0) {
             offsetX = diffX;
         }
-        int diffY = scaledHeight / 2 - carPacket.getY() - carHeight / 2;
+        double diffY = scaledHeight / 2 - carPacket.getY() - carHeight / 2;
         if (diffY < 0) {
             offsetY = diffY;
         }
-        return new Point(offsetX, offsetY);
+        return new Point2D.Double(offsetX, offsetY);
     }
 
     /**
@@ -164,25 +177,45 @@ public class CourseDisplay extends JPanel {
         // when the car reach the half width of the viewport the course move, and the car stay on center
         int scaledWidth = (int) (width / scale);
         int scaledHeight = (int) (height / scale);
-        Point offset = getOffset(scaledWidth, scaledHeight);
+        Point2D offset = getOffset(scaledWidth, scaledHeight);
         if (staticEnvironmentZ0 == null && staticEnvironmentZ1 == null) {
             drawEnvironment();
         }
         // draw the lower layer (crossable objects)
-        g.drawImage(staticEnvironmentZ0, (int) (offset.x * scale), (int) (offset.y * scale), this);
+        g.drawImage(staticEnvironmentZ0, (int) (offset.getX() * scale), (int) (offset.getY() * scale), this);
         // draw moving objects
         for (WorldObject object : this.world.getWorldObjects()) {
             if (AutomatedCar.class.isAssignableFrom(object.getClass()) ||
                     Movable.class.isAssignableFrom(object.getClass())) {
-                drawWorldObject(object, g, offset.x, offset.y);
+                drawWorldObject(object, g, offset.getX(), offset.getY());
             }
         }
+        // draw sensor scopes depending on debug settings
+        if (inputPacket.getCameraVizualizerStatus()) {
+            drawSensor(roadSignDetectionPacket.getTrianglePoints(), offset, Color.RED, g);
+        }
+        if (inputPacket.getRadarVizualizerStatus()) {
+            // Need the coordinates of radar triangle
+        }
+        if (inputPacket.getUltrasonicVizualizerStatus()) {
+            // Need the coordinates of ultrasonic triangle
+        }
         // draw stationary children (Tree, Road sign)
-        g.drawImage(staticEnvironmentZ1, (int) (offset.x * scale), (int) (offset.y * scale), this);
-        drawShapesDebug(g, offset.x, offset.y);
+        g.drawImage(staticEnvironmentZ1, (int) (offset.getX() * scale), (int) (offset.getY() * scale), this);
+        if (inputPacket.getShapeBorderVizualizerState())
+            drawShapesDebug(g, offset.getX(), offset.getY());
     }
 
-    private void drawShapesDebug(Graphics g, int offsetX, int offsetY) {
+    private void drawSensor(Point[] trianglePoints, java.awt.geom.Point2D offset, Color color, Graphics graphics) {
+        int[] x = {(int) ((trianglePoints[0].x + offset.getX()) * scale),
+                (int) ((trianglePoints[1].x + offset.getX()) * scale), (int) ((trianglePoints[2].x + offset.getX()) * scale)};
+        int[] y = {(int) ((trianglePoints[0].y + offset.getY()) * scale),
+                (int) ((trianglePoints[1].y + offset.getY()) * scale), (int) ((trianglePoints[2].y + offset.getY()) * scale)};
+        graphics.setColor(color);
+        graphics.drawPolygon(x, y, 3);
+    }
+
+    private void drawShapesDebug(Graphics g, double offsetX, double offsetY) {
         for (WorldObject object : world.getWorldObjects()) {
             g.setColor(Color.BLUE);
             AffineTransform at1 = new AffineTransform();
@@ -194,6 +227,6 @@ public class CourseDisplay extends JPanel {
                 ((Graphics2D) g).draw(at1.createTransformedShape(s));
             }
         }
+        g.drawImage(staticEnvironmentZ1, (int) (offsetX * scale), (int) (offsetY * scale), this);
     }
-
 }
