@@ -25,6 +25,7 @@ public class InputHandler implements KeyListener {
     private static final int RADARTESTKEYCODE = KeyEvent.VK_7;
     private static final int CAMERATESTKEYCODE = KeyEvent.VK_8;
     private static final int ULTRASONICTESTKEYCODE = KeyEvent.VK_9;
+    private static final int SHAPETESTKEYCODE = KeyEvent.VK_6;
 
     private static InputHandler instance = null;
     private boolean steeringLeftPressed;
@@ -58,6 +59,8 @@ public class InputHandler implements KeyListener {
     private boolean cameraTestPressed;
 
     private boolean ultrasonicTestPressed;
+
+    private boolean shapeBorderTestPressed;
 
     /**
      * Inputhandler
@@ -136,6 +139,10 @@ public class InputHandler implements KeyListener {
         return ultrasonicTestPressed;
     }
 
+    public boolean isShapeBorderTestPressed() {
+        return shapeBorderTestPressed;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -200,6 +207,9 @@ public class InputHandler implements KeyListener {
                 break;
             case (ULTRASONICTESTKEYCODE):
                 ultrasonicTestPressed = state;
+                break;
+            case (SHAPETESTKEYCODE):
+                shapeBorderTestPressed = state;
                 break;
             default:
                 break;

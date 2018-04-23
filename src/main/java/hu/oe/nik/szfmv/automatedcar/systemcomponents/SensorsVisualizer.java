@@ -13,6 +13,7 @@ public class SensorsVisualizer extends SystemComponent {
     private boolean radarVizualizerPressed;
     private boolean cameraVizualizerPressed;
     private boolean ultrasonicVizualizerPressed;
+    private boolean shapeVizualizerPressed;
 
     /**
      * @param virtualFunctionBus VirtualFunctuonBus parameter
@@ -26,6 +27,7 @@ public class SensorsVisualizer extends SystemComponent {
         radarVizualizerPressed = false;
         cameraVizualizerPressed = false;
         ultrasonicVizualizerPressed = false;
+        shapeVizualizerPressed = false;
     }
 
     @Override
@@ -41,6 +43,10 @@ public class SensorsVisualizer extends SystemComponent {
         if (inputHandler.isUltrasonicTestPressed()) {
             ultrasonicVizualizerPressed = !ultrasonicVizualizerPressed;
             inputPacket.setUltrasonicVizualizerState(ultrasonicVizualizerPressed);
+        }
+        if (inputHandler.isShapeBorderTestPressed()) {
+            shapeVizualizerPressed = !shapeVizualizerPressed;
+            inputPacket.setShapeBorderVizualizerState(shapeVizualizerPressed);
         }
     }
 }

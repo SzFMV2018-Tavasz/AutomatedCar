@@ -32,4 +32,17 @@ public class UtilsTest {
         assertEquals(45, Utils.radianToDegree(0.7853981633974484), THRESHOLD);
     }
 
+    @Test
+    public void testDistanceBetweenTwoPoints() {
+        double expected = 10.7703;
+        assertEquals(expected, Utils.getDistanceBetweenTwoPoints(3, 6, 13, 2), THRESHOLD);
+        expected = 4679.3406;
+        assertEquals(expected, Utils.getDistanceBetweenTwoPoints(123, 322, 11, 5000), THRESHOLD);
+    }
+
+    @Test
+    public void testMeterConverter() {
+        int expected = 2500;
+        assertEquals(expected, Utils.convertMeterToPixel(50), THRESHOLD);
+    }
 }

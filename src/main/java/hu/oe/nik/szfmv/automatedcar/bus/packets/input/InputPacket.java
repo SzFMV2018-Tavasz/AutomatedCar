@@ -32,6 +32,8 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     private boolean ultrasonicVizualizerState;
 
+    private boolean shapeBorderVizualizerState;
+
     /**
      * Inpuutpacket
      *
@@ -82,11 +84,15 @@ public class InputPacket implements ReadOnlyInputPacket {
     }
 
     public void setCameraVizualizerState(boolean cameraVizualizerState) {
-        this.radarVizualizerState = radarVizualizerState;
+        this.cameraVizualizerState = cameraVizualizerState;
     }
 
     public void setUltrasonicVizualizerState(boolean ultrasonicVizualizerState) {
         this.ultrasonicVizualizerState = ultrasonicVizualizerState;
+    }
+
+    public void setShapeBorderVizualizerState(boolean shapeBorderVizualizerState) {
+        this.shapeBorderVizualizerState = shapeBorderVizualizerState;
     }
 
 
@@ -163,5 +169,8 @@ public class InputPacket implements ReadOnlyInputPacket {
         return ultrasonicVizualizerState;
     }
 
-
+    @Override
+    public boolean getShapeBorderVizualizerState() {
+        return shapeBorderVizualizerState;
+    }
 }

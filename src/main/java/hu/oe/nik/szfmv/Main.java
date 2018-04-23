@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.sensors.UltrasonicSensor;
 import hu.oe.nik.szfmv.common.ConfigProvider;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.models.NpcCar;
@@ -35,6 +36,8 @@ public class Main {
         AutomatedCar car = new AutomatedCar(carX, carY, "car_2_white.png");
         // add car to the world
         w.addObjectToWorld(car);
+        // create ultrasonic sensors for car
+        UltrasonicSensor.createUltrasonicSensors(car, w);
 
         NpcCar npcCar = new NpcCar(w, 500, 500, "car_2_red.png");
         w.addObjectToWorld(npcCar);
@@ -46,16 +49,14 @@ public class Main {
         Gui gui = new Gui();
 
         // draw world to course display
-        gui.getCourseDisplay().drawWorld(w, car.getCarValues());
+        gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues(), car.getRoadSign());
 
         while (!w.isGameOver()) {
             try {
                 car.drive();
                 pedestrian.moveOnCrosswalk();
                 npcCar.move();
-
-                gui.getCourseDisplay().drawWorld(w, car.getCarValues());
-
+                gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues(), car.getRoadSign());
                 gui.getDashboard().updateDisplayedValues(car.getInputValues(), car.getPowertrainValues(),
                         (int) Math.round(car.getX()), (int) Math.round(car.getY()));
 
