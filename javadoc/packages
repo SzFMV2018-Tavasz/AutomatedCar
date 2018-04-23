@@ -7,6 +7,7 @@ hu.oe.nik.szfmv.automatedcar.bus.packets.detector
 hu.oe.nik.szfmv.automatedcar.bus.packets.input
 hu.oe.nik.szfmv.automatedcar.bus.packets.reverseradar
 hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection
+hu.oe.nik.szfmv.automatedcar.bus.packets.ultrasonicsensor
 hu.oe.nik.szfmv.automatedcar.bus.powertrain
 hu.oe.nik.szfmv.automatedcar.input
 hu.oe.nik.szfmv.automatedcar.input.enums
