@@ -144,6 +144,7 @@ public class Dashboard extends JPanel {
     private final int speedLabelHeight = 24;
     private final int speedLabelX = 30;
     private final int speedLabelY = 110;
+    private final double mpsToKmhMultiplier = 3.6;
 
     private final int rpmLabelWidth = 60;
     private final int rpmLabelHeight = 24;
@@ -277,7 +278,7 @@ public class Dashboard extends JPanel {
             rpm = 0;
         }
 
-        speedLabel.setText(speed + " km/h");
+        speedLabel.setText(speed * mpsToKmhMultiplier + " km/h");
         speedAngle = calculateSpeedometer(speed);
 
         rpmLabel.setText(rpm + " RPM");

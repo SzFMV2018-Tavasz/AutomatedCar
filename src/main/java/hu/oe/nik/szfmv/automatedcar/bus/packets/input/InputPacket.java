@@ -92,7 +92,7 @@ public class InputPacket implements ReadOnlyInputPacket {
     }
 
     public void setCameraVizualizerState(boolean cameraVizualizerState) {
-        this.radarVizualizerState = radarVizualizerState;
+        this.cameraVizualizerState = cameraVizualizerState;
     }
 
     public void setUltrasonicVizualizerState(boolean ultrasonicVizualizerState) {
@@ -102,6 +102,7 @@ public class InputPacket implements ReadOnlyInputPacket {
     public void setShapeBorderVizualizerState(boolean shapeBorderVizualizerState) {
         this.shapeBorderVizualizerState = shapeBorderVizualizerState;
     }
+
 
     public void setGearSate(GearEnum gearEnum) {
         this.gearEnum = gearEnum;
@@ -179,6 +180,4 @@ public class InputPacket implements ReadOnlyInputPacket {
     public boolean getShapeBorderVizualizerState() {
         return shapeBorderVizualizerState;
     }
-
-
 }
