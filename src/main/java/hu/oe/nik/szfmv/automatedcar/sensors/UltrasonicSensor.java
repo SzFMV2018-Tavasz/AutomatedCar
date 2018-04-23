@@ -48,6 +48,7 @@ public class UltrasonicSensor extends SystemComponent {
      * @param relativeY the sensor's Y coordinate relative to the car
      * @param relativeRotation the sensor's rotation relative to the car (in degrees)
      * @param car the car the sensor belongs to
+     * @param index the current sensor's index (to be used with the sent packets)
      */
     public UltrasonicSensor(VirtualFunctionBus virtualFunctionBus, int relativeX, int relativeY,
                             double relativeRotation, AutomatedCar car, int index) {
@@ -164,7 +165,7 @@ public class UltrasonicSensor extends SystemComponent {
      * @return the point containing the coordinates of the sensor
      */
     private Point getPosition() {
-        double angle = Math.toRadians(180) - car.getRotation();
+        double angle = Math.toRadians(halfACircle) - car.getRotation();
         int positionX = (int)(relativeX * Math.cos(angle) - relativeY * Math.sin(angle) + car.getX());
         int positionY = (int)(relativeY * Math.cos(angle) + relativeX * Math.sin(angle) + car.getY());
         return new Point(positionX, positionY);
