@@ -10,7 +10,7 @@ public class PPCoordinatesPacket implements ReadOnlyPPCoordinatesPacket {
     /**
      * ParkingPilotCoordinates packet constructor
      */
-    public PPCoordinatesPacket() { }
+    //public PPCoordinatesPacket() { }
 
     public void setFrontX(double frontX) {
         this.frontX = frontX;
