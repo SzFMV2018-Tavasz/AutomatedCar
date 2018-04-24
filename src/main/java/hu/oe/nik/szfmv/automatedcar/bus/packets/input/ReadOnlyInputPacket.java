@@ -76,28 +76,27 @@ public interface ReadOnlyInputPacket {
     /**
      * Gets whether the radar test is on or off.
      *
-     * @return the  radar test's status
+     * @return the right radar test's status
      */
     boolean getRadarVizualizerStatus();
 
     /**
      * Gets whether the camera test is signal is on or off.
      *
-     * @return the  camera test's status
+     * @return the right camera test's status
      */
     boolean getCameraVizualizerStatus();
 
     /**
      * Gets whether the ultrasonic test is on or off.
      *
-     * @return the  ultrasonic test's status
+     * @return the right ultrasonic test's status
      */
     boolean getUltrasonicVizualizerStatus();
 
     /**
-     * Gets whether the shape border vizualizer is on or off.
      *
-     * @return the shape border vizualizer's status
+     * @return shape debug is on off
      */
-    boolean getShapeBorderVizualizerState();
+     boolean getShapeBorderVizualizerState();
 }
