@@ -4,12 +4,12 @@ public interface ReadOnlyCarPacket {
     /**
      * @return AutomatedCar x position
      */
-    int getX();
+    double getX();
 
     /**
      * @return AutomatedCar y position
      */
-    int getY();
+    double getY();
 
     /**
      * @return AutomatedCar rotation in radians
