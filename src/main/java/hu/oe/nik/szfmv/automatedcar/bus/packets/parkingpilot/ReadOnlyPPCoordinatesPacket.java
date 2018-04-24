@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv.automatedcar.bus.packets.ParkingPilot;
+package hu.oe.nik.szfmv.automatedcar.bus.packets.parkingpilot;
 
 public interface ReadOnlyPPCoordinatesPacket {
     /**
