@@ -83,7 +83,7 @@ public class RoadLaneDetector extends SystemComponent {
     private boolean onRoad() {
         for (Road r : roads) {
             if (r.getShape().intersects(car.getShape().getBounds2D())) {
-                LOGGER.debug("on the road");
+                LOGGER.info("on the road!");
                 return true;
             }
         }
