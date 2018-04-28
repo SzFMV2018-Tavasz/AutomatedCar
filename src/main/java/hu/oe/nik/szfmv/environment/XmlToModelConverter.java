@@ -115,8 +115,7 @@ public abstract class XmlToModelConverter {
      * @return new class, based on type
      * @throws XMLSignatureException in case type not found
      */
-    private static WorldObject createObjectFromType
-    (String type) throws XMLSignatureException {
+    private static WorldObject createObjectFromType(String type) throws XMLSignatureException {
         WorldObject wo;
         // road_something_something -> road
         if (type.indexOf('_') != -1) {
