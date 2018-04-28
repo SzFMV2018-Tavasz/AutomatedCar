@@ -42,8 +42,8 @@ public class AutomatedCar extends WorldObject {
 
         final int fullCircle = 360;
         final int carTestRotation = 90;
-        final int carWidth = 108;
-        final int carHeight = 240;
+        final int carWidth = 102;
+        final int carHeight = 208;
 
         setRotation(Math.toRadians(fullCircle - carTestRotation));
         wheelBase = carHeight;
