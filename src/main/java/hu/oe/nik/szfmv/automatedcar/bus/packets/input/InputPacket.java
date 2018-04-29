@@ -22,6 +22,8 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     private boolean parkingPilote;
 
+    private boolean accOn;
+
     private double accDistanceValue;
 
     private int accSpeedValue;
@@ -63,6 +65,8 @@ public class InputPacket implements ReadOnlyInputPacket {
         parkingPilote = value;
     }
 
+    public void setAccOn(boolean state) { accOn = state;}
+
     public void setAccDistanceValue(double value) {
         accDistanceValue = value;
     }
@@ -73,6 +77,10 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     public void setLaneKeepingStatus(boolean value) {
         this.laneKeepingOn = value;
+    }
+
+    public void setLeftTurnSignalStatus(boolean leftIndexOn) {
+        this.leftIndexOn = leftIndexOn;
     }
 
     public void setRightTurnSignalStatus(boolean rightIndexOn) {
@@ -116,6 +124,9 @@ public class InputPacket implements ReadOnlyInputPacket {
     }
 
     @Override
+    public boolean getACCOn() { return accOn; }
+
+    @Override
     public int getACCTargetSpeed() {
         return accSpeedValue;
     }
@@ -143,10 +154,6 @@ public class InputPacket implements ReadOnlyInputPacket {
     @Override
     public boolean getLeftTurnSignalStatus() {
         return leftIndexOn;
-    }
-
-    public void setLeftTurnSignalStatus(boolean leftIndexOn) {
-        this.leftIndexOn = leftIndexOn;
     }
 
     @Override
