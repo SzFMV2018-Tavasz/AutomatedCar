@@ -21,7 +21,13 @@
 require 'rest-client'
 require 'json'
 
+# run only with scheduled run (cron)
 if ENV["TRAVIS_EVENT_TYPE"] != "cron" then
+    exit true
+end
+
+# run only on one of the environments (oraclejdk8 and openjdk8)
+if ENV["TRAVIS_JDK_VERSION"] != "oraclejdk8" then
     exit true
 end
 

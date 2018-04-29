@@ -203,7 +203,7 @@ public class CourseDisplay extends JPanel {
         // draw stationary children (Tree, Road sign)
         g.drawImage(staticEnvironmentZ1, (int) (offset.getX() * scale), (int) (offset.getY() * scale), this);
         if (inputPacket.getShapeBorderVizualizerState())
-        drawShapesDebug(g, offset.getX(), offset.getY());
+            drawShapesDebug(g, offset.getX(), offset.getY());
     }
 
     private void drawSensor(Point[] trianglePoints, java.awt.geom.Point2D offset, Color color, Graphics graphics) {
