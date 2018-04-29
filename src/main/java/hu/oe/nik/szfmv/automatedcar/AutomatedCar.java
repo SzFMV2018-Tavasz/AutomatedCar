@@ -69,8 +69,9 @@ public class AutomatedCar extends WorldObject {
         try {
             virtualFunctionBus.loop();
             calculatePositionAndOrientation();
-            if (virtualFunctionBus.readOnlyParkingPacket != null) {
-                if (virtualFunctionBus.readOnlyParkingPacket.getPlaceIsAvailable()) {
+            if (virtualFunctionBus.readOnlyPPCoordinatesPacket != null) {
+                if (virtualFunctionBus.readOnlyPPCoordinatesPacket.getPlaceIsAvailable()
+                        && virtualFunctionBus.inputPacket.getParkingPilotStatus()) {
                     parkingPilot();
                 }
             }
@@ -126,7 +127,7 @@ public class AutomatedCar extends WorldObject {
     }
 
     /**
-     * Automated parking mode
+     * Automated ParkingPilot mode
      */
     public void parkingPilot() {
 
@@ -137,17 +138,17 @@ public class AutomatedCar extends WorldObject {
         double carSpeed = -startCarSpeed;
 
         // These values come from packet
-        int parkingPlaceHeight = virtualFunctionBus.readOnlyParkingPacket.getEndPoint().y -
-                virtualFunctionBus.readOnlyParkingPacket.getStartPoint().y;
-        int parkingPlaceEnd = virtualFunctionBus.readOnlyParkingPacket.getEndPoint().y;
-        int parkingPlaceStart = virtualFunctionBus.readOnlyParkingPacket.getStartPoint().y;
-        int parkingPlaceLeftLine = virtualFunctionBus.readOnlyParkingPacket.getStartPoint().x;
+        double parkingPlaceHeight = virtualFunctionBus.readOnlyPPCoordinatesPacket.getBackY() -
+                virtualFunctionBus.readOnlyPPCoordinatesPacket.getFrontY();
+        double parkingPlaceEnd = virtualFunctionBus.readOnlyPPCoordinatesPacket.getBackY();
+        double parkingPlaceStart = virtualFunctionBus.readOnlyPPCoordinatesPacket.getFrontY();
+        double parkingPlaceLeftLine = virtualFunctionBus.readOnlyPPCoordinatesPacket.getFrontX();
 
         final double firstStateRate = 0.5;
         final double secondStateRate = 0.61;
-        int firstState = parkingPlaceEnd + (int) Math.round(parkingPlaceHeight * firstStateRate);
-        int secondState = parkingPlaceEnd + (int) Math.round(parkingPlaceHeight * secondStateRate);
-        int thirdState = parkingPlaceEnd + parkingPlaceHeight;
+        double firstState = parkingPlaceEnd + Math.round(parkingPlaceHeight * firstStateRate);
+        double secondState = parkingPlaceEnd + Math.round(parkingPlaceHeight * secondStateRate);
+        double thirdState = parkingPlaceEnd + parkingPlaceHeight;
 
 
         if (this.getCarValues().getY() < parkingPlaceEnd) {
