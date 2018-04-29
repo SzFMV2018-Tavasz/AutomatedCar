@@ -218,7 +218,8 @@ public class AutomatedCar extends WorldObject {
     }
 
 
-    /** Gets the roadsign closest to the car
+    /**
+     * Gets the roadsign closest to the car
      *
      * @return roadsigndetection packet
      */
@@ -226,18 +227,20 @@ public class AutomatedCar extends WorldObject {
         return virtualFunctionBus.roadSignDetectionPacket;
     }
 
-    /** Gets the ultrasonic sensors packet
+    /**
+     * Gets the ultrasonic sensors packet
      *
      * @return ultrasonic sensors packet
      */
     public ReadOnlyUltrasonicSensorPacket getUltrasonicSensorValues() {
         return virtualFunctionBus.ultrasonicSensorPacket;
 
-    /**
-     * Gets the list of ultrasonic sensors
-     * @return the list of ultrasonic sensors
-     */
+        /**
+         * Gets the list of ultrasonic sensors
+         * @return the list of ultrasonic sensors
+         */
     }
+
     public List<UltrasonicSensor> getUltrasonicSensors() {
         return ultrasonicSensors;
     }
