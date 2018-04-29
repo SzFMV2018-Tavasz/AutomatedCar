@@ -37,7 +37,7 @@ public class Main {
         // add car to the world
         w.addObjectToWorld(car);
 
-        NpcCar npcCar = new NpcCar(w, 500, 500, "car_2_red.png");
+        NpcCar npcCar = new NpcCar(w, carX, carY, "car_2_red.png");
         w.addObjectToWorld(npcCar);
 
         Pedestrian pedestrian = new Pedestrian(pedestrianX, pedestrianY, "man.png");

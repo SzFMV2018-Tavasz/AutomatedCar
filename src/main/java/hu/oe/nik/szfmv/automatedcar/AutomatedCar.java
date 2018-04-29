@@ -77,12 +77,17 @@ public class AutomatedCar extends WorldObject {
      * Provides a sample method for modifying the position of the car.
      */
     public void drive() {
+        final int parkingPlaceLeftDiff = 430;
+        final int parkingPlaceRightDiff = 470;
+
         try {
             calculatePositionAndOrientation();
             virtualFunctionBus.loop();
             if (virtualFunctionBus.readOnlyPPCoordinatesPacket != null) {
                 if (virtualFunctionBus.readOnlyPPCoordinatesPacket.getPlaceIsAvailable()
-                        && virtualFunctionBus.inputPacket.getParkingPilotStatus()) {
+                        && virtualFunctionBus.inputPacket.getParkingPilotStatus()
+                        && virtualFunctionBus.readOnlyPPCoordinatesPacket.getFrontX() < parkingPlaceRightDiff
+                        && virtualFunctionBus.readOnlyPPCoordinatesPacket.getFrontX() > parkingPlaceLeftDiff) {
                     parkingPilot();
                 }
             }
