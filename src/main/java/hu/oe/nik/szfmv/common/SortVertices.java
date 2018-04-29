@@ -1,38 +1,37 @@
 package hu.oe.nik.szfmv.common;
 
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SortVertices {
 
-    public List<Point2D> SortClockWise(List<Point2D> Points) {
+    public List<Point2D> sortClockWise(List<Point2D> points) {
         List<Point2D> mTempShape = new ArrayList<>();
         // First Calculate Center of Points
-        double CenterX = 0;
-        double CenterY = 0;
-        for (int i = 0; i < Points.size(); i++) {
-            CenterX += Points.get(i).getX();
-            CenterY += Points.get(i).getY();
+        double centerX = 0;
+        double centerY = 0;
+        for (int i = 0; i < points.size(); i++) {
+            centerX += points.get(i).getX();
+            centerY += points.get(i).getY();
         }
-        Point2D Center = new Point2D.Double(CenterX / Points.size(), CenterY
-                / Points.size());
-        int n = Points.size();
+        Point2D center = new Point2D.Double(centerX / points.size(), centerY
+                / points.size());
+        int n = points.size();
         int k;
         for (int m = n; m >= 0; m--) {
             for (int i = 0; i < n - 1; i++) {
                 k = i + 1;
-                if (!less(Points.get(i), Points.get(k), Center)) {
+                if (!less(points.get(i), points.get(k), center)) {
                     Point2D tmp = new Point2D.Double();
-                    tmp = Points.get(i);
-                    Points.set(i, Points.get(k));
-                    Points.set(k, tmp);
+                    tmp = points.get(i);
+                    points.set(i, points.get(k));
+                    points.set(k, tmp);
                 }
             }
         }
-        for (int i = 0; i < Points.size(); i++) {
-            mTempShape.add(Points.get(i));
+        for (int i = 0; i < points.size(); i++) {
+            mTempShape.add(points.get(i));
         }
         return mTempShape;
     }

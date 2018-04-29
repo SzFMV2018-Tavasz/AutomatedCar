@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv.environment;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.interfaces.IWorldObject;
+import hu.oe.nik.szfmv.environment.models.NpcCar;
 import org.apache.logging.log4j.LogManager;
 
 import javax.imageio.ImageIO;
@@ -15,8 +16,9 @@ import java.io.IOException;
 public abstract class WorldObject implements IWorldObject {
 
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(WorldObject.class);
-    protected int width;
-    protected int height;
+    protected int width = 10;
+    protected int height = 10;
+
     protected double rotation = 0f;
     protected String imageFileName;
     protected Point2D location;
@@ -79,6 +81,14 @@ public abstract class WorldObject implements IWorldObject {
         return this.rotation;
     }
 
+    /**
+     * @return the actual {@link Shape} of the {@link WorldObject}.
+     */
+    public Shape getShape() {
+        generateShape();
+        return this.shape;
+    }
+
     public void setRotation(double rotation) {
         this.rotation = rotation;
     }
@@ -89,10 +99,6 @@ public abstract class WorldObject implements IWorldObject {
 
     public void setImageFileName(String imageFileName) {
         this.imageFileName = imageFileName;
-    }
-
-    public Shape getShape() {
-        return this.shape;
     }
 
     /**
@@ -119,7 +125,7 @@ public abstract class WorldObject implements IWorldObject {
     public void generateShape() {
         AffineTransform tx = new AffineTransform();
         tx.rotate(-this.getRotation(), this.getX(), this.getY());
-        if (!AutomatedCar.class.isInstance(this)) {
+        if (!AutomatedCar.class.isInstance(this) && !NpcCar.class.isInstance(this)) {
             this.shape = tx.createTransformedShape(
                     new Rectangle(
                             (int) this.getX(), (int) this.getY(),
@@ -141,7 +147,6 @@ public abstract class WorldObject implements IWorldObject {
                 ", rotation=" + rotation +
                 ", imageFileName='" + imageFileName + '\'' +
                 ", location=" + location +
-                ", offsetVector=" + offsetVector +
                 ", shape=" + shape +
                 '}';
     }
