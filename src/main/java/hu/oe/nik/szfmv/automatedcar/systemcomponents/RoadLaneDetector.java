@@ -3,9 +3,8 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.detector.DetectorPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.detector.RadarSensorPacket;
 import hu.oe.nik.szfmv.detector.classes.Detector;
-import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Collidable;
 import hu.oe.nik.szfmv.environment.models.Road;
@@ -37,7 +36,7 @@ public class RoadLaneDetector extends SystemComponent {
 
     private Shape lateralOffset;
 
-    private DetectorPacket dp;
+    private RadarSensorPacket dp;
 
     private Detector detector;
 
@@ -83,7 +82,7 @@ public class RoadLaneDetector extends SystemComponent {
     private boolean onRoad() {
         for (Road r : roads) {
             if (r.getShape().intersects(car.getShape().getBounds2D())) {
-                LOGGER.debug("on the road");
+                LOGGER.info("on the road!");
                 return true;
             }
         }
