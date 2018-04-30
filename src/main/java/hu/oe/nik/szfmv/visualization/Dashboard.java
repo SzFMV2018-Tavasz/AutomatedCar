@@ -401,7 +401,7 @@ public class Dashboard extends JPanel {
         accDistanceButtonMinus.addActionListener(e -> imitateKeyPress(KeyEvent.VK_T));
         accDistanceButtonPlus.addActionListener(e -> imitateKeyPress(KeyEvent.VK_T));
         accSpeedButtonMinus.addActionListener(e -> imitateKeyPress(KeyEvent.VK_MINUS));
-        accSpeedButtonPlus.addActionListener(e -> imitateKeyPress(KeyEvent.VK_PLUS));
+        accSpeedButtonPlus.addActionListener(e -> imitateKeyPress(KeyEvent.VK_ADD));
     }
 
     /**
