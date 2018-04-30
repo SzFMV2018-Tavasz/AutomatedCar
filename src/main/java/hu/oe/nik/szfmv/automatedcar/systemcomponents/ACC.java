@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.InputPacket;
 import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
+import hu.oe.nik.szfmv.environment.WorldObject;
 
 public class ACC extends SystemComponent {
     private static final int ACCSPEEDMINVALUE = 30;
@@ -45,6 +46,9 @@ public class ACC extends SystemComponent {
         if (!inputHandler.isAccSpeedIncrementPressedPressed() && inputHandler.isAccSpeedDecrementPressedPressed()) {
             setAccSpeedValue(-ACCSPEEDSTEPVALUE);
         }
+        if (isAccOnPressed == true && inputHandler.isBrakePressed()) {
+            turnAccOff();
+        }
 
         setAccOn();
         inputPacket.setAccDistanceValue(accDistanceValue);
@@ -52,18 +56,21 @@ public class ACC extends SystemComponent {
 
     }
 
-    private void setAccOn(){
-        if (inputHandler.isAccOnPressed()){
-            if (!isAccOnPressed){
+    private void setAccOn() {
+        if (inputHandler.isAccOnPressed()) {
+            if (!isAccOnPressed) {
                 inputPacket.setAccOn(!inputPacket.getACCOn());
                 isAccOnPressed = true;
             }
-
         }
 
-        if (!inputHandler.isAccOnPressed()){
+        if (!inputHandler.isAccOnPressed()) {
             isAccOnPressed = false;
         }
+    }
+
+    private void turnAccOff() {
+        isAccOnPressed = false;
     }
 
     /**
@@ -88,5 +95,23 @@ public class ACC extends SystemComponent {
         } else if (accSpeedValue > ACCSPEEDMAXVALUE) {
             accSpeedValue = ACCSPEEDMAXVALUE;
         }
+    }
+
+    private WorldObject getTheNPCCar() {
+        return null;
+    }
+
+    private int getTheDistanceFromTheNPCCar() {
+        return 0;
+    }
+
+    private void setSpeedWithTempomat() {
+        //kell a kocsi aktuális sebessége (ez nem egyenlő az actuallTempomatSpeed-el)
+        //kell az actuallTempomatSpeed
+        // ha van előttünk npc car akkor a sebességet igazítani ahhoz
+        //ha van roadsign (azaz a visszatérési értéke a getTheNearestRoadSignalSpeedValue-nek nem -1) és az kisebb mint
+        //az actuallTempomatSpeed akkor aztz beállítani a metódus által visszaadott sebességre.
+        // figyelni hogy milyen sebesség volt beállítva korábban, és ha pl tábla, vagy npc miatt ezt visszább kellett venni
+        //akkor miután ezek eltűntek előlünk, visszaállítani a beállított tempomat sebességet.
     }
 }

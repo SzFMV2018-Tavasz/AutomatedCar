@@ -61,6 +61,7 @@ public class AutomatedCar extends WorldObject {
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         new RoadLaneDetector(virtualFunctionBus, this);
 
+        new ACC(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         steeringWheel = new SteeringWheel(virtualFunctionBus);
 
@@ -88,8 +89,14 @@ public class AutomatedCar extends WorldObject {
      * Calculates the new x and y coordinates of the {@link AutomatedCar} using the powertrain and the steering systems.
      */
     private void calculatePositionAndOrientation() {
+        double carSpeed;
+        if (virtualFunctionBus.inputPacket.getACCOn()) {
+            carSpeed = virtualFunctionBus.inputPacket.getACCTargetSpeed();
 
-        final double carSpeed = virtualFunctionBus.powertrainPacket.getSpeed();
+        } else {
+            carSpeed = virtualFunctionBus.powertrainPacket.getSpeed();
+
+        }
         double angularSpeed = 0;
         final double fps = 1;
         final int threeQuarterCircle = 270;
@@ -150,7 +157,8 @@ public class AutomatedCar extends WorldObject {
     }
 
 
-    /** Gets the roadsign closest to the car
+    /**
+     * Gets the roadsign closest to the car
      *
      * @return roadsigndetection packet
      */
@@ -158,18 +166,20 @@ public class AutomatedCar extends WorldObject {
         return virtualFunctionBus.roadSignDetectionPacket;
     }
 
-    /** Gets the ultrasonic sensors packet
+    /**
+     * Gets the ultrasonic sensors packet
      *
      * @return ultrasonic sensors packet
      */
     public ReadOnlyUltrasonicSensorPacket getUltrasonicSensorValues() {
         return virtualFunctionBus.ultrasonicSensorPacket;
 
-    /**
-     * Gets the list of ultrasonic sensors
-     * @return the list of ultrasonic sensors
-     */
+        /**
+         * Gets the list of ultrasonic sensors
+         * @return the list of ultrasonic sensors
+         */
     }
+
     public List<UltrasonicSensor> getUltrasonicSensors() {
         return ultrasonicSensors;
     }
