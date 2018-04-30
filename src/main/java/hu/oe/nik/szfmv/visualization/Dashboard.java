@@ -41,6 +41,7 @@ public class Dashboard extends JPanel {
     private final int accStatePanelY = 210;
     private final int accStatePanelWidth = 130;
     private final int accStatePanelHeight = 100;
+    private final int accDecreasePressAmount = 3;
 
     private final JButton accDistanceButtonMinus = new JButton();
     private final JButton accDistanceButtonPlus = new JButton();
@@ -183,9 +184,9 @@ public class Dashboard extends JPanel {
      */
     private final JTextArea controlsText = new JTextArea();
     private final int controlsX = 20;
-    private final int controlsY = 460;
+    private final int controlsY = 450;
     private final int controlsW = 200;
-    private final int controlsH = 175;
+    private final int controlsH = 200;
 
     /**
      * Initialize the dashboard
@@ -344,7 +345,7 @@ public class Dashboard extends JPanel {
      * Initializes the text area that displays the controls.
      */
     private void initializeControlsText() {
-        controlsText.setText("Controls:\n" +
+        controlsText.setText(
                 "Gas: UP\n" +
                 "BREAK : DOWN\n" +
                 "Steering: LEFT, RIGHT\n" +
@@ -352,7 +353,10 @@ public class Dashboard extends JPanel {
                 "Index: 0,1\n" +
                 "LK: L\n" +
                 "PP: P\n" +
-                "ACC: +/-\n" +
+                "ACC on: 5\n" +
+                "ACC dist.: T\n" +
+                "ACC speed: +/-\n" +
+                "Collision: 6\n" +
                 "Radar, Camera, Ultrasonic: 7,8,9");
         controlsText.setBounds(controlsX, controlsY, controlsW, controlsH);
         controlsText.setFocusable(false);
@@ -398,7 +402,11 @@ public class Dashboard extends JPanel {
         accSpeedButtonPlus.setText("+");
         accSpeedButtonPlus.setFocusable(false);
 
-        accDistanceButtonMinus.addActionListener(e -> imitateKeyPress(KeyEvent.VK_T));
+        accDistanceButtonMinus.addActionListener(e -> {
+            for (int i = 0; i < accDecreasePressAmount; i++) {
+                imitateKeyPress(KeyEvent.VK_T);
+            }
+        });
         accDistanceButtonPlus.addActionListener(e -> imitateKeyPress(KeyEvent.VK_T));
         accSpeedButtonMinus.addActionListener(e -> imitateKeyPress(KeyEvent.VK_MINUS));
         accSpeedButtonPlus.addActionListener(e -> imitateKeyPress(KeyEvent.VK_ADD));
