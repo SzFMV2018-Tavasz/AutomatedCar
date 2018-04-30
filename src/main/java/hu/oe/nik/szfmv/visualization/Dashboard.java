@@ -38,10 +38,10 @@ public class Dashboard extends JPanel {
      */
     private final JPanel accStatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private final int accStatePanelX = 0;
-    private final int accStatePanelY = 210;
+    private final int accStatePanelY = 180;
     private final int accStatePanelWidth = 130;
     private final int accStatePanelHeight = 100;
-    private final int accDecreasePressAmount = 3;
+    private final int accDecreasePressAmount = 2;
 
     private final JButton accDistanceButtonMinus = new JButton();
     private final JButton accDistanceButtonPlus = new JButton();
@@ -54,11 +54,18 @@ public class Dashboard extends JPanel {
     private final JLabel accDistanceLabel = new JLabel();
     private final JLabel accSpeedLabel = new JLabel();
 
+    private final int accButtonX = 35;
+    private final int accButtonY = 255;
+    private final int accButtonWidth = 60;
+    private final int accButtonHeight = 30;
+    private JButton accButton = new JButton();
+    private boolean accOn = false;
+
     /**
      * Road sign
      */
     private final int roadSignPanelX = 130;
-    private final int roadSignPanelY = 210;
+    private final int roadSignPanelY = 180;
     private final int roadSignPanelWidth = 110;
     private final int roadSignPanelHeight = 115;
     private final JPanel roadSignPanel = new JPanel();
@@ -69,13 +76,13 @@ public class Dashboard extends JPanel {
      * Gear
      */
     private final int gearLabelX = 100;
-    private final int gearLabelY = 175;
+    private final int gearLabelY = 135;
     private final int gearLabelWidth = 40;
     private final int gearLabelHeight = 20;
     private final JLabel gearLabel = new JLabel();
 
     private final int gearValueLabelX = 135;
-    private final int gearValueLabelY = 175;
+    private final int gearValueLabelY = 135;
     private final int gearValueLabelWidth = 50;
     private final int gearValueLabelHeight = 20;
     private final JLabel gearValueLabel = new JLabel();
@@ -131,9 +138,9 @@ public class Dashboard extends JPanel {
      * Speed & RPM
      */
     private final int speedMeterX = 10;
-    private final int speedMeterY = 50;
+    private final int speedMeterY = 10;
     private final int tachoMeterX = 130;
-    private final int tachoMeterY = 50;
+    private final int tachoMeterY = 10;
     private final int meterHeight = 100;
     private final int meterWidth = 100;
     private int speedAngle;
@@ -142,13 +149,13 @@ public class Dashboard extends JPanel {
     private final int speedLabelWidth = 60;
     private final int speedLabelHeight = 24;
     private final int speedLabelX = 30;
-    private final int speedLabelY = 110;
+    private final int speedLabelY = 70;
     private final double mpsToKmhMultiplier = 3.6;
 
     private final int rpmLabelWidth = 60;
     private final int rpmLabelHeight = 24;
     private final int rpmLabelX = 150;
-    private final int rpmLabelY = 110;
+    private final int rpmLabelY = 70;
 
     private final JLabel speedLabel = new JLabel();
     private final JLabel rpmLabel = new JLabel();
@@ -164,7 +171,7 @@ public class Dashboard extends JPanel {
     private boolean rightIndexState = false;
     private final int leftIndexX = 10;
     private final int rightIndexX = 185;
-    private final int indexY = 160;
+    private final int indexY = 120;
     private final int imageH = 50;
     private final int imageW = 50;
 
@@ -215,6 +222,7 @@ public class Dashboard extends JPanel {
             updateTurnSignals(inputPacket.getLeftTurnSignalStatus(), inputPacket.getRightTurnSignalStatus());
             updateACC(inputPacket.getACCTargetDistance(), inputPacket.getACCTargetSpeed());
             updateParkingPilotIndicator(inputPacket.getParkingPilotStatus());
+            updateAccIndicator(inputPacket.getACCOn());
             updateLaneKeepingIndicator(inputPacket.getLaneKeepingStatus());
         }
         if (powertrainPacket != null) {
@@ -312,6 +320,16 @@ public class Dashboard extends JPanel {
     }
 
     /**
+     * Updates the background color of the ACC indicator.
+     *
+     * @param value whether ACC is on or off
+     */
+    private void updateAccIndicator(boolean value) {
+        accOn = value;
+        updateButtonBackground(accOn, accButton);
+    }
+
+    /**
      * Updates the background color of the LK indicator.
      *
      * @param value whether LK is on or off
@@ -401,6 +419,12 @@ public class Dashboard extends JPanel {
         accDistanceButtonPlus.setFocusable(false);
         accSpeedButtonPlus.setText("+");
         accSpeedButtonPlus.setFocusable(false);
+
+        accButton.addActionListener(e -> imitateKeyPress(KeyEvent.VK_5));
+        accButton.setBounds(accButtonX, accButtonY, accButtonWidth, accButtonHeight);
+        accButton.setText("ACC");
+        accButton.setFocusable(false);
+        add(accButton);
 
         accDistanceButtonMinus.addActionListener(e -> {
             for (int i = 0; i < accDecreasePressAmount; i++) {
