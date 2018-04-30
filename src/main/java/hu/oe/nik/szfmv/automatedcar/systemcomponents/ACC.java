@@ -4,6 +4,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.InputPacket;
 import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
 import hu.oe.nik.szfmv.environment.WorldObject;
+import hu.oe.nik.szfmv.environment.models.RoadSign;
 
 public class ACC extends SystemComponent {
     private static final int ACCSPEEDMINVALUE = 30;
@@ -11,7 +12,7 @@ public class ACC extends SystemComponent {
     private static final int ACCSPEEDSTEPVALUE = 5;
     private static final double ACC_DISTANCE_STEP = 0.2;
     private static final double ACC_DISTANCE = 0.8;
-    private static final double MAX_ACC_DISTANCE = 1.6;
+    private static final double MAX_ACC_DISTANCE = 1.4;
 
     private boolean isAccOnPressed = false;
     private double accDistanceValue;
@@ -46,15 +47,24 @@ public class ACC extends SystemComponent {
         if (!inputHandler.isAccSpeedIncrementPressedPressed() && inputHandler.isAccSpeedDecrementPressedPressed()) {
             setAccSpeedValue(-ACCSPEEDSTEPVALUE);
         }
-        if (isAccOnPressed == true && inputHandler.isBrakePressed()) {
+        if (isAccOnPressed && inputHandler.isBrakePressed()) {
             turnAccOff();
+        }
+//        if (AEB --> még nem elérhető az aeb) {
+//            turnAccOff();
+//        }
+        if(isAccOnPressed)
+        {
+            virtualFunctionBus.powertrainPacket.setSpeed(accSpeedValue);
+            checkTheNearsetRoadSignForSpeedChange();
         }
 
         setAccOn();
         inputPacket.setAccDistanceValue(accDistanceValue);
         inputPacket.setAccSpeedValue(accSpeedValue);
-
     }
+
+
 
     private void setAccOn() {
         if (inputHandler.isAccOnPressed()) {
@@ -70,6 +80,7 @@ public class ACC extends SystemComponent {
     }
 
     private void turnAccOff() {
+        inputPacket.setAccOn(!inputPacket.getACCOn());
         isAccOnPressed = false;
     }
 
@@ -103,6 +114,29 @@ public class ACC extends SystemComponent {
 
     private int getTheDistanceFromTheNPCCar() {
         return 0;
+    }
+
+    private RoadSign getTheNearestRoadSign()
+    {
+        return virtualFunctionBus.roadSignDetectionPacket.getRoadSignToShowOnDashboard();
+    }
+
+    private void checkTheNearsetRoadSignForSpeedChange() {
+        RoadSign nearestRoadSign = getTheNearestRoadSign();
+        if(nearestRoadSign!=null)
+        {
+            int limit = nearestRoadSign.getSpeedLimit();
+            if(limit ==0 )
+            {
+                //ide kell majd az autó fizikája --> fékezés 0-ra
+                accSpeedValue =0;
+            }
+            else if(limit >0 && accSpeedValue>limit/2)
+            {
+                //ide pedig majd egyenletes lassulás kell
+                accSpeedValue = limit/2;
+            }
+        }
     }
 
     private void setSpeedWithTempomat() {
