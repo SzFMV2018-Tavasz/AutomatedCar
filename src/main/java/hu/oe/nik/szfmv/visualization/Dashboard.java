@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 import hu.oe.nik.szfmv.environment.models.RoadSign;
@@ -141,6 +142,7 @@ public class Dashboard extends JPanel {
     private final int speedLabelHeight = 24;
     private final int speedLabelX = 30;
     private final int speedLabelY = 110;
+    private final double mpsToKmhMultiplier = 3.6;
 
     private final int rpmLabelWidth = 60;
     private final int rpmLabelHeight = 24;
@@ -197,11 +199,14 @@ public class Dashboard extends JPanel {
      *
      * @param powertrainPacket Contains all the required values coming from the powertrain.
      * @param inputPacket Contains all the required values coming from input.
+     * @param roadSignPacket Contains all the required values related to the last seen road sign.
      * @param carX        is the X coordinate of the car object
      * @param carY        is the Y coordinate of the car object
      */
     public void updateDisplayedValues(ReadOnlyInputPacket inputPacket,
-                                      ReadOnlyPowertrainPacket powertrainPacket, int carX, int carY) {
+                                      ReadOnlyPowertrainPacket powertrainPacket,
+                                      ReadOnlyRoadSignDetectionPacket roadSignPacket,
+                                      int carX, int carY) {
         if (inputPacket != null) {
             updateProgressBars(inputPacket.getGasPedalPosition(), inputPacket.getBreakPedalPosition());
             updateGear(inputPacket.getGearState());
@@ -214,6 +219,9 @@ public class Dashboard extends JPanel {
         if (powertrainPacket != null) {
             updateAnalogMeters((int)powertrainPacket.getSpeed(), powertrainPacket.getRpm());
             repaint();
+        }
+        if (roadSignPacket != null && roadSignPacket.getRoadSignToShowOnDashboard() != null) {
+            displayRoadSign(roadSignPacket.getRoadSignToShowOnDashboard());
         }
         updateCarPositionLabel(carX, carY);
     }
@@ -274,7 +282,7 @@ public class Dashboard extends JPanel {
             rpm = 0;
         }
 
-        speedLabel.setText(speed + " km/h");
+        speedLabel.setText(speed * mpsToKmhMultiplier + " km/h");
         speedAngle = calculateSpeedometer(speed);
 
         rpmLabel.setText(rpm + " RPM");

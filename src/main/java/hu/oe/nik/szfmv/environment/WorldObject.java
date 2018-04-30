@@ -2,11 +2,13 @@ package hu.oe.nik.szfmv.environment;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.interfaces.IWorldObject;
+import hu.oe.nik.szfmv.environment.models.NpcCar;
 import org.apache.logging.log4j.LogManager;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -14,11 +16,13 @@ import java.io.IOException;
 public abstract class WorldObject implements IWorldObject {
 
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(WorldObject.class);
-    protected int width;
-    protected int height;
+    protected int width = 10;
+    protected int height = 10;
+
     protected double rotation = 0f;
     protected String imageFileName;
-    protected Point location;
+    protected Point2D location;
+    protected Point offsetVector;
     protected Shape shape;
 
     /**
@@ -28,12 +32,12 @@ public abstract class WorldObject implements IWorldObject {
      * @param y             the initial y coordinate of the object
      * @param imageFileName the filename of the image representing the object in the virtual world
      */
-    public WorldObject(int x, int y, String imageFileName) {
-        this.location = new Point(x, y);
+    public WorldObject(double x, double y, String imageFileName) {
+        this.location = new Point2D.Double(x, y);
         this.imageFileName = imageFileName;
     }
 
-    public Point getLocation() {
+    public Point2D getLocation() {
         return location;
     }
 
@@ -41,32 +45,32 @@ public abstract class WorldObject implements IWorldObject {
         this.location = location;
     }
 
-    public int getX() {
-        return this.location.x;
+    public double getX() {
+        return this.location.getX();
     }
 
-    public void setX(int x) {
-        this.location.x = x;
+    public void setX(double x) {
+        this.location = new Point2D.Double(x, this.getY());
     }
 
-    public int getY() {
-        return this.location.y;
+    public double getY() {
+        return this.location.getY();
     }
 
-    public void setY(int y) {
-        this.location.y = y;
+    public void setY(double y) {
+        this.location = new Point2D.Double(this.getX(), y);
     }
 
     public int getWidth() {
         return this.width;
     }
 
-    public int getHeight() {
-        return this.height;
-    }
-
     public void setWidth(int width) {
         this.width = width;
+    }
+
+    public int getHeight() {
+        return this.height;
     }
 
     public void setHeight(int height) {
@@ -77,16 +81,20 @@ public abstract class WorldObject implements IWorldObject {
         return this.rotation;
     }
 
-    public String getImageFileName() {
-        return this.imageFileName;
-    }
-
+    /**
+     * @return the actual {@link Shape} of the {@link WorldObject}.
+     */
     public Shape getShape() {
+        generateShape();
         return this.shape;
     }
 
     public void setRotation(double rotation) {
         this.rotation = rotation;
+    }
+
+    public String getImageFileName() {
+        return this.imageFileName;
     }
 
     public void setImageFileName(String imageFileName) {
@@ -117,16 +125,16 @@ public abstract class WorldObject implements IWorldObject {
     public void generateShape() {
         AffineTransform tx = new AffineTransform();
         tx.rotate(-this.getRotation(), this.getX(), this.getY());
-        if (!AutomatedCar.class.isInstance(this)) {
+        if (!AutomatedCar.class.isInstance(this) && !NpcCar.class.isInstance(this)) {
             this.shape = tx.createTransformedShape(
                     new Rectangle(
-                            this.getX(), this.getY(),
+                            (int) this.getX(), (int) this.getY(),
                             this.getWidth(), this.getHeight()));
         } else {
             this.shape = tx.createTransformedShape(
                     new Rectangle(
-                            this.getX() - this.getWidth() / 2,
-                            this.getY() - this.getHeight() / 2,
+                            (int) this.getX() - this.getWidth() / 2,
+                            (int) this.getY() - this.getHeight() / 2,
                             this.getWidth(), this.getHeight()));
         }
     }

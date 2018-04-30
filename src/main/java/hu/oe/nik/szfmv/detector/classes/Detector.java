@@ -59,7 +59,17 @@ public final class Detector implements ICamera, IRadarUltrasonic {
     }
 
     /**
+     * <<<<<<< HEAD
+     *
+     * @return worldobjects
+     */
+    public List<WorldObject> getWorldObjects() {
+        return worldObjects;
+    }
+
+    /**
      * Creates a Detector and sets the Detector variable
+     *
      * @return Detector responsible for sensor functionality
      */
     public static Detector getDetector() {
@@ -76,6 +86,7 @@ public final class Detector implements ICamera, IRadarUltrasonic {
     public void setWorldObjects(List<WorldObject> wo) {
         worldObjects = wo;
     }
+
 
     @Override
     public List<WorldObject> getWorldObjects(Point a, Point b, Point c) {

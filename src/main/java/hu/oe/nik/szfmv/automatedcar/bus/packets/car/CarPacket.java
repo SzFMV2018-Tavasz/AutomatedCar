@@ -1,8 +1,8 @@
 package hu.oe.nik.szfmv.automatedcar.bus.packets.car;
 
 public class CarPacket implements ReadOnlyCarPacket {
-    private int x;
-    private int y;
+    private double x;
+    private double y;
     private double rotation;
 
     /**
@@ -21,25 +21,25 @@ public class CarPacket implements ReadOnlyCarPacket {
      * @param y Carposition y coordinate
      * @param rotation Carposition rotation
      */
-    public CarPacket(int x, int y, double rotation) {
+    public CarPacket(double x, double y, double rotation) {
         this.x = x;
         this.y = y;
         this.rotation = rotation;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 
