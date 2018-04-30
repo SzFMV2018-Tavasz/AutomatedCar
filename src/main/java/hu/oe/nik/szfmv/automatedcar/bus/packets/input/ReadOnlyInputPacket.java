@@ -24,6 +24,14 @@ public interface ReadOnlyInputPacket {
      */
     double getSteeringWheelPosition();
 
+
+    /**
+     * Gets the ACC state.
+     *
+     * @return the ACC's state
+     */
+    boolean getACCOn();
+
     /**
      * Gets the ACC target speed (between 30 and 160).
      *

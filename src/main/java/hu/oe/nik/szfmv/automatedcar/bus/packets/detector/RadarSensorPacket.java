@@ -2,9 +2,9 @@ package hu.oe.nik.szfmv.automatedcar.bus.packets.detector;
 
 import hu.oe.nik.szfmv.environment.models.Collidable;
 
-public class DetectorPacket implements ReadOnlyDetectorPacket {
+public class RadarSensorPacket implements ReadOnlyRadarSensorPacket {
 
-    private static DetectorPacket instance;
+    private static RadarSensorPacket instance;
 
     private Collidable closestCollidableinLane;
 
@@ -13,9 +13,9 @@ public class DetectorPacket implements ReadOnlyDetectorPacket {
      *
      * @return detectorpacket
      */
-    public static DetectorPacket getInstance() {
+    public static RadarSensorPacket getInstance() {
         if (instance == null) {
-            instance = new DetectorPacket();
+            instance = new RadarSensorPacket();
         }
 
         return instance;

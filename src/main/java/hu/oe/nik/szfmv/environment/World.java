@@ -121,5 +121,6 @@ public class World implements IWorld {
      */
     public boolean isColliding(WorldObject a, WorldObject b) {
         return a.getShape().intersects(b.getShape().getBounds2D());
+
     }
 }
