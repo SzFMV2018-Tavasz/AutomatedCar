@@ -18,6 +18,7 @@ public class InputHandler implements KeyListener {
     private static final int GEARSHIFTUPKEYCODE = KeyEvent.VK_W;
     private static final int GEARSHIFTDOWNKEYCODE = KeyEvent.VK_S;
     private static final int LANEKEEPINGKEYCODE = KeyEvent.VK_L;
+    private static final int ACCONKEYCODE = KeyEvent.VK_5;
     private static final int ACCDISTANCEKEYCODE = KeyEvent.VK_T;
     private static final int ACCSPEEDINCREMENTKEYCODE = KeyEvent.VK_PLUS;
     private static final int ACCSPEEDDECREMENTKEYCODE = KeyEvent.VK_MINUS;
@@ -47,6 +48,8 @@ public class InputHandler implements KeyListener {
     private boolean laneKeepingPressed;
 
     private boolean parkingPiloteOn;
+
+    private boolean accOnPressed;
 
     private boolean accDistancePressed;
 
@@ -113,6 +116,10 @@ public class InputHandler implements KeyListener {
 
     public boolean isParkinPilotePressed() {
         return parkingPiloteOn;
+    }
+
+    public boolean isAccOnPressed() {
+        return accOnPressed;
     }
 
     public boolean isAccDistancePressed() {
@@ -187,8 +194,12 @@ public class InputHandler implements KeyListener {
                 break;
             case (LEFTINDEXKEYCODE):
                 leftIndexPressed = state;
+                break;
             case (PARKINGPILOTEKEYCODE):
                 parkingPiloteOn = state;
+                break;
+            case (ACCONKEYCODE):
+                accOnPressed = state;
                 break;
             case (ACCDISTANCEKEYCODE):
                 accDistancePressed = state;

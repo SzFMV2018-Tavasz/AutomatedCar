@@ -12,6 +12,7 @@ public class ACC extends SystemComponent {
     private static final double ACC_DISTANCE = 0.8;
     private static final double MAX_ACC_DISTANCE = 1.6;
 
+    private boolean isAccOnPressed = false;
     private double accDistanceValue;
     private int accSpeedValue;
     private final InputPacket inputPacket;
@@ -45,9 +46,24 @@ public class ACC extends SystemComponent {
             setAccSpeedValue(-ACCSPEEDSTEPVALUE);
         }
 
+        setAccOn();
         inputPacket.setAccDistanceValue(accDistanceValue);
         inputPacket.setAccSpeedValue(accSpeedValue);
 
+    }
+
+    private void setAccOn(){
+        if (inputHandler.isAccOnPressed()){
+            if (!isAccOnPressed){
+                inputPacket.setAccOn(!inputPacket.getACCOn());
+                isAccOnPressed = true;
+            }
+
+        }
+
+        if (!inputHandler.isAccOnPressed()){
+            isAccOnPressed = false;
+        }
     }
 
     /**
