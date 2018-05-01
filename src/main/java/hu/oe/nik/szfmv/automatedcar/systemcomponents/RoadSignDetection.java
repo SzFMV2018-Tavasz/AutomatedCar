@@ -15,12 +15,12 @@ import java.util.List;
 import java.awt.*;
 
 /**
- * Detects the closest roadsign to the car
+ * Detects the closest visible roadsign to the car
  */
 public class RoadSignDetection extends SystemComponent {
 
     private static final double CAMERAANGLEOFVIEW = 60; // degree
-    private static final double CAMERARANGE = 15 * 50; // m * pixels/m
+    private static final double CAMERARANGE = 12 * 50; // m * pixels/m
     private RoadSignDetectionPacket roadSignDetectionPacket;
 
     /**
@@ -34,8 +34,7 @@ public class RoadSignDetection extends SystemComponent {
 
     /**
      * makes a triangle representing the camera view on the car, gets the objects which are in the
-     * right half in the view of the camera, and returns the closest roadsign object to the position
-     * of the camera
+     * view of the camera, and returns the closest visible roadsign object to the position of the camera
      *
      * @return roadsign to show on dashboard
      */
@@ -45,7 +44,8 @@ public class RoadSignDetection extends SystemComponent {
         cameraPosition.y = (int)carPacket.getY();
         double cameraRotation = carPacket.getRotation();
 
-        Point[] trianglePoints = Triangle.trianglePoints(cameraPosition, CAMERARANGE, CAMERAANGLEOFVIEW,
+        Triangle triangle = new Triangle();
+        Point[] trianglePoints = triangle.trianglePoints(cameraPosition, CAMERARANGE, CAMERAANGLEOFVIEW,
                 Utils.radianToDegree(-cameraRotation) + 180);
         roadSignDetectionPacket.setTrianglePoints(trianglePoints);
         List<WorldObject> worldObjects;
@@ -57,31 +57,50 @@ public class RoadSignDetection extends SystemComponent {
                 roadSigns.add((RoadSign) worldObjects.get(i));
             }
         }
-        return findClosestRoadSign(roadSigns, cameraPosition);
+        return findClosestRoadSign(roadSigns, cameraPosition, cameraRotation);
     }
 
     /**
-     * finds the closest roadsign to a specific point from a list of roadsigns
+     * finds the closest visible roadsign to a specific point from a list of roadsigns
      *
      * @param rs list of roadsigns
      * @param cp a point which is the position of the camera
      * @return roadsign closest to the camera
      */
-    private RoadSign findClosestRoadSign(List<RoadSign> rs, Point cp) {
+    private RoadSign findClosestRoadSign(List<RoadSign> rs, Point cp, double cr) {
         double actualDistance;
         double minDistance = Integer.MAX_VALUE;
-        int pos = 0;
+        int pos = -1;
         for (int j = 0; j < rs.size(); j++) {
-            actualDistance = cp.distance(findCenterPointOfRoadSign(rs.get(j)));
-            if (minDistance > actualDistance) {
-                minDistance = actualDistance;
-                pos = j;
+            if (isVisibleRoadSign(rs.get(j), cr)) {
+                actualDistance = cp.distance(findCenterPointOfRoadSign(rs.get(j)));
+                if (minDistance > actualDistance) {
+                    minDistance = actualDistance;
+                    pos = j;
+                }
             }
         }
-        if (rs.size() > 0) {
+        if (pos >= 0) {
             return rs.get(pos);
         } else {
             return roadSignDetectionPacket.getRoadSignToShowOnDashboard();
+        }
+    }
+
+    /** checks if the roadsign is visible for the camera
+     *
+     * @param r the roadsign
+     * @param c the rotation of the camera in radian
+     * @return the given roadsign is visible or not
+     */
+    private boolean isVisibleRoadSign(RoadSign r, double c) {
+        double roadSignDegree = Utils.radianToDegree(r.getRotation());
+        double cameraDegree = Utils.radianToDegree(c);
+        if (roadSignDegree + 70 >= cameraDegree && roadSignDegree - 70 <= cameraDegree ||
+                roadSignDegree + 70 >= cameraDegree - 360 && roadSignDegree - 70 <= cameraDegree - 360) {
+            return true;
+        } else {
+            return false;
         }
     }
 
