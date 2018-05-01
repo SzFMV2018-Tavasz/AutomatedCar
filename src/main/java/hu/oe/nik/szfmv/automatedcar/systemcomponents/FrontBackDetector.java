@@ -1,5 +1,8 @@
-package hu.oe.nik.szfmv.detector.classes;
+package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
+import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.detector.RadarSensorPacket;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Collidable;
 
@@ -7,17 +10,18 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FrontBackDetector {
+public class FrontBackDetector extends SystemComponent {
 
-    ArrayList<Collidable> previousCollidables;
+    private ArrayList<Collidable> previousCollidables;
+    private RadarSensorPacket radar;
 
     /**
      * @param worldobjects Objects from world lol
      */
-    public FrontBackDetector(List<WorldObject> worldobjects) {
-
+    public FrontBackDetector(VirtualFunctionBus vfb, List<WorldObject> worldobjects) {
+        super(vfb);
         previousCollidables = new ArrayList<>();
-
+        radar = RadarSensorPacket.getInstance();
     }
 
     /**
@@ -78,6 +82,11 @@ public class FrontBackDetector {
     private double pointToLineDistance(Point a, Point b, Point p) {
         double normalLength = Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
         return Math.abs((p.x - a.x) * (b.y - a.y) - (p.y - a.y) * (b.x - a.x)) / normalLength;
+    }
+
+    @Override
+    public void loop() throws MissingPacketException {
+
     }
 }
 

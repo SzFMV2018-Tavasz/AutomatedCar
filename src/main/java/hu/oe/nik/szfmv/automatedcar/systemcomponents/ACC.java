@@ -79,9 +79,7 @@ public class ACC extends SystemComponent {
         if (inputHandler.isAccOnPressed() && !accButPressed) {
             if (!isAccOnPressed) {
                 isAccOnPressed = true;
-            }
-
-            if (isAccOnPressed) {
+            } else {
                 isAccOnPressed = false;
             }
 
