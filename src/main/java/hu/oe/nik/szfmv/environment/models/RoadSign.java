@@ -30,6 +30,18 @@ public class RoadSign extends Stationary {
         super(0, 0, null);
     }
 
+    public int getSpeedLimit() {
+        if (this.getImageFileName().equals("roadsign_priority_stop.png")) {
+            return 0;
+        } else {
+            try {
+                return Integer.parseInt(this.imageFileName.substring(15, 17));
+            } catch (Exception e) {
+                return -1;
+            }
+        }
+
+    }
 
     @Override
     public void generateShape() {
