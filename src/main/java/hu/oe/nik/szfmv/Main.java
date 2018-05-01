@@ -65,6 +65,7 @@ public class Main {
                         car.getPowertrainValues(),
                         car.getRoadSign(),
                         (int) Math.round(car.getX()), (int) Math.round(car.getY()));
+                gui.getDashboard().handleButtonPresses();
 
                 w.checkForCollisions(car);
 

@@ -18,14 +18,39 @@ public class InputHandler implements KeyListener {
     private static final int GEARSHIFTUPKEYCODE = KeyEvent.VK_W;
     private static final int GEARSHIFTDOWNKEYCODE = KeyEvent.VK_S;
     private static final int LANEKEEPINGKEYCODE = KeyEvent.VK_L;
+    private static final int ACCONKEYCODE = KeyEvent.VK_5;
     private static final int ACCDISTANCEKEYCODE = KeyEvent.VK_T;
-    private static final int ACCSPEEDINCREMENTKEYCODE = KeyEvent.VK_PLUS;
-    private static final int ACCSPEEDDECREMENTKEYCODE = KeyEvent.VK_MINUS;
+    private static final int ACCSPEEDINCREMENTKEYCODE = 107;
+    private static final int ACCSPEEDDECREMENTKEYCODE = 109;
     private static final int PARKINGPILOTEKEYCODE = KeyEvent.VK_P;
     private static final int RADARTESTKEYCODE = KeyEvent.VK_7;
     private static final int CAMERATESTKEYCODE = KeyEvent.VK_8;
     private static final int ULTRASONICTESTKEYCODE = KeyEvent.VK_9;
     private static final int SHAPETESTKEYCODE = KeyEvent.VK_6;
+
+    public static int getLANEKEEPINGKEYCODE() {
+        return LANEKEEPINGKEYCODE;
+    }
+
+    public static int getACCONKEYCODE() {
+        return ACCONKEYCODE;
+    }
+
+    public static int getACCDISTANCEKEYCODE() {
+        return ACCDISTANCEKEYCODE;
+    }
+
+    public static int getACCSPEEDINCREMENTKEYCODE() {
+        return ACCSPEEDINCREMENTKEYCODE;
+    }
+
+    public static int getACCSPEEDDECREMENTKEYCODE() {
+        return ACCSPEEDDECREMENTKEYCODE;
+    }
+
+    public static int getPARKINGPILOTEKEYCODE() {
+        return PARKINGPILOTEKEYCODE;
+    }
 
     private static InputHandler instance = null;
     private boolean steeringLeftPressed;
@@ -47,6 +72,8 @@ public class InputHandler implements KeyListener {
     private boolean laneKeepingPressed;
 
     private boolean parkingPiloteOn;
+
+    private boolean accOnPressed;
 
     private boolean accDistancePressed;
 
@@ -113,6 +140,10 @@ public class InputHandler implements KeyListener {
 
     public boolean isParkinPilotePressed() {
         return parkingPiloteOn;
+    }
+
+    public boolean isAccOnPressed() {
+        return accOnPressed;
     }
 
     public boolean isAccDistancePressed() {
@@ -187,8 +218,12 @@ public class InputHandler implements KeyListener {
                 break;
             case (LEFTINDEXKEYCODE):
                 leftIndexPressed = state;
+                break;
             case (PARKINGPILOTEKEYCODE):
                 parkingPiloteOn = state;
+                break;
+            case (ACCONKEYCODE):
+                accOnPressed = state;
                 break;
             case (ACCDISTANCEKEYCODE):
                 accDistancePressed = state;
