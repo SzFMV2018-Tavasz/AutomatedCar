@@ -14,6 +14,39 @@ public class InputHandler implements KeyListener {
     private static final int RIGHTINDEXKEYCODE = KeyEvent.VK_1;
     private static final int LEFTINDEXKEYCODE = KeyEvent.VK_0;
     private static final int GASKEYCODE = KeyEvent.VK_UP;
+
+    public static int getLANEKEEPINGKEYCODE() {
+        return LANEKEEPINGKEYCODE;
+    }
+
+    public static int getACCONKEYCODE() {
+        return ACCONKEYCODE;
+    }
+
+    public static int getACCDISTANCEKEYCODE() {
+        return ACCDISTANCEKEYCODE;
+    }
+
+    public static int getACCSPEEDINCREMENTKEYCODE() {
+        return ACCSPEEDINCREMENTKEYCODE;
+    }
+
+    public static int getACCSPEEDDECREMENTKEYCODE() {
+        return ACCSPEEDDECREMENTKEYCODE;
+    }
+
+    public static int getACCSPEEDINCREMENTKEYCODEALT() {
+        return ACCSPEEDINCREMENTKEYCODEALT;
+    }
+
+    public static int getACCSPEEDDECREMENTKEYCODEALT() {
+        return ACCSPEEDDECREMENTKEYCODEALT;
+    }
+
+    public static int getPARKINGPILOTEKEYCODE() {
+        return PARKINGPILOTEKEYCODE;
+    }
+
     private static final int BRAKEKEYCODE = KeyEvent.VK_DOWN;
     private static final int GEARSHIFTUPKEYCODE = KeyEvent.VK_W;
     private static final int GEARSHIFTDOWNKEYCODE = KeyEvent.VK_S;

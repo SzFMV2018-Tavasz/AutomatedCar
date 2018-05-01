@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv.visualization;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
+import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 import hu.oe.nik.szfmv.environment.models.RoadSign;
 import org.apache.logging.log4j.LogManager;
@@ -32,6 +33,7 @@ public class Dashboard extends JPanel {
     private final int dashboardBoundsX = 770;
     private final int dashboardBoundsY = 0;
     private final int backgroundColor = 0x888888;
+    private final int keyEventWhen = 20;
 
     /**
      * ACC
@@ -41,7 +43,9 @@ public class Dashboard extends JPanel {
     private final int accStatePanelY = 180;
     private final int accStatePanelWidth = 130;
     private final int accStatePanelHeight = 100;
-    private final int accDecreasePressAmount = 2;
+    private int accDecreaseCurrentPressAmount = 0;
+    private final int accDecreasePressAmount = 7;
+    private boolean accDecreasePressed;
 
     private final JButton accDistanceButtonMinus = new JButton();
     private final JButton accDistanceButtonPlus = new JButton();
@@ -232,7 +236,22 @@ public class Dashboard extends JPanel {
         if (roadSignPacket != null && roadSignPacket.getRoadSignToShowOnDashboard() != null) {
             displayRoadSign(roadSignPacket.getRoadSignToShowOnDashboard());
         }
+
         updateCarPositionLabel(carX, carY);
+    }
+
+    private void distanceDecreasePressed() {
+        if (accDecreasePressed && accDecreaseCurrentPressAmount < accDecreasePressAmount) {
+            if (accDecreaseCurrentPressAmount % 2 == 0) {
+                simulateKeyPress(InputHandler.getACCDISTANCEKEYCODE());
+            } else {
+                simulateKeyRelease(InputHandler.getACCDISTANCEKEYCODE());
+            }
+            accDecreaseCurrentPressAmount++;
+        } else {
+            accDecreaseCurrentPressAmount = 0;
+            accDecreasePressed = false;
+        }
     }
 
     /**
@@ -420,34 +439,47 @@ public class Dashboard extends JPanel {
         accSpeedButtonPlus.setText("+");
         accSpeedButtonPlus.setFocusable(false);
 
-        accButton.addActionListener(e -> imitateKeyPress(KeyEvent.VK_5));
+        accButton.addActionListener(e -> simulateKeyPress(InputHandler.getACCONKEYCODE()));
         accButton.setBounds(accButtonX, accButtonY, accButtonWidth, accButtonHeight);
         accButton.setText("ACC");
         accButton.setFocusable(false);
         add(accButton);
 
-        accDistanceButtonMinus.addActionListener(e -> {
-            for (int i = 0; i < accDecreasePressAmount; i++) {
-                imitateKeyPress(KeyEvent.VK_T);
-            }
-        });
-        accDistanceButtonPlus.addActionListener(e -> imitateKeyPress(KeyEvent.VK_T));
-        accSpeedButtonMinus.addActionListener(e -> imitateKeyPress(KeyEvent.VK_MINUS));
-        accSpeedButtonPlus.addActionListener(e -> imitateKeyPress(KeyEvent.VK_ADD));
+        accDistanceButtonMinus.addActionListener(e -> accDecreasePressed = true);
+        accDistanceButtonPlus.addActionListener(e -> simulateKeyPress(InputHandler.getACCDISTANCEKEYCODE()));
+        accSpeedButtonMinus.addActionListener(e -> simulateKeyPress(InputHandler.getACCSPEEDDECREMENTKEYCODEALT()));
+        accSpeedButtonPlus.addActionListener(e -> simulateKeyPress(InputHandler.getACCSPEEDINCREMENTKEYCODEALT()));
     }
 
     /**
-     * Imitates keyboard press.
-     * @param keyCode the keycode we want to imitate
+     * Handles all the button presses on the dashboard.
      */
-    private void imitateKeyPress(int keyCode) {
-        try {
-            Robot robot = new Robot();
-            robot.keyPress(keyCode);
-            robot.keyRelease(keyCode);
-        } catch (AWTException e1) {
-            e1.printStackTrace();
-        }
+    public void handleButtonPresses() {
+        simulateKeyRelease(InputHandler.getACCDISTANCEKEYCODE());
+        distanceDecreasePressed();
+        simulateKeyRelease(InputHandler.getACCONKEYCODE());
+        simulateKeyRelease(InputHandler.getACCSPEEDDECREMENTKEYCODEALT());
+        simulateKeyRelease(InputHandler.getACCSPEEDINCREMENTKEYCODEALT());
+        simulateKeyRelease(InputHandler.getLANEKEEPINGKEYCODE());
+        simulateKeyRelease(InputHandler.getPARKINGPILOTEKEYCODE());
+    }
+
+    /**
+     * Simulates keyboard press.
+     * @param keyCode the keycode we want to simulate
+     */
+    private void simulateKeyPress(int keyCode) {
+        KeyEvent keyEvent = new KeyEvent(accButton, 1, keyEventWhen, 1, keyCode, ' ');
+        InputHandler.getInstance().keyPressed(keyEvent);
+    }
+
+    /**
+     * Simulates keyboard release.
+     * @param keyCode the keycode we want to simulate
+     */
+    private void simulateKeyRelease(int keyCode) {
+        KeyEvent keyEvent = new KeyEvent(accButton, 1, keyEventWhen, 1, keyCode, ' ');
+        InputHandler.getInstance().keyReleased(keyEvent);
     }
 
     /**
@@ -527,7 +559,7 @@ public class Dashboard extends JPanel {
      * Initializes the lka sign on the dashboard
      */
     private void initializeLka() {
-        lkaButton.addActionListener(e -> imitateKeyPress(KeyEvent.VK_L));
+        lkaButton.addActionListener(e -> simulateKeyPress(InputHandler.getLANEKEEPINGKEYCODE()));
         lkaButton.setBounds(lkaButtonX, lkaButtonY, lkaButtonWidth, lkaButtonHeight);
         lkaButton.setText("LKA");
         lkaButton.setFocusable(false);
@@ -538,7 +570,7 @@ public class Dashboard extends JPanel {
      * Initializes the pp sign on the dashboard
      */
     private void initializePp() {
-        ppButton.addActionListener(e -> imitateKeyPress(KeyEvent.VK_P));
+        ppButton.addActionListener(e -> simulateKeyPress(InputHandler.getPARKINGPILOTEKEYCODE()));
         ppButton.setBounds(ppButtonX, ppButtonY, ppButtonWidth, ppButtonHeight);
         ppButton.setText("PP");
         ppButton.setFocusable(false);
