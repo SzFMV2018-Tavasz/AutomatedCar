@@ -61,17 +61,16 @@ public class ACC extends SystemComponent {
         notPressed();
     }
 
-    private void notPressed()
-    {
-        if (!inputHandler.isAccDistancePressed()){
+    private void notPressed() {
+        if (!inputHandler.isAccDistancePressed()) {
             accdistPressed = false;
         }
 
-        if (!inputHandler.isAccSpeedIncrementPressedPressed()){
+        if (!inputHandler.isAccSpeedIncrementPressedPressed()) {
             plusPressed = false;
         }
 
-        if (!inputHandler.isAccSpeedDecrementPressedPressed()){
+        if (!inputHandler.isAccSpeedDecrementPressedPressed()) {
             minusPressed = false;
         }
     }
@@ -89,7 +88,7 @@ public class ACC extends SystemComponent {
             accButPressed = true;
         }
 
-        if (!inputHandler.isAccOnPressed()){
+        if (!inputHandler.isAccOnPressed()) {
             accButPressed = false;
         }
 

@@ -37,19 +37,19 @@ public class SensorsVisualizer extends SystemComponent {
      * if not pressed switch the booleans to false
      */
     private void notPressed() {
-        if (!inputHandler.isRadarTestPressed()){
+        if (!inputHandler.isRadarTestPressed()) {
             radarPressed = false;
         }
 
-        if (!inputHandler.isCameraTestPressed()){
+        if (!inputHandler.isCameraTestPressed()) {
             cameraPressed = false;
         }
 
-        if (!inputHandler.isUltrasonicTestPressed()){
+        if (!inputHandler.isUltrasonicTestPressed()) {
             ultraPressed = false;
         }
 
-        if (!inputHandler.isShapeBorderTestPressed()){
+        if (!inputHandler.isShapeBorderTestPressed()) {
             shapePressed = false;
         }
     }
