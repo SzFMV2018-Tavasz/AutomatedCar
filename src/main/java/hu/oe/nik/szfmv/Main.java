@@ -52,7 +52,7 @@ public class Main {
         Gui gui = new Gui();
 
         // draw world to course display
-        gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues(), car.getRoadSign(), car.getUltrasonicSensorValues());
+        gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues(), car.getUltrasonicSensorValues());
 
         while (!w.isGameOver()) {
             try {
@@ -60,7 +60,7 @@ public class Main {
                 pedestrian.moveOnCrosswalk();
                 npcCar.move();
 
-                gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues(), car.getRoadSign(), car.getUltrasonicSensorValues());
+                gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues(), car.getUltrasonicSensorValues());
                 gui.getDashboard().updateDisplayedValues(
                         car.getInputValues(),
                         car.getPowertrainValues(),
