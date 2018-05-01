@@ -45,10 +45,8 @@ public class RoadSignDetection extends SystemComponent {
         cameraPosition.y = (int)carPacket.getY();
         double cameraRotation = carPacket.getRotation();
 
-        Triangle triangle = new Triangle();
-        Point[] trianglePoints = triangle.trianglePoints(cameraPosition, CAMERARANGE, CAMERAANGLEOFVIEW,
+        Point[] trianglePoints = Triangle.trianglePoints(cameraPosition, CAMERARANGE, CAMERAANGLEOFVIEW,
                 Utils.radianToDegree(-cameraRotation) + 180);
-        trianglePoints[2] = calculateMiddlePoint(trianglePoints[1], trianglePoints[2]);
         roadSignDetectionPacket.setTrianglePoints(trianglePoints);
         List<WorldObject> worldObjects;
         worldObjects = Detector.getDetector().getWorldObjects(trianglePoints[0], trianglePoints[1], trianglePoints[2]);
@@ -60,32 +58,6 @@ public class RoadSignDetection extends SystemComponent {
             }
         }
         return findClosestRoadSign(roadSigns, cameraPosition);
-    }
-
-    /* ASCII representation
-
-                       /A
-                      / |
-                     /  |
-         camera:    <---C   <== the point we need
-                     \  |
-                      \ |
-                       \B
-     */
-
-    /**
-     * calculates the middle point between two points
-     *
-     * @param a one point
-     * @param b another point
-     * @return the point between the two points
-     */
-    private Point calculateMiddlePoint(Point a, Point b) {
-        Point c = new Point(0, 0);
-        double x = (a.getX() + b.getX()) / 2;
-        double y = (a.getY() + b.getY()) / 2;
-        c.setLocation(x, y);
-        return c;
     }
 
     /**

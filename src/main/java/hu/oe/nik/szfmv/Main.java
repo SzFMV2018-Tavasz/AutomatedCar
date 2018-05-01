@@ -46,14 +46,15 @@ public class Main {
         Gui gui = new Gui();
 
         // draw world to course display
-        gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues(), car.getRoadSign());
+        gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues(), car.getRoadSign(), car.getUltrasonicSensorValues());
 
         while (!w.isGameOver()) {
             try {
                 car.drive();
                 pedestrian.moveOnCrosswalk();
                 npcCar.move();
-                gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues(), car.getRoadSign());
+
+                gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues(), car.getRoadSign(), car.getUltrasonicSensorValues());
                 gui.getDashboard().updateDisplayedValues(
                         car.getInputValues(),
                         car.getPowertrainValues(),
