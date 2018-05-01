@@ -44,7 +44,7 @@ public class Dashboard extends JPanel {
     private final int accStatePanelWidth = 130;
     private final int accStatePanelHeight = 100;
     private int accDecreaseCurrentPressAmount = 0;
-    private final int accDecreasePressAmount = 7;
+    private final int accDecreasePressAmount = 3;
     private boolean accDecreasePressed;
 
     private final JButton accDistanceButtonMinus = new JButton();
@@ -447,8 +447,8 @@ public class Dashboard extends JPanel {
 
         accDistanceButtonMinus.addActionListener(e -> accDecreasePressed = true);
         accDistanceButtonPlus.addActionListener(e -> simulateKeyPress(InputHandler.getACCDISTANCEKEYCODE()));
-        accSpeedButtonMinus.addActionListener(e -> simulateKeyPress(InputHandler.getACCSPEEDDECREMENTKEYCODEALT()));
-        accSpeedButtonPlus.addActionListener(e -> simulateKeyPress(InputHandler.getACCSPEEDINCREMENTKEYCODEALT()));
+        accSpeedButtonMinus.addActionListener(e -> simulateKeyPress(InputHandler.getACCSPEEDDECREMENTKEYCODE()));
+        accSpeedButtonPlus.addActionListener(e -> simulateKeyPress(InputHandler.getACCSPEEDINCREMENTKEYCODE()));
     }
 
     /**
@@ -458,8 +458,8 @@ public class Dashboard extends JPanel {
         simulateKeyRelease(InputHandler.getACCDISTANCEKEYCODE());
         distanceDecreasePressed();
         simulateKeyRelease(InputHandler.getACCONKEYCODE());
-        simulateKeyRelease(InputHandler.getACCSPEEDDECREMENTKEYCODEALT());
-        simulateKeyRelease(InputHandler.getACCSPEEDINCREMENTKEYCODEALT());
+        simulateKeyRelease(InputHandler.getACCSPEEDDECREMENTKEYCODE());
+        simulateKeyRelease(InputHandler.getACCSPEEDINCREMENTKEYCODE());
         simulateKeyRelease(InputHandler.getLANEKEEPINGKEYCODE());
         simulateKeyRelease(InputHandler.getPARKINGPILOTEKEYCODE());
     }

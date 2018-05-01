@@ -14,6 +14,19 @@ public class InputHandler implements KeyListener {
     private static final int RIGHTINDEXKEYCODE = KeyEvent.VK_1;
     private static final int LEFTINDEXKEYCODE = KeyEvent.VK_0;
     private static final int GASKEYCODE = KeyEvent.VK_UP;
+    private static final int BRAKEKEYCODE = KeyEvent.VK_DOWN;
+    private static final int GEARSHIFTUPKEYCODE = KeyEvent.VK_W;
+    private static final int GEARSHIFTDOWNKEYCODE = KeyEvent.VK_S;
+    private static final int LANEKEEPINGKEYCODE = KeyEvent.VK_L;
+    private static final int ACCONKEYCODE = KeyEvent.VK_5;
+    private static final int ACCDISTANCEKEYCODE = KeyEvent.VK_T;
+    private static final int ACCSPEEDINCREMENTKEYCODE = 107;
+    private static final int ACCSPEEDDECREMENTKEYCODE = 109;
+    private static final int PARKINGPILOTEKEYCODE = KeyEvent.VK_P;
+    private static final int RADARTESTKEYCODE = KeyEvent.VK_7;
+    private static final int CAMERATESTKEYCODE = KeyEvent.VK_8;
+    private static final int ULTRASONICTESTKEYCODE = KeyEvent.VK_9;
+    private static final int SHAPETESTKEYCODE = KeyEvent.VK_6;
 
     public static int getLANEKEEPINGKEYCODE() {
         return LANEKEEPINGKEYCODE;
@@ -35,33 +48,9 @@ public class InputHandler implements KeyListener {
         return ACCSPEEDDECREMENTKEYCODE;
     }
 
-    public static int getACCSPEEDINCREMENTKEYCODEALT() {
-        return ACCSPEEDINCREMENTKEYCODEALT;
-    }
-
-    public static int getACCSPEEDDECREMENTKEYCODEALT() {
-        return ACCSPEEDDECREMENTKEYCODEALT;
-    }
-
     public static int getPARKINGPILOTEKEYCODE() {
         return PARKINGPILOTEKEYCODE;
     }
-
-    private static final int BRAKEKEYCODE = KeyEvent.VK_DOWN;
-    private static final int GEARSHIFTUPKEYCODE = KeyEvent.VK_W;
-    private static final int GEARSHIFTDOWNKEYCODE = KeyEvent.VK_S;
-    private static final int LANEKEEPINGKEYCODE = KeyEvent.VK_L;
-    private static final int ACCONKEYCODE = KeyEvent.VK_5;
-    private static final int ACCDISTANCEKEYCODE = KeyEvent.VK_T;
-    private static final int ACCSPEEDINCREMENTKEYCODE = KeyEvent.VK_PLUS;
-    private static final int ACCSPEEDDECREMENTKEYCODE = KeyEvent.VK_MINUS;
-    private static final int ACCSPEEDINCREMENTKEYCODEALT = KeyEvent.VK_ADD;
-    private static final int ACCSPEEDDECREMENTKEYCODEALT = KeyEvent.VK_SUBTRACT;
-    private static final int PARKINGPILOTEKEYCODE = KeyEvent.VK_P;
-    private static final int RADARTESTKEYCODE = KeyEvent.VK_7;
-    private static final int CAMERATESTKEYCODE = KeyEvent.VK_8;
-    private static final int ULTRASONICTESTKEYCODE = KeyEvent.VK_9;
-    private static final int SHAPETESTKEYCODE = KeyEvent.VK_6;
 
     private static InputHandler instance = null;
     private boolean steeringLeftPressed;
@@ -241,12 +230,6 @@ public class InputHandler implements KeyListener {
                 break;
             case (ACCSPEEDINCREMENTKEYCODE):
                 accSpeedIncrementPressed = state;
-                break;
-            case (ACCSPEEDINCREMENTKEYCODEALT):
-                accSpeedIncrementPressed = state;
-                break;
-            case (ACCSPEEDDECREMENTKEYCODEALT):
-                accSpeedDecrementPressed = state;
                 break;
             case (ACCSPEEDDECREMENTKEYCODE):
                 accSpeedDecrementPressed = state;
