@@ -84,12 +84,12 @@ public class RoadLaneDetector extends SystemComponent {
      */
     private Point[] trainglePoints() {
         Point startpoint = new Point();
-        int x = (int) ((car.getShape().getBounds2D().getX() + car.getShape().getBounds2D().getWidth())
-                * Math.cos(toRadians(car.getCarValues().getRotation())));
-        int y = (int) ((car.getShape().getBounds2D().getY() + car.getShape().getBounds2D().getWidth())
-                * Math.sin(toRadians(car.getCarValues().getRotation())));
-        startpoint.x = (int) (car.getShape().getBounds2D().getX() + x) / 2;
-        startpoint.y = (int) (car.getShape().getBounds2D().getY() + y) / 2;
+        int x = (int) (car.getShape().getBounds2D().getX() +
+                (car.getShape().getBounds2D().getWidth() * Math.cos(toRadians(car.getCarValues().getRotation()))));
+        int y = (int) (car.getShape().getBounds2D().getY() +
+                (car.getShape().getBounds2D().getWidth() * Math.sin(toRadians(car.getCarValues().getRotation()))));
+        startpoint.x = (int) ((car.getShape().getBounds2D().getX() + x) / 2);
+        startpoint.y = (int) ((car.getShape().getBounds2D().getY() + y) / 2);
 
         return Triangle.trianglePoints(startpoint, SENSOR_RANGE, ANGLE_OF_VIEW, car.getCarValues().getRotation());
     }
