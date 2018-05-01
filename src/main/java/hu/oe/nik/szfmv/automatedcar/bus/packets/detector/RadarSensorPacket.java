@@ -3,7 +3,7 @@ package hu.oe.nik.szfmv.automatedcar.bus.packets.detector;
 import hu.oe.nik.szfmv.environment.models.Collidable;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 
 public class RadarSensorPacket implements ReadOnlyRadarSensorPacket {
 
@@ -13,7 +13,7 @@ public class RadarSensorPacket implements ReadOnlyRadarSensorPacket {
 
     private Point[] points;
 
-    private ArrayList<Collidable> objectApproachingCenterLine;
+    private List<Collidable> objectApproachingCenterLine;
 
     /**
      * singleton
@@ -45,7 +45,7 @@ public class RadarSensorPacket implements ReadOnlyRadarSensorPacket {
     /**
      * @param al the collidable objects
      */
-    public void setObjectApproachingCenterLine(ArrayList<Collidable> al) {
+    public void setObjectApproachingCenterLine(List<Collidable> al) {
         objectApproachingCenterLine = al;
     }
 
@@ -55,7 +55,7 @@ public class RadarSensorPacket implements ReadOnlyRadarSensorPacket {
     }
 
     @Override
-    public ArrayList<Collidable> getObjectApproachingCenterline() {
+    public List<Collidable> getObjectApproachingCenterline() {
         return objectApproachingCenterLine;
     }
 

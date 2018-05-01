@@ -12,12 +12,13 @@ import java.util.List;
 
 public class FrontBackDetector extends SystemComponent {
 
-    private ArrayList<Collidable> previousCollidables;
+    private List<Collidable> previousCollidables;
     private RadarSensorPacket radar;
     private List<WorldObject> objects;
 
     /**
      * @param worldobjects Objects from world lol
+     * @param vfb          virtualfunctionbus
      */
     public FrontBackDetector(VirtualFunctionBus vfb, List<WorldObject> worldobjects) {
         super(vfb);
@@ -26,21 +27,50 @@ public class FrontBackDetector extends SystemComponent {
         radar = RadarSensorPacket.getInstance();
     }
 
-    /**
-     * @param triangle FOW of detector
-     * @return returns center line of detector
-     */
-    private Point[] createCenterLine(Polygon triangle) {
-        Point[] p = new Point[2];
-        p[0] = new Point(triangle.xpoints[0], triangle.ypoints[0]);
-        p[1] = new Point((triangle.xpoints[1] + triangle.xpoints[2]) / 2,
-                (triangle.ypoints[1] + triangle.ypoints[2]) / 2);
-
-        return p;
+    public List<Collidable> getPreviousCollidables() {
+        return previousCollidables;
     }
 
-    public ArrayList<Collidable> getPreviousCollidables() {
-        return previousCollidables;
+    /**
+     * @param traingle points of the traingle
+     * @return collidable objects in the traingle
+     */
+    private List<Collidable> getCollidableObjectsinTraingle(Point[] traingle) {
+        ArrayList<Collidable> objs = new ArrayList<>();
+        for (WorldObject w : objects) {
+            if (w instanceof Collidable) {
+                int in = 0;
+                for (int i = 0; i < traingle.length; i++) {
+                    double actdistance = pointToLineDistance(traingle[i], traingle[(i + 1) % traingle.length],
+                            new Point((int) w.getX(), (int) w.getY()));
+                    if (actdistance > 0) {
+                        break;
+                    } else {
+                        in++;
+                    }
+                }
+
+                if (in == 3) {
+                    objs.add((Collidable) w);
+                }
+            }
+        }
+
+        return objs;
+    }
+
+    /**
+     * @param traingle points of the traingle
+     * @return center line of the traingle
+     */
+    private Point[] centerLineofTraingle(Point[] traingle) {
+        Point[] centerline = new Point[2];
+        centerline[0] = traingle[0];
+        Point c = new Point();
+        c.x = (traingle[1].x + traingle[2].x) / 2;
+        c.y = (traingle[1].y + traingle[2].y) / 2;
+        centerline[1] = c;
+        return centerline;
     }
 
     /**
@@ -49,9 +79,9 @@ public class FrontBackDetector extends SystemComponent {
      * @return returns collidable objects in the triangle that are closer to the centerline
      */
     private List<Collidable> getCollidableObjectsApproachingCenterLine(Point[] centerLine,
-                                                                       ArrayList<Collidable> collidableObjectsInTriangle) {
+                                                                       List<Collidable> collidableObjectsInTriangle) {
 
-        ArrayList<Collidable> approachingCollidables = new ArrayList<Collidable>();
+        List<Collidable> approachingCollidables = new ArrayList<Collidable>();
 
 
         for (Collidable object : collidableObjectsInTriangle) {
@@ -88,7 +118,8 @@ public class FrontBackDetector extends SystemComponent {
 
     @Override
     public void loop() throws MissingPacketException {
-
+        radar.setObjectApproachingCenterLine(getCollidableObjectsApproachingCenterLine(centerLineofTraingle(radar.getTrainglePoints()),
+                getCollidableObjectsinTraingle(radar.getTrainglePoints())));
     }
 }
 
