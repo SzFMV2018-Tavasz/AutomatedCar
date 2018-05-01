@@ -55,15 +55,15 @@ public class ACC extends SystemComponent {
     private void setAccOn(){
         if (inputHandler.isAccOnPressed()){
             if (!isAccOnPressed){
-                inputPacket.setAccOn(!inputPacket.getACCOn());
                 isAccOnPressed = true;
             }
 
+            if (isAccOnPressed){
+                isAccOnPressed = false;
+            }
         }
 
-        if (!inputHandler.isAccOnPressed()){
-            isAccOnPressed = false;
-        }
+        inputPacket.setAccOn(isAccOnPressed);
     }
 
     /**
