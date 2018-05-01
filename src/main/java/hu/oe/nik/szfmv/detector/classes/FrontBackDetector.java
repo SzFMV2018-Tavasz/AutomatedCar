@@ -80,3 +80,4 @@ public class FrontBackDetector {
         return Math.abs((p.x - a.x) * (b.y - a.y) - (p.y - a.y) * (b.x - a.x)) / normalLength;
     }
 }
+

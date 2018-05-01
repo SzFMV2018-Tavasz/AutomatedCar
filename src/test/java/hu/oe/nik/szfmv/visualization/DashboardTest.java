@@ -110,6 +110,11 @@ public class DashboardTest {
         }
 
         @Override
+        public boolean getACCOn() {
+            return false;
+        }
+
+        @Override
         public int getACCTargetSpeed() {
             distanceLabelGetterCalled = true;
             return 0;
