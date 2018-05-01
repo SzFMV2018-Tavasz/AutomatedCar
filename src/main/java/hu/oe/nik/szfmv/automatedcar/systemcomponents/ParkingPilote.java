@@ -12,6 +12,8 @@ public class ParkingPilote extends SystemComponent {
 
     private boolean on;
 
+    private boolean isPressed;
+
     /**
      * Pilote constructor
      *
@@ -27,12 +29,18 @@ public class ParkingPilote extends SystemComponent {
 
     @Override
     public void loop() {
-        if (inputhandler.isParkinPilotePressed()) {
+        if (inputhandler.isParkinPilotePressed() && !isPressed) {
             if (!on) {
                 on = true;
             } else {
                 on = false;
             }
+
+            isPressed = true;
+        }
+
+        if (!inputhandler.isParkinPilotePressed()) {
+            isPressed = false;
         }
 
         packet.setParkingPiloteStatus(on);

@@ -12,6 +12,10 @@ import org.apache.logging.log4j.Logger;
 public class Main {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final int CYCLE_PERIOD = 40;
+    private static final int PARKING_NPC_X = 535;
+    private static final int PARKING_NPC1_Y = 1235;
+    private static final int PARKING_NPC2_Y = 1835;
+    private static final String RED_CAR = "car_2_red.png";
 
     /**
      * Main entrypoint of the software
@@ -36,8 +40,10 @@ public class Main {
         // add car to the world
         w.addObjectToWorld(car);
 
-        NpcCar npcCar = new NpcCar(w, 500, 500, "car_2_red.png");
+        NpcCar npcCar = new NpcCar(w, 500, 500, RED_CAR);
         w.addObjectToWorld(npcCar);
+
+        createParkingCarNPCs(w);
 
         Pedestrian pedestrian = new Pedestrian(pedestrianX, pedestrianY, "man.png");
         w.addObjectToWorld(pedestrian);
@@ -60,6 +66,7 @@ public class Main {
                         car.getPowertrainValues(),
                         car.getRoadSign(),
                         (int) Math.round(car.getX()), (int) Math.round(car.getY()));
+                gui.getDashboard().handleButtonPresses();
 
                 w.checkForCollisions(car);
 
@@ -68,5 +75,19 @@ public class Main {
                 LOGGER.error(e.getMessage());
             }
         }
+    }
+
+    /**
+     * Creates the parking car NPCs.
+     * @param w the world the cars are put into
+     */
+    private static void createParkingCarNPCs(World w) {
+        NpcCar parkingCar1 = new NpcCar(w, PARKING_NPC_X, PARKING_NPC1_Y, RED_CAR);
+        parkingCar1.setRotation(0);
+        w.addObjectToWorld(parkingCar1);
+
+        NpcCar parkingCar2 = new NpcCar(w, PARKING_NPC_X, PARKING_NPC2_Y, RED_CAR);
+        parkingCar2.setRotation(0);
+        w.addObjectToWorld(parkingCar2);
     }
 }
