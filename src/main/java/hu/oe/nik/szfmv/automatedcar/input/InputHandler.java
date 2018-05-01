@@ -20,8 +20,10 @@ public class InputHandler implements KeyListener {
     private static final int LANEKEEPINGKEYCODE = KeyEvent.VK_L;
     private static final int ACCONKEYCODE = KeyEvent.VK_5;
     private static final int ACCDISTANCEKEYCODE = KeyEvent.VK_T;
-    private static final int ACCSPEEDINCREMENTKEYCODE = KeyEvent.VK_ADD;
+    private static final int ACCSPEEDINCREMENTKEYCODE = KeyEvent.VK_PLUS;
     private static final int ACCSPEEDDECREMENTKEYCODE = KeyEvent.VK_MINUS;
+    private static final int ACCSPEEDINCREMENTKEYCODEALT = KeyEvent.VK_ADD;
+    private static final int ACCSPEEDDECREMENTKEYCODEALT = KeyEvent.VK_SUBTRACT;
     private static final int PARKINGPILOTEKEYCODE = KeyEvent.VK_P;
     private static final int RADARTESTKEYCODE = KeyEvent.VK_7;
     private static final int CAMERATESTKEYCODE = KeyEvent.VK_8;
@@ -206,6 +208,12 @@ public class InputHandler implements KeyListener {
                 break;
             case (ACCSPEEDINCREMENTKEYCODE):
                 accSpeedIncrementPressed = state;
+                break;
+            case (ACCSPEEDINCREMENTKEYCODEALT):
+                accSpeedIncrementPressed = state;
+                break;
+            case (ACCSPEEDDECREMENTKEYCODEALT):
+                accSpeedDecrementPressed = state;
                 break;
             case (ACCSPEEDDECREMENTKEYCODE):
                 accSpeedDecrementPressed = state;
