@@ -14,12 +14,14 @@ public class FrontBackDetector extends SystemComponent {
 
     private ArrayList<Collidable> previousCollidables;
     private RadarSensorPacket radar;
+    private List<WorldObject> objects;
 
     /**
      * @param worldobjects Objects from world lol
      */
     public FrontBackDetector(VirtualFunctionBus vfb, List<WorldObject> worldobjects) {
         super(vfb);
+        objects = worldobjects;
         previousCollidables = new ArrayList<>();
         radar = RadarSensorPacket.getInstance();
     }
@@ -46,8 +48,8 @@ public class FrontBackDetector extends SystemComponent {
      * @param collidableObjectsInTriangle objects that are collidable in triangle
      * @return returns collidable objects in the triangle that are closer to the centerline
      */
-    List<Collidable> getCollidableObjectsApproachingCenterLine(Point[] centerLine,
-                                                               ArrayList<Collidable> collidableObjectsInTriangle) {
+    private List<Collidable> getCollidableObjectsApproachingCenterLine(Point[] centerLine,
+                                                                       ArrayList<Collidable> collidableObjectsInTriangle) {
 
         ArrayList<Collidable> approachingCollidables = new ArrayList<Collidable>();
 
