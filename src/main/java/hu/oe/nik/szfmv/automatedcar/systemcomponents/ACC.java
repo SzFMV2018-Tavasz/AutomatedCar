@@ -52,13 +52,13 @@ public class ACC extends SystemComponent {
 
     }
 
-    private void setAccOn(){
-        if (inputHandler.isAccOnPressed()){
-            if (!isAccOnPressed){
+    private void setAccOn() {
+        if (inputHandler.isAccOnPressed()) {
+            if (!isAccOnPressed) {
                 isAccOnPressed = true;
             }
 
-            if (isAccOnPressed){
+            if (isAccOnPressed) {
                 isAccOnPressed = false;
             }
         }
