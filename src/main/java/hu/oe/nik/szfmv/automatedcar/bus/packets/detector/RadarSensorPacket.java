@@ -45,7 +45,7 @@ public class RadarSensorPacket implements ReadOnlyRadarSensorPacket {
     }
 
     @Override
-    public Point[] getTrainglePoints() {
+    public Point[] getTrianglePoints() {
         return points;
     }
 }
