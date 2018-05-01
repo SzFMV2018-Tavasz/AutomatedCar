@@ -12,10 +12,11 @@ import java.util.List;
 
 public class FrontBackDetector extends SystemComponent {
 
+    private static final int TRAINGLE_SIDE = 3;
+
     private List<Collidable> previousCollidables;
     private RadarSensorPacket radar;
     private List<WorldObject> objects;
-    private static final int TRAINGLE_SIDE = 3;
 
     /**
      * @param worldobjects Objects from world lol
