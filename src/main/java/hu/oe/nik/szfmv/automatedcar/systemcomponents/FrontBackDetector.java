@@ -15,6 +15,7 @@ public class FrontBackDetector extends SystemComponent {
     private List<Collidable> previousCollidables;
     private RadarSensorPacket radar;
     private List<WorldObject> objects;
+    private static final int TRAINGLE_SIDE = 3;
 
     /**
      * @param worldobjects Objects from world lol
@@ -50,7 +51,7 @@ public class FrontBackDetector extends SystemComponent {
                     }
                 }
 
-                if (in == 3) {
+                if (in == TRAINGLE_SIDE) {
                     objs.add((Collidable) w);
                 }
             }
@@ -95,7 +96,8 @@ public class FrontBackDetector extends SystemComponent {
             }
 
             if (previousCollidable == null ||
-                    pointToLineDistance(centerLine[0], centerLine[1], (Point) object.getLocation()) <
+                    pointToLineDistance(centerLine[0], centerLine[1],
+                            (Point) object.getLocation()) <
                             pointToLineDistance(centerLine[0], centerLine[1], (Point) previousCollidable.getLocation())) {
                 approachingCollidables.add(object);
             }
@@ -118,7 +120,8 @@ public class FrontBackDetector extends SystemComponent {
 
     @Override
     public void loop() throws MissingPacketException {
-        radar.setObjectApproachingCenterLine(getCollidableObjectsApproachingCenterLine(centerLineofTraingle(radar.getTrainglePoints()),
+        radar.setObjectApproachingCenterLine(getCollidableObjectsApproachingCenterLine(
+                centerLineofTraingle(radar.getTrainglePoints()),
                 getCollidableObjectsinTraingle(radar.getTrainglePoints())));
     }
 }
