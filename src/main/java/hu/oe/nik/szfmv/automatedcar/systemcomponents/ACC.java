@@ -15,6 +15,10 @@ public class ACC extends SystemComponent {
     private static final double MAX_ACC_DISTANCE = 1.4;
 
     private boolean isAccOnPressed = false;
+    private boolean accButPressed;
+    private boolean plusPressed;
+    private boolean minusPressed;
+    private boolean accdistPressed;
     private double accDistanceValue;
     private int accSpeedValue;
     private final InputPacket inputPacket;
@@ -38,14 +42,19 @@ public class ACC extends SystemComponent {
 
     @Override
     public void loop() {
-        if (inputHandler.isAccDistancePressed()) {
+        if (inputHandler.isAccDistancePressed() && !accdistPressed) {
             rotateDistanceValue();
+            accdistPressed = true;
         }
-        if (inputHandler.isAccSpeedIncrementPressedPressed() && !inputHandler.isAccSpeedDecrementPressedPressed()) {
+        if (inputHandler.isAccSpeedIncrementPressedPressed() && !inputHandler.isAccSpeedDecrementPressedPressed()
+                && !plusPressed) {
             setAccSpeedValue(+ACCSPEEDSTEPVALUE);
+            plusPressed = true;
         }
-        if (!inputHandler.isAccSpeedIncrementPressedPressed() && inputHandler.isAccSpeedDecrementPressedPressed()) {
+        if (!inputHandler.isAccSpeedIncrementPressedPressed() && inputHandler.isAccSpeedDecrementPressedPressed()
+                && !minusPressed) {
             setAccSpeedValue(-ACCSPEEDSTEPVALUE);
+            minusPressed = true;
         }
         if (isAccOnPressed && inputHandler.isBrakePressed()) {
             turnAccOff();
@@ -62,9 +71,23 @@ public class ACC extends SystemComponent {
         setAccOn();
         inputPacket.setAccDistanceValue(accDistanceValue);
         inputPacket.setAccSpeedValue(accSpeedValue);
+        notPressed();
     }
 
+    private void notPressed() {
+        if (!inputHandler.isAccDistancePressed()) {
+            accdistPressed = false;
+        }
 
+
+        if (!inputHandler.isAccSpeedIncrementPressedPressed()) {
+            plusPressed = false;
+        }
+
+        if (!inputHandler.isAccSpeedDecrementPressedPressed()) {
+            minusPressed = false;
+        }
+    }
 
     private void setAccOn() {
         if (inputHandler.isAccOnPressed()) {
@@ -77,6 +100,7 @@ public class ACC extends SystemComponent {
         if (!inputHandler.isAccOnPressed()) {
             isAccOnPressed = false;
         }
+        inputPacket.setAccOn(isAccOnPressed);
     }
 
     private void turnAccOff() {
