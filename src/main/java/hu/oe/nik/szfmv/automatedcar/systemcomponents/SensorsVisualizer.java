@@ -5,7 +5,6 @@ import hu.oe.nik.szfmv.automatedcar.bus.packets.input.InputPacket;
 import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
 
 
-
 public class SensorsVisualizer extends SystemComponent {
 
     private InputHandler inputHandler;
@@ -14,6 +13,10 @@ public class SensorsVisualizer extends SystemComponent {
     private boolean cameraVizualizerPressed;
     private boolean ultrasonicVizualizerPressed;
     private boolean shapeVizualizerPressed;
+    private boolean radarPressed;
+    private boolean cameraPressed;
+    private boolean ultraPressed;
+    private boolean shapePressed;
 
     /**
      * @param virtualFunctionBus VirtualFunctuonBus parameter
@@ -30,24 +33,54 @@ public class SensorsVisualizer extends SystemComponent {
         shapeVizualizerPressed = false;
     }
 
+    /**
+     * if not pressed switch the booleans to false
+     */
+    private void notPressed() {
+        if (!inputHandler.isRadarTestPressed()){
+            radarPressed = false;
+        }
+
+        if (!inputHandler.isCameraTestPressed()){
+            cameraPressed = false;
+        }
+
+        if (!inputHandler.isUltrasonicTestPressed()){
+            ultraPressed = false;
+        }
+
+        if (!inputHandler.isShapeBorderTestPressed()){
+            shapePressed = false;
+        }
+    }
+
     @Override
     public void loop() {
-        if (inputHandler.isRadarTestPressed()) {
+        if (inputHandler.isRadarTestPressed() && !radarPressed) {
             radarVizualizerPressed = !radarVizualizerPressed;
             inputPacket.setRadarVizualizerState(radarVizualizerPressed);
+            radarPressed = true;
         }
-        if (inputHandler.isCameraTestPressed()) {
+
+        if (inputHandler.isCameraTestPressed() && !cameraPressed) {
             cameraVizualizerPressed = !cameraVizualizerPressed;
             inputPacket.setCameraVizualizerState(cameraVizualizerPressed);
+            cameraPressed = true;
         }
-        if (inputHandler.isUltrasonicTestPressed()) {
+
+        if (inputHandler.isUltrasonicTestPressed() && !ultraPressed) {
             ultrasonicVizualizerPressed = !ultrasonicVizualizerPressed;
             inputPacket.setUltrasonicVizualizerState(ultrasonicVizualizerPressed);
+            ultraPressed = true;
         }
-        if (inputHandler.isShapeBorderTestPressed()) {
+
+        if (inputHandler.isShapeBorderTestPressed() && !shapePressed) {
             shapeVizualizerPressed = !shapeVizualizerPressed;
             inputPacket.setShapeBorderVizualizerState(shapeVizualizerPressed);
+            shapePressed = true;
         }
+
+        notPressed();
     }
 }
 
