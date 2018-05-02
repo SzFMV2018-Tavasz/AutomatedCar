@@ -44,8 +44,8 @@ public class AutomatedCar extends WorldObject {
 
         final int fullCircle = 360;
         final int carTestRotation = 90;
-        final int carWidth = 108;
-        final int carHeight = 240;
+        final int carWidth = 102;
+        final int carHeight = 208;
 
         setRotation(Math.toRadians(fullCircle - carTestRotation));
         wheelBase = carHeight;
@@ -61,12 +61,13 @@ public class AutomatedCar extends WorldObject {
         new GearShift(virtualFunctionBus);
         new SensorsVisualizer(virtualFunctionBus);
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
-        new RoadLaneDetector(virtualFunctionBus, this);
-        new FrontBackDetector(virtualFunctionBus, Detector.getDetector().getWorldObjects());
 
         new ACC(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         steeringWheel = new SteeringWheel(virtualFunctionBus);
+
+        new RoadLaneDetector(virtualFunctionBus, this);
+        new FrontBackDetector(virtualFunctionBus, Detector.getDetector().getWorldObjects());
 
         new RoadSignDetection(virtualFunctionBus);
         reverseRadar = new ReverseRadar(virtualFunctionBus);

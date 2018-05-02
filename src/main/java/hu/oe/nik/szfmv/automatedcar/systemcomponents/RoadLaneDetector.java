@@ -4,6 +4,7 @@ import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.detector.RadarSensorPacket;
+import hu.oe.nik.szfmv.common.Utils;
 import hu.oe.nik.szfmv.detector.classes.Detector;
 import hu.oe.nik.szfmv.detector.classes.Triangle;
 import hu.oe.nik.szfmv.environment.WorldObject;
@@ -17,8 +18,6 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Math.toRadians;
-
 public class RoadLaneDetector extends SystemComponent {
 
     private static final Logger LOGGER = LogManager.getLogger(RoadLaneDetector.class);
@@ -29,7 +28,7 @@ public class RoadLaneDetector extends SystemComponent {
 
     private static final double SENSOR_RANGE = 200d;
 
-    private static final double ANGLE_OF_VIEW = 120d;
+    private static final double ANGLE_OF_VIEW = 60d;
 
     private List<WorldObject> worldObjects;
 
@@ -84,14 +83,13 @@ public class RoadLaneDetector extends SystemComponent {
      */
     private Point[] trainglePoints() {
         Point startpoint = new Point();
-        int x = (int) (car.getShape().getBounds2D().getX() +
-                (car.getShape().getBounds2D().getWidth() * Math.cos(toRadians(car.getCarValues().getRotation()))));
-        int y = (int) (car.getShape().getBounds2D().getY() +
-                (car.getShape().getBounds2D().getWidth() * Math.sin(toRadians(car.getCarValues().getRotation()))));
-        startpoint.x = (int) ((car.getShape().getBounds2D().getX() + x) / 2);
-        startpoint.y = (int) ((car.getShape().getBounds2D().getY() + y) / 2);
+        int rY = (car.getHeight() / 2) - 10;
+        startpoint.x = (int) (car.getX() + Math.cos(-car.getRotation() + Math.PI) -
+                rY * Math.sin(-car.getRotation() + Math.PI));
+        startpoint.y = (int) (car.getY() + Math.sin(-car.getRotation() + Math.PI) +
+                rY * Math.cos(-car.getRotation() + Math.PI));
 
-        return Triangle.trianglePoints(startpoint, SENSOR_RANGE, ANGLE_OF_VIEW, car.getCarValues().getRotation());
+        return Triangle.trianglePoints(startpoint, SENSOR_RANGE, ANGLE_OF_VIEW, Utils.radianToDegree(-car.getRotation()) + 180);
     }
 
     /**
@@ -99,8 +97,9 @@ public class RoadLaneDetector extends SystemComponent {
      */
     private boolean onRoad() {
         for (Road r : roads) {
-            if (r.getShape().intersects(car.getShape().getBounds2D())) {
-                LOGGER.info("on the road!");
+            if (r.getShape().intersects(car.getShape().getBounds2D().getX(), car.getShape().getBounds2D().getY(),
+                    car.getShape().getBounds2D().getWidth(), car.getShape().getBounds2D().getHeight())) {
+                LOGGER.error("on the road fuck yeah");
                 return true;
             }
         }
