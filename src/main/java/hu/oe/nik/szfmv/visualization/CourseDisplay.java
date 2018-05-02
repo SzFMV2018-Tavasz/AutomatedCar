@@ -198,7 +198,7 @@ public class CourseDisplay extends JPanel {
             drawSensor(RadarSensorPacket.getInstance().getTrianglePoints(), offset, Color.RED, g);
         }
         if (inputPacket.getUltrasonicVizualizerStatus()) {
-            for(Point[] t : ultrasonicSensorPacket.getUltrasonicSensorTriangles()) {
+            for (Point[] t : ultrasonicSensorPacket.getUltrasonicSensorTriangles()) {
                 drawSensor(t, offset, Color.GREEN, g);
             }
         }
