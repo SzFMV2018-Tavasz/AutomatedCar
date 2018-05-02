@@ -13,15 +13,10 @@ import hu.oe.nik.szfmv.environment.models.Road;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.rmi.CORBA.Util;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
-import static java.lang.Math.toRadians;
 
 public class RoadLaneDetector extends SystemComponent {
 
