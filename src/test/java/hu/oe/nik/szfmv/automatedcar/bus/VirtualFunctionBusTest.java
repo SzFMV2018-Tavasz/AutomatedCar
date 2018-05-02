@@ -1,7 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.bus;
 
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
-import hu.oe.nik.szfmv.automatedcar.bus.powertrain.PowertrainTestPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.powertrain.PowertrainTestPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
 import org.junit.Before;
 import org.junit.Test;
