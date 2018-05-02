@@ -1,10 +1,14 @@
 package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.powertrain.ReadOnlyPowertrainPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
+import hu.oe.nik.szfmv.environment.models.RoadSign;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.awt.*;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -24,6 +28,7 @@ public class DashboardTest {
     private boolean gearStateGetterCalled = false;
     private boolean rpmGetterCalled = false;
     private boolean speedGetterCalled = false;
+    private boolean roadSignGetterCalled = false;
 
     /**
      * Sets all the boolean values that indicate method calls to false before the tests are run.
@@ -40,6 +45,7 @@ public class DashboardTest {
         steeringWheelGetterCalled = false;
         rpmGetterCalled = false;
         speedGetterCalled = false;
+        roadSignGetterCalled = false;
     }
 
     /**
@@ -49,9 +55,10 @@ public class DashboardTest {
     public void allRequiredValuesReceivedOnUpdate() {
         InputPacketStub inputPacket = new InputPacketStub();
         PowertrainPacketStub powertrainPacket = new PowertrainPacketStub();
+        RoadSignPacketStub roadSignPacketStub = new RoadSignPacketStub();
         int carX = 0;
         int carY = 0;
-        dashboard.updateDisplayedValues(inputPacket, powertrainPacket, carX, carY);
+        dashboard.updateDisplayedValues(inputPacket, powertrainPacket, roadSignPacketStub, carX, carY);
 
         assertThat(gasPedalGetterCalled, is(true));
         assertThat(breakPedalGetterCalled, is(true));
@@ -65,6 +72,7 @@ public class DashboardTest {
         assertThat(steeringWheelGetterCalled, is(true));
         assertThat(rpmGetterCalled, is(true));
         assertThat(speedGetterCalled, is(true));
+        assertThat(roadSignGetterCalled, is(true));
     }
 
     class PowertrainPacketStub implements ReadOnlyPowertrainPacket {
@@ -98,6 +106,11 @@ public class DashboardTest {
         public double getSteeringWheelPosition() {
             steeringWheelGetterCalled = true;
             return 0;
+        }
+
+        @Override
+        public boolean getACCOn() {
+            return false;
         }
 
         @Override
@@ -155,6 +168,24 @@ public class DashboardTest {
         @Override
         public boolean getUltrasonicVizualizerStatus() {
             return false;
+        }
+
+        @Override
+        public boolean getShapeBorderVizualizerState() {
+            return false;
+        }
+    }
+
+    private class RoadSignPacketStub implements ReadOnlyRoadSignDetectionPacket {
+        @Override
+        public RoadSign getRoadSignToShowOnDashboard() {
+            roadSignGetterCalled = true;
+            return new RoadSign(0,0, "2_crossroad_1.png");
+        }
+
+        @Override
+        public Point[] getTrianglePoints() {
+            return new Point[0];
         }
     }
 }

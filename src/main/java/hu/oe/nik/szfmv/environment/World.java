@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 public class World implements IWorld {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private static Detector detector;
     private int width = 0;
     private int height = 0;
     private List<WorldObject> worldObjects = new ArrayList<>();
@@ -35,7 +34,10 @@ public class World implements IWorld {
         this.width = width;
         this.height = height;
         this.build("src/main/resources/test.xml");
-        detector = new Detector(worldObjects);
+        //create detector
+        Detector d = Detector.getDetector();
+        //set detector's list
+        d.setWorldObjects(getWorldObjects());
     }
 
     public int getWidth() {
@@ -58,14 +60,7 @@ public class World implements IWorld {
         return worldObjects;
     }
 
-    /**
-     * @return class responsible for sensor functionality
-     */
-    public static Detector getDetector() {
-        return detector;
-    }
-
-    /**
+     /**
      * Add an object to the virtual world.
      *
      * @param o {@link WorldObject} to be added to the virtual world
@@ -126,5 +121,6 @@ public class World implements IWorld {
      */
     public boolean isColliding(WorldObject a, WorldObject b) {
         return a.getShape().intersects(b.getShape().getBounds2D());
+
     }
 }

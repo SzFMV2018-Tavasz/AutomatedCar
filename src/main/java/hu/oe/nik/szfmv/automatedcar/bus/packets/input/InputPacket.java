@@ -22,6 +22,8 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     private boolean parkingPilote;
 
+    private boolean accOn;
+
     private double accDistanceValue;
 
     private int accSpeedValue;
@@ -31,6 +33,8 @@ public class InputPacket implements ReadOnlyInputPacket {
     private boolean cameraVizualizerState;
 
     private boolean ultrasonicVizualizerState;
+
+    private boolean shapeBorderVizualizerState;
 
     /**
      * Inpuutpacket
@@ -61,6 +65,8 @@ public class InputPacket implements ReadOnlyInputPacket {
         parkingPilote = value;
     }
 
+    public void setAccOn(boolean state) { accOn = state; }
+
     public void setAccDistanceValue(double value) {
         accDistanceValue = value;
     }
@@ -73,6 +79,10 @@ public class InputPacket implements ReadOnlyInputPacket {
         this.laneKeepingOn = value;
     }
 
+    public void setLeftTurnSignalStatus(boolean leftIndexOn) {
+        this.leftIndexOn = leftIndexOn;
+    }
+
     public void setRightTurnSignalStatus(boolean rightIndexOn) {
         this.rightIndexOn = rightIndexOn;
     }
@@ -82,11 +92,15 @@ public class InputPacket implements ReadOnlyInputPacket {
     }
 
     public void setCameraVizualizerState(boolean cameraVizualizerState) {
-        this.radarVizualizerState = radarVizualizerState;
+        this.cameraVizualizerState = cameraVizualizerState;
     }
 
     public void setUltrasonicVizualizerState(boolean ultrasonicVizualizerState) {
         this.ultrasonicVizualizerState = ultrasonicVizualizerState;
+    }
+
+    public void setShapeBorderVizualizerState(boolean shapeBorderVizualizerState) {
+        this.shapeBorderVizualizerState = shapeBorderVizualizerState;
     }
 
 
@@ -108,6 +122,9 @@ public class InputPacket implements ReadOnlyInputPacket {
     public double getSteeringWheelPosition() {
         return steeringWheelPosition;
     }
+
+    @Override
+    public boolean getACCOn() { return accOn; }
 
     @Override
     public int getACCTargetSpeed() {
@@ -139,10 +156,6 @@ public class InputPacket implements ReadOnlyInputPacket {
         return leftIndexOn;
     }
 
-    public void setLeftTurnSignalStatus(boolean leftIndexOn) {
-        this.leftIndexOn = leftIndexOn;
-    }
-
     @Override
     public boolean getRightTurnSignalStatus() {
         return rightIndexOn;
@@ -163,5 +176,8 @@ public class InputPacket implements ReadOnlyInputPacket {
         return ultrasonicVizualizerState;
     }
 
-
+    @Override
+    public boolean getShapeBorderVizualizerState() {
+        return shapeBorderVizualizerState;
+    }
 }

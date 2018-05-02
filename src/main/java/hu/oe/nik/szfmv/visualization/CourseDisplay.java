@@ -2,6 +2,10 @@ package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.detector.RadarSensorPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.RoadSignDetectionPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.ultrasonicsensor.ReadOnlyUltrasonicSensorPacket;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Movable;
@@ -40,7 +44,10 @@ public class CourseDisplay extends JPanel {
     private final int courseHeight = 3000;
 
     private CarPacket carPacket = null;
+    private ReadOnlyInputPacket inputPacket = null;
+    private ReadOnlyUltrasonicSensorPacket ultrasonicSensorPacket = null;
     private World world;
+
     // roadsigns and trees
     private BufferedImage staticEnvironmentZ1 = null;
     // other static objects
@@ -54,7 +61,7 @@ public class CourseDisplay extends JPanel {
         setLayout(null);
         setBounds(0, 0, width, height);
         setBackground(new Color(backgroundColor));
-        // Loa reference points from xml
+        // Load reference points from xml
         try {
             DrawUtils.loadReferencePoints(referencePoints, referencePointsURI);
         } catch (ParserConfigurationException | IOException | SAXException e) {
@@ -121,14 +128,18 @@ public class CourseDisplay extends JPanel {
 
     /**
      * Draws the world to the course display
-     *
-     * @param world     {@link World} object that describes the virtual world
-     * @param carPacket {@link CarPacket} Packet that contains the location of the automated car
+     * @param world       {@link World} object that describes the virtual world
+     * @param carPacket   {@link CarPacket} Packet that contains the location of the automated car
+     * @param inputPacket {@link ReadOnlyInputPacket} contains key states for debugging
+     * @param ultrasonicSensorPacket {@link ReadOnlyUltrasonicSensorPacket} contains the triangles of ultrasonic sensors
      */
-    public void drawWorld(World world, CarPacket carPacket) {
+    public void drawWorld(World world, CarPacket carPacket, ReadOnlyInputPacket inputPacket,
+                          ReadOnlyUltrasonicSensorPacket ultrasonicSensorPacket) {
         invalidate();
         this.world = world;
         this.carPacket = carPacket;
+        this.inputPacket = inputPacket;
+        this.ultrasonicSensorPacket = ultrasonicSensorPacket;
         validate();
         repaint();
     }
@@ -177,9 +188,31 @@ public class CourseDisplay extends JPanel {
                 drawWorldObject(object, g, offset.getX(), offset.getY());
             }
         }
+        // draw sensor scopes depending on debug settings
+        if (inputPacket.getCameraVizualizerStatus()) {
+            drawSensor(RoadSignDetectionPacket.getInstance().getTrianglePoints(), offset, Color.BLUE, g);
+        }
+        if (inputPacket.getRadarVizualizerStatus()) {
+            drawSensor(RadarSensorPacket.getInstance().getTrianglePoints(), offset, Color.RED, g);
+        }
+        if (inputPacket.getUltrasonicVizualizerStatus()) {
+            for (Point[] t : ultrasonicSensorPacket.getUltrasonicSensorTriangles()) {
+                drawSensor(t, offset, Color.GREEN, g);
+            }
+        }
         // draw stationary children (Tree, Road sign)
         g.drawImage(staticEnvironmentZ1, (int) (offset.getX() * scale), (int) (offset.getY() * scale), this);
-        drawShapesDebug(g, offset.getX(), offset.getY());
+        if (inputPacket.getShapeBorderVizualizerState())
+            drawShapesDebug(g, offset.getX(), offset.getY());
+    }
+
+    private void drawSensor(Point[] trianglePoints, java.awt.geom.Point2D offset, Color color, Graphics graphics) {
+        int[] x = {(int) ((trianglePoints[0].x + offset.getX()) * scale),
+                (int) ((trianglePoints[1].x + offset.getX()) * scale), (int) ((trianglePoints[2].x + offset.getX()) * scale)};
+        int[] y = {(int) ((trianglePoints[0].y + offset.getY()) * scale),
+                (int) ((trianglePoints[1].y + offset.getY()) * scale), (int) ((trianglePoints[2].y + offset.getY()) * scale)};
+        graphics.setColor(color);
+        graphics.drawPolygon(x, y, 3);
     }
 
     private void drawShapesDebug(Graphics g, double offsetX, double offsetY) {
@@ -196,5 +229,4 @@ public class CourseDisplay extends JPanel {
         }
         g.drawImage(staticEnvironmentZ1, (int) (offsetX * scale), (int) (offsetY * scale), this);
     }
-
 }

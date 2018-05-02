@@ -4,13 +4,19 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.powertrain.ReadOnlyPowertrainPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.ultrasonicsensor.ReadOnlyUltrasonicSensorPacket;
+import hu.oe.nik.szfmv.automatedcar.sensors.UltrasonicSensor;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
+import hu.oe.nik.szfmv.detector.classes.Detector;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AutomatedCar extends WorldObject {
 
@@ -21,7 +27,9 @@ public class AutomatedCar extends WorldObject {
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
     private SteeringWheel steeringWheel;
+    private final List<UltrasonicSensor> ultrasonicSensors = new ArrayList<>();
     private ReverseRadar reverseRadar;
+
 
     /**
      * Constructor of the AutomatedCar class
@@ -30,14 +38,13 @@ public class AutomatedCar extends WorldObject {
      * @param y             the initial y coordinate of the car
      * @param imageFileName name of the image file used displaying the car on the course display
      */
-
     public AutomatedCar(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
 
         final int fullCircle = 360;
         final int carTestRotation = 90;
-        final int carWidth = 108;
-        final int carHeight = 240;
+        final int carWidth = 102;
+        final int carHeight = 208;
 
         setRotation(Math.toRadians(fullCircle - carTestRotation));
         wheelBase = carHeight;
@@ -53,21 +60,28 @@ public class AutomatedCar extends WorldObject {
         new GearShift(virtualFunctionBus);
         new SensorsVisualizer(virtualFunctionBus);
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
+
+        new ACC(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         steeringWheel = new SteeringWheel(virtualFunctionBus);
+
+        new RoadLaneDetector(virtualFunctionBus, this);
+        new FrontBackDetector(virtualFunctionBus, Detector.getDetector().getWorldObjects());
+
+        new RoadSignDetection(virtualFunctionBus);
         reverseRadar = new ReverseRadar(virtualFunctionBus);
+        UltrasonicSensor.createUltrasonicSensors(this, virtualFunctionBus);
 
         new Driver(virtualFunctionBus);
     }
-
 
     /**
      * Provides a sample method for modifying the position of the car.
      */
     public void drive() {
         try {
-            virtualFunctionBus.loop();
             calculatePositionAndOrientation();
+            virtualFunctionBus.loop();
             generateShape();
         } catch (MissingPacketException e) {
             LOGGER.error(e);
@@ -78,8 +92,14 @@ public class AutomatedCar extends WorldObject {
      * Calculates the new x and y coordinates of the {@link AutomatedCar} using the powertrain and the steering systems.
      */
     private void calculatePositionAndOrientation() {
+        double carSpeed;
+        if (virtualFunctionBus.inputPacket.getACCOn()) {
+            carSpeed = virtualFunctionBus.inputPacket.getACCTargetSpeed();
 
-        final double carSpeed = virtualFunctionBus.powertrainPacket.getSpeed();
+        } else {
+            carSpeed = virtualFunctionBus.powertrainPacket.getSpeed();
+
+        }
         double angularSpeed = 0;
         final double fps = 1;
         final int threeQuarterCircle = 270;
@@ -121,7 +141,6 @@ public class AutomatedCar extends WorldObject {
         return virtualFunctionBus.inputPacket;
     }
 
-
     /**
      * Gets the car values which needs to change the car position
      *
@@ -138,5 +157,33 @@ public class AutomatedCar extends WorldObject {
      */
     public ReadOnlyPowertrainPacket getPowertrainValues() {
         return virtualFunctionBus.powertrainPacket;
+    }
+
+
+    /**
+     * Gets the roadsign closest to the car
+     *
+     * @return roadsigndetection packet
+     */
+    public ReadOnlyRoadSignDetectionPacket getRoadSign() {
+        return virtualFunctionBus.roadSignDetectionPacket;
+    }
+
+    /**
+     * Gets the ultrasonic sensors packet
+     *
+     * @return ultrasonic sensors packet
+     */
+    public ReadOnlyUltrasonicSensorPacket getUltrasonicSensorValues() {
+        return virtualFunctionBus.ultrasonicSensorPacket;
+
+        /**
+         * Gets the list of ultrasonic sensors
+         * @return the list of ultrasonic sensors
+         */
+    }
+
+    public List<UltrasonicSensor> getUltrasonicSensors() {
+        return ultrasonicSensors;
     }
 }

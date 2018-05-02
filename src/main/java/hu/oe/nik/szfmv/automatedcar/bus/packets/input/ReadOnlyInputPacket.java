@@ -24,6 +24,14 @@ public interface ReadOnlyInputPacket {
      */
     double getSteeringWheelPosition();
 
+
+    /**
+     * Gets the ACC state.
+     *
+     * @return the ACC's state
+     */
+    boolean getACCOn();
+
     /**
      * Gets the ACC target speed (between 30 and 160).
      *
@@ -93,4 +101,10 @@ public interface ReadOnlyInputPacket {
      * @return the right ultrasonic test's status
      */
     boolean getUltrasonicVizualizerStatus();
+
+    /**
+     *
+     * @return shape debug is on off
+     */
+     boolean getShapeBorderVizualizerState();
 }
