@@ -19,5 +19,5 @@ public interface ReadOnlyRadarSensorPacket {
     /**
      * @return points of the radar sensor traingle
      */
-    Point[] getTrainglePoints();
+    Point[] getTrianglePoints();
 }

@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.detector.RadarSensorPacket;
+import hu.oe.nik.szfmv.detector.classes.Detector;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Collidable;
 
@@ -12,11 +13,13 @@ import java.util.List;
 
 public class FrontBackDetector extends SystemComponent {
 
-    private static final int TRAINGLE_SIDE = 3;
-
     private List<Collidable> previousCollidables;
+
     private RadarSensorPacket radar;
+
     private List<WorldObject> objects;
+
+    private Detector det;
 
     /**
      * @param worldobjects Objects from world lol
@@ -27,38 +30,11 @@ public class FrontBackDetector extends SystemComponent {
         objects = worldobjects;
         previousCollidables = new ArrayList<>();
         radar = RadarSensorPacket.getInstance();
+        det = Detector.getDetector();
     }
 
     public List<Collidable> getPreviousCollidables() {
         return previousCollidables;
-    }
-
-    /**
-     * @param traingle points of the traingle
-     * @return collidable objects in the traingle
-     */
-    private List<Collidable> getCollidableObjectsinTraingle(Point[] traingle) {
-        ArrayList<Collidable> objs = new ArrayList<>();
-        for (WorldObject w : objects) {
-            if (w instanceof Collidable) {
-                int in = 0;
-                for (int i = 0; i < traingle.length; i++) {
-                    double actdistance = pointToLineDistance(traingle[i], traingle[(i + 1) % traingle.length],
-                            new Point((int) w.getX(), (int) w.getY()));
-                    if (actdistance > 0) {
-                        break;
-                    } else {
-                        in++;
-                    }
-                }
-
-                if (in == TRAINGLE_SIDE) {
-                    objs.add((Collidable) w);
-                }
-            }
-        }
-
-        return objs;
     }
 
     /**
@@ -96,10 +72,20 @@ public class FrontBackDetector extends SystemComponent {
                 }
             }
 
+            Point objloc = new Point();
+            objloc.x = (int) object.getX();
+            objloc.y = (int) object.getY();
+
+            Point prevcol = new Point();
+            if (previousCollidable != null) {
+                prevcol.x = (int) previousCollidable.getX();
+                prevcol.y = (int) previousCollidable.getY();
+            }
+
             if (previousCollidable == null ||
                     pointToLineDistance(centerLine[0], centerLine[1],
-                            (Point) object.getLocation()) <
-                            pointToLineDistance(centerLine[0], centerLine[1], (Point) previousCollidable.getLocation())) {
+                            objloc) <
+                            pointToLineDistance(centerLine[0], centerLine[1], prevcol)) {
                 approachingCollidables.add(object);
             }
         }
@@ -122,8 +108,9 @@ public class FrontBackDetector extends SystemComponent {
     @Override
     public void loop() throws MissingPacketException {
         radar.setObjectApproachingCenterLine(getCollidableObjectsApproachingCenterLine(
-                centerLineofTraingle(radar.getTrainglePoints()),
-                getCollidableObjectsinTraingle(radar.getTrainglePoints())));
+                centerLineofTraingle(radar.getTrianglePoints()),
+                det.getCollidableObjects(radar.getTrianglePoints()[0],
+                        radar.getTrianglePoints()[1], radar.getTrianglePoints()[2])));
     }
 }
 
