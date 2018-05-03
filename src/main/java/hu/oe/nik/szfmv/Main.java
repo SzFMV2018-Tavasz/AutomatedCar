@@ -65,6 +65,7 @@ public class Main {
                         car.getInputValues(),
                         car.getPowertrainValues(),
                         car.getRoadSign(),
+                        car.getReverseRadarPacket(),
                         (int) Math.round(car.getX()), (int) Math.round(car.getY()));
                 gui.getDashboard().handleButtonPresses();
 
@@ -79,6 +80,7 @@ public class Main {
 
     /**
      * Creates the parking car NPCs.
+     *
      * @param w the world the cars are put into
      */
     private static void createParkingCarNPCs(World w) {

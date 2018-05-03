@@ -10,8 +10,8 @@ import org.apache.logging.log4j.Logger;
 public class ReverseRadar extends SystemComponent {
 
     private static final Logger LOGGER = LogManager.getLogger(ReverseRadar.class);
-    private static final double WARNING_VALUE = 0.4;
-    private static final double DANGER_VALUE = 0.8;
+    private static final double WARNING_VALUE = 0.8;
+    private static final double DANGER_VALUE = 0.4;
     private ReverseRadarPacket reverseRadarPacket;
     private ReverseRadarState reverseRadarState;
 
@@ -24,6 +24,7 @@ public class ReverseRadar extends SystemComponent {
         reverseRadarPacket = new ReverseRadarPacket();
         virtualFunctionBus.reverseRadarPacket = reverseRadarPacket;
         reverseRadarState = ReverseRadarState.OK;
+        reverseRadarPacket.setReverseRadarState(reverseRadarState);
     }
 
     @Override
@@ -38,7 +39,7 @@ public class ReverseRadar extends SystemComponent {
     private void activateReverseRadar() {
         reverseRadarPacket.setActivation(true);
         LOGGER.debug("Now the Reverse Radar activated: " + virtualFunctionBus.reverseRadarPacket.getActivation());
-        double objectDistance = Double.MAX_VALUE;
+        double objectDistance = 0.4;
 
         if (objectDistance >= 0.0 && objectDistance <= DANGER_VALUE) {
             reverseRadarState = ReverseRadarState.DANGER;
