@@ -72,10 +72,10 @@ public class ReverseRadar extends SystemComponent {
         double sensor2 = Double.MAX_VALUE;
 
         if (ultrasonicSensors.get(backSensor1).getNearestObjectDistance() != null) {
-            sensor1 = ultrasonicSensors.get(backSensor1).getNearestObjectDistance();
+            sensor1 = (ultrasonicSensors.get(backSensor1).getNearestObjectDistance() / 100) - 1;
         }
         if (ultrasonicSensors.get(backSensor2).getNearestObjectDistance() != null) {
-            sensor2 = ultrasonicSensors.get(backSensor2).getNearestObjectDistance();
+            sensor2 = (ultrasonicSensors.get(backSensor2).getNearestObjectDistance() / 100) - 1;
         }
 
         return (sensor1 < sensor2) ? sensor1 : sensor2;
