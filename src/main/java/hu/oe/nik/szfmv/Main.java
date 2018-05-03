@@ -76,6 +76,8 @@ public class Main {
                 LOGGER.error(e.getMessage());
             }
         }
+
+        gui.gameOver();
     }
 
     /**
