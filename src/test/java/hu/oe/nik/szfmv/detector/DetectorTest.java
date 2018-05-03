@@ -17,14 +17,14 @@ public class DetectorTest {
     final int magicnumber = 5000;
     @Test
     public void itHasAllWorldObjects() {
-        Detector dec = new Detector(w.getWorldObjects());
+        Detector dec = Detector.getDetector();
         Assert.assertNotEquals(dec.getWorldObjects(new Point(0, 0),
                 new Point(magicnumber, 0), new Point(0, magicnumber)).size(), 0);
     }
 
     @Test
     public void onlyCollidableObjects() {
-        Detector dec = new Detector(w.getWorldObjects());
+        Detector dec = Detector.getDetector();
         List<Collidable> obj = dec.getCollidableObjects(new Point(0, 0),
                 new Point(magicnumber, 0), new Point(0, magicnumber));
         assertTrue(Collidable.class.isInstance(obj.get(0)));

@@ -24,4 +24,5 @@ public class SteeringSystem extends SystemComponent {
     public double getAngularSpeed() {
         return this.angularSpeed;
     }
+
 }

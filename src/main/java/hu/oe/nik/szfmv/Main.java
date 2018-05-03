@@ -21,8 +21,8 @@ public class Main {
     public static void main(String[] args) {
         final int worldWidth = 800;
         final int worldHeight = 600;
-        final int carX = 200;
-        final int carY = 200;
+        final int carX = 400;
+        final int carY = 800;
         final int pedestrianX = 1550;
         final int pedestrianY = 500;
 
@@ -33,29 +33,36 @@ public class Main {
         World w = new World(worldWidth, worldHeight);
         // create an automated car
         AutomatedCar car = new AutomatedCar(carX, carY, "car_2_white.png");
+        car.setRotation(Math.toRadians(0));
         // add car to the world
         w.addObjectToWorld(car);
 
-        NpcCar npcCar = new NpcCar(w, 500, 500, "car_2_red.png");
+        NpcCar npcCar = new NpcCar(w, carX, carY, "car_2_red.png");
         w.addObjectToWorld(npcCar);
 
         Pedestrian pedestrian = new Pedestrian(pedestrianX, pedestrianY, "man.png");
         w.addObjectToWorld(pedestrian);
+
         // create gui
         Gui gui = new Gui();
 
         // draw world to course display
-        gui.getCourseDisplay().drawWorld(w, car.getCarValues());
+        gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues(), car.getRoadSign());
 
-        while (true) {
+        while (!w.isGameOver()) {
             try {
                 car.drive();
                 pedestrian.moveOnCrosswalk();
                 npcCar.move();
-
-                gui.getCourseDisplay().drawWorld(w, car.getCarValues());
-                gui.getDashboard().updateDisplayedValues(car.getInputValues(), car.getPowertrainValues(),
+                gui.getCourseDisplay().drawWorld(w, car.getCarValues(), car.getInputValues(), car.getRoadSign());
+                gui.getDashboard().updateDisplayedValues(
+                        car.getInputValues(),
+                        car.getPowertrainValues(),
+                        car.getRoadSign(),
                         (int) Math.round(car.getX()), (int) Math.round(car.getY()));
+
+                w.checkForCollisions(car);
+
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());

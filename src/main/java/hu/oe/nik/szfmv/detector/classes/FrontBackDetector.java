@@ -7,17 +7,17 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FrontBackDetector extends Detector {
+public class FrontBackDetector {
 
     ArrayList<Collidable> previousCollidables;
 
     /**
-     * @param worldObjects Objects from world lol
+     * @param worldobjects Objects from world lol
      */
-    public FrontBackDetector(List<WorldObject> worldObjects) {
-        super(worldObjects);
+    public FrontBackDetector(List<WorldObject> worldobjects) {
 
         previousCollidables = new ArrayList<>();
+
     }
 
     /**
@@ -44,7 +44,9 @@ public class FrontBackDetector extends Detector {
      */
     List<Collidable> getCollidableObjectsApproachingCenterLine(Point[] centerLine,
                                                                ArrayList<Collidable> collidableObjectsInTriangle) {
-        ArrayList<Collidable> approachingCollidables = new ArrayList<>();
+
+        ArrayList<Collidable> approachingCollidables = new ArrayList<Collidable>();
+
 
         for (Collidable object : collidableObjectsInTriangle) {
 
