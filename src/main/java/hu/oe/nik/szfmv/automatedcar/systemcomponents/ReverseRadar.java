@@ -5,8 +5,6 @@ import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.reverseradar.ReverseRadarPacket;
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 import hu.oe.nik.szfmv.automatedcar.sensors.UltrasonicSensor;
-import hu.oe.nik.szfmv.detector.classes.Detector;
-import hu.oe.nik.szfmv.environment.models.Collidable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,6 +21,7 @@ public class ReverseRadar extends SystemComponent {
 
     /**
      * @param virtualFunctionBus VirtualFunctuonBus parameter
+     * @param ultrasonicSensors UltrasonicSensors ArrayList parameter
      */
     public ReverseRadar(VirtualFunctionBus virtualFunctionBus, List<UltrasonicSensor> ultrasonicSensors) {
         super(virtualFunctionBus);
@@ -67,14 +66,16 @@ public class ReverseRadar extends SystemComponent {
     }
 
     private double calculateNearestObjectDistance() {
-
+        final int backSensor1 = 2;
+        final int backSensor2 = 3;
         double sensor1 = Double.MAX_VALUE;
         double sensor2 = Double.MAX_VALUE;
-        if (ultrasonicSensors.get(2).getNearestObjectDistance() != null) {
-            sensor1 = ultrasonicSensors.get(2).getNearestObjectDistance();
+
+        if (ultrasonicSensors.get(backSensor1).getNearestObjectDistance() != null) {
+            sensor1 = ultrasonicSensors.get(backSensor1).getNearestObjectDistance();
         }
-        if (ultrasonicSensors.get(3).getNearestObjectDistance() != null) {
-            sensor2 = ultrasonicSensors.get(3).getNearestObjectDistance();
+        if (ultrasonicSensors.get(backSensor2).getNearestObjectDistance() != null) {
+            sensor2 = ultrasonicSensors.get(backSensor2).getNearestObjectDistance();
         }
 
         return (sensor1 < sensor2) ? sensor1 : sensor2;
