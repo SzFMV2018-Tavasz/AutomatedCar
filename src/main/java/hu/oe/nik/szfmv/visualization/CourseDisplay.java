@@ -4,10 +4,8 @@ import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.detector.RadarSensorPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.RoadSignDetectionPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.ultrasonicsensor.ReadOnlyUltrasonicSensorPacket;
-import hu.oe.nik.szfmv.detector.classes.Triangle;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Movable;
@@ -198,7 +196,7 @@ public class CourseDisplay extends JPanel {
             drawSensor(RadarSensorPacket.getInstance().getTrianglePoints(), offset, Color.RED, g);
         }
         if (inputPacket.getUltrasonicVizualizerStatus()) {
-            for(Point[] t : ultrasonicSensorPacket.getUltrasonicSensorTriangles()) {
+            for (Point[] t : ultrasonicSensorPacket.getUltrasonicSensorTriangles()) {
                 drawSensor(t, offset, Color.GREEN, g);
             }
         }

@@ -67,9 +67,8 @@ public class InputPacket implements ReadOnlyInputPacket {
         parkingPilote = value;
     }
 
-    public void setAccOn(boolean state) {
-        accOn = state;
-    }
+    public void setAccOn(boolean state) { accOn = state; }
+
 
     public void setAccDistanceValue(double value) {
         accDistanceValue = value;

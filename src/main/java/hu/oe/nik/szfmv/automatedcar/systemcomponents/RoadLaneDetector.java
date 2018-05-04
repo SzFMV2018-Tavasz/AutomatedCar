@@ -104,7 +104,7 @@ public class RoadLaneDetector extends SystemComponent {
         for (Road r : roads) {
             if (r.getShape().intersects(car.getShape().getBounds2D().getX(), car.getShape().getBounds2D().getY(),
                     car.getShape().getBounds2D().getWidth(), car.getShape().getBounds2D().getHeight())) {
-                LOGGER.error("on the road fuck yeah");
+                //LOGGER.debug("on the road fuck yeah");
                 return true;
             }
         }

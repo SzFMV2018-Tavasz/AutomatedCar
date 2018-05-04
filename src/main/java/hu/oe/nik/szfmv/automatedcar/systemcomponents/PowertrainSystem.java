@@ -2,7 +2,7 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
-import hu.oe.nik.szfmv.automatedcar.bus.powertrain.PowertrainPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.powertrain.PowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
