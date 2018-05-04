@@ -270,7 +270,8 @@ public class Dashboard extends JPanel {
         if (isActive) {
             reverseRadarLabelStatus.setText("ON");
             DecimalFormat value = new DecimalFormat("#.#");
-            revereRadarLabelDistance.setText(String.format("Distance: " + value.format(distance) + " m"));
+            revereRadarLabelDistance.setFont(revereRadarLabelDistance.getFont().deriveFont(10f));
+            revereRadarLabelDistance.setText(String.format(" Dist.  " + value.format(distance) + " m"));
 
             switch (state) {
                 case OK:
