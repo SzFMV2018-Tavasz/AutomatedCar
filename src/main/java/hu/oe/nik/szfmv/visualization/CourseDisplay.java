@@ -1,6 +1,8 @@
 package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.LKA.IReadonlyLKAPointsPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.LKA.LKAPointsPacketPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.detector.RadarSensorPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
@@ -206,6 +208,12 @@ public class CourseDisplay extends JPanel {
         g.drawImage(staticEnvironmentZ1, (int) (offset.getX() * scale), (int) (offset.getY() * scale), this);
         if (inputPacket.getShapeBorderVizualizerState())
             drawShapesDebug(g, offset.getX(), offset.getY());
+
+        // draw LKA points
+        IReadonlyLKAPointsPacket LKApointsPacket = LKAPointsPacketPacket.getInstance();
+        g.drawOval((int)((LKApointsPacket.getLeftPoint().x+offset.getX())*scale)-5, (int)((LKApointsPacket.getLeftPoint().y+offset.getY())*scale)-5,10,10 );
+        g.drawOval((int)((LKApointsPacket.getRightPoint().x+offset.getX())*scale)-5,(int)((LKApointsPacket.getRightPoint().y+offset.getY())*scale)-5,10,10 );
+
     }
 
     private void drawSensor(Point[] trianglePoints, java.awt.geom.Point2D offset, Color color, Graphics graphics) {

@@ -7,7 +7,6 @@ import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.ultrasonicsensor.ReadOnlyUltrasonicSensorPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
-import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 import hu.oe.nik.szfmv.automatedcar.sensors.UltrasonicSensor;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
 import hu.oe.nik.szfmv.detector.classes.Detector;
@@ -65,6 +64,7 @@ public class AutomatedCar extends WorldObject {
         new ACC(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         steeringWheel = new SteeringWheel(virtualFunctionBus);
+        new LaneKeepAssistant(virtualFunctionBus);
 
         new RoadLaneDetector(virtualFunctionBus, this);
         new FrontBackDetector(virtualFunctionBus, Detector.getDetector().getWorldObjects());
