@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv.automatedcar.bus.powertrain;
+package hu.oe.nik.szfmv.automatedcar.bus.packets.powertrain;
 
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 

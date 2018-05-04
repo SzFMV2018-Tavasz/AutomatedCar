@@ -6,7 +6,7 @@ public class LKAPointsPacketPacket implements IReadonlyLKAPointsPacket {
     private static LKAPointsPacketPacket instance;
 
     public static LKAPointsPacketPacket getInstance() {
-        if (instance == null){
+        if (instance == null) {
             instance = new LKAPointsPacketPacket();
         }
         return instance;

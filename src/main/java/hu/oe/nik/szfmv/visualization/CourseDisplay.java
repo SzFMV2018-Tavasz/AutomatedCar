@@ -6,10 +6,8 @@ import hu.oe.nik.szfmv.automatedcar.bus.packets.LKA.LKAPointsPacketPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.detector.RadarSensorPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.RoadSignDetectionPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.ultrasonicsensor.ReadOnlyUltrasonicSensorPacket;
-import hu.oe.nik.szfmv.detector.classes.Triangle;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Movable;
@@ -132,9 +130,10 @@ public class CourseDisplay extends JPanel {
 
     /**
      * Draws the world to the course display
-     * @param world       {@link World} object that describes the virtual world
-     * @param carPacket   {@link CarPacket} Packet that contains the location of the automated car
-     * @param inputPacket {@link ReadOnlyInputPacket} contains key states for debugging
+     *
+     * @param world                  {@link World} object that describes the virtual world
+     * @param carPacket              {@link CarPacket} Packet that contains the location of the automated car
+     * @param inputPacket            {@link ReadOnlyInputPacket} contains key states for debugging
      * @param ultrasonicSensorPacket {@link ReadOnlyUltrasonicSensorPacket} contains the triangles of ultrasonic sensors
      */
     public void drawWorld(World world, CarPacket carPacket, ReadOnlyInputPacket inputPacket,
@@ -200,7 +199,7 @@ public class CourseDisplay extends JPanel {
             drawSensor(RadarSensorPacket.getInstance().getTrianglePoints(), offset, Color.RED, g);
         }
         if (inputPacket.getUltrasonicVizualizerStatus()) {
-            for(Point[] t : ultrasonicSensorPacket.getUltrasonicSensorTriangles()) {
+            for (Point[] t : ultrasonicSensorPacket.getUltrasonicSensorTriangles()) {
                 drawSensor(t, offset, Color.GREEN, g);
             }
         }
@@ -211,8 +210,10 @@ public class CourseDisplay extends JPanel {
 
         // draw LKA points
         IReadonlyLKAPointsPacket LKApointsPacket = LKAPointsPacketPacket.getInstance();
-        g.drawOval((int)((LKApointsPacket.getLeftPoint().x+offset.getX())*scale)-5, (int)((LKApointsPacket.getLeftPoint().y+offset.getY())*scale)-5,10,10 );
-        g.drawOval((int)((LKApointsPacket.getRightPoint().x+offset.getX())*scale)-5,(int)((LKApointsPacket.getRightPoint().y+offset.getY())*scale)-5,10,10 );
+        g.drawOval((int) ((LKApointsPacket.getLeftPoint().x + offset.getX()) * scale) - 5,
+                (int) ((LKApointsPacket.getLeftPoint().y + offset.getY()) * scale) - 5, 10, 10);
+        g.drawOval((int) ((LKApointsPacket.getRightPoint().x + offset.getX()) * scale) - 5,
+                (int) ((LKApointsPacket.getRightPoint().y + offset.getY()) * scale) - 5, 10, 10);
 
     }
 

@@ -4,9 +4,10 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.powertrain.ReadOnlyPowertrainPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.reverseradar.ReadOnlyReverseRadarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.ultrasonicsensor.ReadOnlyUltrasonicSensorPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.sensors.UltrasonicSensor;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
 import hu.oe.nik.szfmv.detector.classes.Detector;
@@ -60,6 +61,7 @@ public class AutomatedCar extends WorldObject {
         new GearShift(virtualFunctionBus);
         new SensorsVisualizer(virtualFunctionBus);
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
+        reverseRadar = new ReverseRadar(virtualFunctionBus, getUltrasonicSensors());
 
         new ACC(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
@@ -70,7 +72,6 @@ public class AutomatedCar extends WorldObject {
         new FrontBackDetector(virtualFunctionBus, Detector.getDetector().getWorldObjects());
 
         new RoadSignDetection(virtualFunctionBus);
-        reverseRadar = new ReverseRadar(virtualFunctionBus);
         UltrasonicSensor.createUltrasonicSensors(this, virtualFunctionBus);
 
         new Driver(virtualFunctionBus);
@@ -160,6 +161,14 @@ public class AutomatedCar extends WorldObject {
         return virtualFunctionBus.powertrainPacket;
     }
 
+    /**
+     * Gets the reverse radar values as required by the dashboard.
+     *
+     * @return reverse radar packet containing the values that are displayed on the dashboard
+     */
+    public ReadOnlyReverseRadarPacket getReverseRadarPacket() {
+        return virtualFunctionBus.reverseRadarPacket;
+    }
 
     /**
      * Gets the roadsign closest to the car

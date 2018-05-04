@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv.automatedcar.bus.powertrain;
+package hu.oe.nik.szfmv.automatedcar.bus.packets.powertrain;
 
 public interface ReadOnlyPowertrainPacket {
     /**

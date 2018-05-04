@@ -4,5 +4,6 @@ import java.awt.*;
 
 public interface IReadonlyLKAPointsPacket {
     Point getLeftPoint();
+
     Point getRightPoint();
 }
