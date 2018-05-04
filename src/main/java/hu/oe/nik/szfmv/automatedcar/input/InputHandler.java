@@ -28,30 +28,6 @@ public class InputHandler implements KeyListener {
     private static final int ULTRASONICTESTKEYCODE = KeyEvent.VK_9;
     private static final int SHAPETESTKEYCODE = KeyEvent.VK_6;
 
-    public static int getLANEKEEPINGKEYCODE() {
-        return LANEKEEPINGKEYCODE;
-    }
-
-    public static int getACCONKEYCODE() {
-        return ACCONKEYCODE;
-    }
-
-    public static int getACCDISTANCEKEYCODE() {
-        return ACCDISTANCEKEYCODE;
-    }
-
-    public static int getACCSPEEDINCREMENTKEYCODE() {
-        return ACCSPEEDINCREMENTKEYCODE;
-    }
-
-    public static int getACCSPEEDDECREMENTKEYCODE() {
-        return ACCSPEEDDECREMENTKEYCODE;
-    }
-
-    public static int getPARKINGPILOTEKEYCODE() {
-        return PARKINGPILOTEKEYCODE;
-    }
-
     private static InputHandler instance = null;
     private boolean steeringLeftPressed;
 
@@ -88,6 +64,31 @@ public class InputHandler implements KeyListener {
     private boolean ultrasonicTestPressed;
 
     private boolean shapeBorderTestPressed;
+
+    public static int getLANEKEEPINGKEYCODE() {
+        return LANEKEEPINGKEYCODE;
+    }
+
+    public static int getACCONKEYCODE() {
+        return ACCONKEYCODE;
+    }
+
+    public static int getACCDISTANCEKEYCODE() {
+        return ACCDISTANCEKEYCODE;
+    }
+
+    public static int getACCSPEEDINCREMENTKEYCODE() {
+        return ACCSPEEDINCREMENTKEYCODE;
+    }
+
+    public static int getACCSPEEDDECREMENTKEYCODE() {
+        return ACCSPEEDDECREMENTKEYCODE;
+    }
+
+    public static int getPARKINGPILOTEKEYCODE() {
+        return PARKINGPILOTEKEYCODE;
+    }
+
 
     /**
      * Inputhandler

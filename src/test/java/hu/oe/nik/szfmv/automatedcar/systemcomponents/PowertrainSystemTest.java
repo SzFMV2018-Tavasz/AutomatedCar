@@ -1,7 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.szfmv.automatedcar.bus.powertrain.PowertrainTestPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.powertrain.PowertrainTestPacket;
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
 import org.junit.Before;
 import org.junit.Test;
