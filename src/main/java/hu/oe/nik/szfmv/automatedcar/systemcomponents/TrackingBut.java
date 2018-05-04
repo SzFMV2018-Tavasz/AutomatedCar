@@ -14,6 +14,9 @@ public class TrackingBut extends SystemComponent {
 
     private boolean isOn;
 
+    /**
+     * @param vfb the given virtualfunctionbus
+     */
     public TrackingBut(VirtualFunctionBus vfb) {
         super(vfb);
 
@@ -34,11 +37,11 @@ public class TrackingBut extends SystemComponent {
             isOn = true;
         }
 
-        if (!ih.isTrackingPressed()){
+        if (!ih.isTrackingPressed()) {
             isOn = false;
         }
 
-        if (ih.isSteeringRightPressed() || ih.isSteeringLeftPressed()){
+        if (ih.isSteeringRightPressed() || ih.isSteeringLeftPressed()) {
             pressed = false;
         }
 

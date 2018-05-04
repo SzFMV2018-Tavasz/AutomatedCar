@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 public class InputHandler implements KeyListener {
 
     private static final Logger LOGGER = LogManager.getLogger(InputHandler.class);
+    private static InputHandler instance = null;
     private static final int STEERINGLEFTKEYCODE = KeyEvent.VK_LEFT;
     private static final int STEERINGRIGHTKEYCODE = KeyEvent.VK_RIGHT;
     private static final int RIGHTINDEXKEYCODE = KeyEvent.VK_1;
@@ -29,7 +30,6 @@ public class InputHandler implements KeyListener {
     private static final int SHAPETESTKEYCODE = KeyEvent.VK_6;
     private static final int TRACKINGKEYCODE = KeyEvent.VK_4;
 
-    private static InputHandler instance = null;
     private boolean steeringLeftPressed;
 
     private boolean steeringRightPressed;
@@ -68,6 +68,19 @@ public class InputHandler implements KeyListener {
 
     private boolean tracking;
 
+    /**
+     * Inputhandler
+     *
+     * @return inputhandler
+     */
+    public static InputHandler getInstance() {
+        if (instance == null) {
+            instance = new InputHandler();
+        }
+
+        return instance;
+    }
+
     public static int getLANEKEEPINGKEYCODE() {
         return LANEKEEPINGKEYCODE;
     }
@@ -90,19 +103,6 @@ public class InputHandler implements KeyListener {
 
     public static int getPARKINGPILOTEKEYCODE() {
         return PARKINGPILOTEKEYCODE;
-    }
-
-    /**
-     * Inputhandler
-     *
-     * @return inputhandler
-     */
-    public static InputHandler getInstance() {
-        if (instance == null) {
-            instance = new InputHandler();
-        }
-
-        return instance;
     }
 
     public boolean isRightIndexPressed() {
