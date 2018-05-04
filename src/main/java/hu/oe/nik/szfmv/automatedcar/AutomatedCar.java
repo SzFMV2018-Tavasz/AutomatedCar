@@ -63,6 +63,7 @@ public class AutomatedCar extends WorldObject {
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
 
         new ACC(virtualFunctionBus);
+        new TrackingBut(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         steeringWheel = new SteeringWheel(virtualFunctionBus);
 

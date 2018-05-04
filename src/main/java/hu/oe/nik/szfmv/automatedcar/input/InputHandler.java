@@ -27,6 +27,7 @@ public class InputHandler implements KeyListener {
     private static final int CAMERATESTKEYCODE = KeyEvent.VK_8;
     private static final int ULTRASONICTESTKEYCODE = KeyEvent.VK_9;
     private static final int SHAPETESTKEYCODE = KeyEvent.VK_6;
+    private static final int TRACKINGKEYCODE = KeyEvent.VK_4;
 
     public static int getLANEKEEPINGKEYCODE() {
         return LANEKEEPINGKEYCODE;
@@ -88,6 +89,8 @@ public class InputHandler implements KeyListener {
     private boolean ultrasonicTestPressed;
 
     private boolean shapeBorderTestPressed;
+
+    private boolean tracking;
 
     /**
      * Inputhandler
@@ -174,6 +177,10 @@ public class InputHandler implements KeyListener {
         return shapeBorderTestPressed;
     }
 
+    public boolean isTrackingPressed() {
+        return tracking;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -245,6 +252,9 @@ public class InputHandler implements KeyListener {
                 break;
             case (SHAPETESTKEYCODE):
                 shapeBorderTestPressed = state;
+                break;
+            case (TRACKINGKEYCODE):
+                tracking = state;
                 break;
             default:
                 break;
