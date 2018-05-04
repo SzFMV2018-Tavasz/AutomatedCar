@@ -2,9 +2,11 @@ package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.powertrain.ReadOnlyPowertrainPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.reverseradar.ReadOnlyReverseRadarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
 import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.ReverseRadarState;
 import hu.oe.nik.szfmv.environment.models.RoadSign;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,6 +18,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.Objects;
 
 /**
@@ -71,22 +74,39 @@ public class Dashboard extends JPanel {
     private final int roadSignPanelX = 130;
     private final int roadSignPanelY = 180;
     private final int roadSignPanelWidth = 110;
-    private final int roadSignPanelHeight = 115;
+    private final int roadSignPanelHeight = 130;
     private final JPanel roadSignPanel = new JPanel();
     private final JLabel roadSignIcon = new JLabel();
     private final JLabel roadSignLabel = new JLabel();
 
     /**
+     * Reverse Radar
+     */
+    private final int reverseRadarPanelX = 55;
+    private final int reverseRadarPanelY = 123;
+    private final int reverseRadarPanelWidth = 130;
+    private final int reverseRadarPanelHeight = 30;
+
+    private final int reverseRadarLabelNameX = 100;
+    private final int reverseRadarLabelNameY = 110;
+    private final int reverseRadarLabelNameWidth = 50;
+    private final int reverseRadarLabelNameHeight = 10;
+
+    private final JPanel reverseRadarPanel = new JPanel();
+    private final JLabel reverseRadarLabelStatus = new JLabel();
+    private final JLabel revereRadarLabelDistance = new JLabel();
+
+    /**
      * Gear
      */
     private final int gearLabelX = 100;
-    private final int gearLabelY = 135;
+    private final int gearLabelY = 155;
     private final int gearLabelWidth = 40;
     private final int gearLabelHeight = 20;
     private final JLabel gearLabel = new JLabel();
 
     private final int gearValueLabelX = 135;
-    private final int gearValueLabelY = 135;
+    private final int gearValueLabelY = 155;
     private final int gearValueLabelWidth = 50;
     private final int gearValueLabelHeight = 20;
     private final JLabel gearValueLabel = new JLabel();
@@ -173,8 +193,8 @@ public class Dashboard extends JPanel {
     private String indexRightOn = "index_right_on.png";
     private boolean leftIndexState = false;
     private boolean rightIndexState = false;
-    private final int leftIndexX = 10;
-    private final int rightIndexX = 185;
+    private final int leftIndexX = 0;
+    private final int rightIndexX = 190;
     private final int indexY = 120;
     private final int imageH = 50;
     private final int imageW = 50;
@@ -209,15 +229,17 @@ public class Dashboard extends JPanel {
     /**
      * Update the displayed values
      *
-     * @param powertrainPacket Contains all the required values coming from the powertrain.
-     * @param inputPacket Contains all the required values coming from input.
-     * @param roadSignPacket Contains all the required values related to the last seen road sign.
-     * @param carX        is the X coordinate of the car object
-     * @param carY        is the Y coordinate of the car object
+     * @param powertrainPacket   Contains all the required values coming from the powertrain.
+     * @param inputPacket        Contains all the required values coming from input.
+     * @param roadSignPacket     Contains all the required values related to the last seen road sign.
+     * @param reverseRadarPacket Contains all the required values coming from the reverse radar.
+     * @param carX               is the X coordinate of the car object
+     * @param carY               is the Y coordinate of the car object
      */
     public void updateDisplayedValues(ReadOnlyInputPacket inputPacket,
                                       ReadOnlyPowertrainPacket powertrainPacket,
                                       ReadOnlyRoadSignDetectionPacket roadSignPacket,
+                                      ReadOnlyReverseRadarPacket reverseRadarPacket,
                                       int carX, int carY) {
         if (inputPacket != null) {
             updateProgressBars(inputPacket.getGasPedalPosition(), inputPacket.getBreakPedalPosition());
@@ -230,14 +252,54 @@ public class Dashboard extends JPanel {
             updateLaneKeepingIndicator(inputPacket.getLaneKeepingStatus());
         }
         if (powertrainPacket != null) {
-            updateAnalogMeters((int)powertrainPacket.getSpeed(), powertrainPacket.getRpm());
+            updateAnalogMeters((int) powertrainPacket.getSpeed(), powertrainPacket.getRpm());
             repaint();
         }
         if (roadSignPacket != null && roadSignPacket.getRoadSignToShowOnDashboard() != null) {
             displayRoadSign(roadSignPacket.getRoadSignToShowOnDashboard());
         }
+        if (reverseRadarPacket != null) {
+            displayReverseRadar(reverseRadarPacket.getActivation(), reverseRadarPacket.getReverseRadarState(),
+                    reverseRadarPacket.getDistance());
+        }
 
         updateCarPositionLabel(carX, carY);
+    }
+
+    private void displayReverseRadar(Boolean isActive, ReverseRadarState state, double distance) {
+        if (isActive) {
+            reverseRadarLabelStatus.setText("ON");
+            DecimalFormat value = new DecimalFormat("#.#");
+            revereRadarLabelDistance.setFont(revereRadarLabelDistance.getFont().deriveFont(10f));
+
+            if (distance == Double.MAX_VALUE) {
+                revereRadarLabelDistance.setText(" Dist.  ∞");
+            } else {
+                revereRadarLabelDistance.setText(String.format(" Dist.  " + value.format(distance) + " m"));
+            }
+
+            switch (state) {
+                case OK:
+                    reverseRadarLabelStatus.setForeground(Color.GREEN);
+                    reverseRadarPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN, 1));
+                    break;
+                case WARNING:
+                    reverseRadarLabelStatus.setForeground(Color.YELLOW);
+                    reverseRadarPanel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
+                    break;
+                case DANGER:
+                    reverseRadarLabelStatus.setForeground(Color.RED);
+                    reverseRadarPanel.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            reverseRadarLabelStatus.setText("OFF");
+            reverseRadarLabelStatus.setForeground(Color.BLACK);
+            reverseRadarPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+            revereRadarLabelDistance.setText("");
+        }
     }
 
     private void distanceDecreasePressed() {
@@ -376,6 +438,7 @@ public class Dashboard extends JPanel {
         initializePp();
         initializeAccStatePanel();
         initializeControlsText();
+        initializeReverseRadarPanel();
     }
 
     /**
@@ -384,17 +447,17 @@ public class Dashboard extends JPanel {
     private void initializeControlsText() {
         controlsText.setText(
                 "Gas: UP\n" +
-                "BREAK : DOWN\n" +
-                "Steering: LEFT, RIGHT\n" +
-                "Gear: W/S\n" +
-                "Index: 0,1\n" +
-                "LK: L\n" +
-                "PP: P\n" +
-                "ACC on: 5\n" +
-                "ACC dist.: T\n" +
-                "ACC speed: +/-\n" +
-                "Collision: 6\n" +
-                "Radar, Camera, Ultrasonic: 7,8,9");
+                        "BREAK : DOWN\n" +
+                        "Steering: LEFT, RIGHT\n" +
+                        "Gear: W/S\n" +
+                        "Index: 0,1\n" +
+                        "LK: L\n" +
+                        "PP: P\n" +
+                        "ACC on: 5\n" +
+                        "ACC dist.: T\n" +
+                        "ACC speed: +/-\n" +
+                        "Collision: 6\n" +
+                        "Radar, Camera, Ultrasonic: 7,8,9");
         controlsText.setBounds(controlsX, controlsY, controlsW, controlsH);
         controlsText.setFocusable(false);
         this.add(controlsText);
@@ -466,6 +529,7 @@ public class Dashboard extends JPanel {
 
     /**
      * Simulates keyboard press.
+     *
      * @param keyCode the keycode we want to simulate
      */
     private void simulateKeyPress(int keyCode) {
@@ -475,6 +539,7 @@ public class Dashboard extends JPanel {
 
     /**
      * Simulates keyboard release.
+     *
      * @param keyCode the keycode we want to simulate
      */
     private void simulateKeyRelease(int keyCode) {
@@ -507,6 +572,29 @@ public class Dashboard extends JPanel {
         roadSignPanel.add(roadSignIcon);
         roadSignLabel.setText("last road sign");
         add(roadSignPanel);
+    }
+
+    /**
+     * Initializes the reverse radar panel on the dashboard
+     */
+    private void initializeReverseRadarPanel() {
+        reverseRadarPanel.setBounds(reverseRadarPanelX, reverseRadarPanelY,
+                reverseRadarPanelWidth, reverseRadarPanelHeight);
+        reverseRadarPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+
+        JLabel reverseRadarLabelName = new JLabel();
+        reverseRadarLabelName.setText("Radar");
+        reverseRadarLabelName.setBounds(reverseRadarLabelNameX, reverseRadarLabelNameY,
+                reverseRadarLabelNameWidth, reverseRadarLabelNameHeight);
+
+        revereRadarLabelDistance.setText("");
+
+        reverseRadarPanel.add(reverseRadarLabelStatus);
+        reverseRadarPanel.add(revereRadarLabelDistance);
+        reverseRadarPanel.setBackground(new Color(backgroundColor));
+
+        add(reverseRadarPanel);
+        add(reverseRadarLabelName);
     }
 
     /**
