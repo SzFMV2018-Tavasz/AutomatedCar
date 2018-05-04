@@ -22,6 +22,10 @@ public class RoadLaneDetector extends SystemComponent {
 
     private static final Logger LOGGER = LogManager.getLogger(RoadLaneDetector.class);
 
+    private static final int PI_IN_DEGREE = 180;
+
+    private static final int HEIGHT_OFFSET = 10;
+
     private static final double OFFSET_X = 1.2;
 
     private static final double OFFSET_Y = 2;
@@ -83,13 +87,14 @@ public class RoadLaneDetector extends SystemComponent {
      */
     private Point[] trainglePoints() {
         Point startpoint = new Point();
-        int rY = (car.getHeight() / 2) - 10;
+        int rY = (car.getHeight() / 2) - HEIGHT_OFFSET;
         startpoint.x = (int) (car.getX() + Math.cos(-car.getRotation() + Math.PI) -
                 rY * Math.sin(-car.getRotation() + Math.PI));
         startpoint.y = (int) (car.getY() + Math.sin(-car.getRotation() + Math.PI) +
                 rY * Math.cos(-car.getRotation() + Math.PI));
 
-        return Triangle.trianglePoints(startpoint, SENSOR_RANGE, ANGLE_OF_VIEW, Utils.radianToDegree(-car.getRotation()) + 180);
+        return Triangle.trianglePoints(startpoint, SENSOR_RANGE, ANGLE_OF_VIEW,
+                Utils.radianToDegree(-car.getRotation()) + PI_IN_DEGREE);
     }
 
     /**
@@ -99,7 +104,7 @@ public class RoadLaneDetector extends SystemComponent {
         for (Road r : roads) {
             if (r.getShape().intersects(car.getShape().getBounds2D().getX(), car.getShape().getBounds2D().getY(),
                     car.getShape().getBounds2D().getWidth(), car.getShape().getBounds2D().getHeight())) {
-                LOGGER.error("on the road fuck yeah");
+                //LOGGER.debug("on the road fuck yeah");
                 return true;
             }
         }
