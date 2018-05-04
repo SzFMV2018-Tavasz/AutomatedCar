@@ -270,17 +270,26 @@ public class Dashboard extends JPanel {
         if (isActive) {
             reverseRadarLabelStatus.setText("ON");
             DecimalFormat value = new DecimalFormat("#.#");
-            revereRadarLabelDistance.setText(String.format("Distance: " + value.format(distance) + " m"));
+            revereRadarLabelDistance.setFont(revereRadarLabelDistance.getFont().deriveFont(10f));
+
+            if (distance == Double.MAX_VALUE) {
+                revereRadarLabelDistance.setText(" Dist.  ∞");
+            } else {
+                revereRadarLabelDistance.setText(String.format(" Dist.  " + value.format(distance) + " m"));
+            }
 
             switch (state) {
                 case OK:
                     reverseRadarLabelStatus.setForeground(Color.GREEN);
+                    reverseRadarPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN, 1));
                     break;
                 case WARNING:
                     reverseRadarLabelStatus.setForeground(Color.YELLOW);
+                    reverseRadarPanel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
                     break;
                 case DANGER:
                     reverseRadarLabelStatus.setForeground(Color.RED);
+                    reverseRadarPanel.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
                     break;
                 default:
                     break;
@@ -288,6 +297,7 @@ public class Dashboard extends JPanel {
         } else {
             reverseRadarLabelStatus.setText("OFF");
             reverseRadarLabelStatus.setForeground(Color.BLACK);
+            reverseRadarPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
             revereRadarLabelDistance.setText("");
         }
     }
