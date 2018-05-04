@@ -1,11 +1,10 @@
 package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
-import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.LKA.LKAPointsPacketPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
-import javafx.scene.transform.Affine;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
