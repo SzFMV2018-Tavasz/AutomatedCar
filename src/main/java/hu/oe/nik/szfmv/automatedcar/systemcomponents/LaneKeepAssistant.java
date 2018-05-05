@@ -5,8 +5,11 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.LKA.LKAPointsPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.input.InputPacket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringWheel;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -21,6 +24,11 @@ public class LaneKeepAssistant extends SystemComponent {
     private CarPacket carPacket;
     private LKAPointsPacket pointsPackage = LKAPointsPacket.getInstance();
 
+    private InputHandler inputHandler;
+    private InputPacket inputPacket;
+    private boolean wasPressed;
+    private boolean laneKeepingOn;
+
     Point left;
     Point right;
 
@@ -30,6 +38,13 @@ public class LaneKeepAssistant extends SystemComponent {
     public LaneKeepAssistant(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
         this.carPacket = virtualFunctionBus.carPacket;
+
+        inputPacket = InputPacket.getInstance();
+        virtualFunctionBus.inputPacket = inputPacket;
+        inputHandler = InputHandler.getInstance();
+
+        wasPressed = false;
+        laneKeepingOn = false;
     }
 
     @Override
@@ -45,5 +60,15 @@ public class LaneKeepAssistant extends SystemComponent {
 
         pointsPackage.setLeftPoint(leftRotated);
         pointsPackage.setRightPoint(rightRotated);
+
+        if (!wasPressed && inputHandler.isLaneKeepingPressed()) {
+            wasPressed = true;
+            laneKeepingOn = !laneKeepingOn;
+            inputPacket.setLaneKeepingStatus(laneKeepingOn);
+        } else if (wasPressed && !inputHandler.isLaneKeepingPressed()) {
+            wasPressed = false;
+        }
     }
+
+
 }
