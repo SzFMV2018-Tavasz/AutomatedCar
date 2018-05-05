@@ -2,12 +2,12 @@ package hu.oe.nik.szfmv.automatedcar.bus.packets.LKA;
 
 import java.awt.*;
 
-public class LKAPointsPacketPacket implements IReadonlyLKAPointsPacket {
-    private static LKAPointsPacketPacket instance;
+public class LKAPointsPacket implements ReadOnlyLKAPointsPacket {
+    private static LKAPointsPacket instance;
 
-    public static LKAPointsPacketPacket getInstance() {
+    public static LKAPointsPacket getInstance() {
         if (instance == null) {
-            instance = new LKAPointsPacketPacket();
+            instance = new LKAPointsPacket();
         }
         return instance;
     }

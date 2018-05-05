@@ -3,7 +3,7 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.LKA.LKAPointsPacketPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.LKA.LKAPointsPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +19,7 @@ public class LaneKeepAssistant extends SystemComponent {
     private static final int leftYOffset = -(150 + 104);
     private static final int rightYOffset = -(150 + 104);
     private CarPacket carPacket;
-    private LKAPointsPacketPacket pointsPackage = LKAPointsPacketPacket.getInstance();
+    private LKAPointsPacket pointsPackage = LKAPointsPacket.getInstance();
 
     Point left;
     Point right;
