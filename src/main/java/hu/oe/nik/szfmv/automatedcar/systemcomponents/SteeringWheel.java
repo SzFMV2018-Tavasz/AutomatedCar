@@ -57,7 +57,10 @@ public class SteeringWheel extends SystemComponent {
      * @param newPos is the newpos
      * @return steeringwhell position
      */
+
+    
     private double calculateNewSteeringWheelPosition(double newPos) {
+
 
         // Ha már egy lépésnyinél kevesebbel térünk el 0-tól, akkor beállítjuk 0-ra
         // hogy ne ugráljon magától ide oda a kormányállás.
