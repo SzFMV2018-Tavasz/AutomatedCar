@@ -34,7 +34,7 @@ public class ACC extends SystemComponent {
         super(bus);
 
         accDistanceValue = 0.8;
-        accSpeedValue = 30;
+        accSpeedValue = (int)(30*(3.6));
 
         inputPacket = InputPacket.getInstance();
         inputHandler = InputHandler.getInstance();
@@ -69,7 +69,7 @@ public class ACC extends SystemComponent {
 
         setAccOn();
         inputPacket.setAccDistanceValue(accDistanceValue);
-        inputPacket.setAccSpeedValue(accSpeedValue);
+        inputPacket.setAccSpeedValue((int)(accSpeedValue/(3.6)));
         notPressed();
     }
 
