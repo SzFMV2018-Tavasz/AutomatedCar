@@ -69,7 +69,8 @@ public class AutomatedCar extends WorldObject {
         steeringWheel = new SteeringWheel(virtualFunctionBus);
 
         new RoadLaneDetector(virtualFunctionBus, this);
-        new FrontBackDetector(virtualFunctionBus, Detector.getDetector().getWorldObjects());
+        new FrontBackDetector(virtualFunctionBus);
+        new EmergencyBrake(virtualFunctionBus, this);
 
         new RoadSignDetection(virtualFunctionBus);
         UltrasonicSensor.createUltrasonicSensors(this, virtualFunctionBus);
@@ -163,6 +164,7 @@ public class AutomatedCar extends WorldObject {
 
     /**
      * Gets the reverse radar values as required by the dashboard.
+     *
      * @return reverse radar packet containing the values that are displayed on the dashboard
      */
     public ReadOnlyReverseRadarPacket getReverseRadarPacket() {

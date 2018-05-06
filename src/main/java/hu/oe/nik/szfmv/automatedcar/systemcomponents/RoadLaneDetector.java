@@ -117,6 +117,7 @@ public class RoadLaneDetector extends SystemComponent {
      */
     private void rotateDetectionArea() {
         AffineTransform at = new AffineTransform();
+        at.translate(car.getShape().getBounds2D().getX(), car.getShape().getBounds2D().getY());
         at.scale(OFFSET_X, OFFSET_Y);
         at.rotate(car.getCarValues().getRotation());
         lateralOffset = at.createTransformedShape(car.getShape());
@@ -133,7 +134,7 @@ public class RoadLaneDetector extends SystemComponent {
 
         for (WorldObject worldObject : worldObjects) {
             if (onRoad() && worldObject instanceof Collidable && worldObject.equals(car) &&
-                    worldObject.getShape().intersects(lateralOffset.getBounds())) {
+                    worldObject.getShape().getBounds2D().intersects(lateralOffset.getBounds2D())) {
                 objectsInDetectionArea.add((Collidable) worldObject);
             }
         }

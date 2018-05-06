@@ -105,6 +105,14 @@ public class InputHandler implements KeyListener {
         return PARKINGPILOTEKEYCODE;
     }
 
+    public void setGaspressed(boolean gaspressed) {
+        this.gaspressed = gaspressed;
+    }
+
+    public void setBrakepressed(boolean value){
+        this.brakepressed = value;
+    }
+
     public boolean isRightIndexPressed() {
         return rightIndexPressed;
     }

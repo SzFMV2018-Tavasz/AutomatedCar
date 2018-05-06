@@ -12,7 +12,7 @@ public class GasBrake extends SystemComponent {
 
     private static final int GASSTEPVALUE = 4;
 
-    private static final int BRAKESTEPVALUE = 4;
+    public static int BRAKESTEPVALUE = 4;
 
     private int gaspedalvalue;
 
