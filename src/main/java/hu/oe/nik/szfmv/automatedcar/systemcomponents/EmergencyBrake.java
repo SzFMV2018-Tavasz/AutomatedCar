@@ -7,13 +7,8 @@ import hu.oe.nik.szfmv.automatedcar.bus.packets.detector.RadarSensorPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.InputPacket;
 import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
 import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
-import hu.oe.nik.szfmv.detector.classes.Detector;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class EmergencyBrake extends SystemComponent {
-
-    private static final Logger LOGGER = LogManager.getLogger(EmergencyBrake.class);
 
     private static final int BRAKE_STEPVALUE = 20;
 
@@ -26,8 +21,6 @@ public class EmergencyBrake extends SystemComponent {
     private InputPacket ip;
 
     private InputHandler ih;
-
-    private Detector d;
 
     private double speed;
 
@@ -43,14 +36,12 @@ public class EmergencyBrake extends SystemComponent {
         rsp = RadarSensorPacket.getInstance();
         ip = InputPacket.getInstance();
         ih = InputHandler.getInstance();
-        d = Detector.getDetector();
     }
 
     private void brake() {
         final double GSPEED = speed * 3;
         final int DEF = 10;
         if (GSPEED > DEF && ip.getGearState() != GearEnum.R && rsp.getObjectApproachingCenterline().size() != 0) {
-            //LOGGER.error("BRAKEEEE");
             GasBrake.BRAKESTEPVALUE = BRAKE_STEPVALUE;
             ih.setGaspressed(false);
             ih.setBrakepressed(true);
