@@ -36,6 +36,8 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     private boolean shapeBorderVizualizerState;
 
+    private boolean trackingState;
+
     /**
      * Inpuutpacket
      *
@@ -65,7 +67,10 @@ public class InputPacket implements ReadOnlyInputPacket {
         parkingPilote = value;
     }
 
-    public void setAccOn(boolean state) { accOn = state;}
+    public void setAccOn(boolean state) {
+        accOn = state;
+    }
+
 
     public void setAccDistanceValue(double value) {
         accDistanceValue = value;
@@ -103,6 +108,10 @@ public class InputPacket implements ReadOnlyInputPacket {
         this.shapeBorderVizualizerState = shapeBorderVizualizerState;
     }
 
+    public void setTrackingState(boolean state) {
+        this.trackingState = state;
+    }
+
 
     public void setGearSate(GearEnum gearEnum) {
         this.gearEnum = gearEnum;
@@ -124,7 +133,9 @@ public class InputPacket implements ReadOnlyInputPacket {
     }
 
     @Override
-    public boolean getACCOn() { return accOn; }
+    public boolean getACCOn() {
+        return accOn;
+    }
 
     @Override
     public int getACCTargetSpeed() {
@@ -179,5 +190,10 @@ public class InputPacket implements ReadOnlyInputPacket {
     @Override
     public boolean getShapeBorderVizualizerState() {
         return shapeBorderVizualizerState;
+    }
+
+    @Override
+    public boolean getTrackingState() {
+        return trackingState;
     }
 }
