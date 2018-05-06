@@ -1,7 +1,6 @@
 package hu.oe.nik.szfmv.automatedcar.bus;
 
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.LKA.IReadonlyLKAPointsPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.powertrain.ReadOnlyPowertrainPacket;
