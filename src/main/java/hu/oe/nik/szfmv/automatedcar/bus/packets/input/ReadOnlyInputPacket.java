@@ -103,8 +103,12 @@ public interface ReadOnlyInputPacket {
     boolean getUltrasonicVizualizerStatus();
 
     /**
-     *
      * @return shape debug is on off
      */
-     boolean getShapeBorderVizualizerState();
+    boolean getShapeBorderVizualizerState();
+
+    /**
+     * @return tracking is on || off
+     */
+    boolean getTrackingState();
 }
