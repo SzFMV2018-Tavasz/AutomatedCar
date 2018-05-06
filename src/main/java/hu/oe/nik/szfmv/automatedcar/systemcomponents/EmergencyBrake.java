@@ -49,7 +49,7 @@ public class EmergencyBrake extends SystemComponent {
     private void brake() {
         final double GSPEED = speed * 3;
         final int DEF = 10;
-        if (GSPEED > DEF && rsp.getObjectApproachingCenterline().size() != 0) {
+        if (GSPEED > DEF && ip.getGearState() != GearEnum.R && rsp.getObjectApproachingCenterline().size() != 0) {
             //LOGGER.error("BRAKEEEE");
             GasBrake.BRAKESTEPVALUE = BRAKE_STEPVALUE;
             ih.setGaspressed(false);

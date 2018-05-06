@@ -6,13 +6,13 @@ import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
 
 public class GasBrake extends SystemComponent {
 
+    public static int BRAKESTEPVALUE = 4;
+
     private static final int MAXGASPEDALVALUE = 100;
 
     private static final int MINGASPEDALVALUE = 0;
 
     private static final int GASSTEPVALUE = 4;
-
-    public static int BRAKESTEPVALUE = 4;
 
     private int gaspedalvalue;
 

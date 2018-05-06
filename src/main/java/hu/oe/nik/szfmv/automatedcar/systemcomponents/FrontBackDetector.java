@@ -4,7 +4,6 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.detector.RadarSensorPacket;
 import hu.oe.nik.szfmv.detector.classes.Detector;
-import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Collidable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -105,9 +104,6 @@ public class FrontBackDetector extends SystemComponent {
 
     @Override
     public void loop() throws MissingPacketException {
-        ;
-        /*previousCollidables = det.getCollidableObjects(radar.getTrianglePoints()[0],
-                radar.getTrianglePoints()[1], radar.getTrianglePoints()[2]);*/
         radar.setObjectApproachingCenterLine(getCollidableObjectsApproachingCenterLine(
                 centerLineofTraingle(radar.getTrianglePoints()),
                 det.getCollidableObjects(radar.getTrianglePoints()[0],

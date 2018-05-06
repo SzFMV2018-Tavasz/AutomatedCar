@@ -109,7 +109,7 @@ public class InputHandler implements KeyListener {
         this.gaspressed = gaspressed;
     }
 
-    public void setBrakepressed(boolean value){
+    public void setBrakepressed(boolean value) {
         this.brakepressed = value;
     }
 
