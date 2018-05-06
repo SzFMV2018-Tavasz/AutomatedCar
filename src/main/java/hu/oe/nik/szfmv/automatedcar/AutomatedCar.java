@@ -88,11 +88,37 @@ public class AutomatedCar extends WorldObject {
 
     /**
      * Calculates the new x and y coordinates of the {@link AutomatedCar} using the powertrain and the steering systems.
+     *
+     *
      */
+
+
+    private void SetACCSPeed(){
+        double orientationVector=1;
+        double WIND_RESISTANCE=1.5;
+       double speedDelta = orientationVector * (virtualFunctionBus.powertrainPacket.getRpm()
+                / (CarSpecifications.WEIGHT * WIND_RESISTANCE));
+
+       double speed=virtualFunctionBus.powertrainPacket.getSpeed();
+          speed+=speedDelta;
+        virtualFunctionBus.powertrainPacket.setSpeed(speed);
+
+    }
+
+
+    double carSpeed=0;
+
     private void calculatePositionAndOrientation() {
-        double carSpeed;
+        double carSpeed=0;
         if (virtualFunctionBus.inputPacket.getACCOn()) {
-            carSpeed = virtualFunctionBus.inputPacket.getACCTargetSpeed();
+            if(virtualFunctionBus.powertrainPacket.getSpeed()<=virtualFunctionBus.inputPacket.getACCTargetSpeed())
+            {
+               SetACCSPeed();
+               carSpeed=virtualFunctionBus.powertrainPacket.getSpeed();
+            }
+            else{
+                carSpeed=virtualFunctionBus.powertrainPacket.getSpeed();
+            }
 
         } else {
             carSpeed = virtualFunctionBus.powertrainPacket.getSpeed();

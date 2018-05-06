@@ -9,6 +9,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.packets.ultrasonicsensor.ReadOnlyUltraso
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainTestPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
+import hu.oe.nik.szfmv.automatedcar.bus.powertrain.PowertrainPacket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public class VirtualFunctionBus {
 
-    public ReadOnlyPowertrainPacket powertrainPacket;
+    public PowertrainPacket powertrainPacket;
     public ReadOnlyPowertrainTestPacket powertrainTestPacket;
     public ReadOnlyInputPacket inputPacket;
     public CarPacket carPacket;
