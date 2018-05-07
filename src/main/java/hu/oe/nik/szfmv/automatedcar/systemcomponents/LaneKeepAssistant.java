@@ -16,6 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringWheel;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.GasBrake;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -40,10 +41,11 @@ public class LaneKeepAssistant extends SystemComponent {
     private InputPacket inputPacket;
     private boolean wasPressed;
     private boolean laneKeepingOn;
+
     private boolean laneKeepingAvailable;
 
     private Point left;
-    private Point right;
+    private Point right; 
 
     /**
      * @param virtualFunctionBus VirtualFunctuonBus parameter
@@ -102,9 +104,9 @@ public class LaneKeepAssistant extends SystemComponent {
                 for (WorldObject worldObject : seenByCamera) {
                     if (worldObject instanceof Road) {
                         if (worldObject.getShape().contains(leftRotated)) {
-                            //TODO turnleft
+                            inputPacket.setSteeringWheelPosition(-40);
                         } else if (worldObject.getShape().contains(rightRotated)) {
-                            //TODO turnright
+                            inputPacket.setSteeringWheelPosition(40);
                         }
                     }
                 }
