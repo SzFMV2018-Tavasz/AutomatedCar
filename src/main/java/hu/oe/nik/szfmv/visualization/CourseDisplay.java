@@ -209,12 +209,14 @@ public class CourseDisplay extends JPanel {
             drawShapesDebug(g, offset.getX(), offset.getY());
 
         // draw LKA points
-        g.setColor(Color.BLACK);
-        ReadOnlyLKAPointsPacket LKApointsPacket = LKAPointsPacket.getInstance();
-        g.drawOval((int) ((LKApointsPacket.getLeftPoint().x + offset.getX()) * scale) - 5,
-                (int) ((LKApointsPacket.getLeftPoint().y + offset.getY()) * scale) - 5, 10, 10);
-        g.drawOval((int) ((LKApointsPacket.getRightPoint().x + offset.getX()) * scale) - 5,
-                (int) ((LKApointsPacket.getRightPoint().y + offset.getY()) * scale) - 5, 10, 10);
+        if(inputPacket.getLaneKeepingStatus()) {
+            g.setColor(Color.BLACK);
+            ReadOnlyLKAPointsPacket LKApointsPacket = LKAPointsPacket.getInstance();
+            g.drawOval((int) ((LKApointsPacket.getLeftPoint().x + offset.getX()) * scale) - 5,
+                    (int) ((LKApointsPacket.getLeftPoint().y + offset.getY()) * scale) - 5, 10, 10);
+            g.drawOval((int) ((LKApointsPacket.getRightPoint().x + offset.getX()) * scale) - 5,
+                    (int) ((LKApointsPacket.getRightPoint().y + offset.getY()) * scale) - 5, 10, 10);
+        }
 
     }
 
