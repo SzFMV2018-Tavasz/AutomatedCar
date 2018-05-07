@@ -87,7 +87,6 @@ public class LaneKeepAssistant extends SystemComponent {
         }
 
         if(laneKeepingOn) {
-            inputPacket.setGaspeadalposition(30);
             Point[] points = roadSignDetector.getTrianglePoints();
             List<WorldObject> seenByCamera = detector.getWorldObjects(points[0], points[1], points[2]);
             if(shouldStop(seenByCamera)) {
@@ -97,10 +96,8 @@ public class LaneKeepAssistant extends SystemComponent {
                 for (WorldObject worldObject : seenByCamera) {
                     if (worldObject instanceof Road) {
                         if (worldObject.getShape().contains(leftRotated)) {
-                            //TODO turnleft
                             inputPacket.setSteeringWheelPosition(-40);
                         } else if (worldObject.getShape().contains(rightRotated)) {
-                            //TODO turnright
                             inputPacket.setSteeringWheelPosition(40);
                         }
                     }
