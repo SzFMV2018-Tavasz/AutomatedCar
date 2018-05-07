@@ -66,12 +66,12 @@ public class AutomatedCar extends WorldObject {
         new ACC(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         steeringWheel = new SteeringWheel(virtualFunctionBus);
-        new LaneKeepAssistant(virtualFunctionBus);
 
         new RoadLaneDetector(virtualFunctionBus, this);
         new FrontBackDetector(virtualFunctionBus, Detector.getDetector().getWorldObjects());
 
         new RoadSignDetection(virtualFunctionBus);
+        new LaneKeepAssistant(virtualFunctionBus);
         UltrasonicSensor.createUltrasonicSensors(this, virtualFunctionBus);
 
         new Driver(virtualFunctionBus);
