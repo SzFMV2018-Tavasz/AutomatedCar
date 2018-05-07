@@ -218,6 +218,7 @@ public class Dashboard extends JPanel {
     private final int controlsY = 450;
     private final int controlsW = 200;
     private final int controlsH = 200;
+    private final double speedChangingNumber = 3.6;
 
     /**
      * Initialize the dashboard
@@ -246,7 +247,7 @@ public class Dashboard extends JPanel {
             updateGear(inputPacket.getGearState());
             updateSteeringWheel(inputPacket.getSteeringWheelPosition());
             updateTurnSignals(inputPacket.getLeftTurnSignalStatus(), inputPacket.getRightTurnSignalStatus());
-            updateACC(inputPacket.getACCTargetDistance(), inputPacket.getACCTargetSpeed());
+            updateACC(inputPacket.getACCTargetDistance(), (int) (inputPacket.getACCTargetSpeed() * speedChangingNumber));
             updateParkingPilotIndicator(inputPacket.getParkingPilotStatus());
             updateAccIndicator(inputPacket.getACCOn());
             updateLaneKeepingIndicator(inputPacket.getLaneKeepingStatus());
