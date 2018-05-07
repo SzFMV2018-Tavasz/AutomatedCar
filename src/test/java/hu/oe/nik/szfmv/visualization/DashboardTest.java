@@ -211,6 +211,11 @@ public class DashboardTest {
         public boolean getShapeBorderVizualizerState() {
             return false;
         }
+
+        @Override
+        public boolean getTrackingState() {
+            return false;
+        }
     }
 
     private class RoadSignPacketStub implements ReadOnlyRoadSignDetectionPacket {

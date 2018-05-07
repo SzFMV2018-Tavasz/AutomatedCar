@@ -10,7 +10,6 @@ import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSi
 import hu.oe.nik.szfmv.automatedcar.bus.packets.ultrasonicsensor.ReadOnlyUltrasonicSensorPacket;
 import hu.oe.nik.szfmv.automatedcar.sensors.UltrasonicSensor;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
-import hu.oe.nik.szfmv.detector.classes.Detector;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -64,11 +63,13 @@ public class AutomatedCar extends WorldObject {
         reverseRadar = new ReverseRadar(virtualFunctionBus, getUltrasonicSensors());
 
         new ACC(virtualFunctionBus);
+        new TrackingBut(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         steeringWheel = new SteeringWheel(virtualFunctionBus);
 
         new RoadLaneDetector(virtualFunctionBus, this);
-        new FrontBackDetector(virtualFunctionBus, Detector.getDetector().getWorldObjects());
+        new FrontBackDetector(virtualFunctionBus);
+        new EmergencyBrake(virtualFunctionBus, this);
 
         new RoadSignDetection(virtualFunctionBus);
         new LaneKeepAssistant(virtualFunctionBus);

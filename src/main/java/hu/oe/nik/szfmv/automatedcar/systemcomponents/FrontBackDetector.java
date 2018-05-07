@@ -4,8 +4,9 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.detector.RadarSensorPacket;
 import hu.oe.nik.szfmv.detector.classes.Detector;
-import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Collidable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,28 +14,24 @@ import java.util.List;
 
 public class FrontBackDetector extends SystemComponent {
 
+    private static final Logger LOGGER = LogManager.getLogger(FrontBackDetector.class);
+
+    private static final int LENGTH = 120;
+
     private List<Collidable> previousCollidables;
 
     private RadarSensorPacket radar;
 
-    private List<WorldObject> objects;
-
     private Detector det;
 
     /**
-     * @param worldobjects Objects from world lol
-     * @param vfb          virtualfunctionbus
+     * @param vfb virtualfunctionbus
      */
-    public FrontBackDetector(VirtualFunctionBus vfb, List<WorldObject> worldobjects) {
+    public FrontBackDetector(VirtualFunctionBus vfb) {
         super(vfb);
-        objects = worldobjects;
         previousCollidables = new ArrayList<>();
         radar = RadarSensorPacket.getInstance();
         det = Detector.getDetector();
-    }
-
-    public List<Collidable> getPreviousCollidables() {
-        return previousCollidables;
     }
 
     /**
@@ -82,15 +79,15 @@ public class FrontBackDetector extends SystemComponent {
                 prevcol.y = (int) previousCollidable.getY();
             }
 
-            if (previousCollidable == null ||
-                    pointToLineDistance(centerLine[0], centerLine[1],
-                            objloc) <
-                            pointToLineDistance(centerLine[0], centerLine[1], prevcol)) {
+            if (Math.abs(pointToLineDistance(centerLine[0], centerLine[1],
+                    objloc)) <= LENGTH) {
                 approachingCollidables.add(object);
+                LOGGER.error("APPROACHING COLLIDABLES IN RADAR TRAINGLE SIZE  ---- " + approachingCollidables.size());
             }
         }
 
         previousCollidables = collidableObjectsInTriangle;
+
         return approachingCollidables;
     }
 
