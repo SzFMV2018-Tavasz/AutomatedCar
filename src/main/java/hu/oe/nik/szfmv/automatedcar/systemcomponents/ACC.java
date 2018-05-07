@@ -25,6 +25,7 @@ public class ACC extends SystemComponent {
     private double accDistanceValue;
     private int accSpeedValue;
     private final InputPacket inputPacket;
+    private int limit;
 
     private InputHandler inputHandler;
 
@@ -38,6 +39,7 @@ public class ACC extends SystemComponent {
 
         accDistanceValue = 0.8;
         accSpeedValue = (int) (30 / speedChangingNumber);
+        limit = ACCSPEEDMAXVALUE;
 
         inputPacket = InputPacket.getInstance();
         inputHandler = InputHandler.getInstance();
@@ -49,8 +51,8 @@ public class ACC extends SystemComponent {
             rotateDistanceValue();
             accdistPressed = true;
         }
-        if (inputHandler.isAccSpeedIncrementPressedPressed() && !inputHandler.isAccSpeedDecrementPressedPressed()
-                && !plusPressed) {
+        if ((limit == ACCSPEEDMAXVALUE || limit <= accSpeedValue + ACCSPEEDSTEPVALUE) && inputHandler.isAccSpeedIncrementPressedPressed()
+                && !inputHandler.isAccSpeedDecrementPressedPressed() && !plusPressed) {
             setAccSpeedValue(+ACCSPEEDSTEPVALUE);
             plusPressed = true;
         }
@@ -142,7 +144,7 @@ public class ACC extends SystemComponent {
     private void checkTheNearsetRoadSignForSpeedChange() {
         RoadSign nearestRoadSign = getTheNearestRoadSign();
         if (nearestRoadSign != null) {
-            int limit = nearestRoadSign.getSpeedLimit();
+            limit = nearestRoadSign.getSpeedLimit();
             if (limit == 0) {
                 accSpeedValue = 0;
             } else if (limit > 0 && accSpeedValue * speedChangingNumber > limit) {
