@@ -54,6 +54,13 @@ public interface ReadOnlyInputPacket {
     boolean getLaneKeepingStatus();
 
     /**
+     * Gets if the LKA is available
+     *
+     * @return availability of LKA
+     */
+    boolean getLaneKeepingAvailability();
+
+    /**
      * Gets whether parking pilot is on or off.
      *
      * @return the parking pilot switch's status

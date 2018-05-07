@@ -20,6 +20,8 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     private boolean laneKeepingOn;
 
+    private boolean laneKeepingAvailable = true;
+
     private boolean parkingPilote;
 
     private boolean accOn;
@@ -82,6 +84,10 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     public void setLaneKeepingStatus(boolean value) {
         this.laneKeepingOn = value;
+    }
+
+    public void setLaneKeepingAvailability(boolean value) {
+        this.laneKeepingAvailable = value;
     }
 
     public void setLeftTurnSignalStatus(boolean leftIndexOn) {
@@ -150,6 +156,11 @@ public class InputPacket implements ReadOnlyInputPacket {
     @Override
     public boolean getLaneKeepingStatus() {
         return laneKeepingOn;
+    }
+
+    @Override
+    public boolean getLaneKeepingAvailability() {
+        return laneKeepingAvailable;
     }
 
     @Override

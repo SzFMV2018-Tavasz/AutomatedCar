@@ -29,7 +29,6 @@ public class AutomatedCar extends WorldObject {
     private SteeringWheel steeringWheel;
     private final List<UltrasonicSensor> ultrasonicSensors = new ArrayList<>();
     private ReverseRadar reverseRadar;
-    private double carSpeed = 0;
 
     /**
      * Constructor of the AutomatedCar class
@@ -72,6 +71,7 @@ public class AutomatedCar extends WorldObject {
         new EmergencyBrake(virtualFunctionBus, this);
 
         new RoadSignDetection(virtualFunctionBus);
+        new LaneKeepAssistant(virtualFunctionBus);
         UltrasonicSensor.createUltrasonicSensors(this, virtualFunctionBus);
 
         new Driver(virtualFunctionBus);
@@ -84,6 +84,7 @@ public class AutomatedCar extends WorldObject {
         try {
             calculatePositionAndOrientation();
             virtualFunctionBus.loop();
+
             generateShape();
         } catch (MissingPacketException e) {
             LOGGER.error(e);
@@ -95,14 +96,18 @@ public class AutomatedCar extends WorldObject {
      */
 
 
-    private void SetACCSPeed() {
+    private void SetACCSPeed(boolean add) {
         double orientationVector = 1;
         double WIND_RESISTANCE = 1.5;
         double speedDelta = orientationVector * (virtualFunctionBus.powertrainPacket.getRpm()
                 / (CarSpecifications.WEIGHT * WIND_RESISTANCE));
 
         double speed = virtualFunctionBus.powertrainPacket.getSpeed();
-        speed += speedDelta;
+        if (add) {
+            speed += speedDelta;
+        } else {
+            speed -= speedDelta;
+        }
         virtualFunctionBus.powertrainPacket.setSpeed(speed);
 
     }
@@ -111,7 +116,10 @@ public class AutomatedCar extends WorldObject {
         double carSpeed = 0;
         if (virtualFunctionBus.inputPacket.getACCOn()) {
             if (virtualFunctionBus.powertrainPacket.getSpeed() <= virtualFunctionBus.inputPacket.getACCTargetSpeed()) {
-                SetACCSPeed();
+                SetACCSPeed(true);
+                carSpeed = virtualFunctionBus.powertrainPacket.getSpeed();
+            } else if (virtualFunctionBus.powertrainPacket.getSpeed() > virtualFunctionBus.inputPacket.getACCTargetSpeed()) {
+                SetACCSPeed(false);
                 carSpeed = virtualFunctionBus.powertrainPacket.getSpeed();
             } else {
                 carSpeed = virtualFunctionBus.powertrainPacket.getSpeed();
