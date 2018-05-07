@@ -6,11 +6,14 @@ public class PPCoordinatesPacket implements ReadOnlyPPCoordinatesPacket {
     private double frontY = 0;
     private double backX = 0;
     private double backY = 0;
+    private boolean placeIsAvailable;
 
     /**
      * ParkingPilotCoordinates packet constructor
      */
     //public PPCoordinatesPacket() { }
+
+    public void setPlaceIsAvailable(boolean state) { this.placeIsAvailable = state; }
 
     public void setFrontX(double frontX) {
         this.frontX = frontX;
@@ -47,4 +50,7 @@ public class PPCoordinatesPacket implements ReadOnlyPPCoordinatesPacket {
     public double getBackY() {
         return backY;
     }
+
+    @Override
+    public boolean getPlaceIsAvailable() { return placeIsAvailable; }
 }

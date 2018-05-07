@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv.automatedcar.bus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.parkingpilot.ReadOnlyPPCoordinatesPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.powertrain.ReadOnlyPowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.powertrain.ReadOnlyPowertrainTestPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
@@ -28,6 +29,7 @@ public class VirtualFunctionBus {
     public ReadOnlyRoadSignDetectionPacket roadSignDetectionPacket;
     public ReadOnlyReverseRadarPacket reverseRadarPacket;
     public ReadOnlyUltrasonicSensorPacket ultrasonicSensorPacket;
+    public ReadOnlyPPCoordinatesPacket ppCoordinatesPacket;
 
     private List<SystemComponent> components = new ArrayList<>();
 
