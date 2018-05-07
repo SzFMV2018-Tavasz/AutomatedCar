@@ -1,23 +1,30 @@
-package hu.oe.nik.szfmv.automatedcar.bus.packets.parkingpilot;
+package hu.oe.nik.szfmv.automatedcar.bus.packets.ParkingPilot;
 
 public interface ReadOnlyPPCoordinatesPacket {
+
+
     /**
-     * @return x position founnd by front sensor
+     * @return true if find a parking place
+     */
+    boolean getPlaceIsAvailable();
+
+    /**
+     * @return x position found by front sensor
      */
     double getFrontX();
 
     /**
-     * @return y position founnd by front sensor
+     * @return y position found by front sensor
      */
     double getFrontY();
 
     /**
-     * @return x position founnd by back sensor
+     * @return x position found by back sensor
      */
     double getBackX();
 
     /**
-     * @return y position founnd by back sensor
+     * @return y position found by back sensor
      */
     double getBackY();
 }

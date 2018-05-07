@@ -1,7 +1,8 @@
 package hu.oe.nik.szfmv.automatedcar.bus.packets.ParkingPilot;
 
-
 public interface ReadOnlyPPCoordinatesPacket {
+
+
     /**
      * @return true if find a parking place
      */
@@ -15,7 +16,6 @@ public interface ReadOnlyPPCoordinatesPacket {
     /**
      * @return y position found by front sensor
      */
-
     double getFrontY();
 
     /**
