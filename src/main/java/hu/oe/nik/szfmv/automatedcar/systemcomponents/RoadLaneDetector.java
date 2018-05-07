@@ -3,9 +3,10 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.detector.DetectorPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.detector.RadarSensorPacket;
+import hu.oe.nik.szfmv.common.Utils;
 import hu.oe.nik.szfmv.detector.classes.Detector;
-import hu.oe.nik.szfmv.environment.World;
+import hu.oe.nik.szfmv.detector.classes.Triangle;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Collidable;
 import hu.oe.nik.szfmv.environment.models.Road;
@@ -21,13 +22,17 @@ public class RoadLaneDetector extends SystemComponent {
 
     private static final Logger LOGGER = LogManager.getLogger(RoadLaneDetector.class);
 
+    private static final int PI_IN_DEGREE = 180;
+
+    private static final int HEIGHT_OFFSET = 10;
+
     private static final double OFFSET_X = 1.2;
 
     private static final double OFFSET_Y = 2;
 
-    //private static final double SENSOR_RANGE = 200d;
+    private static final double SENSOR_RANGE = 200d;
 
-    //private static final double ANGLE_OF_VIEW = 60d;
+    private static final double ANGLE_OF_VIEW = 60d;
 
     private List<WorldObject> worldObjects;
 
@@ -37,7 +42,7 @@ public class RoadLaneDetector extends SystemComponent {
 
     private Shape lateralOffset;
 
-    private DetectorPacket dp;
+    private RadarSensorPacket dp;
 
     private Detector detector;
 
@@ -78,12 +83,28 @@ public class RoadLaneDetector extends SystemComponent {
     }
 
     /**
+     * @return the points of the traingle
+     */
+    private Point[] trainglePoints() {
+        Point startpoint = new Point();
+        int rY = (car.getHeight() / 2) - HEIGHT_OFFSET;
+        startpoint.x = (int) (car.getX() + Math.cos(-car.getRotation() + Math.PI) -
+                rY * Math.sin(-car.getRotation() + Math.PI));
+        startpoint.y = (int) (car.getY() + Math.sin(-car.getRotation() + Math.PI) +
+                rY * Math.cos(-car.getRotation() + Math.PI));
+
+        return Triangle.trianglePoints(startpoint, SENSOR_RANGE, ANGLE_OF_VIEW,
+                Utils.radianToDegree(-car.getRotation()) + PI_IN_DEGREE);
+    }
+
+    /**
      * @return the car is on the road or no
      */
     private boolean onRoad() {
         for (Road r : roads) {
-            if (r.getShape().intersects(car.getShape().getBounds2D())) {
-                LOGGER.debug("on the road");
+            if (r.getShape().intersects(car.getShape().getBounds2D().getX(), car.getShape().getBounds2D().getY(),
+                    car.getShape().getBounds2D().getWidth(), car.getShape().getBounds2D().getHeight())) {
+                //LOGGER.debug("on the road fuck yeah");
                 return true;
             }
         }
@@ -96,6 +117,7 @@ public class RoadLaneDetector extends SystemComponent {
      */
     private void rotateDetectionArea() {
         AffineTransform at = new AffineTransform();
+        at.translate(car.getShape().getBounds2D().getX(), car.getShape().getBounds2D().getY());
         at.scale(OFFSET_X, OFFSET_Y);
         at.rotate(car.getCarValues().getRotation());
         lateralOffset = at.createTransformedShape(car.getShape());
@@ -112,7 +134,7 @@ public class RoadLaneDetector extends SystemComponent {
 
         for (WorldObject worldObject : worldObjects) {
             if (onRoad() && worldObject instanceof Collidable && worldObject.equals(car) &&
-                    worldObject.getShape().intersects(lateralOffset.getBounds())) {
+                    worldObject.getShape().getBounds2D().intersects(lateralOffset.getBounds2D())) {
                 objectsInDetectionArea.add((Collidable) worldObject);
             }
         }
@@ -142,6 +164,7 @@ public class RoadLaneDetector extends SystemComponent {
 
     @Override
     public void loop() throws MissingPacketException {
+        dp.setPoints(trainglePoints());
         dp.setClosestCollidableinLane(getClosestCollidableObjectBasedOnLateralOffset());
     }
 }

@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 public class InputHandler implements KeyListener {
 
     private static final Logger LOGGER = LogManager.getLogger(InputHandler.class);
+    private static InputHandler instance = null;
     private static final int STEERINGLEFTKEYCODE = KeyEvent.VK_LEFT;
     private static final int STEERINGRIGHTKEYCODE = KeyEvent.VK_RIGHT;
     private static final int RIGHTINDEXKEYCODE = KeyEvent.VK_1;
@@ -17,17 +18,18 @@ public class InputHandler implements KeyListener {
     private static final int BRAKEKEYCODE = KeyEvent.VK_DOWN;
     private static final int GEARSHIFTUPKEYCODE = KeyEvent.VK_W;
     private static final int GEARSHIFTDOWNKEYCODE = KeyEvent.VK_S;
-    private static final int LANEKEEPINGKEYCODE = KeyEvent.VK_L;
+    private static final int LANEKEEPINGKEYCODE = KeyEvent.VK_4;
+    private static final int ACCONKEYCODE = KeyEvent.VK_5;
     private static final int ACCDISTANCEKEYCODE = KeyEvent.VK_T;
-    private static final int ACCSPEEDINCREMENTKEYCODE = KeyEvent.VK_PLUS;
-    private static final int ACCSPEEDDECREMENTKEYCODE = KeyEvent.VK_MINUS;
+    private static final int ACCSPEEDINCREMENTKEYCODE = 107;
+    private static final int ACCSPEEDDECREMENTKEYCODE = 109;
     private static final int PARKINGPILOTEKEYCODE = KeyEvent.VK_P;
     private static final int RADARTESTKEYCODE = KeyEvent.VK_7;
     private static final int CAMERATESTKEYCODE = KeyEvent.VK_8;
     private static final int ULTRASONICTESTKEYCODE = KeyEvent.VK_9;
     private static final int SHAPETESTKEYCODE = KeyEvent.VK_6;
+    private static final int TRACKINGKEYCODE = KeyEvent.VK_2;
 
-    private static InputHandler instance = null;
     private boolean steeringLeftPressed;
 
     private boolean steeringRightPressed;
@@ -48,6 +50,8 @@ public class InputHandler implements KeyListener {
 
     private boolean parkingPiloteOn;
 
+    private boolean accOnPressed;
+
     private boolean accDistancePressed;
 
     private boolean accSpeedIncrementPressed;
@@ -62,6 +66,8 @@ public class InputHandler implements KeyListener {
 
     private boolean shapeBorderTestPressed;
 
+    private boolean tracking;
+
     /**
      * Inputhandler
      *
@@ -73,6 +79,38 @@ public class InputHandler implements KeyListener {
         }
 
         return instance;
+    }
+
+    public static int getLANEKEEPINGKEYCODE() {
+        return LANEKEEPINGKEYCODE;
+    }
+
+    public static int getACCONKEYCODE() {
+        return ACCONKEYCODE;
+    }
+
+    public static int getACCDISTANCEKEYCODE() {
+        return ACCDISTANCEKEYCODE;
+    }
+
+    public static int getACCSPEEDINCREMENTKEYCODE() {
+        return ACCSPEEDINCREMENTKEYCODE;
+    }
+
+    public static int getACCSPEEDDECREMENTKEYCODE() {
+        return ACCSPEEDDECREMENTKEYCODE;
+    }
+
+    public static int getPARKINGPILOTEKEYCODE() {
+        return PARKINGPILOTEKEYCODE;
+    }
+
+    public void setGaspressed(boolean gaspressed) {
+        this.gaspressed = gaspressed;
+    }
+
+    public void setBrakepressed(boolean value) {
+        this.brakepressed = value;
     }
 
     public boolean isRightIndexPressed() {
@@ -115,6 +153,10 @@ public class InputHandler implements KeyListener {
         return parkingPiloteOn;
     }
 
+    public boolean isAccOnPressed() {
+        return accOnPressed;
+    }
+
     public boolean isAccDistancePressed() {
         return accDistancePressed;
     }
@@ -141,6 +183,10 @@ public class InputHandler implements KeyListener {
 
     public boolean isShapeBorderTestPressed() {
         return shapeBorderTestPressed;
+    }
+
+    public boolean isTrackingPressed() {
+        return tracking;
     }
 
     @Override
@@ -187,8 +233,12 @@ public class InputHandler implements KeyListener {
                 break;
             case (LEFTINDEXKEYCODE):
                 leftIndexPressed = state;
+                break;
             case (PARKINGPILOTEKEYCODE):
                 parkingPiloteOn = state;
+                break;
+            case (ACCONKEYCODE):
+                accOnPressed = state;
                 break;
             case (ACCDISTANCEKEYCODE):
                 accDistancePressed = state;
@@ -210,6 +260,9 @@ public class InputHandler implements KeyListener {
                 break;
             case (SHAPETESTKEYCODE):
                 shapeBorderTestPressed = state;
+                break;
+            case (TRACKINGKEYCODE):
+                tracking = state;
                 break;
             default:
                 break;

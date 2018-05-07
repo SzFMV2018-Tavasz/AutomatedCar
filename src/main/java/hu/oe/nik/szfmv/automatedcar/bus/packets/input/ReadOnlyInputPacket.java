@@ -24,6 +24,14 @@ public interface ReadOnlyInputPacket {
      */
     double getSteeringWheelPosition();
 
+
+    /**
+     * Gets the ACC state.
+     *
+     * @return the ACC's state
+     */
+    boolean getACCOn();
+
     /**
      * Gets the ACC target speed (between 30 and 160).
      *
@@ -44,6 +52,13 @@ public interface ReadOnlyInputPacket {
      * @return the lane keeping switch's status
      */
     boolean getLaneKeepingStatus();
+
+    /**
+     * Gets if the LKA is available
+     *
+     * @return availability of LKA
+     */
+    boolean getLaneKeepingAvailability();
 
     /**
      * Gets whether parking pilot is on or off.
@@ -95,8 +110,12 @@ public interface ReadOnlyInputPacket {
     boolean getUltrasonicVizualizerStatus();
 
     /**
-     *
      * @return shape debug is on off
      */
-     boolean getShapeBorderVizualizerState();
+    boolean getShapeBorderVizualizerState();
+
+    /**
+     * @return tracking is on || off
+     */
+    boolean getTrackingState();
 }

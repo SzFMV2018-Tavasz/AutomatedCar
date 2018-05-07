@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv.automatedcar.bus.powertrain;
+package hu.oe.nik.szfmv.automatedcar.bus.packets.powertrain;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

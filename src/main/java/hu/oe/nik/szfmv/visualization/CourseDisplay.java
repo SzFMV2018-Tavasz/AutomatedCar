@@ -1,9 +1,13 @@
 package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.LKA.ReadOnlyLKAPointsPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.LKA.LKAPointsPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.car.CarPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.detector.RadarSensorPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.RoadSignDetectionPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.ultrasonicsensor.ReadOnlyUltrasonicSensorPacket;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.models.Movable;
@@ -41,12 +45,9 @@ public class CourseDisplay extends JPanel {
     private final int courseWidth = 5120;
     private final int courseHeight = 3000;
 
-    private final double sensorRangeRadar = 200.0;
-    private final double angleOfViewRadar = 60.0;
-
-    private ReadOnlyRoadSignDetectionPacket roadSignDetectionPacket = null;
     private CarPacket carPacket = null;
     private ReadOnlyInputPacket inputPacket = null;
+    private ReadOnlyUltrasonicSensorPacket ultrasonicSensorPacket = null;
     private World world;
 
     // roadsigns and trees
@@ -130,18 +131,18 @@ public class CourseDisplay extends JPanel {
     /**
      * Draws the world to the course display
      *
-     * @param world       {@link World} object that describes the virtual world
-     * @param carPacket   {@link CarPacket} Packet that contains the location of the automated car
-     * @param inputPacket {@link ReadOnlyInputPacket} contains key states for debugging
-     * @param roadSignDetectionPacket contains the camera triangle for debug
+     * @param world                  {@link World} object that describes the virtual world
+     * @param carPacket              {@link CarPacket} Packet that contains the location of the automated car
+     * @param inputPacket            {@link ReadOnlyInputPacket} contains key states for debugging
+     * @param ultrasonicSensorPacket {@link ReadOnlyUltrasonicSensorPacket} contains the triangles of ultrasonic sensors
      */
     public void drawWorld(World world, CarPacket carPacket, ReadOnlyInputPacket inputPacket,
-                          ReadOnlyRoadSignDetectionPacket roadSignDetectionPacket) {
+                          ReadOnlyUltrasonicSensorPacket ultrasonicSensorPacket) {
         invalidate();
-        this.roadSignDetectionPacket = roadSignDetectionPacket;
         this.world = world;
         this.carPacket = carPacket;
         this.inputPacket = inputPacket;
+        this.ultrasonicSensorPacket = ultrasonicSensorPacket;
         validate();
         repaint();
     }
@@ -192,18 +193,31 @@ public class CourseDisplay extends JPanel {
         }
         // draw sensor scopes depending on debug settings
         if (inputPacket.getCameraVizualizerStatus()) {
-            drawSensor(roadSignDetectionPacket.getTrianglePoints(), offset, Color.RED, g);
+            drawSensor(RoadSignDetectionPacket.getInstance().getTrianglePoints(), offset, Color.BLUE, g);
         }
         if (inputPacket.getRadarVizualizerStatus()) {
-            // Need the coordinates of radar triangle
+            drawSensor(RadarSensorPacket.getInstance().getTrianglePoints(), offset, Color.RED, g);
         }
         if (inputPacket.getUltrasonicVizualizerStatus()) {
-            // Need the coordinates of ultrasonic triangle
+            for (Point[] t : ultrasonicSensorPacket.getUltrasonicSensorTriangles()) {
+                drawSensor(t, offset, Color.GREEN, g);
+            }
         }
         // draw stationary children (Tree, Road sign)
         g.drawImage(staticEnvironmentZ1, (int) (offset.getX() * scale), (int) (offset.getY() * scale), this);
         if (inputPacket.getShapeBorderVizualizerState())
             drawShapesDebug(g, offset.getX(), offset.getY());
+
+        // draw LKA points
+        if(inputPacket.getLaneKeepingStatus()) {
+            g.setColor(Color.BLACK);
+            ReadOnlyLKAPointsPacket LKApointsPacket = LKAPointsPacket.getInstance();
+            g.drawOval((int) ((LKApointsPacket.getLeftPoint().x + offset.getX()) * scale) - 5,
+                    (int) ((LKApointsPacket.getLeftPoint().y + offset.getY()) * scale) - 5, 10, 10);
+            g.drawOval((int) ((LKApointsPacket.getRightPoint().x + offset.getX()) * scale) - 5,
+                    (int) ((LKApointsPacket.getRightPoint().y + offset.getY()) * scale) - 5, 10, 10);
+        }
+
     }
 
     private void drawSensor(Point[] trianglePoints, java.awt.geom.Point2D offset, Color color, Graphics graphics) {
