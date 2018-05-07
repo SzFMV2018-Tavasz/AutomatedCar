@@ -72,6 +72,7 @@ public class AutomatedCar extends WorldObject {
         new EmergencyBrake(virtualFunctionBus, this);
 
         new RoadSignDetection(virtualFunctionBus);
+        new LaneKeepAssistant(virtualFunctionBus);
         UltrasonicSensor.createUltrasonicSensors(this, virtualFunctionBus);
 
         new Driver(virtualFunctionBus);

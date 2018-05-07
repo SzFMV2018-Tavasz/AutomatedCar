@@ -164,6 +164,11 @@ public class DashboardTest {
         }
 
         @Override
+        public boolean getLaneKeepingAvailability() {
+            return false;
+        }
+
+        @Override
         public boolean getParkingPilotStatus() {
             parkingPilotGetterCalled = true;
             return false;

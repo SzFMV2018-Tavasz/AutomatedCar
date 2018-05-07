@@ -18,7 +18,7 @@ public class InputHandler implements KeyListener {
     private static final int BRAKEKEYCODE = KeyEvent.VK_DOWN;
     private static final int GEARSHIFTUPKEYCODE = KeyEvent.VK_W;
     private static final int GEARSHIFTDOWNKEYCODE = KeyEvent.VK_S;
-    private static final int LANEKEEPINGKEYCODE = KeyEvent.VK_L;
+    private static final int LANEKEEPINGKEYCODE = KeyEvent.VK_4;
     private static final int ACCONKEYCODE = KeyEvent.VK_5;
     private static final int ACCDISTANCEKEYCODE = KeyEvent.VK_T;
     private static final int ACCSPEEDINCREMENTKEYCODE = 107;
@@ -28,7 +28,7 @@ public class InputHandler implements KeyListener {
     private static final int CAMERATESTKEYCODE = KeyEvent.VK_8;
     private static final int ULTRASONICTESTKEYCODE = KeyEvent.VK_9;
     private static final int SHAPETESTKEYCODE = KeyEvent.VK_6;
-    private static final int TRACKINGKEYCODE = KeyEvent.VK_4;
+    private static final int TRACKINGKEYCODE = KeyEvent.VK_2;
 
     private boolean steeringLeftPressed;
 
