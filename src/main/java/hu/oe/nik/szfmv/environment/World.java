@@ -33,7 +33,7 @@ public class World implements IWorld {
     public World(int width, int height) {
         this.width = width;
         this.height = height;
-        this.build("src/main/resources/lane_keeping_test_world_fixed.xml");
+        this.build("src/main/resources/test.xml");
         //create detector
         Detector d = Detector.getDetector();
         //set detector's list
