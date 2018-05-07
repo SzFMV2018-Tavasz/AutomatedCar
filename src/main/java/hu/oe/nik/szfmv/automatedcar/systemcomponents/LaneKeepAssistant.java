@@ -40,9 +40,10 @@ public class LaneKeepAssistant extends SystemComponent {
     private InputPacket inputPacket;
     private boolean wasPressed;
     private boolean laneKeepingOn;
+    private boolean laneKeepingAvailable;
 
-    Point left;
-    Point right;
+    private Point left;
+    private Point right;
 
     /**
      * @param virtualFunctionBus VirtualFunctuonBus parameter
@@ -57,6 +58,7 @@ public class LaneKeepAssistant extends SystemComponent {
 
         wasPressed = false;
         laneKeepingOn = false;
+        laneKeepingAvailable = true;
 
         detector = Detector.getDetector();
         roads = new ArrayList<>();
@@ -85,12 +87,18 @@ public class LaneKeepAssistant extends SystemComponent {
             wasPressed = false;
         }
 
-        if(laneKeepingOn) {
-            Point[] points = roadSignDetector.getTrianglePoints();
-            List<WorldObject> seenByCamera = detector.getWorldObjects(points[0], points[1], points[2]);
-            if(shouldStop(seenByCamera)) {
-                //TODO stopLKA
-            } else {
+
+        Point[] points = roadSignDetector.getTrianglePoints();
+        List<WorldObject> seenByCamera = detector.getWorldObjects(points[0], points[1], points[2]);
+        if (shouldStop(seenByCamera)) {
+            laneKeepingOn = false;
+            inputPacket.setLaneKeepingStatus(laneKeepingOn);
+            laneKeepingAvailable = false;
+            inputPacket.setLaneKeepingAvailability(laneKeepingAvailable);
+        } else {
+            laneKeepingAvailable = true;
+            inputPacket.setLaneKeepingAvailability(laneKeepingAvailable);
+            if (laneKeepingOn) {
                 for (WorldObject worldObject : seenByCamera) {
                     if (worldObject instanceof Road) {
                         if (worldObject.getShape().contains(leftRotated)) {
@@ -112,7 +120,7 @@ public class LaneKeepAssistant extends SystemComponent {
         Point startPoint = roadSignDetector.getTrianglePoints()[0];
         Road closestRoad = null;
         double minDistance = Integer.MAX_VALUE;
-        for(WorldObject worldObject : worldObjects) {
+        for (WorldObject worldObject : worldObjects) {
             if (worldObject instanceof Road) {
                 if (worldObject.getShape() == null) {
                     worldObject.generateShape();
@@ -121,7 +129,7 @@ public class LaneKeepAssistant extends SystemComponent {
                 Point objectCenter = new Point(objectRectangle.x + objectRectangle.width / 2,
                         objectRectangle.y + objectRectangle.height / 2);
                 double currentDistance = startPoint.distance(objectCenter);
-                if(currentDistance < minDistance) {
+                if (currentDistance < minDistance) {
                     closestRoad = (Road) worldObject;
                     minDistance = currentDistance;
                 }
@@ -129,11 +137,11 @@ public class LaneKeepAssistant extends SystemComponent {
         }
 
         //Returns true if lanekeeping should stop: when there is no road or when there is a 90 degrees turn; return false otherwise
-        if(closestRoad == null) {
+        if (closestRoad == null) {
             return true;
         } else {
             String imageName = closestRoad.getImageFileName();
-            if(imageName.contains("road_2lane_6") ||
+            if (imageName.contains("road_2lane_6") ||
                     imageName.contains("road_2lane_45") ||
                     imageName.contains("road_2lane_straight")) {
                 return false;

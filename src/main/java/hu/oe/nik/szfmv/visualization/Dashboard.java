@@ -134,6 +134,7 @@ public class Dashboard extends JPanel {
     private final int lkaButtonHeight = 30;
     private JButton lkaButton = new JButton();
     private boolean lkaOn = false;
+    private boolean lkaAvailable = true;
 
     /**
      * Parking pilot
@@ -249,7 +250,7 @@ public class Dashboard extends JPanel {
             updateACC(inputPacket.getACCTargetDistance(), inputPacket.getACCTargetSpeed());
             updateParkingPilotIndicator(inputPacket.getParkingPilotStatus());
             updateAccIndicator(inputPacket.getACCOn());
-            updateLaneKeepingIndicator(inputPacket.getLaneKeepingStatus());
+            updateLaneKeepingIndicator(inputPacket.getLaneKeepingStatus(), inputPacket.getLaneKeepingAvailability());
         }
         if (powertrainPacket != null) {
             updateAnalogMeters((int) powertrainPacket.getSpeed(), powertrainPacket.getRpm());
@@ -413,11 +414,13 @@ public class Dashboard extends JPanel {
     /**
      * Updates the background color of the LK indicator.
      *
-     * @param value whether LK is on or off
+     * @param isOn whether LK is on or off
+     * @param isAvailable whether LK is available or not
      */
-    private void updateLaneKeepingIndicator(boolean value) {
-        lkaOn = value;
-        updateButtonBackground(lkaOn, lkaButton);
+    private void updateLaneKeepingIndicator(boolean isOn, boolean isAvailable) {
+        lkaOn = isOn;
+        lkaAvailable = isAvailable;
+        updateLKAButtonBackground(lkaOn, lkaAvailable, lkaButton);
     }
 
     /**
@@ -637,6 +640,23 @@ public class Dashboard extends JPanel {
      */
     private void updateButtonBackground(Boolean buttonValue, JButton button) {
         if (buttonValue) {
+            button.setBackground(Color.GREEN);
+        } else {
+            button.setBackground(new JButton().getBackground());
+        }
+    }
+
+    /**
+     * Updates the given button's background color based on the given boolean values
+     *
+     * @param isOn        the boolean value represented by the button
+     * @param isAvailable the boolean value representing feature availability
+     * @param button      the button we are updating
+     */
+    private void updateLKAButtonBackground(Boolean isOn, Boolean isAvailable, JButton button) {
+        if (!isAvailable) {
+            button.setBackground(Color.RED);
+        } else if (isOn) {
             button.setBackground(Color.GREEN);
         } else {
             button.setBackground(new JButton().getBackground());
