@@ -26,8 +26,8 @@ import java.util.List;
 public class LaneKeepAssistant extends SystemComponent {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private static final int leftXOffset = -(300 + 51);
-    private static final int rightXOffset = 120 + 51;
+    private static final int leftXOffset = -(260 + 51);
+    private static final int rightXOffset = 100 + 51;
     private static final int leftYOffset = -(150 + 104);
     private static final int rightYOffset = -(150 + 104);
     private CarPacket carPacket;
@@ -81,7 +81,8 @@ public class LaneKeepAssistant extends SystemComponent {
         pointsPackage.setLeftPoint(leftRotated);
         pointsPackage.setRightPoint(rightRotated);
 
-        if (!wasPressed && inputHandler.isLaneKeepingPressed()) {
+        if ((!wasPressed && inputHandler.isLaneKeepingPressed()) ||
+                (laneKeepingOn && (inputHandler.isSteeringLeftPressed() || inputHandler.isSteeringRightPressed()))) {
             wasPressed = true;
             laneKeepingOn = !laneKeepingOn;
             inputPacket.setLaneKeepingStatus(laneKeepingOn);
