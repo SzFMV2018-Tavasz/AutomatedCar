@@ -23,6 +23,7 @@ public class AutomatedCar extends WorldObject {
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
     private final List<UltrasonicSensor> ultrasonicSensors = new ArrayList<>();
     private double wheelBase;
+    private boolean parkingAutomatic;
     private double halfWheelBase;
     private double halfWidth;
     private PowertrainSystem powertrainSystem;
@@ -88,6 +89,7 @@ public class AutomatedCar extends WorldObject {
                         && virtualFunctionBus.inputPacket.getParkingPilotStatus()
                         && virtualFunctionBus.readOnlyPPCoordinatesPacket.getFrontX() < parkingPlaceRightDiff
                         && virtualFunctionBus.readOnlyPPCoordinatesPacket.getFrontX() > parkingPlaceLeftDiff) {
+                    parkingAutomatic = true;
                     parkingPilot();
                 }
             }
@@ -166,28 +168,32 @@ public class AutomatedCar extends WorldObject {
         double secondState = parkingPlaceEnd + Math.round(parkingPlaceHeight * secondStateRate);
         double thirdState = parkingPlaceEnd + parkingPlaceHeight;
 
-
-        if (this.getCarValues().getY() < parkingPlaceEnd) {
-            goBackToTheParkingPlace();
-        } else {
-            if (this.getCarValues().getY() < firstState) {
-                wheelPosition = -fullWheelPosition;
-            } else if (this.getCarValues().getY() < secondState) {
-                wheelPosition = 0;
-            } else if (this.getCarValues().getY() < thirdState && this.getCarValues().getY() < parkingPlaceStart) {
-                wheelPosition = fullWheelPosition;
+        while (parkingAutomatic) {
+            if (this.getCarValues().getY() < parkingPlaceEnd) {
+                goBackToTheParkingPlace();
             } else {
-                carSpeed = 0;
-            }
+                if (getInputValues().getGasPedalPosition() != 0 || getInputValues().getBreakPedalPosition() != 0 ||
+                        getInputValues().getSteeringWheelPosition() != 0) {
+                    parkingAutomatic = false;
+                } else if (this.getCarValues().getY() < firstState) {
+                    wheelPosition = -fullWheelPosition;
+                } else if (this.getCarValues().getY() < secondState) {
+                    wheelPosition = 0;
+                } else if (this.getCarValues().getY() < thirdState && this.getCarValues().getY() < parkingPlaceStart) {
+                    wheelPosition = fullWheelPosition;
+                } else {
+                    parkingAutomatic = false;
+                    carSpeed = 0;
+                }
 
-            try {
-                angularSpeed = SteeringMethods.getSteerAngle(wheelPosition);
-            } catch (Exception e) {
-                e.printStackTrace();
+                try {
+                    angularSpeed = SteeringMethods.getSteerAngle(wheelPosition);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                setCarPositionAndOrientation(carSpeed, angularSpeed);
             }
-            setCarPositionAndOrientation(carSpeed, angularSpeed);
         }
-
     }
 
     private void goBackToTheParkingPlace() {
