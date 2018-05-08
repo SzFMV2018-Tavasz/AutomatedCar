@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv.automatedcar.bus.packets.detector;
 import hu.oe.nik.szfmv.environment.models.Collidable;
 
 import java.awt.*;
+import java.util.List;
 
 public interface ReadOnlyRadarSensorPacket {
     /**
@@ -11,7 +12,12 @@ public interface ReadOnlyRadarSensorPacket {
     Collidable getClosestCollidableObjectinRoadLane();
 
     /**
+     * @return collidable objects approaching center line
+     */
+    List<Collidable> getObjectApproachingCenterline();
+
+    /**
      * @return points of the radar sensor traingle
      */
-    Point[] getTrainglePoints();
+    Point[] getTrianglePoints();
 }

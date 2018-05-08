@@ -54,4 +54,12 @@ public class Gui extends JFrame {
     public Dashboard getDashboard() {
         return dashboard;
     }
+
+    /**
+     * When the game ends, in this case pops up an information window
+     */
+    public void gameOver() {
+        JOptionPane.showMessageDialog(null, "Game Over!",
+                "BUSTED!", JOptionPane.WARNING_MESSAGE);
+    }
 }
