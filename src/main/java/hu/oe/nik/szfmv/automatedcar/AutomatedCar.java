@@ -59,6 +59,7 @@ public class AutomatedCar extends WorldObject {
         new Index(virtualFunctionBus);
         new GearShift(virtualFunctionBus);
         new SensorsVisualizer(virtualFunctionBus);
+        new ParkingPilotFunction(virtualFunctionBus, ultrasonicSensors);
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         reverseRadar = new ReverseRadar(virtualFunctionBus, getUltrasonicSensors());
 
