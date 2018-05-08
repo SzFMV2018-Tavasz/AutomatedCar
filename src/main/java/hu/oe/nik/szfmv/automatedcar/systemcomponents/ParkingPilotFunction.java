@@ -38,24 +38,25 @@ public class ParkingPilotFunction extends SystemComponent {
     }
 
     @Override
-    public void loop() throws MissingPacketException {
-        if (virtualFunctionBus.inputPacket.getParkingPilotStatus() && !spaceCalcEnded){
-            if (virtualFunctionBus.inputPacket.getRightTurnSignalStatus()){
-                searchRightSide();
+    public void loop() {
+        if (virtualFunctionBus.inputPacket != null) {
+            if (virtualFunctionBus.inputPacket.getParkingPilotStatus() && !spaceCalcEnded) {
+                if (virtualFunctionBus.inputPacket.getRightTurnSignalStatus()) {
+                    searchRightSide();
+                }
+                if (virtualFunctionBus.inputPacket.getLeftTurnSignalStatus()) {
+                    searchLeftSide();
+                }
             }
-            if (virtualFunctionBus.inputPacket.getLeftTurnSignalStatus()){
-                searchLeftSide();
+            if (spaceCalcEnded) {
+                sendPacket();
+            }
+            if (!virtualFunctionBus.inputPacket.getParkingPilotStatus()) {
+                spaceCalcStarted = false;
+                spaceCalcEnded = false;
+                gameObject = null;
             }
         }
-        if (spaceCalcEnded){
-            sendPacket();
-        }
-        if(!virtualFunctionBus.inputPacket.getParkingPilotStatus()){
-            spaceCalcStarted = false;
-            spaceCalcEnded = false;
-            gameObject = null;
-        }
-
     }
 
     private void searchLeftSide(){
