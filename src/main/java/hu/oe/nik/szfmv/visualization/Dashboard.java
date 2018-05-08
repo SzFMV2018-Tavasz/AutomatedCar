@@ -395,7 +395,7 @@ public class Dashboard extends JPanel {
     /**
      * Updates the background color of the LK indicator.
      *
-     * @param isOn whether LK is on or off
+     * @param isOn        whether LK is on or off
      * @param isAvailable whether LK is available or not
      */
     private void updateLaneKeepingIndicator(boolean isOn, boolean isAvailable) {
