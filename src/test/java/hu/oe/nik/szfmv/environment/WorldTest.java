@@ -86,7 +86,7 @@ public class WorldTest {
     public void isGameOver() {
         World testWorld = new World(0, 0);
         AutomatedCar car = new AutomatedCar(199, 90, "car_2_blue.png");
-        RoadSign roadSign = new RoadSign(85, 35,"roadsign_speed_40.png");
+        RoadSign roadSign = new RoadSign(105, 35,"roadsign_speed_40.png");
         LOGGER.debug("isGameOver method::Car: " + car.getShape().getBounds());
         LOGGER.debug("isGameOver method::RoadSign: " + roadSign.getShape().getBounds());
 

@@ -20,7 +20,11 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     private boolean laneKeepingOn;
 
+    private boolean laneKeepingAvailable = true;
+
     private boolean parkingPilote;
+
+    private boolean accOn;
 
     private double accDistanceValue;
 
@@ -33,6 +37,8 @@ public class InputPacket implements ReadOnlyInputPacket {
     private boolean ultrasonicVizualizerState;
 
     private boolean shapeBorderVizualizerState;
+
+    private boolean trackingState;
 
     /**
      * Inpuutpacket
@@ -63,6 +69,11 @@ public class InputPacket implements ReadOnlyInputPacket {
         parkingPilote = value;
     }
 
+    public void setAccOn(boolean state) {
+        accOn = state;
+    }
+
+
     public void setAccDistanceValue(double value) {
         accDistanceValue = value;
     }
@@ -73,6 +84,14 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     public void setLaneKeepingStatus(boolean value) {
         this.laneKeepingOn = value;
+    }
+
+    public void setLaneKeepingAvailability(boolean value) {
+        this.laneKeepingAvailable = value;
+    }
+
+    public void setLeftTurnSignalStatus(boolean leftIndexOn) {
+        this.leftIndexOn = leftIndexOn;
     }
 
     public void setRightTurnSignalStatus(boolean rightIndexOn) {
@@ -93,6 +112,10 @@ public class InputPacket implements ReadOnlyInputPacket {
 
     public void setShapeBorderVizualizerState(boolean shapeBorderVizualizerState) {
         this.shapeBorderVizualizerState = shapeBorderVizualizerState;
+    }
+
+    public void setTrackingState(boolean state) {
+        this.trackingState = state;
     }
 
 
@@ -116,6 +139,11 @@ public class InputPacket implements ReadOnlyInputPacket {
     }
 
     @Override
+    public boolean getACCOn() {
+        return accOn;
+    }
+
+    @Override
     public int getACCTargetSpeed() {
         return accSpeedValue;
     }
@@ -131,6 +159,11 @@ public class InputPacket implements ReadOnlyInputPacket {
     }
 
     @Override
+    public boolean getLaneKeepingAvailability() {
+        return laneKeepingAvailable;
+    }
+
+    @Override
     public boolean getParkingPilotStatus() {
         return parkingPilote;
     }
@@ -143,10 +176,6 @@ public class InputPacket implements ReadOnlyInputPacket {
     @Override
     public boolean getLeftTurnSignalStatus() {
         return leftIndexOn;
-    }
-
-    public void setLeftTurnSignalStatus(boolean leftIndexOn) {
-        this.leftIndexOn = leftIndexOn;
     }
 
     @Override
@@ -172,5 +201,10 @@ public class InputPacket implements ReadOnlyInputPacket {
     @Override
     public boolean getShapeBorderVizualizerState() {
         return shapeBorderVizualizerState;
+    }
+
+    @Override
+    public boolean getTrackingState() {
+        return trackingState;
     }
 }

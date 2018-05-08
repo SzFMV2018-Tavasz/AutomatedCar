@@ -1,23 +1,24 @@
 package hu.oe.nik.szfmv.visualization;
 
-import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.powertrain.ReadOnlyPowertrainPacket;
-import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
-import hu.oe.nik.szfmv.environment.models.RoadSign;
-
-import javax.imageio.ImageIO;
-
 import hu.oe.nik.szfmv.automatedcar.bus.packets.input.ReadOnlyInputPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.powertrain.ReadOnlyPowertrainPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.reverseradar.ReadOnlyReverseRadarPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.roadsigndetection.ReadOnlyRoadSignDetectionPacket;
+import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
+import hu.oe.nik.szfmv.automatedcar.input.enums.GearEnum;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.ReverseRadarState;
+import hu.oe.nik.szfmv.environment.models.RoadSign;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.Objects;
 
 /**
@@ -35,53 +36,67 @@ public class Dashboard extends JPanel {
     private final int dashboardBoundsX = 770;
     private final int dashboardBoundsY = 0;
     private final int backgroundColor = 0x888888;
+    private final int keyEventWhen = 20;
 
     /**
      * ACC
      */
     private final JPanel accStatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private final int accStatePanelX = 0;
-    private final int accStatePanelY = 210;
+    private final int accStatePanelY = 180;
     private final int accStatePanelWidth = 130;
     private final int accStatePanelHeight = 100;
-
+    private final int accDecreasePressAmount = 3;
     private final JButton accDistanceButtonMinus = new JButton();
     private final JButton accDistanceButtonPlus = new JButton();
     private final JButton accSpeedButtonMinus = new JButton();
     private final JButton accSpeedButtonPlus = new JButton();
-
     private final int accLabelSize = 30;
     private final JPanel accDistancePanel = new JPanel();
     private final JPanel accSpeedPanel = new JPanel();
     private final JLabel accDistanceLabel = new JLabel();
     private final JLabel accSpeedLabel = new JLabel();
-
+    private final int accButtonX = 35;
+    private final int accButtonY = 255;
+    private final int accButtonWidth = 60;
+    private final int accButtonHeight = 30;
     /**
      * Road sign
      */
     private final int roadSignPanelX = 130;
-    private final int roadSignPanelY = 210;
+    private final int roadSignPanelY = 180;
     private final int roadSignPanelWidth = 110;
-    private final int roadSignPanelHeight = 115;
+    private final int roadSignPanelHeight = 130;
     private final JPanel roadSignPanel = new JPanel();
     private final JLabel roadSignIcon = new JLabel();
     private final JLabel roadSignLabel = new JLabel();
-
+    /**
+     * Reverse Radar
+     */
+    private final int reverseRadarPanelX = 55;
+    private final int reverseRadarPanelY = 123;
+    private final int reverseRadarPanelWidth = 130;
+    private final int reverseRadarPanelHeight = 30;
+    private final int reverseRadarLabelNameX = 100;
+    private final int reverseRadarLabelNameY = 110;
+    private final int reverseRadarLabelNameWidth = 50;
+    private final int reverseRadarLabelNameHeight = 10;
+    private final JPanel reverseRadarPanel = new JPanel();
+    private final JLabel reverseRadarLabelStatus = new JLabel();
+    private final JLabel revereRadarLabelDistance = new JLabel();
     /**
      * Gear
      */
     private final int gearLabelX = 100;
-    private final int gearLabelY = 175;
+    private final int gearLabelY = 155;
     private final int gearLabelWidth = 40;
     private final int gearLabelHeight = 20;
     private final JLabel gearLabel = new JLabel();
-
     private final int gearValueLabelX = 135;
-    private final int gearValueLabelY = 175;
+    private final int gearValueLabelY = 155;
     private final int gearValueLabelWidth = 50;
     private final int gearValueLabelHeight = 20;
     private final JLabel gearValueLabel = new JLabel();
-
     /**
      * Steering wheel
      */
@@ -95,7 +110,6 @@ public class Dashboard extends JPanel {
     private final int wheelValueLabelWidth = 50;
     private final int wheelValueLabelHeight = 20;
     private final JLabel wheelValueLabel = new JLabel();
-
     /**
      * Lane keeping
      */
@@ -103,9 +117,6 @@ public class Dashboard extends JPanel {
     private final int lkaButtonY = 290;
     private final int lkaButtonWidth = 60;
     private final int lkaButtonHeight = 30;
-    private JButton lkaButton = new JButton();
-    private boolean lkaOn = false;
-
     /**
      * Parking pilot
      */
@@ -113,9 +124,6 @@ public class Dashboard extends JPanel {
     private final int ppButtonY = 290;
     private final int ppButtonWidth = 60;
     private final int ppButtonHeight = 30;
-    private JButton ppButton = new JButton();
-    private boolean ppOn = false;
-
     /**
      * Break & gas
      */
@@ -128,48 +136,31 @@ public class Dashboard extends JPanel {
     private final JProgressBar gasProgressBar = new JProgressBar();
     private final JLabel breakLabel = new JLabel();
     private final JProgressBar breakProgressBar = new JProgressBar();
-
     /**
      * Speed & RPM
      */
     private final int speedMeterX = 10;
-    private final int speedMeterY = 50;
+    private final int speedMeterY = 10;
     private final int tachoMeterX = 130;
-    private final int tachoMeterY = 50;
+    private final int tachoMeterY = 10;
     private final int meterHeight = 100;
     private final int meterWidth = 100;
-    private int speedAngle;
-    private int rpmAngle;
-
     private final int speedLabelWidth = 60;
     private final int speedLabelHeight = 24;
     private final int speedLabelX = 30;
-    private final int speedLabelY = 110;
+    private final int speedLabelY = 70;
     private final double mpsToKmhMultiplier = 3.6;
-
     private final int rpmLabelWidth = 60;
     private final int rpmLabelHeight = 24;
     private final int rpmLabelX = 150;
-    private final int rpmLabelY = 110;
-
+    private final int rpmLabelY = 70;
     private final JLabel speedLabel = new JLabel();
     private final JLabel rpmLabel = new JLabel();
-
-    /**
-     * Turn signal
-     */
-    private String indexLeftOff = "index_left_off.png";
-    private String indexRightOff = "index_right_off.png";
-    private String indexLeftOn = "index_left_on.png";
-    private String indexRightOn = "index_right_on.png";
-    private boolean leftIndexState = false;
-    private boolean rightIndexState = false;
-    private final int leftIndexX = 10;
-    private final int rightIndexX = 185;
-    private final int indexY = 160;
+    private final int leftIndexX = 0;
+    private final int rightIndexX = 190;
+    private final int indexY = 120;
     private final int imageH = 50;
     private final int imageW = 50;
-
     /**
      * Position
      */
@@ -180,15 +171,35 @@ public class Dashboard extends JPanel {
     private final JLabel carPositionXLabel = new JLabel();
     private final JLabel carPositionYLabel = new JLabel();
     private final JPanel carPositionPanel = new JPanel();
-
     /**
      * Controls
      */
     private final JTextArea controlsText = new JTextArea();
     private final int controlsX = 20;
-    private final int controlsY = 460;
+    private final int controlsY = 450;
     private final int controlsW = 200;
-    private final int controlsH = 175;
+    private final int controlsH = 200;
+    private final double speedChangingNumber = 3.6;
+    private int accDecreaseCurrentPressAmount = 0;
+    private boolean accDecreasePressed;
+    private JButton accButton = new JButton();
+    private boolean accOn = false;
+    private JButton lkaButton = new JButton();
+    private boolean lkaOn = false;
+    private boolean lkaAvailable = true;
+    private JButton ppButton = new JButton();
+    private boolean ppOn = false;
+    private int speedAngle;
+    private int rpmAngle;
+    /**
+     * Turn signal
+     */
+    private String indexLeftOff = "index_left_off.png";
+    private String indexRightOff = "index_right_off.png";
+    private String indexLeftOn = "index_left_on.png";
+    private String indexRightOn = "index_right_on.png";
+    private boolean leftIndexState = false;
+    private boolean rightIndexState = false;
 
     /**
      * Initialize the dashboard
@@ -200,33 +211,91 @@ public class Dashboard extends JPanel {
     /**
      * Update the displayed values
      *
-     * @param powertrainPacket Contains all the required values coming from the powertrain.
-     * @param inputPacket Contains all the required values coming from input.
-     * @param roadSignPacket Contains all the required values related to the last seen road sign.
-     * @param carX        is the X coordinate of the car object
-     * @param carY        is the Y coordinate of the car object
+     * @param powertrainPacket   Contains all the required values coming from the powertrain.
+     * @param inputPacket        Contains all the required values coming from input.
+     * @param roadSignPacket     Contains all the required values related to the last seen road sign.
+     * @param reverseRadarPacket Contains all the required values coming from the reverse radar.
+     * @param carX               is the X coordinate of the car object
+     * @param carY               is the Y coordinate of the car object
      */
     public void updateDisplayedValues(ReadOnlyInputPacket inputPacket,
                                       ReadOnlyPowertrainPacket powertrainPacket,
                                       ReadOnlyRoadSignDetectionPacket roadSignPacket,
+                                      ReadOnlyReverseRadarPacket reverseRadarPacket,
                                       int carX, int carY) {
         if (inputPacket != null) {
             updateProgressBars(inputPacket.getGasPedalPosition(), inputPacket.getBreakPedalPosition());
             updateGear(inputPacket.getGearState());
             updateSteeringWheel(inputPacket.getSteeringWheelPosition());
             updateTurnSignals(inputPacket.getLeftTurnSignalStatus(), inputPacket.getRightTurnSignalStatus());
-            updateACC(inputPacket.getACCTargetDistance(), inputPacket.getACCTargetSpeed());
+            updateACC(inputPacket.getACCTargetDistance(), (int) (inputPacket.getACCTargetSpeed() * speedChangingNumber));
             updateParkingPilotIndicator(inputPacket.getParkingPilotStatus());
-            updateLaneKeepingIndicator(inputPacket.getLaneKeepingStatus());
+            updateAccIndicator(inputPacket.getACCOn());
+            updateLaneKeepingIndicator(inputPacket.getLaneKeepingStatus(), inputPacket.getLaneKeepingAvailability());
         }
         if (powertrainPacket != null) {
-            updateAnalogMeters((int)powertrainPacket.getSpeed(), powertrainPacket.getRpm());
+            updateAnalogMeters((int) powertrainPacket.getSpeed(), powertrainPacket.getRpm());
             repaint();
         }
         if (roadSignPacket != null && roadSignPacket.getRoadSignToShowOnDashboard() != null) {
             displayRoadSign(roadSignPacket.getRoadSignToShowOnDashboard());
         }
+        if (reverseRadarPacket != null) {
+            displayReverseRadar(reverseRadarPacket.getActivation(), reverseRadarPacket.getReverseRadarState(),
+                    reverseRadarPacket.getDistance());
+        }
+
         updateCarPositionLabel(carX, carY);
+    }
+
+    private void displayReverseRadar(Boolean isActive, ReverseRadarState state, double distance) {
+        if (isActive) {
+            reverseRadarLabelStatus.setText("ON");
+            DecimalFormat value = new DecimalFormat("#.#");
+            revereRadarLabelDistance.setFont(revereRadarLabelDistance.getFont().deriveFont(10f));
+
+            if (distance == Double.MAX_VALUE) {
+                revereRadarLabelDistance.setText(" Dist.  ∞");
+            } else {
+                revereRadarLabelDistance.setText(String.format(" Dist.  " + value.format(distance) + " m"));
+            }
+
+            switch (state) {
+                case OK:
+                    reverseRadarLabelStatus.setForeground(Color.GREEN);
+                    reverseRadarPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN, 1));
+                    break;
+                case WARNING:
+                    reverseRadarLabelStatus.setForeground(Color.YELLOW);
+                    reverseRadarPanel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
+                    break;
+                case DANGER:
+                    reverseRadarLabelStatus.setForeground(Color.RED);
+                    reverseRadarPanel.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            reverseRadarLabelStatus.setText("OFF");
+            reverseRadarLabelStatus.setForeground(Color.BLACK);
+            reverseRadarPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+            revereRadarLabelDistance.setText("");
+        }
+    }
+
+    private void distanceDecreasePressed() {
+        if (accDecreasePressed && accDecreaseCurrentPressAmount < accDecreasePressAmount) {
+            if (accDecreaseCurrentPressAmount % 2 == 0) {
+                simulateKeyPress(InputHandler.getACCDISTANCEKEYCODE());
+            } else {
+                simulateKeyRelease(InputHandler.getACCDISTANCEKEYCODE());
+            }
+            accDecreaseCurrentPressAmount++;
+        } else {
+            accDecreaseCurrentPressAmount = 0;
+            accDecreasePressed = false;
+        }
     }
 
     /**
@@ -314,13 +383,25 @@ public class Dashboard extends JPanel {
     }
 
     /**
+     * Updates the background color of the ACC indicator.
+     *
+     * @param value whether ACC is on or off
+     */
+    private void updateAccIndicator(boolean value) {
+        accOn = value;
+        updateButtonBackground(accOn, accButton);
+    }
+
+    /**
      * Updates the background color of the LK indicator.
      *
-     * @param value whether LK is on or off
+     * @param isOn        whether LK is on or off
+     * @param isAvailable whether LK is available or not
      */
-    private void updateLaneKeepingIndicator(boolean value) {
-        lkaOn = value;
-        updateButtonBackground(lkaOn, lkaButton);
+    private void updateLaneKeepingIndicator(boolean isOn, boolean isAvailable) {
+        lkaOn = isOn;
+        lkaAvailable = isAvailable;
+        updateLKAButtonBackground(lkaOn, lkaAvailable, lkaButton);
     }
 
     /**
@@ -341,22 +422,26 @@ public class Dashboard extends JPanel {
         initializePp();
         initializeAccStatePanel();
         initializeControlsText();
+        initializeReverseRadarPanel();
     }
 
     /**
      * Initializes the text area that displays the controls.
      */
     private void initializeControlsText() {
-        controlsText.setText("Controls:\n" +
+        controlsText.setText(
                 "Gas: UP\n" +
-                "BREAK : DOWN\n" +
-                "Steering: LEFT, RIGHT\n" +
-                "Gear: W/S\n" +
-                "Index: 0,1\n" +
-                "LK: L\n" +
-                "PP: P\n" +
-                "ACC: +/-\n" +
-                "Radar, Camera, Ultrasonic: 7,8,9");
+                        "BREAK : DOWN\n" +
+                        "Steering: LEFT, RIGHT\n" +
+                        "Gear: W/S\n" +
+                        "Index: 0,1\n" +
+                        "LK: L\n" +
+                        "PP: P\n" +
+                        "ACC on: 5\n" +
+                        "ACC dist.: T\n" +
+                        "ACC speed: +/-\n" +
+                        "Collision: 6\n" +
+                        "Radar, Camera, Ultrasonic: 7,8,9");
         controlsText.setBounds(controlsX, controlsY, controlsW, controlsH);
         controlsText.setFocusable(false);
         this.add(controlsText);
@@ -401,10 +486,49 @@ public class Dashboard extends JPanel {
         accSpeedButtonPlus.setText("+");
         accSpeedButtonPlus.setFocusable(false);
 
-        accDistanceButtonMinus.addActionListener(e -> LOGGER.info("ACC dist. minus button pressed."));
-        accDistanceButtonPlus.addActionListener(e -> LOGGER.info("ACC dist. plus button pressed."));
-        accSpeedButtonMinus.addActionListener(e -> LOGGER.info("ACC speed minus button pressed."));
-        accSpeedButtonPlus.addActionListener(e -> LOGGER.info("ACC speed plus button pressed."));
+        accButton.addActionListener(e -> simulateKeyPress(InputHandler.getACCONKEYCODE()));
+        accButton.setBounds(accButtonX, accButtonY, accButtonWidth, accButtonHeight);
+        accButton.setText("ACC");
+        accButton.setFocusable(false);
+        add(accButton);
+
+        accDistanceButtonMinus.addActionListener(e -> accDecreasePressed = true);
+        accDistanceButtonPlus.addActionListener(e -> simulateKeyPress(InputHandler.getACCDISTANCEKEYCODE()));
+        accSpeedButtonMinus.addActionListener(e -> simulateKeyPress(InputHandler.getACCSPEEDDECREMENTKEYCODE()));
+        accSpeedButtonPlus.addActionListener(e -> simulateKeyPress(InputHandler.getACCSPEEDINCREMENTKEYCODE()));
+    }
+
+    /**
+     * Handles all the button presses on the dashboard.
+     */
+    public void handleButtonPresses() {
+        simulateKeyRelease(InputHandler.getACCDISTANCEKEYCODE());
+        distanceDecreasePressed();
+        simulateKeyRelease(InputHandler.getACCONKEYCODE());
+        simulateKeyRelease(InputHandler.getACCSPEEDDECREMENTKEYCODE());
+        simulateKeyRelease(InputHandler.getACCSPEEDINCREMENTKEYCODE());
+        simulateKeyRelease(InputHandler.getLANEKEEPINGKEYCODE());
+        simulateKeyRelease(InputHandler.getPARKINGPILOTEKEYCODE());
+    }
+
+    /**
+     * Simulates keyboard press.
+     *
+     * @param keyCode the keycode we want to simulate
+     */
+    private void simulateKeyPress(int keyCode) {
+        KeyEvent keyEvent = new KeyEvent(accButton, 1, keyEventWhen, 1, keyCode, ' ');
+        InputHandler.getInstance().keyPressed(keyEvent);
+    }
+
+    /**
+     * Simulates keyboard release.
+     *
+     * @param keyCode the keycode we want to simulate
+     */
+    private void simulateKeyRelease(int keyCode) {
+        KeyEvent keyEvent = new KeyEvent(accButton, 1, keyEventWhen, 1, keyCode, ' ');
+        InputHandler.getInstance().keyReleased(keyEvent);
     }
 
     /**
@@ -432,6 +556,29 @@ public class Dashboard extends JPanel {
         roadSignPanel.add(roadSignIcon);
         roadSignLabel.setText("last road sign");
         add(roadSignPanel);
+    }
+
+    /**
+     * Initializes the reverse radar panel on the dashboard
+     */
+    private void initializeReverseRadarPanel() {
+        reverseRadarPanel.setBounds(reverseRadarPanelX, reverseRadarPanelY,
+                reverseRadarPanelWidth, reverseRadarPanelHeight);
+        reverseRadarPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+
+        JLabel reverseRadarLabelName = new JLabel();
+        reverseRadarLabelName.setText("Radar");
+        reverseRadarLabelName.setBounds(reverseRadarLabelNameX, reverseRadarLabelNameY,
+                reverseRadarLabelNameWidth, reverseRadarLabelNameHeight);
+
+        revereRadarLabelDistance.setText("");
+
+        reverseRadarPanel.add(reverseRadarLabelStatus);
+        reverseRadarPanel.add(revereRadarLabelDistance);
+        reverseRadarPanel.setBackground(new Color(backgroundColor));
+
+        add(reverseRadarPanel);
+        add(reverseRadarLabelName);
     }
 
     /**
@@ -481,16 +628,27 @@ public class Dashboard extends JPanel {
     }
 
     /**
+     * Updates the given button's background color based on the given boolean values
+     *
+     * @param isOn        the boolean value represented by the button
+     * @param isAvailable the boolean value representing feature availability
+     * @param button      the button we are updating
+     */
+    private void updateLKAButtonBackground(Boolean isOn, Boolean isAvailable, JButton button) {
+        if (!isAvailable) {
+            button.setBackground(Color.RED);
+        } else if (isOn) {
+            button.setBackground(Color.GREEN);
+        } else {
+            button.setBackground(new JButton().getBackground());
+        }
+    }
+
+    /**
      * Initializes the lka sign on the dashboard
      */
     private void initializeLka() {
-        lkaButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                lkaOn = !lkaOn;
-                updateButtonBackground(lkaOn, lkaButton);
-            }
-        });
+        lkaButton.addActionListener(e -> simulateKeyPress(InputHandler.getLANEKEEPINGKEYCODE()));
         lkaButton.setBounds(lkaButtonX, lkaButtonY, lkaButtonWidth, lkaButtonHeight);
         lkaButton.setText("LKA");
         lkaButton.setFocusable(false);
@@ -501,13 +659,7 @@ public class Dashboard extends JPanel {
      * Initializes the pp sign on the dashboard
      */
     private void initializePp() {
-        ppButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ppOn = !ppOn;
-                updateButtonBackground(ppOn, ppButton);
-            }
-        });
+        ppButton.addActionListener(e -> simulateKeyPress(InputHandler.getPARKINGPILOTEKEYCODE()));
         ppButton.setBounds(ppButtonX, ppButtonY, ppButtonWidth, ppButtonHeight);
         ppButton.setText("PP");
         ppButton.setFocusable(false);
