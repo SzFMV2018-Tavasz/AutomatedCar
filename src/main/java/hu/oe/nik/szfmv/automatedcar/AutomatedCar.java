@@ -32,7 +32,6 @@ public class AutomatedCar extends WorldObject {
     private SteeringWheel steeringWheel;
     private ReverseRadar reverseRadar;
 
-
     /**
      * Constructor of the AutomatedCar class
      *
@@ -91,6 +90,7 @@ public class AutomatedCar extends WorldObject {
         try {
             calculatePositionAndOrientation();
             virtualFunctionBus.loop();
+
             if (virtualFunctionBus.readOnlyPPCoordinatesPacket != null) {
                 if (virtualFunctionBus.readOnlyPPCoordinatesPacket.getPlaceIsAvailable()
                         && virtualFunctionBus.inputPacket.getParkingPilotStatus()
@@ -109,17 +109,44 @@ public class AutomatedCar extends WorldObject {
     /**
      * Calculates the new x and y coordinates of the {@link AutomatedCar} using the powertrain and the steering systems.
      */
+
+
+    private void SetACCSPeed(boolean add) {
+        double orientationVector = 1;
+        double WIND_RESISTANCE = 1.5;
+        double speedDelta = orientationVector * (virtualFunctionBus.powertrainPacket.getRpm()
+                / (CarSpecifications.WEIGHT * WIND_RESISTANCE));
+
+        double speed = virtualFunctionBus.powertrainPacket.getSpeed();
+        if (add) {
+            speed += speedDelta;
+        } else {
+            speed -= speedDelta;
+        }
+        virtualFunctionBus.powertrainPacket.setSpeed(speed);
+
+    }
+
     private void calculatePositionAndOrientation() {
-        double carSpeed;
+        double carSpeed = 0;
         if (virtualFunctionBus.inputPacket.getACCOn()) {
-            carSpeed = virtualFunctionBus.inputPacket.getACCTargetSpeed();
+            if (virtualFunctionBus.powertrainPacket.getSpeed() <= virtualFunctionBus.inputPacket.getACCTargetSpeed()) {
+                SetACCSPeed(true);
+                carSpeed = virtualFunctionBus.powertrainPacket.getSpeed();
+            } else if (virtualFunctionBus.powertrainPacket.getSpeed() > virtualFunctionBus.inputPacket.getACCTargetSpeed()) {
+                SetACCSPeed(false);
+                carSpeed = virtualFunctionBus.powertrainPacket.getSpeed();
+            } else {
+                carSpeed = virtualFunctionBus.powertrainPacket.getSpeed();
+            }
 
         } else {
             carSpeed = virtualFunctionBus.powertrainPacket.getSpeed();
 
         }
         double angularSpeed = 0;
-
+        final double fps = 1;
+        final int threeQuarterCircle = 270;
         try {
             angularSpeed = SteeringMethods.getSteerAngle(-this.getInputValues().getSteeringWheelPosition());
         } catch (Exception e) {
@@ -135,6 +162,7 @@ public class AutomatedCar extends WorldObject {
     private void setCarPositionAndOrientation(double carSpeed, double angularSpeed) {
         final int threeQuarterCircle = 270;
         double carHeading = Math.toRadians(threeQuarterCircle) - rotation;
+        double halfWheelBase = wheelBase / 2;
 
         Point2D carPosition = new Point2D.Double(getCarValues().getX(), getCarValues().getY());
         Object[] carPositionAndHeading = SteeringMethods.getCarPositionAndCarHead(carPosition, carHeading, carSpeed,

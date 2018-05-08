@@ -179,6 +179,7 @@ public class Dashboard extends JPanel {
     private final int controlsY = 450;
     private final int controlsW = 200;
     private final int controlsH = 200;
+    private final double speedChangingNumber = 3.6;
     private int accDecreaseCurrentPressAmount = 0;
     private boolean accDecreasePressed;
     private JButton accButton = new JButton();
@@ -227,7 +228,7 @@ public class Dashboard extends JPanel {
             updateGear(inputPacket.getGearState());
             updateSteeringWheel(inputPacket.getSteeringWheelPosition());
             updateTurnSignals(inputPacket.getLeftTurnSignalStatus(), inputPacket.getRightTurnSignalStatus());
-            updateACC(inputPacket.getACCTargetDistance(), inputPacket.getACCTargetSpeed());
+            updateACC(inputPacket.getACCTargetDistance(), (int) (inputPacket.getACCTargetSpeed() * speedChangingNumber));
             updateParkingPilotIndicator(inputPacket.getParkingPilotStatus());
             updateAccIndicator(inputPacket.getACCOn());
             updateLaneKeepingIndicator(inputPacket.getLaneKeepingStatus(), inputPacket.getLaneKeepingAvailability());
@@ -394,7 +395,7 @@ public class Dashboard extends JPanel {
     /**
      * Updates the background color of the LK indicator.
      *
-     * @param isOn        whether LK is on or off
+     * @param isOn whether LK is on or off
      * @param isAvailable whether LK is available or not
      */
     private void updateLaneKeepingIndicator(boolean isOn, boolean isAvailable) {
