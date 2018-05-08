@@ -115,12 +115,12 @@ public class Dashboard extends JPanel {
      * Steering wheel
      */
     private final int wheelTextLabelX = 20;
-    private final int wheelTextLabelY = 430;
+    private final int wheelTextLabelY = 420;
     private final int wheelTextLabelWidth = 100;
     private final int wheelTextLabelHeight = 20;
     private final JLabel wheelTextLabel = new JLabel();
     private final int wheelValueLabelX = 120;
-    private final int wheelValueLabelY = 430;
+    private final int wheelValueLabelY = 420;
     private final int wheelValueLabelWidth = 50;
     private final int wheelValueLabelHeight = 20;
     private final JLabel wheelValueLabel = new JLabel();
@@ -150,7 +150,7 @@ public class Dashboard extends JPanel {
      * Break & gas
      */
     private final int progressBarsPanelX = 25;
-    private final int progressBarsPanelY = 330;
+    private final int progressBarsPanelY = 320;
     private final int progressBarsPanelWidth = 200;
     private final int progressBarsPanelHeight = 100;
     private final JPanel progressBarsPanel = new JPanel();
@@ -204,7 +204,7 @@ public class Dashboard extends JPanel {
      * Position
      */
     private final int carPositionPanelX = 25;
-    private final int carPositionPanelY = 650;
+    private final int carPositionPanelY = 640;
     private final int getCarPositionPanelWidth = 200;
     private final int getCarPositionPanelHeight = 20;
     private final JLabel carPositionXLabel = new JLabel();
@@ -216,7 +216,7 @@ public class Dashboard extends JPanel {
      */
     private final JTextArea controlsText = new JTextArea();
     private final int controlsX = 20;
-    private final int controlsY = 450;
+    private final int controlsY = 440;
     private final int controlsW = 200;
     private final int controlsH = 200;
     private final double speedChangingNumber = 3.6;
