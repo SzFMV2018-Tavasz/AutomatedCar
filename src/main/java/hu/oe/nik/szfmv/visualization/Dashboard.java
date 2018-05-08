@@ -46,28 +46,20 @@ public class Dashboard extends JPanel {
     private final int accStatePanelY = 180;
     private final int accStatePanelWidth = 130;
     private final int accStatePanelHeight = 100;
-    private int accDecreaseCurrentPressAmount = 0;
     private final int accDecreasePressAmount = 3;
-    private boolean accDecreasePressed;
-
     private final JButton accDistanceButtonMinus = new JButton();
     private final JButton accDistanceButtonPlus = new JButton();
     private final JButton accSpeedButtonMinus = new JButton();
     private final JButton accSpeedButtonPlus = new JButton();
-
     private final int accLabelSize = 30;
     private final JPanel accDistancePanel = new JPanel();
     private final JPanel accSpeedPanel = new JPanel();
     private final JLabel accDistanceLabel = new JLabel();
     private final JLabel accSpeedLabel = new JLabel();
-
     private final int accButtonX = 35;
     private final int accButtonY = 255;
     private final int accButtonWidth = 60;
     private final int accButtonHeight = 30;
-    private JButton accButton = new JButton();
-    private boolean accOn = false;
-
     /**
      * Road sign
      */
@@ -78,7 +70,6 @@ public class Dashboard extends JPanel {
     private final JPanel roadSignPanel = new JPanel();
     private final JLabel roadSignIcon = new JLabel();
     private final JLabel roadSignLabel = new JLabel();
-
     /**
      * Reverse Radar
      */
@@ -86,16 +77,13 @@ public class Dashboard extends JPanel {
     private final int reverseRadarPanelY = 123;
     private final int reverseRadarPanelWidth = 130;
     private final int reverseRadarPanelHeight = 30;
-
     private final int reverseRadarLabelNameX = 100;
     private final int reverseRadarLabelNameY = 110;
     private final int reverseRadarLabelNameWidth = 50;
     private final int reverseRadarLabelNameHeight = 10;
-
     private final JPanel reverseRadarPanel = new JPanel();
     private final JLabel reverseRadarLabelStatus = new JLabel();
     private final JLabel revereRadarLabelDistance = new JLabel();
-
     /**
      * Gear
      */
@@ -104,13 +92,11 @@ public class Dashboard extends JPanel {
     private final int gearLabelWidth = 40;
     private final int gearLabelHeight = 20;
     private final JLabel gearLabel = new JLabel();
-
     private final int gearValueLabelX = 135;
     private final int gearValueLabelY = 155;
     private final int gearValueLabelWidth = 50;
     private final int gearValueLabelHeight = 20;
     private final JLabel gearValueLabel = new JLabel();
-
     /**
      * Steering wheel
      */
@@ -124,7 +110,6 @@ public class Dashboard extends JPanel {
     private final int wheelValueLabelWidth = 50;
     private final int wheelValueLabelHeight = 20;
     private final JLabel wheelValueLabel = new JLabel();
-
     /**
      * Lane keeping
      */
@@ -132,10 +117,6 @@ public class Dashboard extends JPanel {
     private final int lkaButtonY = 290;
     private final int lkaButtonWidth = 60;
     private final int lkaButtonHeight = 30;
-    private JButton lkaButton = new JButton();
-    private boolean lkaOn = false;
-    private boolean lkaAvailable = true;
-
     /**
      * Parking pilot
      */
@@ -143,9 +124,6 @@ public class Dashboard extends JPanel {
     private final int ppButtonY = 290;
     private final int ppButtonWidth = 60;
     private final int ppButtonHeight = 30;
-    private JButton ppButton = new JButton();
-    private boolean ppOn = false;
-
     /**
      * Break & gas
      */
@@ -158,7 +136,6 @@ public class Dashboard extends JPanel {
     private final JProgressBar gasProgressBar = new JProgressBar();
     private final JLabel breakLabel = new JLabel();
     private final JProgressBar breakProgressBar = new JProgressBar();
-
     /**
      * Speed & RPM
      */
@@ -168,38 +145,22 @@ public class Dashboard extends JPanel {
     private final int tachoMeterY = 10;
     private final int meterHeight = 100;
     private final int meterWidth = 100;
-    private int speedAngle;
-    private int rpmAngle;
-
     private final int speedLabelWidth = 60;
     private final int speedLabelHeight = 24;
     private final int speedLabelX = 30;
     private final int speedLabelY = 70;
     private final double mpsToKmhMultiplier = 3.6;
-
     private final int rpmLabelWidth = 60;
     private final int rpmLabelHeight = 24;
     private final int rpmLabelX = 150;
     private final int rpmLabelY = 70;
-
     private final JLabel speedLabel = new JLabel();
     private final JLabel rpmLabel = new JLabel();
-
-    /**
-     * Turn signal
-     */
-    private String indexLeftOff = "index_left_off.png";
-    private String indexRightOff = "index_right_off.png";
-    private String indexLeftOn = "index_left_on.png";
-    private String indexRightOn = "index_right_on.png";
-    private boolean leftIndexState = false;
-    private boolean rightIndexState = false;
     private final int leftIndexX = 0;
     private final int rightIndexX = 190;
     private final int indexY = 120;
     private final int imageH = 50;
     private final int imageW = 50;
-
     /**
      * Position
      */
@@ -210,7 +171,6 @@ public class Dashboard extends JPanel {
     private final JLabel carPositionXLabel = new JLabel();
     private final JLabel carPositionYLabel = new JLabel();
     private final JPanel carPositionPanel = new JPanel();
-
     /**
      * Controls
      */
@@ -219,6 +179,26 @@ public class Dashboard extends JPanel {
     private final int controlsY = 450;
     private final int controlsW = 200;
     private final int controlsH = 200;
+    private int accDecreaseCurrentPressAmount = 0;
+    private boolean accDecreasePressed;
+    private JButton accButton = new JButton();
+    private boolean accOn = false;
+    private JButton lkaButton = new JButton();
+    private boolean lkaOn = false;
+    private boolean lkaAvailable = true;
+    private JButton ppButton = new JButton();
+    private boolean ppOn = false;
+    private int speedAngle;
+    private int rpmAngle;
+    /**
+     * Turn signal
+     */
+    private String indexLeftOff = "index_left_off.png";
+    private String indexRightOff = "index_right_off.png";
+    private String indexLeftOn = "index_left_on.png";
+    private String indexRightOn = "index_right_on.png";
+    private boolean leftIndexState = false;
+    private boolean rightIndexState = false;
 
     /**
      * Initialize the dashboard
@@ -414,7 +394,7 @@ public class Dashboard extends JPanel {
     /**
      * Updates the background color of the LK indicator.
      *
-     * @param isOn whether LK is on or off
+     * @param isOn        whether LK is on or off
      * @param isAvailable whether LK is available or not
      */
     private void updateLaneKeepingIndicator(boolean isOn, boolean isAvailable) {
