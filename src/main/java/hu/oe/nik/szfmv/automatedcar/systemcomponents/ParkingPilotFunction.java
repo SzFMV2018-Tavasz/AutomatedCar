@@ -2,7 +2,9 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.exception.MissingPacketException;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.input.InputPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.parkingpilot.PPCoordinatesPacket;
+import hu.oe.nik.szfmv.automatedcar.input.InputHandler;
 import hu.oe.nik.szfmv.automatedcar.sensors.UltrasonicSensor;
 import hu.oe.nik.szfmv.common.Utils;
 import hu.oe.nik.szfmv.environment.models.Collidable;
@@ -17,6 +19,7 @@ public class ParkingPilotFunction extends SystemComponent {
     private double endY;
     private double axisX;
     private Collidable gameObject;
+    private final InputPacket inputPacket;
 
     private boolean spaceCalcStarted;
     private boolean spaceCalcEnded;
@@ -35,10 +38,15 @@ public class ParkingPilotFunction extends SystemComponent {
         ppCoordinatesPacket = new PPCoordinatesPacket();
         virtualFunctionBus.ppCoordinatesPacket = ppCoordinatesPacket;
         gameObject = null;
+        inputPacket = InputPacket.getInstance();
     }
 
     @Override
     public void loop() {
+        if (InputHandler.getInstance().isParkinPilotePressed()) {
+            inputPacket.setParkingPiloteStatus(!inputPacket.getParkingPilotStatus());
+        }
+
         if (virtualFunctionBus.inputPacket != null) {
             if (virtualFunctionBus.inputPacket.getParkingPilotStatus() && !spaceCalcEnded) {
                 if (virtualFunctionBus.inputPacket.getRightTurnSignalStatus()) {
@@ -74,10 +82,12 @@ public class ParkingPilotFunction extends SystemComponent {
         if (!spaceCalcStarted && ultrasonicSensors.get(4).getNearestObject() == null){
             axisX = virtualFunctionBus.carPacket.getX() + carHalfWidth;
             startY = virtualFunctionBus.carPacket.getY() + carHalfHeight;
+            spaceCalcStarted = true;
         }
         if (spaceCalcStarted && ultrasonicSensors.get(4).getNearestObject() != null){
             gameObject = ultrasonicSensors.get(4).getNearestObject();
             endY = gameObject.getY() + (gameObject.getHeight() / 2);
+            spaceCalcEnded = true;
         }
     }
 
@@ -86,6 +96,8 @@ public class ParkingPilotFunction extends SystemComponent {
         double frontY = endY - virtualFunctionBus.carPacket.getY();
         double backX = axisX - virtualFunctionBus.carPacket.getX();
         double backY = startY - virtualFunctionBus.carPacket.getY();
+        System.out.println("B: " + startY);
+        System.out.println("F: " + endY);
 
         ppCoordinatesPacket.setFrontX(frontX);
         ppCoordinatesPacket.setFrontY(frontY);
