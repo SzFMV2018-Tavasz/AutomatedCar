@@ -16,7 +16,7 @@ public class FrontBackDetector extends SystemComponent {
 
     private static final Logger LOGGER = LogManager.getLogger(FrontBackDetector.class);
 
-    private static final int LENGTH = 120;
+    private static final int LENGTH = 100;
 
     private List<Collidable> previousCollidables;
 
